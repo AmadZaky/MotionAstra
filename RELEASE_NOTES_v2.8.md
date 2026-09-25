@@ -10,3 +10,9 @@
 Install the attached ZIP by replacing the entire MotionAstra-FX extension folder and restarting After Effects. CEP reports numeric version 2.8.0.
 
 Ten modeled-host test suites pass. Native After Effects rendering, actual CEP behavior, and the latest browser layout are not yet verified. This release is explicitly pre-alpha.
+
+### RGBA hotfix (same v2.8 prerelease)
+
+Color expressions now read the explicit Color Control property match name and return four numeric RGBA components. Legacy gradient interpolation also computes each component explicitly. Expression tests enforce four-component output for Ramp and Tint at five times, under both normal lookup and a simulated scalar numeric-lookup failure. This simulation reproduces the dimension symptom; it does not establish the precise cause in native AE. Ten host suites pass. Native AE validation remains required.
+
+After replacing the extension and restarting AE, generate a fresh background. Existing instances retain their stored expressions until Update rebuilds them.

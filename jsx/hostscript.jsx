@@ -91,6 +91,7 @@ var MotionAstra=(function(){
     function removeMarker(l,token,kind){var m=l.property('ADBE Marker'),i,p,v,k,owned;if(!m)return;for(i=m.numKeys;i>=1;i--){v=m.keyValue(i);p=v.getParameters();if(p[markKey(token,kind)]===undefined)continue;delete p[markKey(token,kind)];owned=false;for(k in p)if(p.hasOwnProperty(k)&&k.indexOf('MA2 i')===0)owned=true;if(owned){v.comment=markerLabel(p);v.setParameters(p);m.setValueAtTime(m.keyTime(i),v);}else if(p.MA2_KEEP==='1'||p.MA2_BASE){v.comment=p.MA2_BASE||'';delete p.MA2_BASE;delete p.MA2_KEEP;v.setParameters(p);m.setValueAtTime(m.keyTime(i),v);}else m.removeKey(i);}}
     function markers(l,r,m,d,move){removeMarker(l,m.token,'start');addMarker(l,m.token,'start',l.inPoint,'[FX: '+r.name+']');if(move||markerTime(l,m.token,'end')===null){removeMarker(l,m.token,'end');addMarker(l,m.token,'end',l.inPoint+d,'[FX End]');}}
     function clock(m,body){return '// MotionAstra 2 '+m.token+'\nfunction P(k,d){try{var p=effect("MA2 "+k)(1);return p.value;}catch(e){return d;}}\n'+
+        'function C(k,d){var c;try{c=effect("MA2 "+k)("ADBE Color Control-0001").value;}catch(e){c=d;}if(!c||c.length<3)throw Error("MotionAstra: invalid RGBA color control MA2 "+k);return [Number(c[0]),Number(c[1]),Number(c[2]),c.length>3?Number(c[3]):1];}\n'+
         'var S=inPoint,E=S+Math.max(.1,P("duration",2));for(var i=1;i<=marker.numKeys;i++){if(marker.key(i).parameters['+quote(markKey(m.token,'end'))+']!==undefined){E=marker.key(i).time;break;}}\n'+
         'var D=Math.max(thisComp.frameDuration,E-S),raw=Math.max(0,time-S),q=P("manual",0)>.5?Math.max(0,Math.min(1,P("progress",0)/100)):(P("loop",0)>.5?(raw%D)/D:Math.min(1,raw/D));\n'+
         'var ease=P("ease",2);q=ease===1?q*q:ease===2?1-(1-q)*(1-q):ease===3?q*q*(3-2*q):q;if(P("reverse",0)>.5)q=1-q;var T=q*6.28318530718;\n'+body+';';}
@@ -113,7 +114,7 @@ var MotionAstra=(function(){
         else if(r.id==='elastic')g.addProperty('ADBE Text Scale 3D').setValue([0,0,100]);
         else if(r.id==='wave')assign(g.addProperty('ADBE Text Position 3D'),clock(m,'[0,P("height",25),0]'));
         else if(r.id==='tracking'){assign(g.addProperty('ADBE Text Tracking Amount'),clock(m,'P("trackingStart",80)+(P("trackingEnd",0)-P("trackingStart",80))*q'));assign(g.addProperty('ADBE Text Opacity'),clock(m,'P("fade",1)>.5?100*q:100'));}
-        else if(r.id==='sweep')assign(g.addProperty('ADBE Text Fill Color'),clock(m,'P("highlight",[1,.5,.2,1])'));
+        else if(r.id==='sweep')assign(g.addProperty('ADBE Text Fill Color'),clock(m,'C("highlight",[1,.5,.2,1])'));
         sel=anim.property('ADBE Text Selectors').addProperty('ADBE Text Expressible Selector');
         body='var delay=P("stagger",50)/100,x=Math.max(0,Math.min(1,(q-(textIndex-1)/Math.max(1,textTotal-1)*delay)/Math.max(.1,1-delay)));';
         if(r.id==='rise')body+='100*(1-x)';
@@ -125,16 +126,16 @@ var MotionAstra=(function(){
         assign(sel.property('ADBE Text Expressible Amount'),clock(m,body));
     }
     function vector(l,name){var root=l.property('ADBE Root Vectors Group'),g=root.addProperty('ADBE Vector Group');g.name=name;return g;}
-    function shapePath(group,m,body,closed,fill){var contents=group.property('ADBE Vectors Group'),path=contents.addProperty('ADBE Vector Shape - Group');assign(path.property('ADBE Vector Shape'),clock(m,body));var paint=contents.addProperty(fill?'ADBE Vector Graphic - Fill':'ADBE Vector Graphic - Stroke');assign(paint.property(fill?'ADBE Vector Fill Color':'ADBE Vector Stroke Color'),clock(m,'P("color2",[1,.5,.2,1])'));if(!fill)assign(paint.property('ADBE Vector Stroke Width'),clock(m,'P("stroke",2)'));}
+    function shapePath(group,m,body,closed,fill){var contents=group.property('ADBE Vectors Group'),path=contents.addProperty('ADBE Vector Shape - Group');assign(path.property('ADBE Vector Shape'),clock(m,body));var paint=contents.addProperty(fill?'ADBE Vector Graphic - Fill':'ADBE Vector Graphic - Stroke');assign(paint.property(fill?'ADBE Vector Fill Color':'ADBE Vector Stroke Color'),clock(m,'C("color2",[1,.5,.2,1])'));if(!fill)assign(paint.property('ADBE Vector Stroke Width'),clock(m,'P("stroke",2)'));}
     function paintColor(group,m,body,fill){var contents=group.property('ADBE Vectors Group'),paint=contents.property(fill?'ADBE Vector Graphic - Fill':'ADBE Vector Graphic - Stroke');assign(paint.property(fill?'ADBE Vector Fill Color':'ADBE Vector Stroke Color'),clock(m,body));}
     function background(l,r,p,m){if(!r.legacy){background25(l,r,p,m);return;}var root=l.property('ADBE Root Vectors Group'),master=vector(l,'MA2 artwork'),masterIndex=master.propertyIndex,c=master.property('ADBE Vectors Group'),g,path,i,j,n=p.count||1,body,fill,tr,W=l.containingComp.width,H=l.containingComp.height;
         // Shape coordinates are centered on the layer. No hidden helper layers or plug-ins.
-        g=c.addProperty('ADBE Vector Group');g.name='Base';shapePath(g,m,'var w=thisComp.width/2,h=thisComp.height/2;createPath([[-w,-h],[w,-h],[w,h],[-w,h]],[],[],true)',true,true);paintColor(g,m,'P("color1",[.05,.05,.07,1])',true);
+        g=c.addProperty('ADBE Vector Group');g.name='Base';shapePath(g,m,'var w=thisComp.width/2,h=thisComp.height/2;createPath([[-w,-h],[w,-h],[w,h],[-w,h]],[],[],true)',true,true);paintColor(g,m,'C("color1",[.05,.05,.07,1])',true);
         if(r.id==='gradient'){
             var ramp=effect(l,'ADBE Ramp','MA2 native gradient');assign(ramp.property(1),clock(m,'var a=P("angle",0)*Math.PI/180+Math.sin(T*P("cycles",1))*P("drift",20)/100;[thisComp.width/2-Math.cos(a)*thisComp.width/2,thisComp.height/2-Math.sin(a)*thisComp.height/2]'));
-            assign(ramp.property(2),clock(m,'var a=P("color2",[1,.5,.2,1]),b=P("color3",[1,.8,.4,1]),v=(1-Math.cos(T*P("cycles",1)))/2;a+(b-a)*v'));
+            assign(ramp.property(2),clock(m,'var a=C("color2",[1,.5,.2,1]),b=C("color3",[1,.8,.4,1]),v=(1-Math.cos(T*P("cycles",1)))/2;[a[0]+(b[0]-a[0])*v,a[1]+(b[1]-a[1])*v,a[2]+(b[2]-a[2])*v,a[3]+(b[3]-a[3])*v]'));
             assign(ramp.property(3),clock(m,'var a=P("angle",0)*Math.PI/180+Math.sin(T*P("cycles",1))*P("drift",20)/100;[thisComp.width/2+Math.cos(a)*thisComp.width/2,thisComp.height/2+Math.sin(a)*thisComp.height/2]'));
-            assign(ramp.property(4),clock(m,'var a=P("color3",[1,.8,.4,1]),b=P("color1",[.05,.05,.07,1]),v=(1-Math.cos(T*P("cycles",1)))/2;a+(b-a)*v'));return;
+            assign(ramp.property(4),clock(m,'var a=C("color3",[1,.8,.4,1]),b=C("color1",[.05,.05,.07,1]),v=(1-Math.cos(T*P("cycles",1)))/2;[a[0]+(b[0]-a[0])*v,a[1]+(b[1]-a[1])*v,a[2]+(b[2]-a[2])*v,a[3]+(b[3]-a[3])*v]'));return;
         }
         var total=r.id==='tiles'?n*n:r.id==='grid'?2*(n+1):n;
         for(i=0;i<total;i++){
@@ -153,7 +154,7 @@ var MotionAstra=(function(){
             shapePath(g,m,body,fill,fill);
             // Reacquire group and paint handles after content additions.
             g=root.property(masterIndex).property('ADBE Vectors Group').property(gi);
-            paintColor(g,m,'var a=P("color2",[1,.5,.2,1]),b=P("color3",[1,.8,.4,1]);a+(b-a)*'+(total<=1?0:i/(total-1)),fill);
+            paintColor(g,m,'var a=C("color2",[1,.5,.2,1]),b=C("color3",[1,.8,.4,1]);a+(b-a)*'+(total<=1?0:i/(total-1)),fill);
             tr=g.property('ADBE Vector Transform Group');
             if(r.id==='grid')assign(tr.property('ADBE Vector Rotation'),clock(m,'P("angle",0)'));
             if(r.id==='aurora')tr.property('ADBE Vector Group Opacity').setValue(55);
@@ -173,11 +174,11 @@ var MotionAstra=(function(){
     function nativeParam(e,index){var p=e.property(index);if(!p||!p.setValue)throw Error('Native schema mismatch: '+e.matchName+' parameter '+index);return p;}
     function bind(e,index,m,body){assign(nativeParam(e,index),clock(m,body));}
     function fixed(e,index,value){nativeParam(e,index).setValue(value);}
-    function ramp25(l,m){var e=nativeFx(l,'ADBE Ramp','ramp');bind(e,1,m,'[thisLayer.width*(.15+.15*Math.sin(T*P("cycles",1))),0]');bind(e,2,m,'P("color2",P("tint",[1,.75,.25,1]))');bind(e,3,m,'[thisLayer.width*(.8+.15*Math.cos(T*P("cycles",1))),thisLayer.height]');bind(e,4,m,'P("color3",[.16,.08,.025,1])');return e;}
+    function ramp25(l,m){var e=nativeFx(l,'ADBE Ramp','ramp');bind(e,1,m,'[thisLayer.width*(.15+.15*Math.sin(T*P("cycles",1))),0]');bind(e,2,m,'C("color2",C("tint",[1,.75,.25,1]))');bind(e,3,m,'[thisLayer.width*(.8+.15*Math.cos(T*P("cycles",1))),thisLayer.height]');bind(e,4,m,'C("color3",[.16,.08,.025,1])');return e;}
     function blur25(l,m,body,horizontal){var e=nativeFx(l,'ADBE Gaussian Blur 2','blur');bind(e,1,m,body);fixed(e,2,horizontal?2:1);fixed(e,3,1);}
     function distort25(l,m,amount,size){var e=nativeFx(l,'ADBE Turbulent Displace','distortion');bind(e,2,m,amount);bind(e,3,m,size);bind(e,6,m,'q*360*P("cycles",1)');}
     function text25(l,r,p,m){
-        if(r.id==='matrix'){assign(source(l),clock(m,sourceBody({id:'decode'},p)));var fill=nativeFx(l,'ADBE Fill','matrix tint');bind(fill,3,m,'P("tint",[.1,1,.5,1])');return;}
+        if(r.id==='matrix'){assign(source(l),clock(m,sourceBody({id:'decode'},p)));var fill=nativeFx(l,'ADBE Fill','matrix tint');bind(fill,3,m,'C("tint",[.1,1,.5,1])');return;}
         if(r.id==='gold'||r.id==='ember'||r.id==='glass'||r.id==='extrusion'){
             ramp25(l,m);
             if(r.id==='gold'||r.id==='ember')distort25(l,m,'P("amount",60)*'+(r.id==='ember'?'.18':'.08'),'20+P("detail",5)*8');
@@ -190,7 +191,7 @@ var MotionAstra=(function(){
         else if(r.id==='stamp'){g.addProperty('ADBE Text Scale 3D').setValue([160,160,100]);assign(g.addProperty('ADBE Text Rotation'),clock(m,'-P("amount",60)*.25'));g.addProperty('ADBE Text Opacity').setValue(0);blur25(l,m,'(1-q)*P("amount",60)*.2',false);}
         else if(r.id==='vhs'){assign(g.addProperty('ADBE Text Position 3D'),clock(m,'[P("amount",60)*.2,0,0]'));blur25(l,m,'P("amount",60)*.03',true);}
         else if(r.id==='ember')g.addProperty('ADBE Text Opacity').setValue(25);
-        else{assign(g.addProperty('ADBE Text Fill Color'),clock(m,'P("tint",[.7,.85,1,1])'));}
+        else{assign(g.addProperty('ADBE Text Fill Color'),clock(m,'C("tint",[.7,.85,1,1])'));}
         sel=anim.property('ADBE Text Selectors').addProperty('ADBE Text Expressible Selector');
         var local='var delay=P("stagger",45)/100,x=Math.max(0,Math.min(1,(q-(textIndex-1)/Math.max(1,textTotal-1)*delay)/Math.max(.1,1-delay)));';
         if(r.id==='stretch'||r.id==='stamp')body=local+'x<=0?100:x>=1?0:100*(1-x)*Math.exp(-x*3)*Math.cos(x*(5+P("detail",5)))';
@@ -209,7 +210,7 @@ var MotionAstra=(function(){
             // Match names are used for the long Fractal Noise group; English labels are a diagnostic fallback.
             var evolution=findNative(e,'ADBE Fractal Noise-0023','Evolution');assign(evolution,clock(m,'q*360*P("cycles",1)'));
             var contrast=findNative(e,'ADBE Fractal Noise-0004','Contrast');assign(contrast,clock(m,'80+P("amount",40)*2'));
-            var tint=nativeFx(l,'ADBE Tint','cloud colors');bind(tint,1,m,'P("color1",[0,0,0,1])');bind(tint,2,m,'P("color2",[.2,.5,1,1])');return;
+            var tint=nativeFx(l,'ADBE Tint','cloud colors');bind(tint,1,m,'C("color1",[0,0,0,1])');bind(tint,2,m,'C("color2",[.2,.5,1,1])');return;
         }
         ramp25(l,m);
         if(r.id==='liquidgradient'||r.id==='glassbg'){distort25(l,m,'P("amount",40)*2','P("size",50)*4');if(r.id==='glassbg'){mask25(l,m,'card','var w=thisLayer.width,h=thisLayer.height;createPath([[w*.15,h*.2],[w*.85,h*.2],[w*.85,h*.8],[w*.15,h*.8]],[],[],true)');blur25(l,m,'P("softness",25)*.25',false);var edge=nativeFx(l,'ADBE Bevel Alpha','card edge');fixed(edge,1,2);assign(prop(l,'ADBE Opacity'),clock(m,'value*(.65+P("amount",40)*.0025)'));}return;}

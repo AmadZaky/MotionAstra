@@ -40,6 +40,7 @@ jobs:
           GH_REPO: ${{ github.repository }}
           SOURCE_SHA: ${{ github.sha }}
         run: |
-          gh release create v2.8-pre-alpha MotionAstra_FX_v2.8-pre-alpha.zip \
-            --target "$SOURCE_SHA" --title "MotionAstra v2.8 — Pre-alpha" \
+          gh api --method PATCH "repos/$GH_REPO/git/refs/tags/v2.8-pre-alpha" -f sha="$SOURCE_SHA" -F force=true
+          gh release edit v2.8-pre-alpha --title "MotionAstra v2.8 — Pre-alpha" \
             --prerelease --notes-file RELEASE_NOTES_v2.8.md
+          gh release upload v2.8-pre-alpha MotionAstra_FX_v2.8-pre-alpha.zip --clobber
