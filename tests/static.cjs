@@ -1,0 +1,8 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');const root=path.resolve(__dirname,'..'),read=p=>fs.readFileSync(path.join(root,p),'utf8'),data=JSON.parse(read('presets.json'));
+const a={window:{}},b={};vm.runInNewContext(read('js/presets-data.js'),a);vm.runInNewContext(read('jsx/presets-data.jsx'),b);assert.equal(JSON.stringify(a.window.MA_PRESETS),JSON.stringify(data));assert.equal(JSON.stringify(b.MA_PRESET_DATA),JSON.stringify(data));
+const html=read('index.html'),ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);assert.equal(new Set(ids).size,ids.length);for(const m of html.matchAll(/(?:src|href)="([^"#]+)"/g)){assert(!/^https?:/.test(m[1]),'Runtime must be offline');assert(fs.existsSync(path.join(root,m[1])),m[1]+' missing');}
+assert(read('CSXS/manifest.xml').includes('Name="AEFT" Version="[18.0,25.9]"'));assert(!read('CSXS/manifest.xml').includes('PHXS'));assert(read('CSXS/manifest.xml').includes('<Width>300</Width>'));
+assert(!/<script src=|<link rel="stylesheet"/.test(read('catalog.html')));assert.equal(new Set(data.presets.map(r=>r.id)).size,20);
+for(const r of data.presets){assert.equal(new Set(r.parameters.map(p=>p.id)).size,r.parameters.length);assert(r.parameters.find(p=>p.id==='duration'));if(r.category!=='Transition')assert.equal(r.parameters.find(p=>p.id==='loop').default,false);}
+new vm.Script(read('jsx/hostscript.jsx'));new vm.Script(read('tests/AE_SMOKE_TEST.jsx'));
+console.log('PASS: bundle/schema parity, manifest, offline asset graph/catalog, unique DOM IDs, 20 presets and one-shot defaults.');

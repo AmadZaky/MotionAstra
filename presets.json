@@ -1,0 +1,4568 @@
+{
+  "version": "2.5.4",
+  "presets": [
+    {
+      "id": "counter",
+      "name": "Counter Text",
+      "category": "Text",
+      "description": "Count up or down with exact endpoints, decimals and optional prefix/suffix.",
+      "parameters": [
+        {
+          "id": "start",
+          "label": "Start number",
+          "type": "number",
+          "default": 0,
+          "min": -1000000000.0,
+          "max": 1000000000.0,
+          "step": "any",
+          "group": "Content"
+        },
+        {
+          "id": "end",
+          "label": "End number",
+          "type": "number",
+          "default": 1000,
+          "min": -1000000000.0,
+          "max": 1000000000.0,
+          "step": "any",
+          "group": "Content"
+        },
+        {
+          "id": "decimals",
+          "label": "Decimal places",
+          "type": "select",
+          "default": 0,
+          "options": [
+            {
+              "value": 0,
+              "label": "0"
+            },
+            {
+              "value": 1,
+              "label": "1"
+            },
+            {
+              "value": 2,
+              "label": "2"
+            },
+            {
+              "value": 3,
+              "label": "3"
+            },
+            {
+              "value": 4,
+              "label": "4"
+            }
+          ],
+          "group": "Content"
+        },
+        {
+          "id": "format",
+          "label": "Number format",
+          "type": "select",
+          "default": 0,
+          "options": [
+            {
+              "value": 0,
+              "label": "1234.56"
+            },
+            {
+              "value": 1,
+              "label": "1,234.56"
+            },
+            {
+              "value": 2,
+              "label": "1.234,56"
+            }
+          ],
+          "group": "Content"
+        },
+        {
+          "id": "prefix",
+          "label": "Prefix",
+          "type": "text",
+          "default": "",
+          "maxLength": 40,
+          "group": "Content"
+        },
+        {
+          "id": "suffix",
+          "label": "Suffix",
+          "type": "text",
+          "default": "",
+          "maxLength": 40,
+          "group": "Content"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 2,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 2,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "switcher",
+      "name": "Text Switcher",
+      "category": "Text",
+      "description": "One line per phrase. Scrub the Choice slider, or let the timeline switch phrases.",
+      "parameters": [
+        {
+          "id": "phrases",
+          "label": "Phrases \u00b7 one per line",
+          "type": "textarea",
+          "default": "CREATE\nMOVE\nINSPIRE",
+          "maxLength": 1200,
+          "group": "Content"
+        },
+        {
+          "id": "switchMode",
+          "label": "Switch mode",
+          "type": "select",
+          "default": 0,
+          "options": [
+            {
+              "value": 0,
+              "label": "Choice slider"
+            },
+            {
+              "value": 1,
+              "label": "Automatic"
+            }
+          ],
+          "group": "Content"
+        },
+        {
+          "id": "choice",
+          "label": "Choice",
+          "type": "range",
+          "default": 1,
+          "min": 1,
+          "max": 12,
+          "step": 1,
+          "group": "Content"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 2,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 2,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "stretch",
+      "name": "Kinetic Stretch",
+      "category": "Text",
+      "description": "A staggered character reveal with elastic horizontal stretch.",
+      "parameters": [
+        {
+          "id": "amount",
+          "label": "Intensity",
+          "type": "range",
+          "default": 60,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "detail",
+          "label": "Detail / motion frequency",
+          "type": "range",
+          "default": 5,
+          "min": 1,
+          "max": 20,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "stagger",
+          "label": "Character stagger \u00b7 %",
+          "type": "range",
+          "default": 45,
+          "min": 0,
+          "max": 85,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 2,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 2,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "gold",
+      "name": "Liquid Gold",
+      "category": "Text",
+      "description": "A warm metallic gradient with a flowing distorted edge.",
+      "parameters": [
+        {
+          "id": "amount",
+          "label": "Intensity",
+          "type": "range",
+          "default": 60,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "detail",
+          "label": "Detail / motion frequency",
+          "type": "range",
+          "default": 5,
+          "min": 1,
+          "max": 20,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "tint",
+          "label": "Primary color",
+          "type": "color",
+          "default": "#ffd778",
+          "group": "Colors"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 2,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 2,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "ember",
+      "name": "Burning Ember",
+      "category": "Text",
+      "description": "An ember-colored flicker with upward turbulent heat.",
+      "parameters": [
+        {
+          "id": "amount",
+          "label": "Intensity",
+          "type": "range",
+          "default": 60,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "detail",
+          "label": "Detail / motion frequency",
+          "type": "range",
+          "default": 5,
+          "min": 1,
+          "max": 20,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "tint",
+          "label": "Primary color",
+          "type": "color",
+          "default": "#ff713d",
+          "group": "Colors"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 2,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 2,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "vhs",
+      "name": "Retro VHS",
+      "category": "Text",
+      "description": "A stepped character jitter with soft analog blur.",
+      "parameters": [
+        {
+          "id": "amount",
+          "label": "Intensity",
+          "type": "range",
+          "default": 60,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "detail",
+          "label": "Detail / motion frequency",
+          "type": "range",
+          "default": 5,
+          "min": 1,
+          "max": 20,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 2,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 2,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "glass",
+      "name": "3D Glass",
+      "category": "Text",
+      "description": "A cool glass-like bevel and drifting highlight; simulated depth.",
+      "parameters": [
+        {
+          "id": "amount",
+          "label": "Intensity",
+          "type": "range",
+          "default": 60,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "tint",
+          "label": "Primary color",
+          "type": "color",
+          "default": "#b7deff",
+          "group": "Colors"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 2,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 2,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "matrix",
+      "name": "Matrix Code",
+      "category": "Text",
+      "description": "Seeded code characters resolve into your original text.",
+      "parameters": [
+        {
+          "id": "tint",
+          "label": "Primary color",
+          "type": "color",
+          "default": "#55f69a",
+          "group": "Colors"
+        },
+        {
+          "id": "seed",
+          "label": "Random seed",
+          "type": "range",
+          "default": 7,
+          "min": 1,
+          "max": 999,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "steps",
+          "label": "Scramble steps",
+          "type": "range",
+          "default": 24,
+          "min": 2,
+          "max": 60,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 2,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 2,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "stamp",
+      "name": "Film Stamp",
+      "category": "Text",
+      "description": "A punchy scale and rotation stamp with a fading blur.",
+      "parameters": [
+        {
+          "id": "amount",
+          "label": "Intensity",
+          "type": "range",
+          "default": 60,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "detail",
+          "label": "Detail / motion frequency",
+          "type": "range",
+          "default": 5,
+          "min": 1,
+          "max": 20,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "stagger",
+          "label": "Character stagger \u00b7 %",
+          "type": "range",
+          "default": 45,
+          "min": 0,
+          "max": 85,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 2,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 2,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "extrusion",
+      "name": "Gold Extrusion",
+      "category": "Text",
+      "description": "Gold shading with a native bevel and controllable drop-shadow depth.",
+      "parameters": [
+        {
+          "id": "amount",
+          "label": "Intensity",
+          "type": "range",
+          "default": 60,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "tint",
+          "label": "Primary color",
+          "type": "color",
+          "default": "#ffd778",
+          "group": "Colors"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 2,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 2,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "neongrid",
+      "name": "Neon Grid",
+      "category": "Background",
+      "description": "A crisp generated grid over a dark field.",
+      "parameters": [
+        {
+          "id": "color2",
+          "label": "Primary color",
+          "type": "color",
+          "default": "#198deb",
+          "group": "Colors"
+        },
+        {
+          "id": "color3",
+          "label": "Secondary color",
+          "type": "color",
+          "default": "#b277ff",
+          "group": "Colors"
+        },
+        {
+          "id": "count",
+          "label": "Elements / density",
+          "type": "range",
+          "default": 16,
+          "min": 4,
+          "max": 40,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "size",
+          "label": "Element size \u00b7 px",
+          "type": "range",
+          "default": 50,
+          "min": 5,
+          "max": 300,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "amount",
+          "label": "Motion amount",
+          "type": "range",
+          "default": 40,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "cycles",
+          "label": "Cycles across duration",
+          "type": "range",
+          "default": 1,
+          "min": 0.1,
+          "max": 8,
+          "step": 0.1,
+          "group": "Appearance"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 5,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 0,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "nebula",
+      "name": "Space Nebula",
+      "category": "Background",
+      "description": "Cloud-like Fractal Noise tinted into a cosmic palette.",
+      "parameters": [
+        {
+          "id": "color1",
+          "label": "Base color",
+          "type": "color",
+          "default": "#071520",
+          "group": "Colors"
+        },
+        {
+          "id": "color2",
+          "label": "Primary color",
+          "type": "color",
+          "default": "#198deb",
+          "group": "Colors"
+        },
+        {
+          "id": "amount",
+          "label": "Motion amount",
+          "type": "range",
+          "default": 40,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "cycles",
+          "label": "Cycles across duration",
+          "type": "range",
+          "default": 1,
+          "min": 0.1,
+          "max": 8,
+          "step": 0.1,
+          "group": "Appearance"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 5,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 0,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "liquidgradient",
+      "name": "Liquid Gradient",
+      "category": "Background",
+      "description": "A moving two-color gradient distorted by turbulent flow.",
+      "parameters": [
+        {
+          "id": "color2",
+          "label": "Primary color",
+          "type": "color",
+          "default": "#198deb",
+          "group": "Colors"
+        },
+        {
+          "id": "color3",
+          "label": "Secondary color",
+          "type": "color",
+          "default": "#b277ff",
+          "group": "Colors"
+        },
+        {
+          "id": "size",
+          "label": "Element size \u00b7 px",
+          "type": "range",
+          "default": 50,
+          "min": 5,
+          "max": 300,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "amount",
+          "label": "Motion amount",
+          "type": "range",
+          "default": 40,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "cycles",
+          "label": "Cycles across duration",
+          "type": "range",
+          "default": 1,
+          "min": 0.1,
+          "max": 8,
+          "step": 0.1,
+          "group": "Appearance"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 5,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 0,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "retrosun",
+      "name": "80s Sunburst",
+      "category": "Background",
+      "description": "Rotating radial spokes with a sunset gradient.",
+      "parameters": [
+        {
+          "id": "color2",
+          "label": "Primary color",
+          "type": "color",
+          "default": "#ff9650",
+          "group": "Colors"
+        },
+        {
+          "id": "color3",
+          "label": "Secondary color",
+          "type": "color",
+          "default": "#ed3894",
+          "group": "Colors"
+        },
+        {
+          "id": "count",
+          "label": "Elements / density",
+          "type": "range",
+          "default": 16,
+          "min": 4,
+          "max": 40,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "size",
+          "label": "Element size \u00b7 px",
+          "type": "range",
+          "default": 50,
+          "min": 5,
+          "max": 300,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "amount",
+          "label": "Motion amount",
+          "type": "range",
+          "default": 40,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "cycles",
+          "label": "Cycles across duration",
+          "type": "range",
+          "default": 1,
+          "min": 0.1,
+          "max": 8,
+          "step": 0.1,
+          "group": "Appearance"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 5,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 0,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "softbokeh",
+      "name": "Soft Bokeh",
+      "category": "Background",
+      "description": "Procedural soft circles orbiting across the frame.",
+      "parameters": [
+        {
+          "id": "color2",
+          "label": "Primary color",
+          "type": "color",
+          "default": "#198deb",
+          "group": "Colors"
+        },
+        {
+          "id": "color3",
+          "label": "Secondary color",
+          "type": "color",
+          "default": "#b277ff",
+          "group": "Colors"
+        },
+        {
+          "id": "count",
+          "label": "Elements / density",
+          "type": "range",
+          "default": 16,
+          "min": 4,
+          "max": 40,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "size",
+          "label": "Element size \u00b7 px",
+          "type": "range",
+          "default": 50,
+          "min": 5,
+          "max": 300,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "amount",
+          "label": "Motion amount",
+          "type": "range",
+          "default": 40,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "cycles",
+          "label": "Cycles across duration",
+          "type": "range",
+          "default": 1,
+          "min": 0.1,
+          "max": 8,
+          "step": 0.1,
+          "group": "Appearance"
+        },
+        {
+          "id": "softness",
+          "label": "Softness \u00b7 px",
+          "type": "range",
+          "default": 25,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "seed",
+          "label": "Random seed",
+          "type": "range",
+          "default": 7,
+          "min": 1,
+          "max": 999,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 5,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 0,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "tunnel",
+      "name": "Matrix Tunnel",
+      "category": "Background",
+      "description": "Nested luminous rectangles expanding toward the viewer.",
+      "parameters": [
+        {
+          "id": "color2",
+          "label": "Primary color",
+          "type": "color",
+          "default": "#36f08f",
+          "group": "Colors"
+        },
+        {
+          "id": "color3",
+          "label": "Secondary color",
+          "type": "color",
+          "default": "#b277ff",
+          "group": "Colors"
+        },
+        {
+          "id": "count",
+          "label": "Elements / density",
+          "type": "range",
+          "default": 16,
+          "min": 4,
+          "max": 40,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "size",
+          "label": "Element size \u00b7 px",
+          "type": "range",
+          "default": 50,
+          "min": 5,
+          "max": 300,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "amount",
+          "label": "Motion amount",
+          "type": "range",
+          "default": 40,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "cycles",
+          "label": "Cycles across duration",
+          "type": "range",
+          "default": 1,
+          "min": 0.1,
+          "max": 8,
+          "step": 0.1,
+          "group": "Appearance"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 5,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 0,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "glassbg",
+      "name": "Glassmorphism",
+      "category": "Background",
+      "description": "A translucent gradient card with soft edges and a subtle bevel.",
+      "parameters": [
+        {
+          "id": "color2",
+          "label": "Primary color",
+          "type": "color",
+          "default": "#198deb",
+          "group": "Colors"
+        },
+        {
+          "id": "color3",
+          "label": "Secondary color",
+          "type": "color",
+          "default": "#b277ff",
+          "group": "Colors"
+        },
+        {
+          "id": "size",
+          "label": "Element size \u00b7 px",
+          "type": "range",
+          "default": 50,
+          "min": 5,
+          "max": 300,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "amount",
+          "label": "Motion amount",
+          "type": "range",
+          "default": 40,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "cycles",
+          "label": "Cycles across duration",
+          "type": "range",
+          "default": 1,
+          "min": 0.1,
+          "max": 8,
+          "step": 0.1,
+          "group": "Appearance"
+        },
+        {
+          "id": "softness",
+          "label": "Softness \u00b7 px",
+          "type": "range",
+          "default": 25,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 5,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 0,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "smoke",
+      "name": "Dark Smoke",
+      "category": "Background",
+      "description": "Low-key Fractal Noise with drifting evolution.",
+      "parameters": [
+        {
+          "id": "color1",
+          "label": "Base color",
+          "type": "color",
+          "default": "#071520",
+          "group": "Colors"
+        },
+        {
+          "id": "color2",
+          "label": "Primary color",
+          "type": "color",
+          "default": "#737c89",
+          "group": "Colors"
+        },
+        {
+          "id": "amount",
+          "label": "Motion amount",
+          "type": "range",
+          "default": 40,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "cycles",
+          "label": "Cycles across duration",
+          "type": "range",
+          "default": 1,
+          "min": 0.1,
+          "max": 8,
+          "step": 0.1,
+          "group": "Appearance"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 5,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 0,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "speedbg",
+      "name": "Speedlines",
+      "category": "Background",
+      "description": "Radial streaks expanding from the frame center.",
+      "parameters": [
+        {
+          "id": "color2",
+          "label": "Primary color",
+          "type": "color",
+          "default": "#198deb",
+          "group": "Colors"
+        },
+        {
+          "id": "color3",
+          "label": "Secondary color",
+          "type": "color",
+          "default": "#b277ff",
+          "group": "Colors"
+        },
+        {
+          "id": "count",
+          "label": "Elements / density",
+          "type": "range",
+          "default": 16,
+          "min": 4,
+          "max": 40,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "size",
+          "label": "Element size \u00b7 px",
+          "type": "range",
+          "default": 50,
+          "min": 5,
+          "max": 300,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "amount",
+          "label": "Motion amount",
+          "type": "range",
+          "default": 40,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "cycles",
+          "label": "Cycles across duration",
+          "type": "range",
+          "default": 1,
+          "min": 0.1,
+          "max": 8,
+          "step": 0.1,
+          "group": "Appearance"
+        },
+        {
+          "id": "seed",
+          "label": "Random seed",
+          "type": "range",
+          "default": 7,
+          "min": 1,
+          "max": 999,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 5,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 0,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "blueprint",
+      "name": "Blueprint CAD",
+      "category": "Background",
+      "description": "A drafting grid with moving crosshairs and construction circles.",
+      "parameters": [
+        {
+          "id": "color2",
+          "label": "Primary color",
+          "type": "color",
+          "default": "#198deb",
+          "group": "Colors"
+        },
+        {
+          "id": "color3",
+          "label": "Secondary color",
+          "type": "color",
+          "default": "#b277ff",
+          "group": "Colors"
+        },
+        {
+          "id": "count",
+          "label": "Elements / density",
+          "type": "range",
+          "default": 16,
+          "min": 4,
+          "max": 40,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "size",
+          "label": "Element size \u00b7 px",
+          "type": "range",
+          "default": 50,
+          "min": 5,
+          "max": 300,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "amount",
+          "label": "Motion amount",
+          "type": "range",
+          "default": 40,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "cycles",
+          "label": "Cycles across duration",
+          "type": "range",
+          "default": 1,
+          "min": 0.1,
+          "max": 8,
+          "step": 0.1,
+          "group": "Appearance"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 5,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 0,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    }
+  ],
+  "legacy": [
+    {
+      "id": "typewriter",
+      "name": "Typewriter",
+      "category": "Text",
+      "description": "Reveal the original text character by character, with an optional cursor.",
+      "parameters": [
+        {
+          "id": "cursor",
+          "label": "Show cursor",
+          "type": "checkbox",
+          "default": true,
+          "group": "Design"
+        },
+        {
+          "id": "cursorText",
+          "label": "Cursor character",
+          "type": "text",
+          "default": "|",
+          "maxLength": 4,
+          "group": "Content"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 2,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 2,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "rise",
+      "name": "Character Rise",
+      "category": "Text",
+      "description": "Characters rise into place with staggered position and opacity.",
+      "parameters": [
+        {
+          "id": "distance",
+          "label": "Travel \u00b7 px",
+          "type": "range",
+          "default": 90,
+          "min": -500,
+          "max": 500,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "stagger",
+          "label": "Stagger \u00b7 %",
+          "type": "range",
+          "default": 50,
+          "min": 0,
+          "max": 90,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "direction",
+          "label": "Direction",
+          "type": "select",
+          "default": 0,
+          "options": [
+            {
+              "value": 0,
+              "label": "Vertical"
+            },
+            {
+              "value": 1,
+              "label": "Horizontal"
+            }
+          ],
+          "group": "Design"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 2,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 2,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "elastic",
+      "name": "Elastic Pop",
+      "category": "Text",
+      "description": "Characters spring from zero scale and settle exactly at completion.",
+      "parameters": [
+        {
+          "id": "bounce",
+          "label": "Bounce",
+          "type": "range",
+          "default": 35,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "stagger",
+          "label": "Stagger \u00b7 %",
+          "type": "range",
+          "default": 40,
+          "min": 0,
+          "max": 90,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 2,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 2,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "wave",
+      "name": "Wave Text",
+      "category": "Text",
+      "description": "A controllable character wave with adjustable height, cycles and spacing.",
+      "parameters": [
+        {
+          "id": "height",
+          "label": "Wave height \u00b7 px",
+          "type": "range",
+          "default": 25,
+          "min": 0,
+          "max": 200,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "cycles",
+          "label": "Cycles",
+          "type": "range",
+          "default": 2,
+          "min": 0.1,
+          "max": 10,
+          "step": 0.1,
+          "group": "Design"
+        },
+        {
+          "id": "spacing",
+          "label": "Character phase \u00b7 degrees",
+          "type": "range",
+          "default": 25,
+          "min": 0,
+          "max": 180,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 2,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 2,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "tracking",
+      "name": "Tracking Reveal",
+      "category": "Text",
+      "description": "Open or tighten character spacing while fading text into view.",
+      "parameters": [
+        {
+          "id": "trackingStart",
+          "label": "Starting tracking",
+          "type": "range",
+          "default": 80,
+          "min": -100,
+          "max": 300,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "trackingEnd",
+          "label": "Final tracking",
+          "type": "range",
+          "default": 0,
+          "min": -100,
+          "max": 300,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "fade",
+          "label": "Fade in",
+          "type": "checkbox",
+          "default": true,
+          "group": "Design"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 2,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 2,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "decode",
+      "name": "Glitch Decode",
+      "category": "Text",
+      "description": "Scrambled characters resolve into the original text with a repeatable random seed.",
+      "parameters": [
+        {
+          "id": "seed",
+          "label": "Random seed",
+          "type": "number",
+          "default": 1,
+          "min": 1,
+          "max": 9999,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "steps",
+          "label": "Scramble steps",
+          "type": "range",
+          "default": 20,
+          "min": 2,
+          "max": 60,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 2,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 2,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "sweep",
+      "name": "Color Sweep",
+      "category": "Text",
+      "description": "A moving highlight travels across the characters, then restores the original color.",
+      "parameters": [
+        {
+          "id": "highlight",
+          "label": "Highlight color",
+          "type": "color",
+          "default": "#ff8a36",
+          "group": "Colors"
+        },
+        {
+          "id": "width",
+          "label": "Highlight width \u00b7 %",
+          "type": "range",
+          "default": 30,
+          "min": 5,
+          "max": 100,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "intensity",
+          "label": "Highlight intensity \u00b7 %",
+          "type": "range",
+          "default": 100,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 2,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 2,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "cascade",
+      "name": "Word Cascade",
+      "category": "Text",
+      "description": "Reveal words in sequence with a soft slide and fade.",
+      "parameters": [
+        {
+          "id": "distance",
+          "label": "Travel \u00b7 px",
+          "type": "range",
+          "default": 60,
+          "min": -400,
+          "max": 400,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "stagger",
+          "label": "Word stagger \u00b7 %",
+          "type": "range",
+          "default": 60,
+          "min": 0,
+          "max": 90,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "direction",
+          "label": "Direction",
+          "type": "select",
+          "default": 0,
+          "options": [
+            {
+              "value": 0,
+              "label": "Vertical"
+            },
+            {
+              "value": 1,
+              "label": "Horizontal"
+            }
+          ],
+          "group": "Design"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 2,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 2,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "gradient",
+      "name": "Gradient Morph",
+      "category": "Background",
+      "description": "Animated native gradient with color blending and a moving axis.",
+      "parameters": [
+        {
+          "id": "color1",
+          "label": "Background",
+          "type": "color",
+          "default": "#101014",
+          "group": "Colors"
+        },
+        {
+          "id": "color2",
+          "label": "Primary",
+          "type": "color",
+          "default": "#ff8a36",
+          "group": "Colors"
+        },
+        {
+          "id": "color3",
+          "label": "Secondary",
+          "type": "color",
+          "default": "#ffc778",
+          "group": "Colors"
+        },
+        {
+          "id": "angle",
+          "label": "Gradient angle",
+          "type": "range",
+          "default": 0,
+          "min": -180,
+          "max": 180,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "cycles",
+          "label": "Morph cycles",
+          "type": "range",
+          "default": 1,
+          "min": 0.1,
+          "max": 5,
+          "step": 0.1,
+          "group": "Design"
+        },
+        {
+          "id": "drift",
+          "label": "Axis drift \u00b7 %",
+          "type": "range",
+          "default": 20,
+          "min": 0,
+          "max": 50,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 2,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 2,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "waves",
+      "name": "Wave Lines",
+      "category": "Background",
+      "description": "Live sine paths with editable amplitude, wavelength and line count.",
+      "parameters": [
+        {
+          "id": "color1",
+          "label": "Background",
+          "type": "color",
+          "default": "#101014",
+          "group": "Colors"
+        },
+        {
+          "id": "color2",
+          "label": "Primary",
+          "type": "color",
+          "default": "#ff8a36",
+          "group": "Colors"
+        },
+        {
+          "id": "color3",
+          "label": "Secondary",
+          "type": "color",
+          "default": "#ffc778",
+          "group": "Colors"
+        },
+        {
+          "id": "count",
+          "label": "Line count",
+          "type": "range",
+          "default": 12,
+          "min": 2,
+          "max": 30,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "amplitude",
+          "label": "Amplitude \u00b7 px",
+          "type": "range",
+          "default": 35,
+          "min": 0,
+          "max": 200,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "wavelength",
+          "label": "Wavelength \u00b7 % width",
+          "type": "range",
+          "default": 50,
+          "min": 10,
+          "max": 200,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "cycles",
+          "label": "Cycles",
+          "type": "range",
+          "default": 1,
+          "min": 0.1,
+          "max": 8,
+          "step": 0.1,
+          "group": "Design"
+        },
+        {
+          "id": "stroke",
+          "label": "Line width \u00b7 px",
+          "type": "range",
+          "default": 3,
+          "min": 0.5,
+          "max": 30,
+          "step": 0.5,
+          "group": "Design"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 2,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 2,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "aurora",
+      "name": "Aurora Ribbons",
+      "category": "Background",
+      "description": "Flowing filled ribbons with adjustable width and softness.",
+      "parameters": [
+        {
+          "id": "color1",
+          "label": "Background",
+          "type": "color",
+          "default": "#101014",
+          "group": "Colors"
+        },
+        {
+          "id": "color2",
+          "label": "Primary",
+          "type": "color",
+          "default": "#ff8a36",
+          "group": "Colors"
+        },
+        {
+          "id": "color3",
+          "label": "Secondary",
+          "type": "color",
+          "default": "#ffc778",
+          "group": "Colors"
+        },
+        {
+          "id": "count",
+          "label": "Ribbon count",
+          "type": "range",
+          "default": 6,
+          "min": 2,
+          "max": 12,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "amplitude",
+          "label": "Amplitude \u00b7 px",
+          "type": "range",
+          "default": 100,
+          "min": 0,
+          "max": 300,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "width",
+          "label": "Ribbon width \u00b7 px",
+          "type": "range",
+          "default": 90,
+          "min": 10,
+          "max": 300,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "cycles",
+          "label": "Cycles",
+          "type": "range",
+          "default": 1,
+          "min": 0.1,
+          "max": 5,
+          "step": 0.1,
+          "group": "Design"
+        },
+        {
+          "id": "softness",
+          "label": "Softness \u00b7 px",
+          "type": "range",
+          "default": 30,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 2,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 2,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "bokeh",
+      "name": "Orbit Bokeh",
+      "category": "Background",
+      "description": "Soft luminous circles orbit slowly across the frame.",
+      "parameters": [
+        {
+          "id": "color1",
+          "label": "Background",
+          "type": "color",
+          "default": "#101014",
+          "group": "Colors"
+        },
+        {
+          "id": "color2",
+          "label": "Primary",
+          "type": "color",
+          "default": "#ff8a36",
+          "group": "Colors"
+        },
+        {
+          "id": "color3",
+          "label": "Secondary",
+          "type": "color",
+          "default": "#ffc778",
+          "group": "Colors"
+        },
+        {
+          "id": "count",
+          "label": "Circle count",
+          "type": "range",
+          "default": 24,
+          "min": 4,
+          "max": 60,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "radius",
+          "label": "Circle radius \u00b7 px",
+          "type": "range",
+          "default": 40,
+          "min": 3,
+          "max": 150,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "travel",
+          "label": "Orbit radius \u00b7 px",
+          "type": "range",
+          "default": 80,
+          "min": 0,
+          "max": 300,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "cycles",
+          "label": "Cycles",
+          "type": "range",
+          "default": 1,
+          "min": 0.1,
+          "max": 5,
+          "step": 0.1,
+          "group": "Design"
+        },
+        {
+          "id": "softness",
+          "label": "Softness \u00b7 px",
+          "type": "range",
+          "default": 25,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "seed",
+          "label": "Random seed",
+          "type": "number",
+          "default": 7,
+          "min": 1,
+          "max": 9999,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 2,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 2,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "particles",
+      "name": "Particle Field",
+      "category": "Background",
+      "description": "A field of crisp dots drifts in a chosen direction.",
+      "parameters": [
+        {
+          "id": "color1",
+          "label": "Background",
+          "type": "color",
+          "default": "#101014",
+          "group": "Colors"
+        },
+        {
+          "id": "color2",
+          "label": "Primary",
+          "type": "color",
+          "default": "#ff8a36",
+          "group": "Colors"
+        },
+        {
+          "id": "color3",
+          "label": "Secondary",
+          "type": "color",
+          "default": "#ffc778",
+          "group": "Colors"
+        },
+        {
+          "id": "count",
+          "label": "Particle count",
+          "type": "range",
+          "default": 50,
+          "min": 5,
+          "max": 120,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "radius",
+          "label": "Dot radius \u00b7 px",
+          "type": "range",
+          "default": 3,
+          "min": 0.5,
+          "max": 20,
+          "step": 0.5,
+          "group": "Design"
+        },
+        {
+          "id": "direction",
+          "label": "Direction \u00b7 degrees",
+          "type": "range",
+          "default": -20,
+          "min": -180,
+          "max": 180,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "travel",
+          "label": "Travel \u00b7 % width",
+          "type": "range",
+          "default": 40,
+          "min": 0,
+          "max": 200,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "seed",
+          "label": "Random seed",
+          "type": "number",
+          "default": 11,
+          "min": 1,
+          "max": 9999,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 2,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 2,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "contours",
+      "name": "Contour Flow",
+      "category": "Background",
+      "description": "Organic contour rings change shape with a controllable ripple.",
+      "parameters": [
+        {
+          "id": "color1",
+          "label": "Background",
+          "type": "color",
+          "default": "#101014",
+          "group": "Colors"
+        },
+        {
+          "id": "color2",
+          "label": "Primary",
+          "type": "color",
+          "default": "#ff8a36",
+          "group": "Colors"
+        },
+        {
+          "id": "color3",
+          "label": "Secondary",
+          "type": "color",
+          "default": "#ffc778",
+          "group": "Colors"
+        },
+        {
+          "id": "count",
+          "label": "Ring count",
+          "type": "range",
+          "default": 16,
+          "min": 3,
+          "max": 30,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "amplitude",
+          "label": "Ripple \u00b7 %",
+          "type": "range",
+          "default": 12,
+          "min": 0,
+          "max": 40,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "lobes",
+          "label": "Lobes",
+          "type": "range",
+          "default": 5,
+          "min": 1,
+          "max": 12,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "cycles",
+          "label": "Cycles",
+          "type": "range",
+          "default": 1,
+          "min": 0.1,
+          "max": 5,
+          "step": 0.1,
+          "group": "Design"
+        },
+        {
+          "id": "stroke",
+          "label": "Line width \u00b7 px",
+          "type": "range",
+          "default": 2,
+          "min": 0.5,
+          "max": 15,
+          "step": 0.5,
+          "group": "Design"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 2,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 2,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "grid",
+      "name": "Cyber Grid",
+      "category": "Background",
+      "description": "A drifting grid with editable density, angle and line weight.",
+      "parameters": [
+        {
+          "id": "color1",
+          "label": "Background",
+          "type": "color",
+          "default": "#101014",
+          "group": "Colors"
+        },
+        {
+          "id": "color2",
+          "label": "Primary",
+          "type": "color",
+          "default": "#ff8a36",
+          "group": "Colors"
+        },
+        {
+          "id": "color3",
+          "label": "Secondary",
+          "type": "color",
+          "default": "#ffc778",
+          "group": "Colors"
+        },
+        {
+          "id": "count",
+          "label": "Grid divisions",
+          "type": "range",
+          "default": 14,
+          "min": 4,
+          "max": 30,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "angle",
+          "label": "Grid angle",
+          "type": "range",
+          "default": 0,
+          "min": -90,
+          "max": 90,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "travel",
+          "label": "Drift \u00b7 px",
+          "type": "range",
+          "default": 30,
+          "min": 0,
+          "max": 200,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "cycles",
+          "label": "Cycles",
+          "type": "range",
+          "default": 1,
+          "min": 0.1,
+          "max": 5,
+          "step": 0.1,
+          "group": "Design"
+        },
+        {
+          "id": "stroke",
+          "label": "Line width \u00b7 px",
+          "type": "range",
+          "default": 2,
+          "min": 0.5,
+          "max": 15,
+          "step": 0.5,
+          "group": "Design"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 2,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 2,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "sunburst",
+      "name": "Sunburst",
+      "category": "Background",
+      "description": "Radial wedges rotate around an adjustable center.",
+      "parameters": [
+        {
+          "id": "color1",
+          "label": "Background",
+          "type": "color",
+          "default": "#101014",
+          "group": "Colors"
+        },
+        {
+          "id": "color2",
+          "label": "Primary",
+          "type": "color",
+          "default": "#ff8a36",
+          "group": "Colors"
+        },
+        {
+          "id": "color3",
+          "label": "Secondary",
+          "type": "color",
+          "default": "#ffc778",
+          "group": "Colors"
+        },
+        {
+          "id": "count",
+          "label": "Ray count",
+          "type": "range",
+          "default": 16,
+          "min": 4,
+          "max": 40,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "centerX",
+          "label": "Center X \u00b7 %",
+          "type": "range",
+          "default": 50,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "centerY",
+          "label": "Center Y \u00b7 %",
+          "type": "range",
+          "default": 50,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "turns",
+          "label": "Turns",
+          "type": "range",
+          "default": 0.25,
+          "min": -3,
+          "max": 3,
+          "step": 0.05,
+          "group": "Design"
+        },
+        {
+          "id": "spread",
+          "label": "Ray coverage \u00b7 %",
+          "type": "range",
+          "default": 45,
+          "min": 5,
+          "max": 90,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 2,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 2,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "tiles",
+      "name": "Geometric Tiles",
+      "category": "Background",
+      "description": "A grid of floating squares rotates and pulses in a staggered pattern.",
+      "parameters": [
+        {
+          "id": "color1",
+          "label": "Background",
+          "type": "color",
+          "default": "#101014",
+          "group": "Colors"
+        },
+        {
+          "id": "color2",
+          "label": "Primary",
+          "type": "color",
+          "default": "#ff8a36",
+          "group": "Colors"
+        },
+        {
+          "id": "color3",
+          "label": "Secondary",
+          "type": "color",
+          "default": "#ffc778",
+          "group": "Colors"
+        },
+        {
+          "id": "count",
+          "label": "Grid size",
+          "type": "range",
+          "default": 7,
+          "min": 2,
+          "max": 12,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "size",
+          "label": "Tile size \u00b7 % cell",
+          "type": "range",
+          "default": 55,
+          "min": 10,
+          "max": 95,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "turns",
+          "label": "Rotation turns",
+          "type": "range",
+          "default": 0.25,
+          "min": -2,
+          "max": 2,
+          "step": 0.05,
+          "group": "Design"
+        },
+        {
+          "id": "pulse",
+          "label": "Pulse \u00b7 %",
+          "type": "range",
+          "default": 20,
+          "min": 0,
+          "max": 60,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "cycles",
+          "label": "Cycles",
+          "type": "range",
+          "default": 1,
+          "min": 0.1,
+          "max": 5,
+          "step": 0.1,
+          "group": "Design"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 2,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 2,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    },
+    {
+      "id": "speedlines",
+      "name": "Speed Lines",
+      "category": "Background",
+      "description": "Radial strokes rush outward from the center.",
+      "parameters": [
+        {
+          "id": "color1",
+          "label": "Background",
+          "type": "color",
+          "default": "#101014",
+          "group": "Colors"
+        },
+        {
+          "id": "color2",
+          "label": "Primary",
+          "type": "color",
+          "default": "#ff8a36",
+          "group": "Colors"
+        },
+        {
+          "id": "color3",
+          "label": "Secondary",
+          "type": "color",
+          "default": "#ffc778",
+          "group": "Colors"
+        },
+        {
+          "id": "count",
+          "label": "Line count",
+          "type": "range",
+          "default": 30,
+          "min": 8,
+          "max": 80,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "length",
+          "label": "Line length \u00b7 %",
+          "type": "range",
+          "default": 25,
+          "min": 5,
+          "max": 70,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "cycles",
+          "label": "Travel cycles",
+          "type": "range",
+          "default": 1,
+          "min": 0.1,
+          "max": 6,
+          "step": 0.1,
+          "group": "Design"
+        },
+        {
+          "id": "stroke",
+          "label": "Line width \u00b7 px",
+          "type": "range",
+          "default": 3,
+          "min": 0.5,
+          "max": 20,
+          "step": 0.5,
+          "group": "Design"
+        },
+        {
+          "id": "seed",
+          "label": "Random seed",
+          "type": "number",
+          "default": 3,
+          "min": 1,
+          "max": 9999,
+          "step": 1,
+          "group": "Design"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 2,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 2,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loop",
+          "label": "Loop animation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ]
+    }
+  ]
+}
