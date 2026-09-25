@@ -19,3 +19,8 @@ footer{grid-row:5;display:grid;grid-template-rows:20px minmax(0,1fr);padding:5px
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}body.reduced *{transition:none!important}
 
 .card-actions .card-apply{white-space:normal;line-height:1.4;padding:8px 4px}
+
+/* Compact, adjacent actions remain pinned below the parameter scroll region. */
+.inspector-actions{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px;padding:8px 12px}
+.inspector-actions button{font-size:10px;padding:5px 8px;border-radius:7px;min-height:28px}
+.card-actions .card-apply{font-size:10px;padding:5px 4px;min-height:26px}

@@ -6,7 +6,7 @@
     function quote(s){return '"'+String(s).replace(/\\/g,'\\\\').replace(/"/g,'\\"').replace(/\r/g,'\\r').replace(/\n/g,'\\n').replace(/\t/g,'\\t')+'"';}
     function json(v){var a=[],i,k;if(v===null||v===undefined)return 'null';if(typeof v==='string')return quote(v);if(typeof v==='number'||typeof v==='boolean')return String(v);if(v instanceof Array){for(i=0;i<v.length;i++)a.push(json(v[i]));return '['+a.join(',')+']';}for(k in v)if(v.hasOwnProperty(k))a.push(quote(k)+':'+json(v[k]));return '{'+a.join(',')+'}';}
     function rpc(p){return eval('('+MotionAstra.dispatch(encodeURIComponent(json(p)))+')');}
-    var report=['MotionAstra 2.5.4 / AE '+app.version],project=app.project||app.newProject(),folder=project.items.addFolder('MotionAstra 2.5 Validation '+new Date().getTime()),failures=0;
+    var report=['MotionAstra 2.8.1 / AE '+app.version],project=app.project||app.newProject(),folder=project.items.addFolder('MotionAstra 2.8 Validation '+new Date().getTime()),failures=0;
     project.expressionEngine='javascript-1.0';
     function log(name,ok,message){report.push((ok?'PASS ':'FAIL ')+name+' — '+message);if(!ok)failures++;}
     function selectOnly(c,l){for(var i=1;i<=c.numLayers;i++)c.layer(i).selected=c.layer(i)===l;}
@@ -15,10 +15,11 @@
         var r=MA_PRESET_DATA.presets[i],c=project.items.addComp('MA2.5 • '+r.name,960,540,1,8,30);c.parentFolder=folder;c.openInViewer();var l=null,p={},j;
         if(r.category==='Text'){l=c.layers.addText('Make it move');l.inPoint=1.5;l.outPoint=7;selectOnly(c,l);}c.time=4.5;
         for(j=0;j<r.parameters.length;j++)p[r.parameters[j].id]=r.parameters[j].default;
-        try{var applied=rpc({action:'apply',id:r.id,params:p});log(r.name+' Apply',applied.ok&&applied.changed===1,applied.message);if(!applied.changed)continue;l=c.selectedLayers[0];selectOnly(c,l);
+        try{var applied=rpc({action:r.category==='Background'?'generateBackground':'apply',id:r.id,params:p});log(r.name+' Apply',applied.ok&&applied.changed===1,applied.message);if(!applied.changed)continue;log(r.name+' single layer',c.numLayers===1,'layer count='+c.numLayers);l=c.selectedLayers[0];selectOnly(c,l);
             var loaded=rpc({action:'load'});log(r.name+' Load',loaded.ok&&loaded.id===r.id,loaded.message);
-            p.progress=50;p.manual=true;if(p.count!==undefined)p.count=Math.min(p.count+1,20);
-            var updated=rpc({action:'update',id:r.id,params:p});log(r.name+' Update',updated.ok&&updated.changed===1,updated.message);scan(l,2.5,r.name+' manual');p.manual=false;rpc({action:'update',id:r.id,params:p});
+            if(r.category==='Background')p.color2='#ff2200';p.progress=50;p.manual=true;if(p.count!==undefined)p.count=Math.min(p.count+1,20);
+            var updated=rpc({action:'update',id:r.id,params:p});log(r.name+' Update',updated.ok&&updated.changed===1,updated.message);if(r.category==='Background'){var nativeColor=l.property('ADBE Effect Parade').property('MA2 native '+((r.id==='nebula'||r.id==='smoke')?'cloud colors':'ramp')).property(2).value;log(r.name+' chosen color',Math.abs(nativeColor[0]-1)<.001&&Math.abs(nativeColor[1]-34/255)<.001&&Math.abs(nativeColor[2])<.001,'native RGBA='+nativeColor.toString());}scan(l,2.5,r.name+' manual');p.manual=false;rpc({action:'update',id:r.id,params:p});
+            for(var loopMode=0;loopMode<3;loopMode++){p.loopMode=loopMode;rpc({action:'update',id:r.id,params:p});scan(l,l.inPoint+p.duration*1.5,r.name+' loop mode '+loopMode);}
             for(j=0;j<4;j++)scan(l,[l.inPoint,l.inPoint+p.duration*.25,l.inPoint+p.duration*.5,l.inPoint+p.duration][j],r.name+' timeline');
         }catch(e){log(r.name,false,String(e));}
     }

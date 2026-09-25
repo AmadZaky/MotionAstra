@@ -1,6 +1,6 @@
-/* MotionAstra 2.8.0 — ES3 host. No third-party AE effects required. */
+/* MotionAstra 2.8.1 — ES3 host. No third-party AE effects required. */
 var MotionAstra=(function(){
-    var BUILD="2.8.0-stability.1",recipes={},serial=0;for(var ri=0;ri<MA_PRESET_DATA.presets.length;ri++)recipes[MA_PRESET_DATA.presets[ri].id]=MA_PRESET_DATA.presets[ri];
+    var BUILD="2.8.1",recipes={},serial=0;for(var ri=0;ri<MA_PRESET_DATA.presets.length;ri++)recipes[MA_PRESET_DATA.presets[ri].id]=MA_PRESET_DATA.presets[ri];
     for(var li=0;li<(MA_PRESET_DATA.legacy||[]).length;li++){var lr=MA_PRESET_DATA.legacy[li];lr.legacy=true;recipes[lr.id]=lr;}
     function quote(s) { return '"' + String(s).replace(/\\/g,'\\\\').replace(/"/g,'\\"').replace(/\r/g,'\\r').replace(/\n/g,'\\n').replace(/\t/g,'\\t') + '"'; }
     function encode(v) {
@@ -83,7 +83,7 @@ var MotionAstra=(function(){
     function saveMeta(l,m){var s=l.comment||'',a=s.indexOf(META),b;if(a>=0){b=s.indexOf(END,a+META.length);if(b<0)throw Error('Damaged MotionAstra metadata on '+l.name);s=s.substring(0,a)+s.substring(b+1);}l.comment=s+(m?META+encodeURIComponent(encode(m))+END:'');}
     function fx(l,id){return l.property('ADBE Effect Parade').property('MA2 '+id);}
     function setControls(l,r,p){var i,d,e;for(i=0;i<r.parameters.length;i++){d=r.parameters[i];if(d.type==='text'||d.type==='textarea')continue;e=fx(l,d.id);if(!e)e=effect(l,d.type==='color'?'ADBE Color Control':d.type==='checkbox'?'ADBE Checkbox Control':'ADBE Slider Control','MA2 '+d.id);set(e.property(1),d.type==='color'?color(p[d.id]):d.type==='checkbox'?(p[d.id]?1:0):p[d.id],l.containingComp.time);}}
-    function readControls(l,r,m){var p={},i,d,e;for(i=0;i<r.parameters.length;i++){d=r.parameters[i];if(d.type==='text'||d.type==='textarea'){p[d.id]=m.values[d.id];continue;}e=fx(l,d.id);if(!e)throw Error('Missing control '+d.label+'. Undo a deletion or remove this FX before reapplying.');var v=e.property(1).value;p[d.id]=d.type==='color'?hex(v):d.type==='checkbox'?checkbox(v,false,d.label,true):Number(v);}var end=markerTime(l,m.token,'end');if(end!==null)p.duration=Math.max(.1,end-l.inPoint);return p;}
+    function readControls(l,r,m){var p={},i,d,e;for(i=0;i<r.parameters.length;i++){d=r.parameters[i];if(d.type==='text'||d.type==='textarea'){p[d.id]=m.values[d.id];continue;}e=fx(l,d.id);if(!e&&d.id==='loopMode'&&fx(l,'loop')){p[d.id]=1;continue;}if(!e)throw Error('Missing control '+d.label+'. Undo a deletion or remove this FX before reapplying.');var v=e.property(1).value;p[d.id]=d.type==='color'?hex(v):d.type==='checkbox'?checkbox(v,false,d.label,true):Number(v);}var end=markerTime(l,m.token,'end');if(end!==null)p.duration=Math.max(.1,end-l.inPoint);return p;}
     function markKey(token,kind){return 'MA2 '+token+' '+kind;}
     function markerTime(l,token,kind){var m=l.property('ADBE Marker'),i,t=null;if(!m)return null;for(i=1;i<=m.numKeys;i++)if(m.keyValue(i).getParameters()[markKey(token,kind)]!==undefined){if(t!==null)throw Error('Duplicate '+kind+' marker; keep one per FX.');t=m.keyTime(i);}return t;}
     function markerLabel(p){var out=p.MA2_BASE||'',k;for(k in p)if(p.hasOwnProperty(k)&&k.indexOf('MA2 i')===0)out+=(out?'\n':'')+p[k];return out;}
@@ -93,15 +93,15 @@ var MotionAstra=(function(){
     function clock(m,body){return '// MotionAstra 2 '+m.token+'\nfunction P(k,d){try{var p=effect("MA2 "+k)(1);return p.value;}catch(e){return d;}}\n'+
         'function C(k,d){var c;try{c=effect("MA2 "+k)("ADBE Color Control-0001").value;}catch(e){c=d;}if(!c||c.length<3)throw Error("MotionAstra: invalid RGBA color control MA2 "+k);return [Number(c[0]),Number(c[1]),Number(c[2]),c.length>3?Number(c[3]):1];}\n'+
         'var S=inPoint,E=S+Math.max(.1,P("duration",2));for(var i=1;i<=marker.numKeys;i++){if(marker.key(i).parameters['+quote(markKey(m.token,'end'))+']!==undefined){E=marker.key(i).time;break;}}\n'+
-        'var D=Math.max(thisComp.frameDuration,E-S),raw=Math.max(0,time-S),q=P("manual",0)>.5?Math.max(0,Math.min(1,P("progress",0)/100)):(P("loop",0)>.5?(raw%D)/D:Math.min(1,raw/D));\n'+
-        'var ease=P("ease",2);q=ease===1?q*q:ease===2?1-(1-q)*(1-q):ease===3?q*q*(3-2*q):q;if(P("reverse",0)>.5)q=1-q;var T=q*6.28318530718;\n'+body+';';}
+        'var D=Math.max(thisComp.frameDuration,E-S),raw=Math.max(0,time-S),q=P("manual",0)>.5?Math.max(0,Math.min(1,P("progress",0)/100)):(P("loopMode",1)<.5?1-Math.abs((raw/D)%2-1):P("loopMode",1)<1.5?(raw%D)/D:raw/D);\n'+
+        'var ease=P("ease",2);q=q>1?q:ease===1?q*q:ease===2?1-(1-q)*(1-q):ease===3?q*q*(3-2*q):q;if(P("reverse",0)>.5)q=1-q;var T=q*6.28318530718;\n'+body+';';}
     function assign(p,s){if(!p||!p.canSetExpression)throw Error('This property does not support expressions.');p.expression=s;if(p.expressionError){var e=p.expressionError;p.expression='';throw Error(e);}}
     function owned(s){return s&&s.indexOf('// MotionAstra 2 ')===0;}
     function source(l){var g=l.property('ADBE Text Properties');return g?g.property('ADBE Text Document'):null;}
     function isText(l){return typeof TextLayer!=='undefined'&&l instanceof TextLayer;}
     function sourceBody(r,p){
         if(r.id==='counter')return 'var start=P("start",0),end=P("end",1000),places=Math.max(0,Math.min(4,Math.round(P("decimals",0)))),fmt=Math.round(P("format",0)),factor=Math.pow(10,places),n=Math.round((start+(end-start)*q)*factor)/factor;var a=Math.abs(n).toFixed(places).split("."),whole=a[0];if(fmt===1||fmt===2)whole=whole.replace(/\\B(?=(\\d{3})+(?!\\d))/g,fmt===1?",":".");'+quote(p.prefix)+'+(n<0?"-":"")+whole+(places?(fmt===2?",":".")+a[1]:"")+'+quote(p.suffix);
-        if(r.id==='switcher')return 'var items='+encode(p.phrases.split('\n'))+',n=P("switchMode",0)>.5?Math.min(items.length-1,Math.floor(q*items.length)):Math.max(0,Math.min(items.length-1,Math.round(P("choice",1))-1));items[n]';
+        if(r.id==='switcher')return 'var items='+encode(p.phrases.split('\n'))+',n=P("switchMode",0)>.5?Math.max(0,Math.min(items.length-1,Math.floor(q*items.length))):Math.max(0,Math.min(items.length-1,Math.round(P("choice",1))-1));items[n]';
         if(r.id==='typewriter')return 'var s=value.toString(),n=Math.min(s.length,Math.floor(q*s.length));s.substr(0,n)+(P("cursor",1)>.5&&q<1?'+quote(p.cursorText)+':"")';
         return 'var s=value.toString(),n=Math.floor(q*s.length),alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",out="";seedRandom(Math.round(P("seed",1))+Math.floor(q*P("steps",20)),true);for(var j=0;j<s.length;j++){out+=j<n||q>=1||/\\s/.test(s.charAt(j))?s.charAt(j):alphabet.charAt(Math.floor(random(alphabet.length)));}out';
     }
@@ -174,7 +174,7 @@ var MotionAstra=(function(){
     function nativeParam(e,index){var p=e.property(index);if(!p||!p.setValue)throw Error('Native schema mismatch: '+e.matchName+' parameter '+index);return p;}
     function bind(e,index,m,body){assign(nativeParam(e,index),clock(m,body));}
     function fixed(e,index,value){nativeParam(e,index).setValue(value);}
-    function ramp25(l,m){var e=nativeFx(l,'ADBE Ramp','ramp');bind(e,1,m,'[thisLayer.width*(.15+.15*Math.sin(T*P("cycles",1))),0]');bind(e,2,m,'C("color2",C("tint",[1,.75,.25,1]))');bind(e,3,m,'[thisLayer.width*(.8+.15*Math.cos(T*P("cycles",1))),thisLayer.height]');bind(e,4,m,'C("color3",[.16,.08,.025,1])');return e;}
+    function ramp25(l,m,p){var e=nativeFx(l,'ADBE Ramp','ramp');bind(e,1,m,'[thisLayer.width*(.15+.15*Math.sin(T*P("cycles",1))),0]');if(p)fixed(e,2,color(p.color2));else bind(e,2,m,'C("color2",C("tint",[1,.75,.25,1]))');bind(e,3,m,'[thisLayer.width*(.8+.15*Math.cos(T*P("cycles",1))),thisLayer.height]');if(p)fixed(e,4,color(p.color3));else bind(e,4,m,'C("color3",[.16,.08,.025,1])');return e;}
     function blur25(l,m,body,horizontal){var e=nativeFx(l,'ADBE Gaussian Blur 2','blur');bind(e,1,m,body);fixed(e,2,horizontal?2:1);fixed(e,3,1);}
     function distort25(l,m,amount,size){var e=nativeFx(l,'ADBE Turbulent Displace','distortion');bind(e,2,m,amount);bind(e,3,m,size);bind(e,6,m,'q*360*P("cycles",1)');}
     function text25(l,r,p,m){
@@ -210,9 +210,9 @@ var MotionAstra=(function(){
             // Match names are used for the long Fractal Noise group; English labels are a diagnostic fallback.
             var evolution=findNative(e,'ADBE Fractal Noise-0023','Evolution');assign(evolution,clock(m,'q*360*P("cycles",1)'));
             var contrast=findNative(e,'ADBE Fractal Noise-0004','Contrast');assign(contrast,clock(m,'80+P("amount",40)*2'));
-            var tint=nativeFx(l,'ADBE Tint','cloud colors');bind(tint,1,m,'C("color1",[0,0,0,1])');bind(tint,2,m,'C("color2",[.2,.5,1,1])');return;
+            var tint=nativeFx(l,'ADBE Tint','cloud colors');fixed(tint,1,color(p.color1));fixed(tint,2,color(p.color2));return;
         }
-        ramp25(l,m);
+        ramp25(l,m,p);
         if(r.id==='liquidgradient'||r.id==='glassbg'){distort25(l,m,'P("amount",40)*2','P("size",50)*4');if(r.id==='glassbg'){mask25(l,m,'card','var w=thisLayer.width,h=thisLayer.height;createPath([[w*.15,h*.2],[w*.85,h*.2],[w*.85,h*.8],[w*.15,h*.8]],[],[],true)');blur25(l,m,'P("softness",25)*.25',false);var edge=nativeFx(l,'ADBE Bevel Alpha','card edge');fixed(edge,1,2);assign(prop(l,'ADBE Opacity'),clock(m,'value*(.65+P("amount",40)*.0025)'));}return;}
         // Geometric fields: closed additive masks with animated points. The underlying footage is visible in the gaps.
         for(i=0;i<(r.id==='neongrid'||r.id==='blueprint'?n*2:n);i++){
@@ -233,9 +233,11 @@ var MotionAstra=(function(){
     function isSolid(l){return l instanceof AVLayer&&l.source&&l.source.mainSource instanceof SolidSource;}
     function isNewBackground(r){return r.category==='Background'&&!r.legacy;}
     function removeOwnedExpressions(g){var i,p;for(i=1;i<=(g.numProperties||0);i++){p=g.property(i);if(p.canSetExpression&&owned(p.expression))p.expression='';else if(p.numProperties)removeOwnedExpressions(p);}}
+    function syncBackgroundColors(l,r,p){if(r.legacy)return;var cloud=r.id==='nebula'||r.id==='smoke',e=l.property('ADBE Effect Parade').property('MA2 native '+(cloud?'cloud colors':'ramp'));if(!e)throw Error('Background color effect missing. Remove and regenerate this background.');var a=nativeParam(e,cloud?1:2),b=nativeParam(e,cloud?2:4);a.expression='';b.expression='';set(a,color(cloud?p.color1:p.color2),l.containingComp.time);set(b,color(cloud?p.color2:p.color3),l.containingComp.time);}
+    function refreshOwnedClocks(g,m){var i,p,s,cut,separator='var T=q*6.28318530718;\n';for(i=1;i<=(g.numProperties||0);i++){p=g.property(i);if(p.canSetExpression&&owned(p.expression)){s=p.expression;cut=s.indexOf(separator);if(cut>=0)assign(p,clock(m,s.substr(cut+separator.length)));}else if(p.numProperties)refreshOwnedClocks(p,m);}}
     function clearArtwork(l){var masks=l.property('ADBE Mask Parade');if(masks)for(var mi=masks.numProperties;mi>=1;mi--)if(masks.property(mi).name.indexOf('MA2 artwork ')===0)masks.property(mi).remove();var g=l.property('ADBE Root Vectors Group'),i;if(g)for(i=g.numProperties;i>=1;i--)if(g.property(i).name==='MA2 artwork')g.property(i).remove();var effects=l.property('ADBE Effect Parade');if(effects)for(i=effects.numProperties;i>=1;i--)if(effects.property(i).name.indexOf('MA2 native ')===0)effects.property(i).remove();}
     function cleanup(l,m){if(m&&/^(zoom|whip|lightleak|rgbglitch|warp|filmburn|bounce|anamorphic|page|pixel)$/.test(m.id))l.enabled=false;removeOwnedExpressions(l);clearArtwork(l);var g=l.property('ADBE Text Properties'),i;if(g){g=g.property('ADBE Text Animators');for(i=g.numProperties;i>=1;i--)if(g.property(i).name.indexOf('MA2 ')===0)g.property(i).remove();}g=l.property('ADBE Effect Parade');if(g)for(i=g.numProperties;i>=1;i--)if(g.property(i).name.indexOf('MA2 ')===0)g.property(i).remove();if(m){removeMarker(l,m.token,'start');removeMarker(l,m.token,'end');}saveMeta(l,null);}
-    function controlCheck(l,r){var g=l.property('ADBE Effect Parade'),i,j,d,n;for(i=0;i<r.parameters.length;i++){d=r.parameters[i];if(d.type==='text'||d.type==='textarea')continue;n=0;for(j=1;j<=g.numProperties;j++)if(g.property(j).name==='MA2 '+d.id)n++;if(n!==1)throw Error('Missing or duplicate '+d.label+' control. Undo its deletion or remove/reapply the FX.');}}
+    function controlCheck(l,r){var g=l.property('ADBE Effect Parade'),i,j,d,n;for(i=0;i<r.parameters.length;i++){d=r.parameters[i];if(d.type==='text'||d.type==='textarea')continue;n=0;for(j=1;j<=g.numProperties;j++)if(g.property(j).name==='MA2 '+d.id)n++;if(n===0&&d.id==='loopMode'&&fx(l,'loop'))continue;if(n!==1)throw Error('Missing or duplicate '+d.label+' control. Undo its deletion or remove/reapply the FX.');}}
     function preflight(l,r,updating){writable(l);if(!l.property('ADBE Effect Parade'))throw Error('Choose a visual layer.');if(r.category==='Text'&&!isText(l))throw Error('Select a Text layer.');if(r.category==='Background'&&(r.legacy?!(l instanceof ShapeLayer):!isSolid(l)))throw Error('Select a Solid layer for this background.');
         if(!updating){if(meta(l))throw Error('This layer already has MotionAstra 2 FX. Use Update or Remove MotionAstra FX.');var g=l.property('ADBE Effect Parade');for(var i=1;i<=g.numProperties;i++)if(g.property(i).name.indexOf('MA2 ')===0)throw Error('Orphan MotionAstra controls: use Remove MotionAstra FX first.');}
         if(r.id==='counter'||r.id==='switcher'||r.id==='typewriter'||r.id==='decode'||r.id==='matrix'){var s=source(l);if(!updating&&(s.expression||s.numKeys))throw Error('Source Text has an expression/keyframes. Use a clean text layer.');if(updating&&!owned(s.expression))throw Error('Source Text was changed outside MotionAstra. Remove/reapply deliberately to avoid replacing your expression.');}
@@ -279,7 +281,7 @@ var MotionAstra=(function(){
         if(r.category==='Background'){var matching=[];for(i=0;i<ls.length;i++){m=meta(ls[i]);if(m&&m.id===r.id)matching.push(ls[i]);}if(!matching.length)return apply(a);ls=matching;}else ls=selection(c);
         for(i=0;i<ls.length;i++){l=ls[i];started=false;try{m=meta(l);if(!m||m.id!==r.id){lines.push(l.name+': No '+r.name+' instance to update. Click Apply first, or select its existing FX layer and Load selected FX settings. No changes made to this layer.');continue;}preflight(l,r,true);controlCheck(l,r);markerTime(l,m.token,'end');oldDuration=fx(l,'duration').property(1).value;started=true;setControls(l,r,p);markers(l,r,m,p.duration,Math.abs(oldDuration-p.duration)>.000001);
                 if(r.category==='Background'&&(m.build!==BUILD||!m.values||m.values.count!==p.count)){clearArtwork(l);background(l,r,p,m);m.build=BUILD;}else if(r.id==='counter'||r.id==='switcher'||r.id==='typewriter'||r.id==='decode'||r.id==='matrix')assign(source(l),clock(m,sourceBody(r,p)));
-                m.values=p;saveMeta(l,m);count++;lines.push(l.name+': updated.');}catch(e){errors++;lines.push(l.name+': '+String(e)+(started?' Undo once if this update partially changed the layer.':' No changes made to this layer.'));}}
+                if(r.category==='Background')syncBackgroundColors(l,r,p);else if(m.build!==BUILD)refreshOwnedClocks(l,m);var oldLoop=fx(l,'loop');if(oldLoop)oldLoop.remove();m.build=BUILD;m.values=p;saveMeta(l,m);count++;lines.push(l.name+': updated.');}catch(e){errors++;lines.push(l.name+': '+String(e)+(started?' Undo once if this update partially changed the layer.':' No changes made to this layer.'));}}
         var result=report(lines,count);if(!count&&!errors)result.severity='warning';return result;
     }
     // Offset existing values/keyframes, or wrap an existing expression without discarding it.
@@ -342,7 +344,7 @@ var MotionAstra=(function(){
         }catch(e){lines.push(l.name+': '+String(e));}}
         var result=report(lines,count);if(a.name==='anchor'&&count)result.message+='\nArtwork is preserved at the playhead when Keep artwork is enabled. Animated rotation/scale may change other frames.';return result;
     }
-    function dispatch(raw){var a,result,undo=false;try{a=parse(decodeURIComponent(raw));if(a.action==='status'){var c=app.project?app.project.activeItem:null;result={ok:true,hostVersion:'2.8.0',build:BUILD,version:app.version,composition:c instanceof CompItem?c.name:null,selected:c instanceof CompItem?c.selectedLayers.length:0};}
+    function dispatch(raw){var a,result,undo=false;try{a=parse(decodeURIComponent(raw));if(a.action==='status'){var c=app.project?app.project.activeItem:null;result={ok:true,hostVersion:'2.8.1',build:BUILD,version:app.version,composition:c instanceof CompItem?c.name:null,selected:c instanceof CompItem?c.selectedLayers.length:0};}
         else if(a.action==='load'||a.action==='reconnect'){try{result=load(a);}catch(e){e.noChanges=true;throw e;}}
         else{if(a.action!=='generateBackground'&&a.action!=='apply'&&a.action!=='update'&&a.action!=='tool')fail('Unknown action.');app.beginUndoGroup('MotionAstra 2');undo=true;result=a.action==='generateBackground'?generateBackground(a):a.action==='apply'?apply(a):a.action==='update'?update(a):tool(a);result.ok=true;}
     }catch(e){result={ok:false,message:String(e)+(e.line?' (line '+e.line+')':'')+(e.noChanges?' — No changes were made.':' — Check the timeline; Undo once if the operation partially changed it.')};}
@@ -350,6 +352,6 @@ var MotionAstra=(function(){
     // Fail before any layer mutation if this host cannot preserve transport booleans.
     var transportProbe=parse('{"keep":true,"loop":false,"empty":null,"n":1.25}');
     if(transportProbe.keep!==true||transportProbe.loop!==false||transportProbe.empty!==null||transportProbe.n!==1.25)throw Error('MotionAstra JSON transport self-check failed. Restart AE and install the full package.');
-    return {dispatch:dispatch,version:'2.8.0',build:BUILD};
+    return {dispatch:dispatch,version:'2.8.1',build:BUILD};
 }());
 if(typeof $!=='undefined'&&$.global)$.global.MotionAstra=MotionAstra;

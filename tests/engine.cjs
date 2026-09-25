@@ -9,11 +9,10 @@ assert.equal(e.rpc({action:'tool',name:'eraseAll'}).changed,1);assert.equal(l.fx
 {const e=create(),solid=e.comp.add('solid'),video=e.comp.add('video');solid.selected=video.selected=true;const r=e.rpc({action:'apply',id:'neongrid',params:{}});assert.equal(r.changed,1);assert.equal(r.severity,'success');assert.equal(solid.fx.numProperties,0);assert.equal(video.fx.numProperties,0);assert.equal(e.comp.numLayers,3);}
 // New effects reject conflicting instances and source-text animation.
 {const e=create(),l=e.comp.add('text');l.selected=true;l.text.property('ADBE Text Document').expression='"Existing"';assert.equal(e.rpc({action:'apply',id:'matrix',params:{}}).changed,0);assert.equal(l.fx.numProperties,0);}
-for(const loop of [false,0,'false','0']){const e=create();e.comp.add('text').selected=true;assert.equal(e.rpc({action:'apply',id:'counter',params:{loop}}).changed,1);assert.equal(e.comp.selectedLayers[0].fx.property('MA2 loop').property(1).value,0);}
 // Old projects are still editable by recipe id, without adding legacy cards to the catalog.
 for(const r of data.legacy){const e=create();if(r.category==='Text')e.comp.add('text').selected=true;assert.equal(e.rpc({action:'apply',id:r.id,params:{}}).changed,1,r.id);assert.equal(e.rpc({action:'load'}).id,r.id);}
 for(const name of ['main.js','bridge.js','preview.js','presets-data.js'])new vm.Script(fs.readFileSync(path.join(__dirname,'../js',name),'utf8'));
-console.log('PASS 20 recipes, legacy read/update paths, syntax, ownership/removal, type validation and false-loop regression. AE native rendering remains a separate gate.');
+console.log('PASS 20 recipes, legacy read/update paths, syntax, ownership/removal, type validation and target validation. AE native rendering remains a separate gate.');
 
 for(const id of ['zoom','whip','lightleak','rgbglitch','warp','filmburn','bounce','anamorphic','page','pixel']){const e=create();e.comp.add('text').selected=true;for(const action of ['apply','update']){const r=e.rpc({action,id,params:{}});assert.equal(r.ok,false);assert.equal(e.comp.numLayers,1);assert.equal(e.comp.selectedLayers[0].fx.numProperties,0);}}
 console.log('PASS removed transition IDs cannot create or update layers.');

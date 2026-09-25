@@ -33,7 +33,7 @@ Twenty public recipes. All controls are local; numeric/color/checkbox controls a
 | Speedlines | Seeded radial streak masks + Gradient Ramp. | Primary color, Secondary color, Elements / density, Element size · px, Motion amount, Cycles across duration, Random seed |
 | Blueprint CAD | Grid rectangle masks and annular construction masks + Gradient Ramp. | Primary color, Secondary color, Elements / density, Element size · px, Motion amount, Cycles across duration |
 
-Text/background timing: Duration, Ease, Loop OFF, Reverse and manual Progress.
+Text/background timing: Duration, Ease, Loop mode (Ping-Pong, Cycle or Continue), Reverse and manual Progress. Background colors apply directly to native Ramp/Tint on Generate/Update.
 
 ## Defaults
 

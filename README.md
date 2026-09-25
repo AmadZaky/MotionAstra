@@ -1,8 +1,20 @@
-# MotionAstra FX 2.5.4
+# MotionAstra FX 2.8.1 — Pre-alpha
 
 Offline CEP extension for Adobe After Effects 2025. Minimal black/orange UI, local CSInterface + Lucide, 10 Text FX, 10 procedural Backgrounds, Quick Tools in the third top tab.
 
 Extract this whole folder, follow **INSTALLATION_GUIDE.md**, then open Window → Extensions → MotionAstra FX. The package is unsigned source; no Adobe installation or signing certificate is bundled. No build step or internet connection is needed to use it.
+
+## Current workflow
+
+Select a text layer for Text FX. Background Generate needs only an active composition; it creates one layer or updates selected matching instances. Deselect backgrounds to deliberately create another. Customize preserves your draft colors; Generate/Update writes them directly into native Gradient Ramp/Tint properties. These colors do not depend on color expressions.
+
+Loop mode is a dropdown: Ping-Pong, Cycle (default), Continue. Continue advances normalized animation time beyond Duration; finite text reveals naturally finish while procedural motion keeps advancing. Manual Progress overrides looping. Existing project expressions stay unchanged until Update; legacy checkbox instances migrate to Cycle unless another mode is chosen.
+
+Apply/Generate and Update are compact adjacent buttons at the inspector bottom. Load FX Settings is in the Tools Bar. Unwanted old duplicate layers are not deleted automatically.
+
+## Versioning and releases
+
+Run `python3 tools/bump-version.py` once before each new code push to main. Versions follow 2.8.1, 2.8.2, etc. CI rejects a push whose version is not the next patch after its parent. After tests pass, CI creates a new prerelease and installable ZIP; older releases are preserved. Re-running the same successful commit does not increment its version.
 
 ## Source layout
 

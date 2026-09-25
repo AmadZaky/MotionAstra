@@ -190,3 +190,9 @@ Text FX require a selected text layer and never create one implicitly. Use New T
 - Build checks reload an older host implementation even though the public version remains 2.8.0. Settings displays the build identifier.
 
 Thirteen host/state/preview suites pass locally, including reproductions of the late-status race, discarded card colors, repeat generation and idle preview. The release workflow also gates publication on real Chromium UI/checkbox tests. This does not measure native AE render performance or certify native effect behavior. Replace the full extension folder and restart AE. Old duplicated layers must be inspected and removed manually if unwanted.
+
+## 2.8.1 current behavior (supersedes earlier Loop OFF guidance)
+
+The loop checkbox is replaced by Ping-Pong, Cycle (default), and Continue. Continue advances time beyond the duration; bounded text reveals finish naturally. Manual Progress overrides the mode. Old instances keep their stored expressions until Update, which migrates them to the selected mode. Generate writes colors directly into native Ramp/Tint values. Background color changes apply on Generate/Update. Only one layer is created; selected matching backgrounds are updated instead. Apply/Generate and Update are adjacent compact bottom buttons; Load FX Settings is in the Tools Bar.
+
+Use the ZIP attached to the v2.8.1-pre-alpha release. Future code pushes must increment the patch via tools/bump-version.py; CI verifies the increment before publishing. Native rendering is still not certified.

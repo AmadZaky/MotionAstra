@@ -3,7 +3,7 @@ window.MotionPreview=(()=>{
 const entries=new Map();let raf=0,paused=false;
 const defaults=p=>Object.fromEntries(p.parameters.map(d=>[d.id,d.default]));
 const fract=n=>n-Math.floor(n),rand=n=>fract(Math.sin(n*127.1+311.7)*43758.5453);
-function clock(time,p){let q=p.manual?Math.max(0,Math.min(1,p.progress/100)):p.loop?Math.max(0,time/p.duration)%1:Math.max(0,Math.min(1,time/p.duration));q=p.ease===1?q*q:p.ease===2?1-(1-q)*(1-q):p.ease===3?q*q*(3-2*q):q;return p.reverse?1-q:q;}
+function clock(time,p){let q=p.manual?Math.max(0,Math.min(1,p.progress/100)):p.loopMode===0?1-Math.abs(Math.max(0,time/p.duration)%2-1):p.loopMode===1?Math.max(0,time/p.duration)%1:Math.max(0,time/p.duration);q=q>1?q:p.ease===1?q*q:p.ease===2?1-(1-q)*(1-q):p.ease===3?q*q*(3-2*q):q;return p.reverse?1-q:q;}
 function render(canvas,r,time=0,settings={}){if(!r.legacy&&!["counter","switcher","typewriter","rise","elastic","wave","tracking","decode","sweep","cascade","gradient","waves","aurora","bokeh","particles","contours","grid","sunburst","tiles","speedlines"].includes(r.id))return render25(canvas,r,time,settings);const p=Object.assign(defaults(r),settings),q=clock(time,p),T=q*Math.PI*2,ctx=canvas.getContext('2d');if(!ctx)return;const w=canvas.width,h=canvas.height,id=r.id,n=Math.round(p.count||1),a=p.color2||'#ffad70',b=p.color3||'#ffe3c8';
 ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,w,h);ctx.fillStyle=p.color1||'#101011';ctx.fillRect(0,0,w,h);if(r.category==='Text'){const glow=ctx.createRadialGradient(w*.5,h*.2,0,w*.5,h*.3,w*.65);glow.addColorStop(0,'#ffffff0d');glow.addColorStop(1,'#ffffff00');ctx.fillStyle=glow;ctx.fillRect(0,0,w,h);}ctx.save();ctx.translate(w/2,h/2);
 if(r.category==='Text'){
@@ -63,7 +63,7 @@ ctx.restore();ctx.font='9px Arial';ctx.fillStyle='#9cb3c77a';ctx.textAlign='righ
 }
 
 const reduced=()=>document.body.classList.contains('reduced')||matchMedia('(prefers-reduced-motion: reduce)').matches;
-function tick(now){raf=0;if(paused)return;let active=false;entries.forEach((e,c)=>{if(!c.isConnected){observer.unobserve(c);entries.delete(c);return;}if(e.active&&e.visible&&!document.hidden&&!reduced()){const elapsed=(now-e.start)/1000,p=Object.assign(defaults(e.preset),e.params);const done=p.manual||(!p.loop&&elapsed>=p.duration);if(done||now-e.last>=1000/30){render(c,e.preset,elapsed,e.params);e.last=now;}if(done)e.active=false;else active=true;}});if(active)raf=requestAnimationFrame(tick);}
+function tick(now){raf=0;if(paused)return;let active=false;entries.forEach((e,c)=>{if(!c.isConnected){observer.unobserve(c);entries.delete(c);return;}if(e.active&&e.visible&&!document.hidden&&!reduced()){const elapsed=(now-e.start)/1000,p=Object.assign(defaults(e.preset),e.params);const done=p.manual||elapsed>=Math.max(1,p.duration)*(p.loopMode===0?2:1);if(done||now-e.last>=1000/30){render(c,e.preset,elapsed,e.params);e.last=now;}if(done)e.active=false;else active=true;}});if(active)raf=requestAnimationFrame(tick);}
 function run(){if(!paused&&!raf)raf=requestAnimationFrame(tick);}
 function suspend(value){paused=value;if(paused&&raf){cancelAnimationFrame(raf);raf=0;}if(!paused)run();}
 const observer=new IntersectionObserver(list=>list.forEach(x=>{const e=entries.get(x.target);if(e){e.visible=x.isIntersecting;run();}}));

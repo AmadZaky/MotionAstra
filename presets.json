@@ -1,5 +1,5 @@
 {
-  "version": "2.8.0",
+  "version": "2.8.1",
   "presets": [
     {
       "id": "counter",
@@ -129,11 +129,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -238,11 +252,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -342,11 +370,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -443,11 +485,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -544,11 +600,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -638,11 +708,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -729,11 +813,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -830,11 +928,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -934,11 +1046,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -1025,11 +1151,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -1153,11 +1293,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -1261,11 +1415,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -1379,11 +1547,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -1507,11 +1689,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -1655,11 +1851,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -1783,11 +1993,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -1911,11 +2135,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -2019,11 +2257,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -2157,11 +2409,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -2285,11 +2551,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -2376,11 +2656,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -2487,11 +2781,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -2581,11 +2889,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -2685,11 +3007,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -2786,11 +3122,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -2880,11 +3230,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -2981,11 +3345,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -3092,11 +3470,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -3217,11 +3609,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -3362,11 +3768,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -3507,11 +3927,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -3662,11 +4096,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -3807,11 +4255,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -3952,11 +4414,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -4097,11 +4573,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -4242,11 +4732,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -4387,11 +4891,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -4532,11 +5050,25 @@
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",

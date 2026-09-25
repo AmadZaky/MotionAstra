@@ -19,10 +19,15 @@ footer{grid-row:5;display:grid;grid-template-rows:20px minmax(0,1fr);padding:5px
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}body.reduced *{transition:none!important}
 
 .card-actions .card-apply{white-space:normal;line-height:1.4;padding:8px 4px}
+
+/* Compact, adjacent actions remain pinned below the parameter scroll region. */
+.inspector-actions{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px;padding:8px 12px}
+.inspector-actions button{font-size:10px;padding:5px 8px;border-radius:7px;min-height:28px}
+.card-actions .card-apply{font-size:10px;padding:5px 4px;min-height:26px}
 </style></head><body class="catalog">
-<header><a class="brand" href="index.html"><span class="brand-icon"><i data-lucide="asterisk"></i></span>MotionAstra <b>2.5</b></a><div class="header-actions"><button id="fold-quick" aria-controls="quick" aria-expanded="true">Quick ▴</button><button id="fold-nav" aria-controls="nav" aria-expanded="true">Menu ▴</button></div></header>
+<header><a class="brand" href="index.html"><span class="brand-icon"><i data-lucide="asterisk"></i></span>MotionAstra <b>2.8.1</b></a><div class="header-actions"><button id="fold-quick" aria-controls="quick" aria-expanded="true">Quick ▴</button><button id="fold-nav" aria-controls="nav" aria-expanded="true">Menu ▴</button></div></header>
 <nav id="nav" aria-label="Main navigation"><div class="search"><i data-lucide="search"></i><input id="search" type="search" placeholder="Search presets…" aria-label="Search presets"><span id="count">10</span></div><div class="category-tabs"><button class="active" data-tab="Text">Text FX <span>10</span></button><button data-tab="Background">Backgrounds <span>10</span></button><button data-tab="Tools">Quick Tools</button></div></nav>
-<div id="quick"><div class="create-row" aria-label="Create layers"><button data-tool="newShape" data-host><i data-lucide="square"></i>New Shape</button><button data-tool="newText" data-host><i data-lucide="type"></i>New Text</button><button data-tool="newSolid" data-host><i data-lucide="layers"></i>New Solid</button><label class="layer-color" title="Shape and solid color"><input id="new-layer-color" type="color" value="#ff943f" aria-label="New shape and solid color"></label></div><div class="utility-row"><button id="quick-anchor" data-host><i data-lucide="crosshair"></i>Center anchor</button><button id="load-fx" data-host><i data-lucide="sliders-horizontal"></i>Load selected FX</button><button data-tab="Settings" aria-label="Settings"><i data-lucide="settings"></i></button></div></div>
+<div id="quick"><div class="create-row" aria-label="Create layers"><button data-tool="newShape" data-host><i data-lucide="square"></i>New Shape</button><button data-tool="newText" data-host><i data-lucide="type"></i>New Text</button><button data-tool="newSolid" data-host><i data-lucide="layers"></i>New Solid</button><label class="layer-color" title="Shape and solid color"><input id="new-layer-color" type="color" value="#ff943f" aria-label="New shape and solid color"></label></div><div class="utility-row"><button id="quick-anchor" data-host><i data-lucide="crosshair"></i>Center anchor</button><button id="load-fx" data-host><i data-lucide="sliders-horizontal"></i>Load FX Settings</button><button data-tab="Settings" aria-label="Settings"><i data-lucide="settings"></i></button></div></div>
 <div id="workspace"><main>
 <section id="library"><div class="eyebrow" id="library-kicker">10 TEXT ESSENTIALS</div><h1 id="library-title">Words in motion.</h1><p id="library-help">Select text layers, or Apply with no selection to create one.</p><div id="cards"></div></section>
 <section id="tools" hidden><div class="eyebrow">EVERYDAY CONTROLS</div><h1>Quick Tools</h1><p>Tools operate on selected layers. Every action has one Undo step.</p>
@@ -35,7 +40,7 @@ footer{grid-row:5;display:grid;grid-template-rows:20px minmax(0,1fr);padding:5px
 </section>
 <section id="settings" hidden><div class="eyebrow">MOTIONASTRA 2.8.0</div><h1>Your workspace.</h1><details open><summary>Preview & connection</summary><label class="check"><input id="reduced" type="checkbox">Reduce preview motion</label><button id="refresh">Refresh AE connection</button><p id="connection"></p><a href="catalog.html">Open preview catalog ↗</a><p>All panel assets are local. Browser mode offers previews; Apply and tools require After Effects.</p><p>Use Project Settings → Expressions → JavaScript. Version 2.5 includes 20 presets. Existing v2 effects remain loadable through Load selected FX. Existing projects are never migrated automatically.</p><a href="INSTALLATION_GUIDE.md">Installation and workflow guide ↗</a></details><details open><summary>Operation history</summary><ol id="history"></ol></details></section>
 </main>
-<aside id="inspector" hidden aria-labelledby="fx-title"><div class="inspector-head"><div><span class="eyebrow">CUSTOMIZE PRESET</span><h2 id="fx-title"></h2></div><button id="close" aria-label="Close effect settings">✕</button></div><div class="inspector-scroll"><canvas id="preview" width="600" height="340" aria-label="Effect preview"></canvas><p id="fx-description"></p><div class="row inspector-options"><button id="replay">Replay ↻</button><button id="reset">Reset settings</button></div><div id="parameters"></div><p class="hint" id="parameter-help">Text/background animation starts at the layer in-point. Changes reach AE when you click Apply or Update.</p><p class="hint" id="structural-help" hidden>Count changes rebuild artwork on Update. Native count controls need Load selected FX → Update to rebuild.</p></div><div class="inspector-actions"><button id="update" data-host>Update selected FX</button><button id="inspector-load" data-host>Load selected FX settings</button><button id="apply" class="primary" data-host>Apply to selected text</button></div></aside>
+<aside id="inspector" hidden aria-labelledby="fx-title"><div class="inspector-head"><div><span class="eyebrow">CUSTOMIZE PRESET</span><h2 id="fx-title"></h2></div><button id="close" aria-label="Close effect settings">✕</button></div><div class="inspector-scroll"><canvas id="preview" width="600" height="340" aria-label="Effect preview"></canvas><p id="fx-description"></p><div class="row inspector-options"><button id="replay">Replay ↻</button><button id="reset">Reset settings</button></div><div id="parameters"></div><p class="hint" id="parameter-help">Text/background animation starts at the layer in-point. Changes reach AE when you click Apply or Update.</p><p class="hint" id="structural-help" hidden>Count changes rebuild artwork on Update. Native count controls need Load selected FX → Update to rebuild.</p></div><div class="inspector-actions"><button id="apply" class="primary" data-host>Apply FX</button><button id="update" data-host>Update</button></div></aside>
 </div>
 <footer><div class="status-line"><span id="status">Connecting to After Effects…</span><button id="show-history">History</button></div><div id="notice" role="status" aria-live="polite"><b id="notice-icon"></b><span id="notice-text"></span></div></footer>
 <script>
@@ -1347,7 +1352,7 @@ lucide.createIcons({icons});\``);if(typeof document>"u")throw new Error("`create
 
 </script><script>
 window.MA_PRESETS = {
-  "version": "2.8.0",
+  "version": "2.8.1",
   "presets": [
     {
       "id": "counter",
@@ -1477,11 +1482,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -1586,11 +1605,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -1690,11 +1723,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -1791,11 +1838,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -1892,11 +1953,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -1986,11 +2061,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -2077,11 +2166,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -2178,11 +2281,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -2282,11 +2399,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -2373,11 +2504,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -2501,11 +2646,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -2609,11 +2768,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -2727,11 +2900,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -2855,11 +3042,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -3003,11 +3204,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -3131,11 +3346,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -3259,11 +3488,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -3367,11 +3610,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -3505,11 +3762,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -3633,11 +3904,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -3724,11 +4009,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -3835,11 +4134,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -3929,11 +4242,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -4033,11 +4360,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -4134,11 +4475,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -4228,11 +4583,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -4329,11 +4698,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -4440,11 +4823,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -4565,11 +4962,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -4710,11 +5121,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -4855,11 +5280,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -5010,11 +5449,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -5155,11 +5608,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -5300,11 +5767,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -5445,11 +5926,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -5590,11 +6085,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -5735,11 +6244,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -5880,11 +6403,25 @@ window.MA_PRESETS = {
           "group": "Timing"
         },
         {
-          "id": "loop",
-          "label": "Loop animation",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            }
+          ]
         },
         {
           "id": "reverse",
@@ -5921,7 +6458,7 @@ window.MotionPreview=(()=>{
 const entries=new Map();let raf=0,paused=false;
 const defaults=p=>Object.fromEntries(p.parameters.map(d=>[d.id,d.default]));
 const fract=n=>n-Math.floor(n),rand=n=>fract(Math.sin(n*127.1+311.7)*43758.5453);
-function clock(time,p){let q=p.manual?Math.max(0,Math.min(1,p.progress/100)):p.loop?Math.max(0,time/p.duration)%1:Math.max(0,Math.min(1,time/p.duration));q=p.ease===1?q*q:p.ease===2?1-(1-q)*(1-q):p.ease===3?q*q*(3-2*q):q;return p.reverse?1-q:q;}
+function clock(time,p){let q=p.manual?Math.max(0,Math.min(1,p.progress/100)):p.loopMode===0?1-Math.abs(Math.max(0,time/p.duration)%2-1):p.loopMode===1?Math.max(0,time/p.duration)%1:Math.max(0,time/p.duration);q=q>1?q:p.ease===1?q*q:p.ease===2?1-(1-q)*(1-q):p.ease===3?q*q*(3-2*q):q;return p.reverse?1-q:q;}
 function render(canvas,r,time=0,settings={}){if(!r.legacy&&!["counter","switcher","typewriter","rise","elastic","wave","tracking","decode","sweep","cascade","gradient","waves","aurora","bokeh","particles","contours","grid","sunburst","tiles","speedlines"].includes(r.id))return render25(canvas,r,time,settings);const p=Object.assign(defaults(r),settings),q=clock(time,p),T=q*Math.PI*2,ctx=canvas.getContext('2d');if(!ctx)return;const w=canvas.width,h=canvas.height,id=r.id,n=Math.round(p.count||1),a=p.color2||'#ffad70',b=p.color3||'#ffe3c8';
 ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,w,h);ctx.fillStyle=p.color1||'#101011';ctx.fillRect(0,0,w,h);if(r.category==='Text'){const glow=ctx.createRadialGradient(w*.5,h*.2,0,w*.5,h*.3,w*.65);glow.addColorStop(0,'#ffffff0d');glow.addColorStop(1,'#ffffff00');ctx.fillStyle=glow;ctx.fillRect(0,0,w,h);}ctx.save();ctx.translate(w/2,h/2);
 if(r.category==='Text'){
@@ -5981,7 +6518,7 @@ ctx.restore();ctx.font='9px Arial';ctx.fillStyle='#9cb3c77a';ctx.textAlign='righ
 }
 
 const reduced=()=>document.body.classList.contains('reduced')||matchMedia('(prefers-reduced-motion: reduce)').matches;
-function tick(now){raf=0;if(paused)return;let active=false;entries.forEach((e,c)=>{if(!c.isConnected){observer.unobserve(c);entries.delete(c);return;}if(e.active&&e.visible&&!document.hidden&&!reduced()){const elapsed=(now-e.start)/1000,p=Object.assign(defaults(e.preset),e.params);const done=p.manual||(!p.loop&&elapsed>=p.duration);if(done||now-e.last>=1000/30){render(c,e.preset,elapsed,e.params);e.last=now;}if(done)e.active=false;else active=true;}});if(active)raf=requestAnimationFrame(tick);}
+function tick(now){raf=0;if(paused)return;let active=false;entries.forEach((e,c)=>{if(!c.isConnected){observer.unobserve(c);entries.delete(c);return;}if(e.active&&e.visible&&!document.hidden&&!reduced()){const elapsed=(now-e.start)/1000,p=Object.assign(defaults(e.preset),e.params);const done=p.manual||elapsed>=Math.max(1,p.duration)*(p.loopMode===0?2:1);if(done||now-e.last>=1000/30){render(c,e.preset,elapsed,e.params);e.last=now;}if(done)e.active=false;else active=true;}});if(active)raf=requestAnimationFrame(tick);}
 function run(){if(!paused&&!raf)raf=requestAnimationFrame(tick);}
 function suspend(value){paused=value;if(paused&&raf){cancelAnimationFrame(raf);raf=0;}if(!paused)run();}
 const observer=new IntersectionObserver(list=>list.forEach(x=>{const e=entries.get(x.target);if(e){e.visible=x.isIntersecting;run();}}));
@@ -5992,14 +6529,14 @@ document.addEventListener('visibilitychange',run);return {attach,play,clear,rend
 })();
 
 </script><script>
-/* MotionAstra CEP transport v2.8.0.
+/* MotionAstra CEP transport v2.8.1.
  * Host files load by absolute path; all replies are tagged and request-correlated.
  * Empty callbacks recover the stored reply, NEVER replay the host mutation.
  */
 (function (root) {
   'use strict';
-  const VERSION = '2.8.0';
-  const BUILD = '2.8.0-stability.1';
+  const VERSION = '2.8.1';
+  const BUILD = '2.8.1';
   const PREFIX = 'MAFX1:';
   const ERROR_PREFIX = 'MAFX1E:';
   const available = !!root.__adobe_cep__;
@@ -6142,10 +6679,10 @@ const commit=(e)=>{const v=Number(e.value);if(e.value===''||!Number.isFinite(v)|
 if(d.type==='range'){exact=el('input','exact');exact.type='number';exact.id='exact-'+d.id;exact.min=input.min;exact.max=input.max;exact.step=d.step;exact.value=input.value;exact.setAttribute('aria-label',d.label+' exact value');exact.oninput=()=>commit(exact);row.appendChild(exact);}input.oninput=()=>commit(input);
 }else{if(d.type!=='textarea')input.type=d.type;input.value=state.params[d.id];if(d.maxLength)input.maxLength=d.maxLength;input.className=d.type==='color'?'':'wide';input.oninput=()=>change(input.value);}
 row.appendChild(input);groups[d.group].appendChild(row);});busy(state.busy);}
-function open(p,values){if(state.busy)return;values=values||state.drafts[p.id];state.preset=p;state.params={};p.parameters.forEach(d=>state.params[d.id]=values&&values[d.id]!==undefined?values[d.id]:d.default);state.drafts[p.id]=state.params;$('fx-title').textContent=p.name;$('fx-description').textContent=p.description;$('apply').textContent=p.category==='Background'?'Generate Background':'Apply to selected text';$('update').textContent=p.category==='Background'?'Update / create background':'Update selected FX';$('structural-help').hidden=!p.parameters.some(d=>d.id==='count');$('inspector').hidden=false;$('workspace').classList.add('inspecting');parameters();preview();$('parameter-help').textContent=(p.category==='Background'?'Generate updates a matching selected background; otherwise it creates one. Deselect backgrounds to create another copy. ':'')+'Animation starts at the layer in-point. Drag [FX End] to retime; Loop is OFF by default. Native sliders update live; Count rebuilds on Update.';document.querySelector('.inspector-scroll').scrollTop=0;$('inspector').scrollTop=0;$('close').focus();}
+function open(p,values){if(state.busy)return;values=values||state.drafts[p.id];state.preset=p;state.params={};p.parameters.forEach(d=>state.params[d.id]=values&&values[d.id]!==undefined?values[d.id]:d.default);state.drafts[p.id]=state.params;$('fx-title').textContent=p.name;$('fx-description').textContent=p.description;$('apply').textContent=p.category==='Background'?'Generate Background':'Apply FX';$('update').textContent=p.category==='Background'?'Update':'Update';$('structural-help').hidden=!p.parameters.some(d=>d.id==='count');$('inspector').hidden=false;$('workspace').classList.add('inspecting');parameters();preview();$('parameter-help').textContent=(p.category==='Background'?'Generate updates a matching selected background; otherwise it creates one. Deselect backgrounds to create another copy. ':'')+'Animation starts at the layer in-point. Drag [FX End] to retime; Loop mode: Ping-Pong, Cycle or Continue. Colors apply on Generate/Update; other native sliders update live; Count rebuilds on Update.';document.querySelector('.inspector-scroll').scrollTop=0;$('inspector').scrollTop=0;$('close').focus();}
 async function load(){const r=await action({action:'load'});if(r&&r.id){const p=data.presets.concat(data.legacy||[]).find(p=>p.id===r.id);if(p){tab(p.category);open(p,r.params);}}}
 function tool(name,extra={}){return action(Object.assign({action:'tool',name},extra));}
-$('close').onclick=close;document.addEventListener('keydown',e=>{if(e.key==='Escape')close();});$('apply').onclick=()=>{if(state.preset&&!state.invalid.size)action({action:state.preset.category==='Background'?'generateBackground':'apply',id:state.preset.id,params:state.params});};$('update').onclick=()=>{if(state.preset&&!state.invalid.size)action({action:'update',id:state.preset.id,params:state.params});};$('load-fx').onclick=load;$('inspector-load').onclick=load;
+$('close').onclick=close;document.addEventListener('keydown',e=>{if(e.key==='Escape')close();});$('apply').onclick=()=>{if(state.preset&&!state.invalid.size)action({action:state.preset.category==='Background'?'generateBackground':'apply',id:state.preset.id,params:state.params});};$('update').onclick=()=>{if(state.preset&&!state.invalid.size)action({action:'update',id:state.preset.id,params:state.params});};$('load-fx').onclick=load;
 $('reset').onclick=()=>{if(state.preset){delete state.drafts[state.preset.id];open(state.preset,{});}};$('replay').onclick=preview;$('search').oninput=e=>{state.query=e.target.value.trim().toLowerCase();render();};document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{if(!state.busy)tab(b.dataset.tab);});
 const glyphs=['↖','↑','↗','←','·','→','↙','↓','↘'];glyphs.forEach((g,i)=>{const b=el('button','',g);b.dataset.host='';b.setAttribute('aria-label','Anchor '+(i+1));b.onclick=()=>tool('anchor',{x:i%3/2,y:Math.floor(i/3)/2,keep:$('anchor-keep').checked});$('anchor-grid').appendChild(b);});$('quick-anchor').onclick=()=>tool('anchor',{x:.5,y:.5,keep:$('anchor-keep').checked});$('anchor-custom').onclick=()=>tool('anchor',{x:Number($('anchor-x').value)/100,y:Number($('anchor-y').value)/100,keep:$('anchor-keep').checked});
 document.querySelectorAll('[data-tool]').forEach(b=>b.onclick=()=>tool(b.dataset.tool,['newShape','newSolid'].includes(b.dataset.tool)?{color:$('new-layer-color').value}:{}));document.querySelectorAll('[data-order]').forEach(b=>b.onclick=()=>tool('arrange',{mode:b.dataset.order}));document.querySelectorAll('[data-ease]').forEach(b=>b.onclick=()=>tool('ease',{mode:b.dataset.ease,strength:Number($('ease-strength').value)}));

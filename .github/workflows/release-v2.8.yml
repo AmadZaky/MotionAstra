@@ -1,9 +1,11 @@
-name: Publish v2.8 Pre-alpha
+name: Publish MotionAstra patch prerelease
 on:
   push:
     branches: [main]
-    paths: ['.github/workflows/release-v2.8.yml']
   workflow_dispatch:
+concurrency:
+  group: motionastra-release
+  cancel-in-progress: false
 permissions:
   contents: write
 jobs:
@@ -17,11 +19,13 @@ jobs:
         run: |
           git init .
           git remote add origin "https://github.com/${SOURCE_REPO}.git"
-          git fetch --depth=1 origin "$SOURCE_SHA"
+          git fetch --depth=2 origin "$SOURCE_SHA"
           git checkout --detach FETCH_HEAD
+      - name: Verify patch version
+        run: python3 tools/check-version.py
       - name: Verify host tests
         run: |
-          for test in static engine expressions bridge tools checkboxes parser-boundary update-target background-create fx-target panel-state background-stability preview-idle; do
+          for test in static engine expressions bridge tools checkboxes parser-boundary update-target background-create fx-target panel-state background-stability preview-idle loop-modes background-colors loop-migration; do
             node "tests/$test.cjs"
           done
       - name: Verify browser workflow
@@ -35,7 +39,8 @@ jobs:
           python3 - <<'PY'
           from pathlib import Path
           import subprocess, zipfile
-          with zipfile.ZipFile('MotionAstra_FX_v2.8-pre-alpha.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
+          version=Path('VERSION').read_text().strip()
+          with zipfile.ZipFile('MotionAstra_FX_v'+version+'-pre-alpha.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
               for name in subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0'):
                   if name and not name.startswith('.github/'):
                       archive.write(name, 'MotionAstra-FX/' + name)
@@ -46,7 +51,14 @@ jobs:
           GH_REPO: ${{ github.repository }}
           SOURCE_SHA: ${{ github.sha }}
         run: |
-          gh api --method PATCH "repos/$GH_REPO/git/refs/tags/v2.8-pre-alpha" -f sha="$SOURCE_SHA" -F force=true
-          gh release edit v2.8-pre-alpha --title "MotionAstra v2.8 — Pre-alpha" \
-            --prerelease --notes-file RELEASE_NOTES_v2.8.md
-          gh release upload v2.8-pre-alpha MotionAstra_FX_v2.8-pre-alpha.zip --clobber
+          version="$(cat VERSION)"
+          tag="v${version}-pre-alpha"
+          asset="MotionAstra_FX_v${version}-pre-alpha.zip"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            existing="$(gh api "repos/$GH_REPO/git/ref/tags/$tag" --jq '.object.sha')"
+            test "$existing" = "$SOURCE_SHA"
+            gh release upload "$tag" "$asset" --clobber
+          else
+            gh release create "$tag" "$asset" --target "$SOURCE_SHA" \
+              --title "MotionAstra v${version} — Pre-alpha" --prerelease --notes-file RELEASE_NOTES.md
+          fi
