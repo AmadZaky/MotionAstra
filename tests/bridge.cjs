@@ -47,7 +47,7 @@ function environment(options = {}) {
   for (const drop of [undefined, '', 'undefined', 'null', 'EvalScript error.']) {
     const env = environment(drop === undefined ? {} : { drop });
     const status = await env.bridge.call({ action: 'status' });
-    assert.equal(status.hostVersion, '2.8.1');
+    assert.equal(status.hostVersion, '2.8.2');
     assert.equal(env.metrics.loads.length, 2, 'Load data and host exactly once');
     const cleaned = await env.bridge.call({ action: 'tool', name: 'unlock' });
     assert.equal(cleaned.changed,1);
@@ -64,7 +64,7 @@ function environment(options = {}) {
     [{ malformed: true }, /damaged reply/]
   ]) await assert.rejects(environment(options).bridge.call({ action: 'status' }), expected);
 
-  const oldBuild=environment();oldBuild.host.MotionAstra={version:'2.8.1',build:'previous',dispatch(){throw Error('Stale host reused');}};
+  const oldBuild=environment();oldBuild.host.MotionAstra={version:'2.8.2',build:'previous',dispatch(){throw Error('Stale host reused');}};
   await oldBuild.bridge.call({action:'status'});assert.equal(oldBuild.metrics.loads.length,2,'Same-version hotfix must reload stale host build');
   const noReply = environment({ loseMailbox: true });
   await assert.rejects(noReply.bridge.call({ action: 'tool', name: 'unlock' }), /not retried/);

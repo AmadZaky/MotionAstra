@@ -15,7 +15,7 @@ Twenty public recipes. All controls are local; numeric/color/checkbox controls a
 | Retro VHS | Stepped seeded text-position jitter + horizontal Gaussian Blur. | Intensity, Detail / motion frequency |
 | 3D Glass | Gradient Ramp + Bevel Alpha + character color highlight (2D glass simulation). | Intensity, Primary color |
 | Matrix Code | Source Text code scramble + Fill. | Primary color, Random seed, Scramble steps |
-| Film Stamp | Text scale/rotation/opacity animator + decaying Gaussian Blur. | Intensity, Detail / motion frequency, Character stagger · % |
+| Panning Transition | Text position/opacity animator with marker-based timing. | Direction, Distance, Fade, Text Color |
 | Gold Extrusion | Gradient Ramp + Bevel Alpha + Drop Shadow depth (2D extrusion simulation). | Intensity, Primary color |
 
 ## Background
@@ -33,7 +33,7 @@ Twenty public recipes. All controls are local; numeric/color/checkbox controls a
 | Speedlines | Seeded radial streak masks + Gradient Ramp. | Primary color, Secondary color, Elements / density, Element size · px, Motion amount, Cycles across duration, Random seed |
 | Blueprint CAD | Grid rectangle masks and annular construction masks + Gradient Ramp. | Primary color, Secondary color, Elements / density, Element size · px, Motion amount, Cycles across duration |
 
-Text/background timing: Duration, Ease, Loop mode (Ping-Pong, Cycle or Continue), Reverse and manual Progress. Background colors apply directly to native Ramp/Tint on Generate/Update.
+Text/background timing: Duration, Ease, Loop mode (Ping-Pong, Cycle, Continue or None), Reverse and manual Progress. Background colors apply directly to native Ramp/Tint on Generate/Update.
 
 ## Defaults
 
@@ -142,19 +142,10 @@ Text/background timing: Duration, Ease, Loop mode (Ping-Pong, Cycle or Continue)
 | Reverse playback | False |
 | Use progress slider | False |
 | Progress · % | 0 |
-### Film Stamp (`stamp`)
+### Panning Transition (`pantext`)
 
-| Control | Default |
-|---|---|
-| Intensity | 60 |
-| Detail / motion frequency | 5 |
-| Character stagger · % | 45 |
-| Duration · seconds | 2 |
-| Easing | 2 |
-| Loop animation | False |
-| Reverse playback | False |
-| Use progress slider | False |
-| Progress · % | 0 |
+Text-only entrance with Direction (Left/Right/Top/Bottom), Distance (pixels), Fade and Text Color. Starts at the layer in-point; choose None for a one-shot entrance. Film Stamp is hidden from the catalog but retained for existing instances.
+
 ### Gold Extrusion (`extrusion`)
 
 | Control | Default |
@@ -325,3 +316,5 @@ Text/background timing: Duration, Ease, Loop mode (Ping-Pong, Cycle or Continue)
 | Reverse playback | False |
 | Use progress slider | False |
 | Progress · % | 0 |
+
+All current Text FX have a Text Color picker. Backgrounds have Static Background and numeric Duration fields. Static freezes at the start; None plays once and holds the end.

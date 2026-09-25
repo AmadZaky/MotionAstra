@@ -1,10 +1,11 @@
-# MotionAstra 2.8.1 — Pre-alpha
+# MotionAstra 2.8.2 — Pre-alpha
 
-- Background generation adds only one layer per request; repeat Generate updates matching selected backgrounds.
-- Selected colors are written directly to native Gradient Ramp/Tint RGBA properties on Generate/Update.
-- Replaced Loop checkboxes with Ping-Pong, Cycle and Continue dropdowns for Text FX and Backgrounds. Cycle is the default. Manual Progress overrides looping.
-- Compact Apply/Generate and Update buttons sit side by side at the inspector bottom. Load FX Settings lives in the Tools Bar.
-- Existing checkbox-based projects migrate when updated; no automatic project-wide changes or duplicate-layer deletion.
-- Patch version increments are now required on each code push. Older releases remain available.
+- All ten Text FX expose a color picker; Apply/Update writes native RGBA colors. Gold/Glass keep their shaded gradients.
+- Panning Transition replaces Film Stamp in the Text FX catalog, with direction, distance and fade controls. Existing Film Stamp instances remain loadable.
+- Loop mode now includes None (play once, then hold). Static Background freezes the generated design at its start, overriding reverse/manual progress.
+- Background duration is a writable numeric field in seconds.
+- Quick Tools now align 2D visual layers to composition edges/center and distribute their centers horizontally or vertically. Supports 2D parents; 3D layers/parents are skipped.
+- The Create bar adds an installed-font selector: Load fonts, choose a font, then New Text. Current AE font remains the default.
+- Preserves single-layer background generation, direct background colors and compact bottom Apply/Update actions.
 
-Install the full ZIP and restart AE. Confirm 2.8.1 in Settings. Native AE rendering still requires verification; modeled-host and Chromium tests are release gates.
+Replace the full extension folder, restart AE, and confirm 2.8.2 in Settings. For existing Text FX, Load FX Settings, choose a color, then Update to migrate its color binding. Native AE rendering still requires verification; modeled-host and Chromium tests are release gates.

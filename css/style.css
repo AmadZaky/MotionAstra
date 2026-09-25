@@ -24,3 +24,5 @@ footer{grid-row:5;display:grid;grid-template-rows:20px minmax(0,1fr);padding:5px
 .inspector-actions{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px;padding:8px 12px}
 .inspector-actions button{font-size:10px;padding:5px 8px;border-radius:7px;min-height:28px}
 .card-actions .card-apply{font-size:10px;padding:5px 4px;min-height:26px}
+
+.font-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:5px;align-items:center;margin-top:6px;font-size:9px}.font-row select,.font-row button{padding:4px;font-size:10px}.font-row select{width:100%}

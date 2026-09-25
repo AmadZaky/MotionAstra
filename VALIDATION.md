@@ -82,3 +82,15 @@ Thirteen host/state/preview suites pass locally, including reproductions of the 
 The loop checkbox is replaced by Ping-Pong, Cycle (default), and Continue. Continue advances time beyond the duration; bounded text reveals finish naturally. Manual Progress overrides the mode. Old instances keep their stored expressions until Update, which migrates them to the selected mode. Generate writes colors directly into native Ramp/Tint values. Background color changes apply on Generate/Update. Only one layer is created; selected matching backgrounds are updated instead. Apply/Generate and Update are adjacent compact bottom buttons; Load FX Settings is in the Tools Bar.
 
 Use the ZIP attached to the v2.8.1-pre-alpha release. Future code pushes must increment the patch via tools/bump-version.py; CI verifies the increment before publishing. Native rendering is still not certified.
+
+## MotionAstra 2.8.2 — Pre-alpha
+
+- All ten Text FX expose a color picker; Apply/Update writes native RGBA colors. Gold/Glass keep their shaded gradients.
+- Panning Transition replaces Film Stamp in the Text FX catalog, with direction, distance and fade controls. Existing Film Stamp instances remain loadable.
+- Loop mode now includes None (play once, then hold). Static Background freezes the generated design at its start, overriding reverse/manual progress.
+- Background duration is a writable numeric field in seconds.
+- Quick Tools now align 2D visual layers to composition edges/center and distribute their centers horizontally or vertically. Supports 2D parents; 3D layers/parents are skipped.
+- The Create bar adds an installed-font selector: Load fonts, choose a font, then New Text. Current AE font remains the default.
+- Preserves single-layer background generation, direct background colors and compact bottom Apply/Update actions.
+
+Replace the full extension folder, restart AE, and confirm 2.8.2 in Settings. For existing Text FX, Load FX Settings, choose a color, then Update to migrate its color binding. Native AE rendering still requires verification; modeled-host and Chromium tests are release gates.

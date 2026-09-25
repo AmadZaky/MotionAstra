@@ -1,5 +1,5 @@
 var MA_PRESET_DATA = {
-  "version": "2.8.1",
+  "version": "2.8.2",
   "presets": [
     {
       "id": "counter",
@@ -7,6 +7,13 @@ var MA_PRESET_DATA = {
       "category": "Text",
       "description": "Count up or down with exact endpoints, decimals and optional prefix/suffix.",
       "parameters": [
+        {
+          "id": "tint",
+          "label": "Text color",
+          "type": "color",
+          "group": "Appearance",
+          "default": "#ffffff"
+        },
         {
           "id": "start",
           "label": "Start number",
@@ -146,6 +153,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -181,6 +192,13 @@ var MA_PRESET_DATA = {
       "category": "Text",
       "description": "One line per phrase. Scrub the Choice slider, or let the timeline switch phrases.",
       "parameters": [
+        {
+          "id": "tint",
+          "label": "Text color",
+          "type": "color",
+          "group": "Appearance",
+          "default": "#ffffff"
+        },
         {
           "id": "phrases",
           "label": "Phrases \u00b7 one per line",
@@ -269,6 +287,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -304,6 +326,13 @@ var MA_PRESET_DATA = {
       "category": "Text",
       "description": "A staggered character reveal with elastic horizontal stretch.",
       "parameters": [
+        {
+          "id": "tint",
+          "label": "Text color",
+          "type": "color",
+          "group": "Appearance",
+          "default": "#ffffff"
+        },
         {
           "id": "amount",
           "label": "Intensity",
@@ -387,6 +416,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -502,6 +535,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -617,6 +654,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -652,6 +693,13 @@ var MA_PRESET_DATA = {
       "category": "Text",
       "description": "A stepped character jitter with soft analog blur.",
       "parameters": [
+        {
+          "id": "tint",
+          "label": "Text color",
+          "type": "color",
+          "group": "Appearance",
+          "default": "#ffffff"
+        },
         {
           "id": "amount",
           "label": "Intensity",
@@ -725,6 +773,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -830,6 +882,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -945,6 +1001,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -975,40 +1035,59 @@ var MA_PRESET_DATA = {
       ]
     },
     {
-      "id": "stamp",
-      "name": "Film Stamp",
+      "id": "pantext",
+      "name": "Panning Transition",
       "category": "Text",
-      "description": "A punchy scale and rotation stamp with a fading blur.",
+      "description": "Pan selected text into place from left, right, top or bottom.",
       "parameters": [
         {
-          "id": "amount",
-          "label": "Intensity",
-          "type": "range",
-          "default": 60,
-          "min": 0,
-          "max": 100,
-          "step": 1,
-          "group": "Appearance"
+          "id": "tint",
+          "label": "Text color",
+          "type": "color",
+          "group": "Appearance",
+          "default": "#ffffff"
         },
         {
-          "id": "detail",
-          "label": "Detail / motion frequency",
-          "type": "range",
-          "default": 5,
-          "min": 1,
-          "max": 20,
-          "step": 1,
-          "group": "Appearance"
+          "id": "direction",
+          "label": "From",
+          "type": "select",
+          "group": "Motion",
+          "default": 0,
+          "options": [
+            {
+              "value": 0,
+              "label": "Left"
+            },
+            {
+              "value": 1,
+              "label": "Right"
+            },
+            {
+              "value": 2,
+              "label": "Top"
+            },
+            {
+              "value": 3,
+              "label": "Bottom"
+            }
+          ]
         },
         {
-          "id": "stagger",
-          "label": "Character stagger \u00b7 %",
+          "id": "distance",
+          "label": "Distance (px)",
           "type": "range",
-          "default": 45,
+          "group": "Motion",
+          "default": 300,
           "min": 0,
-          "max": 85,
-          "step": 1,
-          "group": "Appearance"
+          "max": 4000,
+          "step": 1
+        },
+        {
+          "id": "fade",
+          "label": "Fade in",
+          "type": "checkbox",
+          "group": "Motion",
+          "default": true
         },
         {
           "id": "duration",
@@ -1063,6 +1142,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -1168,6 +1251,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -1203,6 +1290,13 @@ var MA_PRESET_DATA = {
       "category": "Background",
       "description": "A crisp generated grid over a dark field.",
       "parameters": [
+        {
+          "id": "static",
+          "label": "Static background",
+          "type": "checkbox",
+          "group": "Timing",
+          "default": false
+        },
         {
           "id": "color2",
           "label": "Primary color",
@@ -1260,10 +1354,10 @@ var MA_PRESET_DATA = {
         {
           "id": "duration",
           "label": "Duration \u00b7 seconds",
-          "type": "range",
+          "type": "number",
           "default": 5,
           "min": 0.1,
-          "max": 120,
+          "max": 3600,
           "step": 0.1,
           "group": "Timing"
         },
@@ -1310,6 +1404,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -1345,6 +1443,13 @@ var MA_PRESET_DATA = {
       "category": "Background",
       "description": "Cloud-like Fractal Noise tinted into a cosmic palette.",
       "parameters": [
+        {
+          "id": "static",
+          "label": "Static background",
+          "type": "checkbox",
+          "group": "Timing",
+          "default": false
+        },
         {
           "id": "color1",
           "label": "Base color",
@@ -1382,10 +1487,10 @@ var MA_PRESET_DATA = {
         {
           "id": "duration",
           "label": "Duration \u00b7 seconds",
-          "type": "range",
+          "type": "number",
           "default": 5,
           "min": 0.1,
-          "max": 120,
+          "max": 3600,
           "step": 0.1,
           "group": "Timing"
         },
@@ -1432,6 +1537,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -1467,6 +1576,13 @@ var MA_PRESET_DATA = {
       "category": "Background",
       "description": "A moving two-color gradient distorted by turbulent flow.",
       "parameters": [
+        {
+          "id": "static",
+          "label": "Static background",
+          "type": "checkbox",
+          "group": "Timing",
+          "default": false
+        },
         {
           "id": "color2",
           "label": "Primary color",
@@ -1514,10 +1630,10 @@ var MA_PRESET_DATA = {
         {
           "id": "duration",
           "label": "Duration \u00b7 seconds",
-          "type": "range",
+          "type": "number",
           "default": 5,
           "min": 0.1,
-          "max": 120,
+          "max": 3600,
           "step": 0.1,
           "group": "Timing"
         },
@@ -1564,6 +1680,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -1599,6 +1719,13 @@ var MA_PRESET_DATA = {
       "category": "Background",
       "description": "Rotating radial spokes with a sunset gradient.",
       "parameters": [
+        {
+          "id": "static",
+          "label": "Static background",
+          "type": "checkbox",
+          "group": "Timing",
+          "default": false
+        },
         {
           "id": "color2",
           "label": "Primary color",
@@ -1656,10 +1783,10 @@ var MA_PRESET_DATA = {
         {
           "id": "duration",
           "label": "Duration \u00b7 seconds",
-          "type": "range",
+          "type": "number",
           "default": 5,
           "min": 0.1,
-          "max": 120,
+          "max": 3600,
           "step": 0.1,
           "group": "Timing"
         },
@@ -1706,6 +1833,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -1741,6 +1872,13 @@ var MA_PRESET_DATA = {
       "category": "Background",
       "description": "Procedural soft circles orbiting across the frame.",
       "parameters": [
+        {
+          "id": "static",
+          "label": "Static background",
+          "type": "checkbox",
+          "group": "Timing",
+          "default": false
+        },
         {
           "id": "color2",
           "label": "Primary color",
@@ -1818,10 +1956,10 @@ var MA_PRESET_DATA = {
         {
           "id": "duration",
           "label": "Duration \u00b7 seconds",
-          "type": "range",
+          "type": "number",
           "default": 5,
           "min": 0.1,
-          "max": 120,
+          "max": 3600,
           "step": 0.1,
           "group": "Timing"
         },
@@ -1868,6 +2006,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -1903,6 +2045,13 @@ var MA_PRESET_DATA = {
       "category": "Background",
       "description": "Nested luminous rectangles expanding toward the viewer.",
       "parameters": [
+        {
+          "id": "static",
+          "label": "Static background",
+          "type": "checkbox",
+          "group": "Timing",
+          "default": false
+        },
         {
           "id": "color2",
           "label": "Primary color",
@@ -1960,10 +2109,10 @@ var MA_PRESET_DATA = {
         {
           "id": "duration",
           "label": "Duration \u00b7 seconds",
-          "type": "range",
+          "type": "number",
           "default": 5,
           "min": 0.1,
-          "max": 120,
+          "max": 3600,
           "step": 0.1,
           "group": "Timing"
         },
@@ -2010,6 +2159,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -2045,6 +2198,13 @@ var MA_PRESET_DATA = {
       "category": "Background",
       "description": "A translucent gradient card with soft edges and a subtle bevel.",
       "parameters": [
+        {
+          "id": "static",
+          "label": "Static background",
+          "type": "checkbox",
+          "group": "Timing",
+          "default": false
+        },
         {
           "id": "color2",
           "label": "Primary color",
@@ -2102,10 +2262,10 @@ var MA_PRESET_DATA = {
         {
           "id": "duration",
           "label": "Duration \u00b7 seconds",
-          "type": "range",
+          "type": "number",
           "default": 5,
           "min": 0.1,
-          "max": 120,
+          "max": 3600,
           "step": 0.1,
           "group": "Timing"
         },
@@ -2152,6 +2312,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -2187,6 +2351,13 @@ var MA_PRESET_DATA = {
       "category": "Background",
       "description": "Low-key Fractal Noise with drifting evolution.",
       "parameters": [
+        {
+          "id": "static",
+          "label": "Static background",
+          "type": "checkbox",
+          "group": "Timing",
+          "default": false
+        },
         {
           "id": "color1",
           "label": "Base color",
@@ -2224,10 +2395,10 @@ var MA_PRESET_DATA = {
         {
           "id": "duration",
           "label": "Duration \u00b7 seconds",
-          "type": "range",
+          "type": "number",
           "default": 5,
           "min": 0.1,
-          "max": 120,
+          "max": 3600,
           "step": 0.1,
           "group": "Timing"
         },
@@ -2274,6 +2445,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -2309,6 +2484,13 @@ var MA_PRESET_DATA = {
       "category": "Background",
       "description": "Radial streaks expanding from the frame center.",
       "parameters": [
+        {
+          "id": "static",
+          "label": "Static background",
+          "type": "checkbox",
+          "group": "Timing",
+          "default": false
+        },
         {
           "id": "color2",
           "label": "Primary color",
@@ -2376,10 +2558,10 @@ var MA_PRESET_DATA = {
         {
           "id": "duration",
           "label": "Duration \u00b7 seconds",
-          "type": "range",
+          "type": "number",
           "default": 5,
           "min": 0.1,
-          "max": 120,
+          "max": 3600,
           "step": 0.1,
           "group": "Timing"
         },
@@ -2426,6 +2608,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -2461,6 +2647,13 @@ var MA_PRESET_DATA = {
       "category": "Background",
       "description": "A drafting grid with moving crosshairs and construction circles.",
       "parameters": [
+        {
+          "id": "static",
+          "label": "Static background",
+          "type": "checkbox",
+          "group": "Timing",
+          "default": false
+        },
         {
           "id": "color2",
           "label": "Primary color",
@@ -2518,10 +2711,10 @@ var MA_PRESET_DATA = {
         {
           "id": "duration",
           "label": "Duration \u00b7 seconds",
-          "type": "range",
+          "type": "number",
           "default": 5,
           "min": 0.1,
-          "max": 120,
+          "max": 3600,
           "step": 0.1,
           "group": "Timing"
         },
@@ -2568,6 +2761,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -2673,6 +2870,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -2798,6 +2999,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -2906,6 +3111,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -3024,6 +3233,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -3139,6 +3352,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -3247,6 +3464,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -3362,6 +3583,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -3487,6 +3712,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -3626,6 +3855,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -3785,6 +4018,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -3944,6 +4181,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -4113,6 +4354,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -4272,6 +4517,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -4431,6 +4680,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -4590,6 +4843,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -4749,6 +5006,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -4908,6 +5169,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -5067,6 +5332,10 @@ var MA_PRESET_DATA = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -5095,6 +5364,129 @@ var MA_PRESET_DATA = {
           "group": "Timing"
         }
       ]
+    },
+    {
+      "id": "stamp",
+      "name": "Film Stamp",
+      "category": "Text",
+      "description": "A punchy scale and rotation stamp with a fading blur.",
+      "parameters": [
+        {
+          "id": "amount",
+          "label": "Intensity",
+          "type": "range",
+          "default": 60,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "detail",
+          "label": "Detail / motion frequency",
+          "type": "range",
+          "default": 5,
+          "min": 1,
+          "max": 20,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "stagger",
+          "label": "Character stagger \u00b7 %",
+          "type": "range",
+          "default": 45,
+          "min": 0,
+          "max": 85,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 2,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 2,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
+            }
+          ]
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ],
+      "engine25": true
     }
   ]
 };

@@ -1,4 +1,4 @@
-# MotionAstra FX 2.8.1 — Pre-alpha
+# MotionAstra FX 2.8.2 — Pre-alpha
 
 Offline CEP extension for Adobe After Effects 2025. Minimal black/orange UI, local CSInterface + Lucide, 10 Text FX, 10 procedural Backgrounds, Quick Tools in the third top tab.
 
@@ -8,7 +8,7 @@ Extract this whole folder, follow **INSTALLATION_GUIDE.md**, then open Window �
 
 Select a text layer for Text FX. Background Generate needs only an active composition; it creates one layer or updates selected matching instances. Deselect backgrounds to deliberately create another. Customize preserves your draft colors; Generate/Update writes them directly into native Gradient Ramp/Tint properties. These colors do not depend on color expressions.
 
-Loop mode is a dropdown: Ping-Pong, Cycle (default), Continue. Continue advances normalized animation time beyond Duration; finite text reveals naturally finish while procedural motion keeps advancing. Manual Progress overrides looping. Existing project expressions stay unchanged until Update; legacy checkbox instances migrate to Cycle unless another mode is chosen.
+Loop mode is a dropdown: Ping-Pong, Cycle (default), Continue, None (play once and hold). Continue advances normalized animation time beyond Duration; finite text reveals naturally finish while procedural motion keeps advancing. Manual Progress overrides looping. Existing project expressions stay unchanged until Update; legacy checkbox instances migrate to Cycle unless another mode is chosen.
 
 Apply/Generate and Update are compact adjacent buttons at the inspector bottom. Load FX Settings is in the Tools Bar. Unwanted old duplicate layers are not deleted automatically.
 
@@ -99,3 +99,15 @@ Text FX require a selected text layer and never create one implicitly. Use New T
 - Build checks reload an older host implementation even though the public version remains 2.8.0. Settings displays the build identifier.
 
 Thirteen host/state/preview suites pass locally, including reproductions of the late-status race, discarded card colors, repeat generation and idle preview. The release workflow also gates publication on real Chromium UI/checkbox tests. This does not measure native AE render performance or certify native effect behavior. Replace the full extension folder and restart AE. Old duplicated layers must be inspected and removed manually if unwanted.
+
+## MotionAstra 2.8.2 — Pre-alpha
+
+- All ten Text FX expose a color picker; Apply/Update writes native RGBA colors. Gold/Glass keep their shaded gradients.
+- Panning Transition replaces Film Stamp in the Text FX catalog, with direction, distance and fade controls. Existing Film Stamp instances remain loadable.
+- Loop mode now includes None (play once, then hold). Static Background freezes the generated design at its start, overriding reverse/manual progress.
+- Background duration is a writable numeric field in seconds.
+- Quick Tools now align 2D visual layers to composition edges/center and distribute their centers horizontally or vertically. Supports 2D parents; 3D layers/parents are skipped.
+- The Create bar adds an installed-font selector: Load fonts, choose a font, then New Text. Current AE font remains the default.
+- Preserves single-layer background generation, direct background colors and compact bottom Apply/Update actions.
+
+Replace the full extension folder, restart AE, and confirm 2.8.2 in Settings. For existing Text FX, Load FX Settings, choose a color, then Update to migrate its color binding. Native AE rendering still requires verification; modeled-host and Chromium tests are release gates.

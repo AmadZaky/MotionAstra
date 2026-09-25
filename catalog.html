@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MotionAstra 2.8.0</title><style>/* MotionAstra 2.5.2 — local system fonts, quiet glass surfaces, orange focus. */
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MotionAstra 2.8.2</title><style>/* MotionAstra 2.5.2 — local system fonts, quiet glass surfaces, orange focus. */
 :root{color-scheme:dark;--bg:#080809;--surface:#161618;--text:#f4f4f5;--muted:#929296;--accent:#ff943f;--line:rgba(255,255,255,.085);--ease:cubic-bezier(.2,.8,.2,1)}
 *{box-sizing:border-box}[hidden]{display:none!important}html,body{height:100%;margin:0;overflow:hidden}body{min-width:300px;display:grid;grid-template-rows:auto auto auto minmax(0,1fr) 66px;background:var(--bg);color:var(--text);font:12px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
 button,input,select,textarea{font:inherit}button{color:var(--text);background:#ffffff05;border:1px solid var(--line);border-radius:9px;padding:8px 11px;cursor:pointer;transition:background .2s var(--ease),border-color .2s var(--ease),transform .2s var(--ease)}button:hover{background:#ffffff0d;border-color:#ffffff24}button:active{transform:scale(.98)}button:disabled{opacity:.35;cursor:not-allowed}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -24,21 +24,23 @@ footer{grid-row:5;display:grid;grid-template-rows:20px minmax(0,1fr);padding:5px
 .inspector-actions{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px;padding:8px 12px}
 .inspector-actions button{font-size:10px;padding:5px 8px;border-radius:7px;min-height:28px}
 .card-actions .card-apply{font-size:10px;padding:5px 4px;min-height:26px}
+
+.font-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:5px;align-items:center;margin-top:6px;font-size:9px}.font-row select,.font-row button{padding:4px;font-size:10px}.font-row select{width:100%}
 </style></head><body class="catalog">
-<header><a class="brand" href="index.html"><span class="brand-icon"><i data-lucide="asterisk"></i></span>MotionAstra <b>2.8.1</b></a><div class="header-actions"><button id="fold-quick" aria-controls="quick" aria-expanded="true">Quick ▴</button><button id="fold-nav" aria-controls="nav" aria-expanded="true">Menu ▴</button></div></header>
+<header><a class="brand" href="index.html"><span class="brand-icon"><i data-lucide="asterisk"></i></span>MotionAstra <b>2.8.2</b></a><div class="header-actions"><button id="fold-quick" aria-controls="quick" aria-expanded="true">Quick ▴</button><button id="fold-nav" aria-controls="nav" aria-expanded="true">Menu ▴</button></div></header>
 <nav id="nav" aria-label="Main navigation"><div class="search"><i data-lucide="search"></i><input id="search" type="search" placeholder="Search presets…" aria-label="Search presets"><span id="count">10</span></div><div class="category-tabs"><button class="active" data-tab="Text">Text FX <span>10</span></button><button data-tab="Background">Backgrounds <span>10</span></button><button data-tab="Tools">Quick Tools</button></div></nav>
-<div id="quick"><div class="create-row" aria-label="Create layers"><button data-tool="newShape" data-host><i data-lucide="square"></i>New Shape</button><button data-tool="newText" data-host><i data-lucide="type"></i>New Text</button><button data-tool="newSolid" data-host><i data-lucide="layers"></i>New Solid</button><label class="layer-color" title="Shape and solid color"><input id="new-layer-color" type="color" value="#ff943f" aria-label="New shape and solid color"></label></div><div class="utility-row"><button id="quick-anchor" data-host><i data-lucide="crosshair"></i>Center anchor</button><button id="load-fx" data-host><i data-lucide="sliders-horizontal"></i>Load FX Settings</button><button data-tab="Settings" aria-label="Settings"><i data-lucide="settings"></i></button></div></div>
+<div id="quick"><div class="create-row" aria-label="Create layers"><button data-tool="newShape" data-host><i data-lucide="square"></i>New Shape</button><button data-tool="newText" data-host><i data-lucide="type"></i>New Text</button><button data-tool="newSolid" data-host><i data-lucide="layers"></i>New Solid</button><label class="layer-color" title="Shape and solid color"><input id="new-layer-color" type="color" value="#ff943f" aria-label="New shape and solid color"></label></div><div class="font-row"><label for="new-text-font">New Text font</label><select id="new-text-font" aria-label="New Text font"><option value="">Current AE font</option></select><button id="refresh-fonts" data-host>Load fonts</button></div><div class="utility-row"><button id="quick-anchor" data-host><i data-lucide="crosshair"></i>Center anchor</button><button id="load-fx" data-host><i data-lucide="sliders-horizontal"></i>Load FX Settings</button><button data-tab="Settings" aria-label="Settings"><i data-lucide="settings"></i></button></div></div>
 <div id="workspace"><main>
-<section id="library"><div class="eyebrow" id="library-kicker">10 TEXT ESSENTIALS</div><h1 id="library-title">Words in motion.</h1><p id="library-help">Select text layers, or Apply with no selection to create one.</p><div id="cards"></div></section>
+<section id="library"><div class="eyebrow" id="library-kicker">10 TEXT ESSENTIALS</div><h1 id="library-title">Words in motion.</h1><p id="library-help">Select a text layer before applying FX.</p><div id="cards"></div></section>
 <section id="tools" hidden><div class="eyebrow">EVERYDAY CONTROLS</div><h1>Quick Tools</h1><p>Tools operate on selected layers. Every action has one Undo step.</p>
 <details open><summary><i data-lucide="crosshair"></i>Anchor point</summary><p>Supports text, shapes, footage, solids, nulls, parenting and 3D. Cameras/lights have no anchor.</p><div class="anchor-grid" id="anchor-grid"></div><label class="check"><input id="anchor-keep" type="checkbox" checked>Keep artwork at the playhead</label><p class="hint">Offsets existing keys and expressions. Animated scale/rotation can change other frames after changing the pivot.</p><div class="row"><label>X · %<input id="anchor-x" type="number" value="50" min="0" max="100"></label><label>Y · %<input id="anchor-y" type="number" value="50" min="0" max="100"></label></div><button id="anchor-custom" data-host>Set custom anchor</button></details>
 <details><summary><i data-lucide="layers"></i>Arrange layers</summary><div class="button-grid"><button data-order="top" data-host>To top</button><button data-order="bottom" data-host>To bottom</button><button data-order="up" data-host>Move up</button><button data-order="down" data-host>Move down</button><button data-order="reverse" data-host>Reverse order</button><button data-order="name" data-host>Sort by name</button></div><label>Stagger interval · seconds<input id="stagger-seconds" type="number" value="0.1" min="-60" max="60" step="0.01"></label><button id="stagger" data-host>Sequence selected layers</button><label>Rename prefix<input id="rename-prefix" type="text" value="Layer" maxlength="80"></label><button id="rename" data-host>Rename + number</button><button data-tool="unlock" data-host>Unlock selected layers</button></details>
-<details><summary><i data-lucide="move"></i>Position & parenting</summary><p>Position offsets use parent coordinates and preserve existing keys/expressions.</p><div class="row"><label>X<input id="offset-x" type="number" value="0" min="-100000" max="100000"></label><label>Y<input id="offset-y" type="number" value="0" min="-100000" max="100000"></label><label>Z<input id="offset-z" type="number" value="0" min="-100000" max="100000"></label></div><button id="offset" data-host>Offset position</button><button data-tool="parent" data-host>Create parent null</button><button data-tool="unparent" data-host>Unparent selected layers</button><p class="hint">Parenting preserves the current frame. Review motion if an old parent was animated.</p></details>
+<details><summary><i data-lucide="align-center"></i>Align & distribute</summary><p>Align visual bounds to the composition. Distribute centers evenly between the outermost selected layers (3+). Supports 2D layers and 2D parents.</p><div class="button-grid"><button data-align="center" data-host>Center in comp</button><button data-align="horizontal" data-host>Horizontal center</button><button data-align="vertical" data-host>Vertical center</button><button data-align="left" data-host>Left edge</button><button data-align="right" data-host>Right edge</button><button data-align="top" data-host>Top edge</button><button data-align="bottom" data-host>Bottom edge</button><button data-distribute="x" data-host>Distribute horizontally</button><button data-distribute="y" data-host>Distribute vertically</button></div></details><details><summary><i data-lucide="move"></i>Position & parenting</summary><p>Position offsets use parent coordinates and preserve existing keys/expressions.</p><div class="row"><label>X<input id="offset-x" type="number" value="0" min="-100000" max="100000"></label><label>Y<input id="offset-y" type="number" value="0" min="-100000" max="100000"></label><label>Z<input id="offset-z" type="number" value="0" min="-100000" max="100000"></label></div><button id="offset" data-host>Offset position</button><button data-tool="parent" data-host>Create parent null</button><button data-tool="unparent" data-host>Unparent selected layers</button><p class="hint">Parenting preserves the current frame. Review motion if an old parent was animated.</p></details>
 <details><summary><i data-lucide="activity"></i>Keyframe easing</summary><p>Select timeline keyframes before using these buttons.</p><label>Influence · %<input id="ease-strength" type="number" value="75" min="1" max="100"></label><div class="button-grid"><button data-ease="in" data-host>Ease in</button><button data-ease="out" data-host>Ease out</button><button data-ease="both" data-host>Easy Ease</button><button data-ease="linear" data-host>Linear</button></div></details>
 <details><summary><i data-lucide="type"></i>Text appearance</summary><p>Changes the underlying text style, including counters and switchers.</p><div class="row"><label>Size · px<input id="text-size" type="number" value="100" min="1" max="1000"></label><label>Fill<input id="text-color" type="color" value="#ffffff"></label></div><label>Paragraph alignment<select id="text-align"><option value="left">Left</option><option value="center">Center</option><option value="right">Right</option></select></label><button id="text-style" data-host>Apply text style</button></details>
 <details open><summary><i data-lucide="eraser"></i>Remove effects</summary><p>Removes effects only from selected unlocked layers.</p><button id="remove-owned" data-host>Remove MotionAstra FX</button><button id="erase-all" class="danger" data-host>Erase ALL effects on selected layers</button><p class="hint">Erase ALL also removes third-party/native Effects stacks. Unrelated expressions and non-MotionAstra text animators remain. Other layers are not deleted.</p><div id="review" hidden><strong>Review removal</strong><p id="review-text"></p><div class="row"><button id="confirm-remove" class="danger" data-host>Confirm removal</button><button id="cancel-remove">Cancel</button></div></div></details>
 </section>
-<section id="settings" hidden><div class="eyebrow">MOTIONASTRA 2.8.0</div><h1>Your workspace.</h1><details open><summary>Preview & connection</summary><label class="check"><input id="reduced" type="checkbox">Reduce preview motion</label><button id="refresh">Refresh AE connection</button><p id="connection"></p><a href="catalog.html">Open preview catalog ↗</a><p>All panel assets are local. Browser mode offers previews; Apply and tools require After Effects.</p><p>Use Project Settings → Expressions → JavaScript. Version 2.5 includes 20 presets. Existing v2 effects remain loadable through Load selected FX. Existing projects are never migrated automatically.</p><a href="INSTALLATION_GUIDE.md">Installation and workflow guide ↗</a></details><details open><summary>Operation history</summary><ol id="history"></ol></details></section>
+<section id="settings" hidden><div class="eyebrow">MOTIONASTRA 2.8.2</div><h1>Your workspace.</h1><details open><summary>Preview & connection</summary><label class="check"><input id="reduced" type="checkbox">Reduce preview motion</label><button id="refresh">Refresh AE connection</button><p id="connection"></p><a href="catalog.html">Open preview catalog ↗</a><p>All panel assets are local. Browser mode offers previews; Apply and tools require After Effects.</p><p>Use Project Settings → Expressions → JavaScript. Version 2.5 includes 20 presets. Existing v2 effects remain loadable through Load selected FX. Existing projects are never migrated automatically.</p><a href="INSTALLATION_GUIDE.md">Installation and workflow guide ↗</a></details><details open><summary>Operation history</summary><ol id="history"></ol></details></section>
 </main>
 <aside id="inspector" hidden aria-labelledby="fx-title"><div class="inspector-head"><div><span class="eyebrow">CUSTOMIZE PRESET</span><h2 id="fx-title"></h2></div><button id="close" aria-label="Close effect settings">✕</button></div><div class="inspector-scroll"><canvas id="preview" width="600" height="340" aria-label="Effect preview"></canvas><p id="fx-description"></p><div class="row inspector-options"><button id="replay">Replay ↻</button><button id="reset">Reset settings</button></div><div id="parameters"></div><p class="hint" id="parameter-help">Text/background animation starts at the layer in-point. Changes reach AE when you click Apply or Update.</p><p class="hint" id="structural-help" hidden>Count changes rebuild artwork on Update. Native count controls need Load selected FX → Update to rebuild.</p></div><div class="inspector-actions"><button id="apply" class="primary" data-host>Apply FX</button><button id="update" data-host>Update</button></div></aside>
 </div>
@@ -1352,7 +1354,7 @@ lucide.createIcons({icons});\``);if(typeof document>"u")throw new Error("`create
 
 </script><script>
 window.MA_PRESETS = {
-  "version": "2.8.1",
+  "version": "2.8.2",
   "presets": [
     {
       "id": "counter",
@@ -1360,6 +1362,13 @@ window.MA_PRESETS = {
       "category": "Text",
       "description": "Count up or down with exact endpoints, decimals and optional prefix/suffix.",
       "parameters": [
+        {
+          "id": "tint",
+          "label": "Text color",
+          "type": "color",
+          "group": "Appearance",
+          "default": "#ffffff"
+        },
         {
           "id": "start",
           "label": "Start number",
@@ -1499,6 +1508,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -1534,6 +1547,13 @@ window.MA_PRESETS = {
       "category": "Text",
       "description": "One line per phrase. Scrub the Choice slider, or let the timeline switch phrases.",
       "parameters": [
+        {
+          "id": "tint",
+          "label": "Text color",
+          "type": "color",
+          "group": "Appearance",
+          "default": "#ffffff"
+        },
         {
           "id": "phrases",
           "label": "Phrases \u00b7 one per line",
@@ -1622,6 +1642,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -1657,6 +1681,13 @@ window.MA_PRESETS = {
       "category": "Text",
       "description": "A staggered character reveal with elastic horizontal stretch.",
       "parameters": [
+        {
+          "id": "tint",
+          "label": "Text color",
+          "type": "color",
+          "group": "Appearance",
+          "default": "#ffffff"
+        },
         {
           "id": "amount",
           "label": "Intensity",
@@ -1740,6 +1771,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -1855,6 +1890,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -1970,6 +2009,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -2005,6 +2048,13 @@ window.MA_PRESETS = {
       "category": "Text",
       "description": "A stepped character jitter with soft analog blur.",
       "parameters": [
+        {
+          "id": "tint",
+          "label": "Text color",
+          "type": "color",
+          "group": "Appearance",
+          "default": "#ffffff"
+        },
         {
           "id": "amount",
           "label": "Intensity",
@@ -2078,6 +2128,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -2183,6 +2237,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -2298,6 +2356,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -2328,40 +2390,59 @@ window.MA_PRESETS = {
       ]
     },
     {
-      "id": "stamp",
-      "name": "Film Stamp",
+      "id": "pantext",
+      "name": "Panning Transition",
       "category": "Text",
-      "description": "A punchy scale and rotation stamp with a fading blur.",
+      "description": "Pan selected text into place from left, right, top or bottom.",
       "parameters": [
         {
-          "id": "amount",
-          "label": "Intensity",
-          "type": "range",
-          "default": 60,
-          "min": 0,
-          "max": 100,
-          "step": 1,
-          "group": "Appearance"
+          "id": "tint",
+          "label": "Text color",
+          "type": "color",
+          "group": "Appearance",
+          "default": "#ffffff"
         },
         {
-          "id": "detail",
-          "label": "Detail / motion frequency",
-          "type": "range",
-          "default": 5,
-          "min": 1,
-          "max": 20,
-          "step": 1,
-          "group": "Appearance"
+          "id": "direction",
+          "label": "From",
+          "type": "select",
+          "group": "Motion",
+          "default": 0,
+          "options": [
+            {
+              "value": 0,
+              "label": "Left"
+            },
+            {
+              "value": 1,
+              "label": "Right"
+            },
+            {
+              "value": 2,
+              "label": "Top"
+            },
+            {
+              "value": 3,
+              "label": "Bottom"
+            }
+          ]
         },
         {
-          "id": "stagger",
-          "label": "Character stagger \u00b7 %",
+          "id": "distance",
+          "label": "Distance (px)",
           "type": "range",
-          "default": 45,
+          "group": "Motion",
+          "default": 300,
           "min": 0,
-          "max": 85,
-          "step": 1,
-          "group": "Appearance"
+          "max": 4000,
+          "step": 1
+        },
+        {
+          "id": "fade",
+          "label": "Fade in",
+          "type": "checkbox",
+          "group": "Motion",
+          "default": true
         },
         {
           "id": "duration",
@@ -2416,6 +2497,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -2521,6 +2606,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -2556,6 +2645,13 @@ window.MA_PRESETS = {
       "category": "Background",
       "description": "A crisp generated grid over a dark field.",
       "parameters": [
+        {
+          "id": "static",
+          "label": "Static background",
+          "type": "checkbox",
+          "group": "Timing",
+          "default": false
+        },
         {
           "id": "color2",
           "label": "Primary color",
@@ -2613,10 +2709,10 @@ window.MA_PRESETS = {
         {
           "id": "duration",
           "label": "Duration \u00b7 seconds",
-          "type": "range",
+          "type": "number",
           "default": 5,
           "min": 0.1,
-          "max": 120,
+          "max": 3600,
           "step": 0.1,
           "group": "Timing"
         },
@@ -2663,6 +2759,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -2698,6 +2798,13 @@ window.MA_PRESETS = {
       "category": "Background",
       "description": "Cloud-like Fractal Noise tinted into a cosmic palette.",
       "parameters": [
+        {
+          "id": "static",
+          "label": "Static background",
+          "type": "checkbox",
+          "group": "Timing",
+          "default": false
+        },
         {
           "id": "color1",
           "label": "Base color",
@@ -2735,10 +2842,10 @@ window.MA_PRESETS = {
         {
           "id": "duration",
           "label": "Duration \u00b7 seconds",
-          "type": "range",
+          "type": "number",
           "default": 5,
           "min": 0.1,
-          "max": 120,
+          "max": 3600,
           "step": 0.1,
           "group": "Timing"
         },
@@ -2785,6 +2892,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -2820,6 +2931,13 @@ window.MA_PRESETS = {
       "category": "Background",
       "description": "A moving two-color gradient distorted by turbulent flow.",
       "parameters": [
+        {
+          "id": "static",
+          "label": "Static background",
+          "type": "checkbox",
+          "group": "Timing",
+          "default": false
+        },
         {
           "id": "color2",
           "label": "Primary color",
@@ -2867,10 +2985,10 @@ window.MA_PRESETS = {
         {
           "id": "duration",
           "label": "Duration \u00b7 seconds",
-          "type": "range",
+          "type": "number",
           "default": 5,
           "min": 0.1,
-          "max": 120,
+          "max": 3600,
           "step": 0.1,
           "group": "Timing"
         },
@@ -2917,6 +3035,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -2952,6 +3074,13 @@ window.MA_PRESETS = {
       "category": "Background",
       "description": "Rotating radial spokes with a sunset gradient.",
       "parameters": [
+        {
+          "id": "static",
+          "label": "Static background",
+          "type": "checkbox",
+          "group": "Timing",
+          "default": false
+        },
         {
           "id": "color2",
           "label": "Primary color",
@@ -3009,10 +3138,10 @@ window.MA_PRESETS = {
         {
           "id": "duration",
           "label": "Duration \u00b7 seconds",
-          "type": "range",
+          "type": "number",
           "default": 5,
           "min": 0.1,
-          "max": 120,
+          "max": 3600,
           "step": 0.1,
           "group": "Timing"
         },
@@ -3059,6 +3188,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -3094,6 +3227,13 @@ window.MA_PRESETS = {
       "category": "Background",
       "description": "Procedural soft circles orbiting across the frame.",
       "parameters": [
+        {
+          "id": "static",
+          "label": "Static background",
+          "type": "checkbox",
+          "group": "Timing",
+          "default": false
+        },
         {
           "id": "color2",
           "label": "Primary color",
@@ -3171,10 +3311,10 @@ window.MA_PRESETS = {
         {
           "id": "duration",
           "label": "Duration \u00b7 seconds",
-          "type": "range",
+          "type": "number",
           "default": 5,
           "min": 0.1,
-          "max": 120,
+          "max": 3600,
           "step": 0.1,
           "group": "Timing"
         },
@@ -3221,6 +3361,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -3256,6 +3400,13 @@ window.MA_PRESETS = {
       "category": "Background",
       "description": "Nested luminous rectangles expanding toward the viewer.",
       "parameters": [
+        {
+          "id": "static",
+          "label": "Static background",
+          "type": "checkbox",
+          "group": "Timing",
+          "default": false
+        },
         {
           "id": "color2",
           "label": "Primary color",
@@ -3313,10 +3464,10 @@ window.MA_PRESETS = {
         {
           "id": "duration",
           "label": "Duration \u00b7 seconds",
-          "type": "range",
+          "type": "number",
           "default": 5,
           "min": 0.1,
-          "max": 120,
+          "max": 3600,
           "step": 0.1,
           "group": "Timing"
         },
@@ -3363,6 +3514,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -3398,6 +3553,13 @@ window.MA_PRESETS = {
       "category": "Background",
       "description": "A translucent gradient card with soft edges and a subtle bevel.",
       "parameters": [
+        {
+          "id": "static",
+          "label": "Static background",
+          "type": "checkbox",
+          "group": "Timing",
+          "default": false
+        },
         {
           "id": "color2",
           "label": "Primary color",
@@ -3455,10 +3617,10 @@ window.MA_PRESETS = {
         {
           "id": "duration",
           "label": "Duration \u00b7 seconds",
-          "type": "range",
+          "type": "number",
           "default": 5,
           "min": 0.1,
-          "max": 120,
+          "max": 3600,
           "step": 0.1,
           "group": "Timing"
         },
@@ -3505,6 +3667,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -3540,6 +3706,13 @@ window.MA_PRESETS = {
       "category": "Background",
       "description": "Low-key Fractal Noise with drifting evolution.",
       "parameters": [
+        {
+          "id": "static",
+          "label": "Static background",
+          "type": "checkbox",
+          "group": "Timing",
+          "default": false
+        },
         {
           "id": "color1",
           "label": "Base color",
@@ -3577,10 +3750,10 @@ window.MA_PRESETS = {
         {
           "id": "duration",
           "label": "Duration \u00b7 seconds",
-          "type": "range",
+          "type": "number",
           "default": 5,
           "min": 0.1,
-          "max": 120,
+          "max": 3600,
           "step": 0.1,
           "group": "Timing"
         },
@@ -3627,6 +3800,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -3662,6 +3839,13 @@ window.MA_PRESETS = {
       "category": "Background",
       "description": "Radial streaks expanding from the frame center.",
       "parameters": [
+        {
+          "id": "static",
+          "label": "Static background",
+          "type": "checkbox",
+          "group": "Timing",
+          "default": false
+        },
         {
           "id": "color2",
           "label": "Primary color",
@@ -3729,10 +3913,10 @@ window.MA_PRESETS = {
         {
           "id": "duration",
           "label": "Duration \u00b7 seconds",
-          "type": "range",
+          "type": "number",
           "default": 5,
           "min": 0.1,
-          "max": 120,
+          "max": 3600,
           "step": 0.1,
           "group": "Timing"
         },
@@ -3779,6 +3963,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -3814,6 +4002,13 @@ window.MA_PRESETS = {
       "category": "Background",
       "description": "A drafting grid with moving crosshairs and construction circles.",
       "parameters": [
+        {
+          "id": "static",
+          "label": "Static background",
+          "type": "checkbox",
+          "group": "Timing",
+          "default": false
+        },
         {
           "id": "color2",
           "label": "Primary color",
@@ -3871,10 +4066,10 @@ window.MA_PRESETS = {
         {
           "id": "duration",
           "label": "Duration \u00b7 seconds",
-          "type": "range",
+          "type": "number",
           "default": 5,
           "min": 0.1,
-          "max": 120,
+          "max": 3600,
           "step": 0.1,
           "group": "Timing"
         },
@@ -3921,6 +4116,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -4026,6 +4225,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -4151,6 +4354,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -4259,6 +4466,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -4377,6 +4588,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -4492,6 +4707,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -4600,6 +4819,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -4715,6 +4938,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -4840,6 +5067,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -4979,6 +5210,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -5138,6 +5373,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -5297,6 +5536,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -5466,6 +5709,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -5625,6 +5872,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -5784,6 +6035,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -5943,6 +6198,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -6102,6 +6361,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -6261,6 +6524,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -6420,6 +6687,10 @@ window.MA_PRESETS = {
             {
               "value": 2,
               "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
             }
           ]
         },
@@ -6448,6 +6719,129 @@ window.MA_PRESETS = {
           "group": "Timing"
         }
       ]
+    },
+    {
+      "id": "stamp",
+      "name": "Film Stamp",
+      "category": "Text",
+      "description": "A punchy scale and rotation stamp with a fading blur.",
+      "parameters": [
+        {
+          "id": "amount",
+          "label": "Intensity",
+          "type": "range",
+          "default": 60,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "detail",
+          "label": "Detail / motion frequency",
+          "type": "range",
+          "default": 5,
+          "min": 1,
+          "max": 20,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "stagger",
+          "label": "Character stagger \u00b7 %",
+          "type": "range",
+          "default": 45,
+          "min": 0,
+          "max": 85,
+          "step": 1,
+          "group": "Appearance"
+        },
+        {
+          "id": "duration",
+          "label": "Duration \u00b7 seconds",
+          "type": "range",
+          "default": 2,
+          "min": 0.1,
+          "max": 120,
+          "step": 0.1,
+          "group": "Timing"
+        },
+        {
+          "id": "ease",
+          "label": "Easing",
+          "type": "select",
+          "default": 2,
+          "options": [
+            {
+              "value": 0,
+              "label": "Linear"
+            },
+            {
+              "value": 1,
+              "label": "Ease in"
+            },
+            {
+              "value": 2,
+              "label": "Ease out"
+            },
+            {
+              "value": 3,
+              "label": "Smooth"
+            }
+          ],
+          "group": "Timing"
+        },
+        {
+          "id": "loopMode",
+          "label": "Loop mode",
+          "type": "select",
+          "group": "Timing",
+          "default": 1,
+          "options": [
+            {
+              "value": 0,
+              "label": "Ping-Pong"
+            },
+            {
+              "value": 1,
+              "label": "Cycle"
+            },
+            {
+              "value": 2,
+              "label": "Continue"
+            },
+            {
+              "value": 3,
+              "label": "None"
+            }
+          ]
+        },
+        {
+          "id": "reverse",
+          "label": "Reverse playback",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "manual",
+          "label": "Use progress slider",
+          "type": "checkbox",
+          "default": false,
+          "group": "Timing"
+        },
+        {
+          "id": "progress",
+          "label": "Progress \u00b7 %",
+          "type": "range",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1,
+          "group": "Timing"
+        }
+      ],
+      "engine25": true
     }
   ]
 };
@@ -6458,8 +6852,8 @@ window.MotionPreview=(()=>{
 const entries=new Map();let raf=0,paused=false;
 const defaults=p=>Object.fromEntries(p.parameters.map(d=>[d.id,d.default]));
 const fract=n=>n-Math.floor(n),rand=n=>fract(Math.sin(n*127.1+311.7)*43758.5453);
-function clock(time,p){let q=p.manual?Math.max(0,Math.min(1,p.progress/100)):p.loopMode===0?1-Math.abs(Math.max(0,time/p.duration)%2-1):p.loopMode===1?Math.max(0,time/p.duration)%1:Math.max(0,time/p.duration);q=q>1?q:p.ease===1?q*q:p.ease===2?1-(1-q)*(1-q):p.ease===3?q*q*(3-2*q):q;return p.reverse?1-q:q;}
-function render(canvas,r,time=0,settings={}){if(!r.legacy&&!["counter","switcher","typewriter","rise","elastic","wave","tracking","decode","sweep","cascade","gradient","waves","aurora","bokeh","particles","contours","grid","sunburst","tiles","speedlines"].includes(r.id))return render25(canvas,r,time,settings);const p=Object.assign(defaults(r),settings),q=clock(time,p),T=q*Math.PI*2,ctx=canvas.getContext('2d');if(!ctx)return;const w=canvas.width,h=canvas.height,id=r.id,n=Math.round(p.count||1),a=p.color2||'#ffad70',b=p.color3||'#ffe3c8';
+function clock(time,p){if(p.static)return 0;let q=p.manual?Math.max(0,Math.min(1,p.progress/100)):p.loopMode===0?1-Math.abs(Math.max(0,time/p.duration)%2-1):p.loopMode===1?Math.max(0,time/p.duration)%1:p.loopMode===2?Math.max(0,time/p.duration):Math.max(0,Math.min(1,time/p.duration));q=q>1?q:p.ease===1?q*q:p.ease===2?1-(1-q)*(1-q):p.ease===3?q*q*(3-2*q):q;return p.reverse?1-q:q;}
+function render(canvas,r,time=0,settings={}){if(!r.legacy&&!["counter","switcher","typewriter","rise","elastic","wave","tracking","decode","sweep","cascade","gradient","waves","aurora","bokeh","particles","contours","grid","sunburst","tiles","speedlines"].includes(r.id))return render25(canvas,r,time,settings);const p=Object.assign(defaults(r),settings),q=clock(time,p),T=q*Math.PI*2,ctx=canvas.getContext('2d');if(!ctx)return;const w=canvas.width,h=canvas.height,id=r.id,n=Math.round(p.count||1),a=p.tint||p.color2||'#ffad70',b=p.color3||'#ffe3c8';
 ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,w,h);ctx.fillStyle=p.color1||'#101011';ctx.fillRect(0,0,w,h);if(r.category==='Text'){const glow=ctx.createRadialGradient(w*.5,h*.2,0,w*.5,h*.3,w*.65);glow.addColorStop(0,'#ffffff0d');glow.addColorStop(1,'#ffffff00');ctx.fillStyle=glow;ctx.fillRect(0,0,w,h);}ctx.save();ctx.translate(w/2,h/2);
 if(r.category==='Text'){
 ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#fff4e9';const size=w*.105;ctx.font=`650 ${size}px -apple-system,Arial,sans-serif`;let text='Make it move';
@@ -6493,14 +6887,15 @@ function line(x,y,xx,yy){ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(xx,yy);ctx.s
 function gradient(){const g=ctx.createLinearGradient(-w/2,-h/2,w/2,h/2);g.addColorStop(0,a);g.addColorStop(1,b);return g;}
 if(r.category==='Text'){
  const text=r.id==='matrix'?'MOTION':r.id==='gold'||r.id==='extrusion'?'GOLD':r.id==='ember'?'EMBER':r.id==='glass'?'GLASS':r.id==='stamp'?'APPROVED':'MOTION';const size=w/(text.length*.76+1);ctx.font=`600 ${size}px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle=gradient();
- if(r.id==='matrix'){const abc='01ABCDEFGHIJKLMNOPQRSTUVWXYZ';let s='';for(let i=0;i<text.length;i++)s+=q>=1||i<q*text.length?text[i]:abc[Math.floor(rand(i+p.seed+Math.floor(q*p.steps))*abc.length)];ctx.fillStyle=p.tint;ctx.fillText(s,0,0);}
+ if(r.id==='pantext'){const v=1-Math.max(0,Math.min(1,q)),d=p.distance*w/960;ctx.translate(p.direction===0?-d*v:p.direction===1?d*v:0,p.direction===2?-d*v:p.direction===3?d*v:0);ctx.globalAlpha=p.fade?1-v:1;ctx.fillStyle=p.tint;ctx.fillText(text,0,0);}
+ else if(r.id==='matrix'){const abc='01ABCDEFGHIJKLMNOPQRSTUVWXYZ';let s='';for(let i=0;i<text.length;i++)s+=q>=1||i<q*text.length?text[i]:abc[Math.floor(rand(i+p.seed+Math.floor(q*p.steps))*abc.length)];ctx.fillStyle=p.tint;ctx.fillText(s,0,0);}
  else if(r.id==='stretch'||r.id==='stamp'){
   if(r.id==='stamp'){const v=1+(1-q)*.8*Math.cos(q*(5+p.detail));ctx.scale(v,v);ctx.rotate((1-q)*-.25);ctx.globalAlpha=Math.min(1,q*3);ctx.fillStyle='#e4eef5';ctx.strokeStyle='#e4eef5';ctx.lineWidth=2;ctx.strokeRect(-w*.41,-h*.23,w*.82,h*.46);ctx.fillText(text,0,0);}
   else for(let i=0;i<text.length;i++){let x=Math.max(0,Math.min(1,(q-i/(text.length-1)*(p.stagger/100))/(1-p.stagger/100))),v=x>=1?0:Math.exp(-x*3)*(1-x)*Math.cos(x*(5+p.detail));ctx.save();ctx.translate((i-(text.length-1)/2)*size*.73,0);ctx.scale(1+v*amount*2,1-v*.9);ctx.globalAlpha=1-v;ctx.fillText(text[i],0,0);ctx.restore();}
  }else{
   if(r.id==='extrusion'){ctx.fillStyle='#503311';for(let i=Math.round(amount*16);i>0;i--)ctx.fillText(text,i,i);ctx.fillStyle=gradient();}
   if(r.id==='glass'){ctx.strokeStyle='#f1fbff';ctx.lineWidth=1.5;ctx.strokeText(text,1,1);ctx.globalAlpha=.8;}
-  if(r.id==='vhs'){ctx.fillStyle='#b8e7ff';ctx.globalAlpha=.5;ctx.fillText(text,(q>=1?0:Math.sin(Math.floor(q*30))*amount*12),2);ctx.globalAlpha=1;ctx.fillStyle='#f0f5ff';}
+  if(r.id==='vhs'){ctx.fillStyle='#b8e7ff';ctx.globalAlpha=.5;ctx.fillText(text,(q>=1?0:Math.sin(Math.floor(q*30))*amount*12),2);ctx.globalAlpha=1;ctx.fillStyle=p.tint||'#f0f5ff';}
   if(r.id==='ember'){ctx.shadowColor=p.tint;ctx.shadowBlur=20;ctx.globalAlpha=q>=1?1:.6+.4*Math.sin(T*p.detail);}
   ctx.fillText(text,0,0);if(r.id==='gold'){const shine=ctx.createLinearGradient((q-.6)*w,0,(q-.4)*w,0);shine.addColorStop(0,'#fff2c900');shine.addColorStop(.5,'#fff2c9bb');shine.addColorStop(1,'#fff2c900');ctx.fillStyle=shine;ctx.fillText(text,0,0);}
  }
@@ -6518,7 +6913,7 @@ ctx.restore();ctx.font='9px Arial';ctx.fillStyle='#9cb3c77a';ctx.textAlign='righ
 }
 
 const reduced=()=>document.body.classList.contains('reduced')||matchMedia('(prefers-reduced-motion: reduce)').matches;
-function tick(now){raf=0;if(paused)return;let active=false;entries.forEach((e,c)=>{if(!c.isConnected){observer.unobserve(c);entries.delete(c);return;}if(e.active&&e.visible&&!document.hidden&&!reduced()){const elapsed=(now-e.start)/1000,p=Object.assign(defaults(e.preset),e.params);const done=p.manual||elapsed>=Math.max(1,p.duration)*(p.loopMode===0?2:1);if(done||now-e.last>=1000/30){render(c,e.preset,elapsed,e.params);e.last=now;}if(done)e.active=false;else active=true;}});if(active)raf=requestAnimationFrame(tick);}
+function tick(now){raf=0;if(paused)return;let active=false;entries.forEach((e,c)=>{if(!c.isConnected){observer.unobserve(c);entries.delete(c);return;}if(e.active&&e.visible&&!document.hidden&&!reduced()){const elapsed=(now-e.start)/1000,p=Object.assign(defaults(e.preset),e.params);const done=p.static||p.manual||elapsed>=Math.max(1,p.duration)*(p.loopMode===0?2:1);if(done||now-e.last>=1000/30){render(c,e.preset,elapsed,e.params);e.last=now;}if(done)e.active=false;else active=true;}});if(active)raf=requestAnimationFrame(tick);}
 function run(){if(!paused&&!raf)raf=requestAnimationFrame(tick);}
 function suspend(value){paused=value;if(paused&&raf){cancelAnimationFrame(raf);raf=0;}if(!paused)run();}
 const observer=new IntersectionObserver(list=>list.forEach(x=>{const e=entries.get(x.target);if(e){e.visible=x.isIntersecting;run();}}));
@@ -6529,14 +6924,14 @@ document.addEventListener('visibilitychange',run);return {attach,play,clear,rend
 })();
 
 </script><script>
-/* MotionAstra CEP transport v2.8.1.
+/* MotionAstra CEP transport v2.8.2.
  * Host files load by absolute path; all replies are tagged and request-correlated.
  * Empty callbacks recover the stored reply, NEVER replay the host mutation.
  */
 (function (root) {
   'use strict';
-  const VERSION = '2.8.1';
-  const BUILD = '2.8.1';
+  const VERSION = '2.8.2';
+  const BUILD = '2.8.2';
   const PREFIX = 'MAFX1:';
   const ERROR_PREFIX = 'MAFX1E:';
   const available = !!root.__adobe_cep__;
@@ -6679,13 +7074,14 @@ const commit=(e)=>{const v=Number(e.value);if(e.value===''||!Number.isFinite(v)|
 if(d.type==='range'){exact=el('input','exact');exact.type='number';exact.id='exact-'+d.id;exact.min=input.min;exact.max=input.max;exact.step=d.step;exact.value=input.value;exact.setAttribute('aria-label',d.label+' exact value');exact.oninput=()=>commit(exact);row.appendChild(exact);}input.oninput=()=>commit(input);
 }else{if(d.type!=='textarea')input.type=d.type;input.value=state.params[d.id];if(d.maxLength)input.maxLength=d.maxLength;input.className=d.type==='color'?'':'wide';input.oninput=()=>change(input.value);}
 row.appendChild(input);groups[d.group].appendChild(row);});busy(state.busy);}
-function open(p,values){if(state.busy)return;values=values||state.drafts[p.id];state.preset=p;state.params={};p.parameters.forEach(d=>state.params[d.id]=values&&values[d.id]!==undefined?values[d.id]:d.default);state.drafts[p.id]=state.params;$('fx-title').textContent=p.name;$('fx-description').textContent=p.description;$('apply').textContent=p.category==='Background'?'Generate Background':'Apply FX';$('update').textContent=p.category==='Background'?'Update':'Update';$('structural-help').hidden=!p.parameters.some(d=>d.id==='count');$('inspector').hidden=false;$('workspace').classList.add('inspecting');parameters();preview();$('parameter-help').textContent=(p.category==='Background'?'Generate updates a matching selected background; otherwise it creates one. Deselect backgrounds to create another copy. ':'')+'Animation starts at the layer in-point. Drag [FX End] to retime; Loop mode: Ping-Pong, Cycle or Continue. Colors apply on Generate/Update; other native sliders update live; Count rebuilds on Update.';document.querySelector('.inspector-scroll').scrollTop=0;$('inspector').scrollTop=0;$('close').focus();}
+function open(p,values){if(state.busy)return;values=values||state.drafts[p.id];state.preset=p;state.params={};p.parameters.forEach(d=>state.params[d.id]=values&&values[d.id]!==undefined?values[d.id]:d.default);state.drafts[p.id]=state.params;$('fx-title').textContent=p.name;$('fx-description').textContent=p.description;$('apply').textContent=p.category==='Background'?'Generate Background':'Apply FX';$('update').textContent=p.category==='Background'?'Update':'Update';$('structural-help').hidden=!p.parameters.some(d=>d.id==='count');$('inspector').hidden=false;$('workspace').classList.add('inspecting');parameters();preview();$('parameter-help').textContent=(p.category==='Background'?'Generate updates a matching selected background; otherwise it creates one. Deselect backgrounds to create another copy. ':'')+'Animation starts at the layer in-point. Drag [FX End] to retime; Loop mode: None, Ping-Pong, Cycle or Continue. Static backgrounds freeze at the start. Colors apply on Generate/Update; other native sliders update live; Count rebuilds on Update.';document.querySelector('.inspector-scroll').scrollTop=0;$('inspector').scrollTop=0;$('close').focus();}
 async function load(){const r=await action({action:'load'});if(r&&r.id){const p=data.presets.concat(data.legacy||[]).find(p=>p.id===r.id);if(p){tab(p.category);open(p,r.params);}}}
 function tool(name,extra={}){return action(Object.assign({action:'tool',name},extra));}
 $('close').onclick=close;document.addEventListener('keydown',e=>{if(e.key==='Escape')close();});$('apply').onclick=()=>{if(state.preset&&!state.invalid.size)action({action:state.preset.category==='Background'?'generateBackground':'apply',id:state.preset.id,params:state.params});};$('update').onclick=()=>{if(state.preset&&!state.invalid.size)action({action:'update',id:state.preset.id,params:state.params});};$('load-fx').onclick=load;
 $('reset').onclick=()=>{if(state.preset){delete state.drafts[state.preset.id];open(state.preset,{});}};$('replay').onclick=preview;$('search').oninput=e=>{state.query=e.target.value.trim().toLowerCase();render();};document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{if(!state.busy)tab(b.dataset.tab);});
 const glyphs=['↖','↑','↗','←','·','→','↙','↓','↘'];glyphs.forEach((g,i)=>{const b=el('button','',g);b.dataset.host='';b.setAttribute('aria-label','Anchor '+(i+1));b.onclick=()=>tool('anchor',{x:i%3/2,y:Math.floor(i/3)/2,keep:$('anchor-keep').checked});$('anchor-grid').appendChild(b);});$('quick-anchor').onclick=()=>tool('anchor',{x:.5,y:.5,keep:$('anchor-keep').checked});$('anchor-custom').onclick=()=>tool('anchor',{x:Number($('anchor-x').value)/100,y:Number($('anchor-y').value)/100,keep:$('anchor-keep').checked});
-document.querySelectorAll('[data-tool]').forEach(b=>b.onclick=()=>tool(b.dataset.tool,['newShape','newSolid'].includes(b.dataset.tool)?{color:$('new-layer-color').value}:{}));document.querySelectorAll('[data-order]').forEach(b=>b.onclick=()=>tool('arrange',{mode:b.dataset.order}));document.querySelectorAll('[data-ease]').forEach(b=>b.onclick=()=>tool('ease',{mode:b.dataset.ease,strength:Number($('ease-strength').value)}));
+document.querySelectorAll('[data-tool]').forEach(b=>b.onclick=()=>tool(b.dataset.tool,b.dataset.tool==='newText'?{font:$('new-text-font').value}:['newShape','newSolid'].includes(b.dataset.tool)?{color:$('new-layer-color').value}:{}));document.querySelectorAll('[data-order]').forEach(b=>b.onclick=()=>tool('arrange',{mode:b.dataset.order}));document.querySelectorAll('[data-ease]').forEach(b=>b.onclick=()=>tool('ease',{mode:b.dataset.ease,strength:Number($('ease-strength').value)}));
+$('refresh-fonts').onclick=async()=>{const r=await action({action:'fonts'});if(r&&r.fonts){const chosen=$('new-text-font').value;$('new-text-font').textContent='';const current=el('option','','Current AE font');current.value='';$('new-text-font').appendChild(current);r.fonts.forEach(f=>{const o=el('option','',f.label);o.value=f.value;$('new-text-font').appendChild(o);});$('new-text-font').value=r.fonts.some(f=>f.value===chosen)?chosen:'';}};document.querySelectorAll('[data-align]').forEach(b=>b.onclick=()=>tool('align',{mode:b.dataset.align}));document.querySelectorAll('[data-distribute]').forEach(b=>b.onclick=()=>tool('distribute',{axis:b.dataset.distribute}));
 $('stagger').onclick=()=>tool('stagger',{seconds:Number($('stagger-seconds').value)});$('rename').onclick=()=>tool('rename',{prefix:$('rename-prefix').value});$('offset').onclick=()=>tool('offset',{x:Number($('offset-x').value),y:Number($('offset-y').value),z:Number($('offset-z').value)});$('text-style').onclick=()=>tool('style',{size:Number($('text-size').value),color:$('text-color').value,align:$('text-align').value});
 function review(name){pendingRemove=name;$('review').hidden=false;$('review-text').textContent=name==='eraseAll'?'Remove ALL native/third-party Effects stacks and MotionAstra animation from the current selected layers? Other expressions may depend on removed effects. Generated artwork will be removed. Transition layers are disabled; project source comps remain.':'Remove MotionAstra v1/v2 animation, controls and generated artwork from selected layers? Unrelated effects remain. Transition layers are disabled after removal. Other layers and project sources are not deleted.';$('review').scrollIntoView({block:'nearest'});}
 $('remove-owned').onclick=()=>review('remove');$('erase-all').onclick=()=>review('eraseAll');$('cancel-remove').onclick=()=>{$('review').hidden=true;pendingRemove=null;};$('confirm-remove').onclick=()=>{if(pendingRemove){const name=pendingRemove;pendingRemove=null;$('review').hidden=true;tool(name);}};

@@ -1,6 +1,6 @@
-/* MotionAstra 2.8.1 — ES3 host. No third-party AE effects required. */
+/* MotionAstra 2.8.2 — ES3 host. No third-party AE effects required. */
 var MotionAstra=(function(){
-    var BUILD="2.8.1",recipes={},serial=0;for(var ri=0;ri<MA_PRESET_DATA.presets.length;ri++)recipes[MA_PRESET_DATA.presets[ri].id]=MA_PRESET_DATA.presets[ri];
+    var BUILD="2.8.2",recipes={},serial=0;for(var ri=0;ri<MA_PRESET_DATA.presets.length;ri++)recipes[MA_PRESET_DATA.presets[ri].id]=MA_PRESET_DATA.presets[ri];
     for(var li=0;li<(MA_PRESET_DATA.legacy||[]).length;li++){var lr=MA_PRESET_DATA.legacy[li];lr.legacy=true;recipes[lr.id]=lr;}
     function quote(s) { return '"' + String(s).replace(/\\/g,'\\\\').replace(/"/g,'\\"').replace(/\r/g,'\\r').replace(/\n/g,'\\n').replace(/\t/g,'\\t') + '"'; }
     function encode(v) {
@@ -83,7 +83,7 @@ var MotionAstra=(function(){
     function saveMeta(l,m){var s=l.comment||'',a=s.indexOf(META),b;if(a>=0){b=s.indexOf(END,a+META.length);if(b<0)throw Error('Damaged MotionAstra metadata on '+l.name);s=s.substring(0,a)+s.substring(b+1);}l.comment=s+(m?META+encodeURIComponent(encode(m))+END:'');}
     function fx(l,id){return l.property('ADBE Effect Parade').property('MA2 '+id);}
     function setControls(l,r,p){var i,d,e;for(i=0;i<r.parameters.length;i++){d=r.parameters[i];if(d.type==='text'||d.type==='textarea')continue;e=fx(l,d.id);if(!e)e=effect(l,d.type==='color'?'ADBE Color Control':d.type==='checkbox'?'ADBE Checkbox Control':'ADBE Slider Control','MA2 '+d.id);set(e.property(1),d.type==='color'?color(p[d.id]):d.type==='checkbox'?(p[d.id]?1:0):p[d.id],l.containingComp.time);}}
-    function readControls(l,r,m){var p={},i,d,e;for(i=0;i<r.parameters.length;i++){d=r.parameters[i];if(d.type==='text'||d.type==='textarea'){p[d.id]=m.values[d.id];continue;}e=fx(l,d.id);if(!e&&d.id==='loopMode'&&fx(l,'loop')){p[d.id]=1;continue;}if(!e)throw Error('Missing control '+d.label+'. Undo a deletion or remove this FX before reapplying.');var v=e.property(1).value;p[d.id]=d.type==='color'?hex(v):d.type==='checkbox'?checkbox(v,false,d.label,true):Number(v);}var end=markerTime(l,m.token,'end');if(end!==null)p.duration=Math.max(.1,end-l.inPoint);return p;}
+    function readControls(l,r,m){var p={},i,d,e;for(i=0;i<r.parameters.length;i++){d=r.parameters[i];if(d.type==='text'||d.type==='textarea'){p[d.id]=m.values[d.id];continue;}e=fx(l,d.id);if(!e&&(d.id==='tint'||d.id==='static')){p[d.id]=d.default;continue;}if(!e&&d.id==='loopMode'&&fx(l,'loop')){p[d.id]=1;continue;}if(!e)throw Error('Missing control '+d.label+'. Undo a deletion or remove this FX before reapplying.');var v=e.property(1).value;p[d.id]=d.type==='color'?hex(v):d.type==='checkbox'?checkbox(v,false,d.label,true):Number(v);}var end=markerTime(l,m.token,'end');if(end!==null)p.duration=Math.max(.1,end-l.inPoint);return p;}
     function markKey(token,kind){return 'MA2 '+token+' '+kind;}
     function markerTime(l,token,kind){var m=l.property('ADBE Marker'),i,t=null;if(!m)return null;for(i=1;i<=m.numKeys;i++)if(m.keyValue(i).getParameters()[markKey(token,kind)]!==undefined){if(t!==null)throw Error('Duplicate '+kind+' marker; keep one per FX.');t=m.keyTime(i);}return t;}
     function markerLabel(p){var out=p.MA2_BASE||'',k;for(k in p)if(p.hasOwnProperty(k)&&k.indexOf('MA2 i')===0)out+=(out?'\n':'')+p[k];return out;}
@@ -93,8 +93,8 @@ var MotionAstra=(function(){
     function clock(m,body){return '// MotionAstra 2 '+m.token+'\nfunction P(k,d){try{var p=effect("MA2 "+k)(1);return p.value;}catch(e){return d;}}\n'+
         'function C(k,d){var c;try{c=effect("MA2 "+k)("ADBE Color Control-0001").value;}catch(e){c=d;}if(!c||c.length<3)throw Error("MotionAstra: invalid RGBA color control MA2 "+k);return [Number(c[0]),Number(c[1]),Number(c[2]),c.length>3?Number(c[3]):1];}\n'+
         'var S=inPoint,E=S+Math.max(.1,P("duration",2));for(var i=1;i<=marker.numKeys;i++){if(marker.key(i).parameters['+quote(markKey(m.token,'end'))+']!==undefined){E=marker.key(i).time;break;}}\n'+
-        'var D=Math.max(thisComp.frameDuration,E-S),raw=Math.max(0,time-S),q=P("manual",0)>.5?Math.max(0,Math.min(1,P("progress",0)/100)):(P("loopMode",1)<.5?1-Math.abs((raw/D)%2-1):P("loopMode",1)<1.5?(raw%D)/D:raw/D);\n'+
-        'var ease=P("ease",2);q=q>1?q:ease===1?q*q:ease===2?1-(1-q)*(1-q):ease===3?q*q*(3-2*q):q;if(P("reverse",0)>.5)q=1-q;var T=q*6.28318530718;\n'+body+';';}
+        'var D=Math.max(thisComp.frameDuration,E-S),raw=Math.max(0,time-S),q=P("static",0)>.5?0:P("manual",0)>.5?Math.max(0,Math.min(1,P("progress",0)/100)):(P("loopMode",1)<.5?1-Math.abs((raw/D)%2-1):P("loopMode",1)<1.5?(raw%D)/D:P("loopMode",1)<2.5?raw/D:Math.min(1,raw/D));\n'+
+        'var ease=P("ease",2);q=q>1?q:ease===1?q*q:ease===2?1-(1-q)*(1-q):ease===3?q*q*(3-2*q):q;if(P("reverse",0)>.5&&P("static",0)<.5)q=1-q;var T=q*6.28318530718;\n'+body+';';}
     function assign(p,s){if(!p||!p.canSetExpression)throw Error('This property does not support expressions.');p.expression=s;if(p.expressionError){var e=p.expressionError;p.expression='';throw Error(e);}}
     function owned(s){return s&&s.indexOf('// MotionAstra 2 ')===0;}
     function source(l){var g=l.property('ADBE Text Properties');return g?g.property('ADBE Text Document'):null;}
@@ -106,7 +106,7 @@ var MotionAstra=(function(){
         return 'var s=value.toString(),n=Math.floor(q*s.length),alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",out="";seedRandom(Math.round(P("seed",1))+Math.floor(q*P("steps",20)),true);for(var j=0;j<s.length;j++){out+=j<n||q>=1||/\\s/.test(s.charAt(j))?s.charAt(j):alphabet.charAt(Math.floor(random(alphabet.length)));}out';
     }
     function textFx(l,r,p,m){var body,anim,g,sel;
-        if(!r.legacy&&r.id!=='counter'&&r.id!=='switcher'){text25(l,r,p,m);return;}
+        if(r.engine25||(!r.legacy&&r.id!=='counter'&&r.id!=='switcher')){text25(l,r,p,m);return;}
         if(r.id==='counter'||r.id==='switcher'||r.id==='typewriter'||r.id==='decode'){assign(source(l),clock(m,sourceBody(r,p)));return;}
         anim=l.property('ADBE Text Properties').property('ADBE Text Animators').addProperty('ADBE Text Animator');anim.name='MA2 '+r.id;
         g=anim.property('ADBE Text Animator Properties');
@@ -178,23 +178,24 @@ var MotionAstra=(function(){
     function blur25(l,m,body,horizontal){var e=nativeFx(l,'ADBE Gaussian Blur 2','blur');bind(e,1,m,body);fixed(e,2,horizontal?2:1);fixed(e,3,1);}
     function distort25(l,m,amount,size){var e=nativeFx(l,'ADBE Turbulent Displace','distortion');bind(e,2,m,amount);bind(e,3,m,size);bind(e,6,m,'q*360*P("cycles",1)');}
     function text25(l,r,p,m){
-        if(r.id==='matrix'){assign(source(l),clock(m,sourceBody({id:'decode'},p)));var fill=nativeFx(l,'ADBE Fill','matrix tint');bind(fill,3,m,'C("tint",[.1,1,.5,1])');return;}
+        if(r.id==='matrix'){assign(source(l),clock(m,sourceBody({id:'decode'},p)));var fill=nativeFx(l,'ADBE Fill','matrix tint');fixed(fill,3,color(p.tint));return;}
         if(r.id==='gold'||r.id==='ember'||r.id==='glass'||r.id==='extrusion'){
-            ramp25(l,m);
+            ramp25(l,m,{color2:p.tint,color3:p.tint});
             if(r.id==='gold'||r.id==='ember')distort25(l,m,'P("amount",60)*'+(r.id==='ember'?'.18':'.08'),'20+P("detail",5)*8');
             if(r.id==='glass'||r.id==='extrusion'){var bevel=nativeFx(l,'ADBE Bevel Alpha','bevel');bind(bevel,1,m,'1+P("amount",60)*.08');}
             if(r.id==='extrusion'){var shadow=nativeFx(l,'ADBE Drop Shadow','depth');bind(shadow,1,m,'[.18,.09,.015,1]');fixed(shadow,2,220);fixed(shadow,3,135);bind(shadow,4,m,'P("amount",60)*.45');fixed(shadow,5,0);}
         }
         var anim=l.property('ADBE Text Properties').property('ADBE Text Animators').addProperty('ADBE Text Animator');anim.name='MA2 '+r.id;
         var g=anim.property('ADBE Text Animator Properties'),sel,body;
-        if(r.id==='stretch'){assign(g.addProperty('ADBE Text Scale 3D'),clock(m,'[100+P("amount",60)*2,10,100]'));g.addProperty('ADBE Text Opacity').setValue(0);}
+        if(r.id==='pantext'){assign(g.addProperty('ADBE Text Position 3D'),clock(m,'var d=P("distance",300),v=P("direction",0);v<.5?[-d,0,0]:v<1.5?[d,0,0]:v<2.5?[0,-d,0]:[0,d,0]'));assign(g.addProperty('ADBE Text Opacity'),clock(m,'P("fade",1)>.5?0:100'));}
+        else if(r.id==='stretch'){assign(g.addProperty('ADBE Text Scale 3D'),clock(m,'[100+P("amount",60)*2,10,100]'));g.addProperty('ADBE Text Opacity').setValue(0);}
         else if(r.id==='stamp'){g.addProperty('ADBE Text Scale 3D').setValue([160,160,100]);assign(g.addProperty('ADBE Text Rotation'),clock(m,'-P("amount",60)*.25'));g.addProperty('ADBE Text Opacity').setValue(0);blur25(l,m,'(1-q)*P("amount",60)*.2',false);}
         else if(r.id==='vhs'){assign(g.addProperty('ADBE Text Position 3D'),clock(m,'[P("amount",60)*.2,0,0]'));blur25(l,m,'P("amount",60)*.03',true);}
         else if(r.id==='ember')g.addProperty('ADBE Text Opacity').setValue(25);
-        else{assign(g.addProperty('ADBE Text Fill Color'),clock(m,'C("tint",[.7,.85,1,1])'));}
+        else{/* Final native color is synchronized without a color expression. */}
         sel=anim.property('ADBE Text Selectors').addProperty('ADBE Text Expressible Selector');
         var local='var delay=P("stagger",45)/100,x=Math.max(0,Math.min(1,(q-(textIndex-1)/Math.max(1,textTotal-1)*delay)/Math.max(.1,1-delay)));';
-        if(r.id==='stretch'||r.id==='stamp')body=local+'x<=0?100:x>=1?0:100*(1-x)*Math.exp(-x*3)*Math.cos(x*(5+P("detail",5)))';
+        if(r.id==='pantext')body='100*(1-Math.max(0,Math.min(1,q)))';else if(r.id==='stretch'||r.id==='stamp')body=local+'x<=0?100:x>=1?0:100*(1-x)*Math.exp(-x*3)*Math.cos(x*(5+P("detail",5)))';
         else if(r.id==='vhs')body='seedRandom(textIndex+Math.floor(q*P("detail",5)*12),true);q>=1?0:random(-100,100)';
         else if(r.id==='ember')body='q>=1?0:(.5+.5*Math.sin(T*P("detail",5)+textIndex*2))*P("amount",60)';
         else body='Math.max(0,1-Math.abs((textIndex-.5)/textTotal-q)*5)*P("amount",60)';
@@ -233,11 +234,17 @@ var MotionAstra=(function(){
     function isSolid(l){return l instanceof AVLayer&&l.source&&l.source.mainSource instanceof SolidSource;}
     function isNewBackground(r){return r.category==='Background'&&!r.legacy;}
     function removeOwnedExpressions(g){var i,p;for(i=1;i<=(g.numProperties||0);i++){p=g.property(i);if(p.canSetExpression&&owned(p.expression))p.expression='';else if(p.numProperties)removeOwnedExpressions(p);}}
+    function syncTextColors(l,r,p){if(!p.tint)return;var effects=l.property('ADBE Effect Parade'),ramp=effects.property('MA2 native ramp'),col=color(p.tint),native,anims=l.property('ADBE Text Properties').property('ADBE Text Animators'),i,g,c;
+        // Retire only our obsolete animator color expressions before refreshing clocks.
+        for(i=1;i<=anims.numProperties;i++){g=anims.property(i);if(g.name.indexOf('MA2 ')!==0)continue;c=g.property('ADBE Text Animator Properties').property('ADBE Text Fill Color');if(c&&owned(c.expression))c.remove();}
+        if(ramp){native=ramp.property(2);native.expression='';set(native,col,l.containingComp.time);native=ramp.property(4);native.expression='';set(native,[col[0]*.22,col[1]*.22,col[2]*.22,1],l.containingComp.time);}
+        else{native=effects.property('MA2 native text color')||effects.property('MA2 native matrix tint');if(!native)native=nativeFx(l,'ADBE Fill','text color');native.property(3).expression='';set(native.property(3),col,l.containingComp.time);}
+    }
     function syncBackgroundColors(l,r,p){if(r.legacy)return;var cloud=r.id==='nebula'||r.id==='smoke',e=l.property('ADBE Effect Parade').property('MA2 native '+(cloud?'cloud colors':'ramp'));if(!e)throw Error('Background color effect missing. Remove and regenerate this background.');var a=nativeParam(e,cloud?1:2),b=nativeParam(e,cloud?2:4);a.expression='';b.expression='';set(a,color(cloud?p.color1:p.color2),l.containingComp.time);set(b,color(cloud?p.color2:p.color3),l.containingComp.time);}
     function refreshOwnedClocks(g,m){var i,p,s,cut,separator='var T=q*6.28318530718;\n';for(i=1;i<=(g.numProperties||0);i++){p=g.property(i);if(p.canSetExpression&&owned(p.expression)){s=p.expression;cut=s.indexOf(separator);if(cut>=0)assign(p,clock(m,s.substr(cut+separator.length)));}else if(p.numProperties)refreshOwnedClocks(p,m);}}
     function clearArtwork(l){var masks=l.property('ADBE Mask Parade');if(masks)for(var mi=masks.numProperties;mi>=1;mi--)if(masks.property(mi).name.indexOf('MA2 artwork ')===0)masks.property(mi).remove();var g=l.property('ADBE Root Vectors Group'),i;if(g)for(i=g.numProperties;i>=1;i--)if(g.property(i).name==='MA2 artwork')g.property(i).remove();var effects=l.property('ADBE Effect Parade');if(effects)for(i=effects.numProperties;i>=1;i--)if(effects.property(i).name.indexOf('MA2 native ')===0)effects.property(i).remove();}
     function cleanup(l,m){if(m&&/^(zoom|whip|lightleak|rgbglitch|warp|filmburn|bounce|anamorphic|page|pixel)$/.test(m.id))l.enabled=false;removeOwnedExpressions(l);clearArtwork(l);var g=l.property('ADBE Text Properties'),i;if(g){g=g.property('ADBE Text Animators');for(i=g.numProperties;i>=1;i--)if(g.property(i).name.indexOf('MA2 ')===0)g.property(i).remove();}g=l.property('ADBE Effect Parade');if(g)for(i=g.numProperties;i>=1;i--)if(g.property(i).name.indexOf('MA2 ')===0)g.property(i).remove();if(m){removeMarker(l,m.token,'start');removeMarker(l,m.token,'end');}saveMeta(l,null);}
-    function controlCheck(l,r){var g=l.property('ADBE Effect Parade'),i,j,d,n;for(i=0;i<r.parameters.length;i++){d=r.parameters[i];if(d.type==='text'||d.type==='textarea')continue;n=0;for(j=1;j<=g.numProperties;j++)if(g.property(j).name==='MA2 '+d.id)n++;if(n===0&&d.id==='loopMode'&&fx(l,'loop'))continue;if(n!==1)throw Error('Missing or duplicate '+d.label+' control. Undo its deletion or remove/reapply the FX.');}}
+    function controlCheck(l,r){var g=l.property('ADBE Effect Parade'),i,j,d,n;for(i=0;i<r.parameters.length;i++){d=r.parameters[i];if(d.type==='text'||d.type==='textarea')continue;n=0;for(j=1;j<=g.numProperties;j++)if(g.property(j).name==='MA2 '+d.id)n++;if(n===0&&(d.id==='tint'||d.id==='static'))continue;if(n===0&&d.id==='loopMode'&&fx(l,'loop'))continue;if(n!==1)throw Error('Missing or duplicate '+d.label+' control. Undo its deletion or remove/reapply the FX.');}}
     function preflight(l,r,updating){writable(l);if(!l.property('ADBE Effect Parade'))throw Error('Choose a visual layer.');if(r.category==='Text'&&!isText(l))throw Error('Select a Text layer.');if(r.category==='Background'&&(r.legacy?!(l instanceof ShapeLayer):!isSolid(l)))throw Error('Select a Solid layer for this background.');
         if(!updating){if(meta(l))throw Error('This layer already has MotionAstra 2 FX. Use Update or Remove MotionAstra FX.');var g=l.property('ADBE Effect Parade');for(var i=1;i<=g.numProperties;i++)if(g.property(i).name.indexOf('MA2 ')===0)throw Error('Orphan MotionAstra controls: use Remove MotionAstra FX first.');}
         if(r.id==='counter'||r.id==='switcher'||r.id==='typewriter'||r.id==='decode'||r.id==='matrix'){var s=source(l);if(!updating&&(s.expression||s.numKeys))throw Error('Source Text has an expression/keyframes. Use a clean text layer.');if(updating&&!owned(s.expression))throw Error('Source Text was changed outside MotionAstra. Remove/reapply deliberately to avoid replacing your expression.');}
@@ -245,7 +252,15 @@ var MotionAstra=(function(){
         if(r.id==='gradient'&&!l.property('ADBE Effect Parade').canAddProperty('ADBE Ramp'))throw Error('Native Gradient Ramp unavailable.');
         if((r.id==='aurora'||r.id==='bokeh')&&!l.property('ADBE Effect Parade').canAddProperty('ADBE Gaussian Blur 2'))throw Error('Native Gaussian Blur unavailable.');
     }
-    function newText(c){var l=c.layers.addText('MotionAstra');l.name='MotionAstra Text';prop(l,'ADBE Position').setValue([c.width/2,c.height/2]);l.inPoint=Math.min(c.time,c.duration-c.frameDuration);l.outPoint=c.duration;return l;}
+    function fontList(){var out=[],seen={},groups,i,j,f;if(!app.fonts||!app.fonts.allFonts)return {ok:true,fonts:[],message:'Font enumeration requires AE 24 or newer. New Text uses the current AE font.'};groups=app.fonts.allFonts;for(i=0;i<groups.length;i++)for(j=0;j<groups[i].length;j++){f=groups[i][j];try{if(f.postScriptName&&!f.isSubstitute&&!seen['$'+f.postScriptName]){seen['$'+f.postScriptName]=true;out.push({value:f.postScriptName,label:f.familyName+' — '+f.styleName});}}catch(ignore){}}out.sort(function(a,b){return a.label<b.label?-1:a.label>b.label?1:0;});return {ok:true,fonts:out};}
+    function compPoint2D(l,p,t){if(!l)return p;if(l.threeDLayer)throw Error('Align/distribute supports 2D layers and 2D parents.');var a=prop(l,'ADBE Anchor Point').valueAtTime(t,false),s=prop(l,'ADBE Scale').valueAtTime(t,false),r=prop(l,'ADBE Rotate Z').valueAtTime(t,false)*Math.PI/180,v=prop(l,'ADBE Position').valueAtTime(t,false),x=(p[0]-a[0])*s[0]/100,y=(p[1]-a[1])*s[1]/100;return compPoint2D(l.parent,[v[0]+x*Math.cos(r)-y*Math.sin(r),v[1]+x*Math.sin(r)+y*Math.cos(r)],t);}
+    function visualBounds(l,t){writable(l);if(!prop(l,'ADBE Anchor Point'))throw Error('Visual layers only.');var r=l.sourceRectAtTime(t,true),a=[],i,p,minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;for(i=0;i<4;i++){p=compPoint2D(l,[r.left+(i%2)*r.width,r.top+Math.floor(i/2)*r.height],t);minX=Math.min(minX,p[0]);maxX=Math.max(maxX,p[0]);minY=Math.min(minY,p[1]);maxY=Math.max(maxY,p[1]);}return {l:l,left:minX,right:maxX,top:minY,bottom:maxY,x:(minX+maxX)/2,y:(minY+maxY)/2};}
+    function moveInComp(l,dx,dy,t){if(l.parent){var o=compPoint2D(l.parent,[0,0],t),x=compPoint2D(l.parent,[1,0],t),y=compPoint2D(l.parent,[0,1],t),a=x[0]-o[0],b=y[0]-o[0],c=x[1]-o[1],d=y[1]-o[1],det=a*d-b*c;if(Math.abs(det)<.000001)throw Error('Parent scale cannot be zero.');shiftPosition(l,[(d*dx-b*dy)/det,(-c*dx+a*dy)/det,0]);}else shiftPosition(l,[dx,dy,0]);}
+    function layerDepth(l){var n=0;while(l.parent){n++;l=l.parent;}return n;}
+    function layoutLayers(c,ls,a){var items=[],lines=[],i,b,dx,dy,count=0,axis=a.axis;if(a.name==='align'&&!/^(center|horizontal|vertical|left|right|top|bottom)$/.test(a.mode))fail('Choose an alignment.');if(a.name==='distribute'&&axis!=='x'&&axis!=='y')fail('Choose a distribution axis.');for(i=0;i<ls.length;i++)try{items.push(visualBounds(ls[i],c.time));}catch(e){lines.push(ls[i].name+': '+e);}if(a.name==='distribute'&&items.length<3)fail('Select at least three unlocked 2D visual layers to distribute.');if(a.name==='distribute')items.sort(function(a,b){return a[axis]-b[axis]||a.l.index-b.l.index;});var start=items.length?items[0][axis]:0,end=items.length?items[items.length-1][axis]:0;
+        for(i=0;i<items.length;i++){b=items[i];b.tx=b.x;b.ty=b.y;if(a.name==='distribute'){if(axis==='x')b.tx=start+(end-start)*i/(items.length-1);else b.ty=start+(end-start)*i/(items.length-1);}else{if(a.mode==='center'||a.mode==='horizontal')b.tx=c.width/2;if(a.mode==='center'||a.mode==='vertical')b.ty=c.height/2;if(a.mode==='left')b.tx-=b.left;if(a.mode==='right')b.tx+=c.width-b.right;if(a.mode==='top')b.ty-=b.top;if(a.mode==='bottom')b.ty+=c.height-b.bottom;}}
+        items.sort(function(a,b){return layerDepth(a.l)-layerDepth(b.l);});for(i=0;i<items.length;i++){b=items[i];try{var now=visualBounds(b.l,c.time);moveInComp(b.l,b.tx-now.x,b.ty-now.y,c.time);count++;lines.push(b.l.name+': positioned.');}catch(e){lines.push(b.l.name+': '+e);}}return report(lines,count);}
+    function newText(c,font){if(font){var fonts=fontList().fonts,found=false;for(var fi=0;fi<fonts.length;fi++)if(fonts[fi].value===font)found=true;if(!found)fail('Selected font is unavailable. Refresh the font list.');}var l=c.layers.addText('MotionAstra');l.name='MotionAstra Text';if(font){try{var document=source(l).value;document.font=font;source(l).setValue(document);}catch(e){l.remove();throw e;}}prop(l,'ADBE Position').setValue([c.width/2,c.height/2]);l.inPoint=Math.min(c.time,c.duration-c.frameDuration);l.outPoint=c.duration;return l;}
     // Create editable native layers; no MotionAstra ownership tags or expressions are added.
     function newVisual(c,kind,hexColor){
         if(!/^#[0-9a-f]{6}$/i.test(hexColor))fail('Choose a valid layer color.');
@@ -272,7 +287,7 @@ var MotionAstra=(function(){
             ls=[];
             {l=r.legacy?c.layers.addShape():c.layers.addSolid(color(p.color1||"#101820").slice(0,3),'MotionAstra • '+r.name,c.width,c.height,c.pixelAspect,c.duration);l.name='MotionAstra • '+r.name;prop(l,'ADBE Position').setValue([c.width/2,c.height/2]);l.inPoint=0;l.outPoint=c.duration;l.moveToEnd();ls=[l];created=true;}
         }else{ls=selection(c);}
-        for(i=0;i<ls.length;i++){l=ls[i];m=null;try{preflight(l,r,false);m={id:r.id,token:'i'+new Date().getTime()+'_'+(++serial),values:p,version:2.5,build:BUILD};setControls(l,r,p);markers(l,r,m,p.duration,true);if(r.category==='Text')textFx(l,r,p,m);else background(l,r,p,m);saveMeta(l,m);count++;lines.push(l.name+': '+r.name+' applied.');}catch(e){if(m)try{cleanup(l,m);}catch(ignore){}lines.push(l.name+': '+String(e));if(created)try{var deadSource=l.source;l.remove();if(deadSource&&deadSource.usedIn&&deadSource.usedIn.length===0)deadSource.remove();}catch(ignore2){}}}
+        for(i=0;i<ls.length;i++){l=ls[i];m=null;try{preflight(l,r,false);m={id:r.id,token:'i'+new Date().getTime()+'_'+(++serial),values:p,version:2.5,build:BUILD};setControls(l,r,p);markers(l,r,m,p.duration,true);if(r.category==='Text')textFx(l,r,p,m);else background(l,r,p,m);if(r.category==='Text')syncTextColors(l,r,p);saveMeta(l,m);count++;lines.push(l.name+': '+r.name+' applied.');}catch(e){if(m)try{cleanup(l,m);}catch(ignore){}lines.push(l.name+': '+String(e));if(created)try{var deadSource=l.source;l.remove();if(deadSource&&deadSource.usedIn&&deadSource.usedIn.length===0)deadSource.remove();}catch(ignore2){}}}
         if(created&&count){for(i=1;i<=c.numLayers;i++)c.layer(i).selected=false;ls[0].selected=true;}return report(lines,count);
     }
     function generateBackground(a){var r=recipes[a.id];if(!r||r.category!=='Background')fail('Choose a Background preset to generate.');return update(a);}
@@ -281,7 +296,7 @@ var MotionAstra=(function(){
         if(r.category==='Background'){var matching=[];for(i=0;i<ls.length;i++){m=meta(ls[i]);if(m&&m.id===r.id)matching.push(ls[i]);}if(!matching.length)return apply(a);ls=matching;}else ls=selection(c);
         for(i=0;i<ls.length;i++){l=ls[i];started=false;try{m=meta(l);if(!m||m.id!==r.id){lines.push(l.name+': No '+r.name+' instance to update. Click Apply first, or select its existing FX layer and Load selected FX settings. No changes made to this layer.');continue;}preflight(l,r,true);controlCheck(l,r);markerTime(l,m.token,'end');oldDuration=fx(l,'duration').property(1).value;started=true;setControls(l,r,p);markers(l,r,m,p.duration,Math.abs(oldDuration-p.duration)>.000001);
                 if(r.category==='Background'&&(m.build!==BUILD||!m.values||m.values.count!==p.count)){clearArtwork(l);background(l,r,p,m);m.build=BUILD;}else if(r.id==='counter'||r.id==='switcher'||r.id==='typewriter'||r.id==='decode'||r.id==='matrix')assign(source(l),clock(m,sourceBody(r,p)));
-                if(r.category==='Background')syncBackgroundColors(l,r,p);else if(m.build!==BUILD)refreshOwnedClocks(l,m);var oldLoop=fx(l,'loop');if(oldLoop)oldLoop.remove();m.build=BUILD;m.values=p;saveMeta(l,m);count++;lines.push(l.name+': updated.');}catch(e){errors++;lines.push(l.name+': '+String(e)+(started?' Undo once if this update partially changed the layer.':' No changes made to this layer.'));}}
+                if(r.category==='Background')syncBackgroundColors(l,r,p);else{syncTextColors(l,r,p);if(m.build!==BUILD)refreshOwnedClocks(l,m);}var oldLoop=fx(l,'loop');if(oldLoop)oldLoop.remove();m.build=BUILD;m.values=p;saveMeta(l,m);count++;lines.push(l.name+': updated.');}catch(e){errors++;lines.push(l.name+': '+String(e)+(started?' Undo once if this update partially changed the layer.':' No changes made to this layer.'));}}
         var result=report(lines,count);if(!count&&!errors)result.severity='warning';return result;
     }
     // Offset existing values/keyframes, or wrap an existing expression without discarding it.
@@ -321,7 +336,8 @@ var MotionAstra=(function(){
         for(i=0;i<ls.length;i++){try{writable(ls[i]);props=ls[i].selectedProperties;for(j=0;j<props.length;j++){p=props[j];if(!p.selectedKeys||!p.selectedKeys.length||!p.setTemporalEaseAtKey)continue;keys=p.selectedKeys;d=p.isSpatial?1:(Object.prototype.toString.call(p.value)==='[object Array]'?p.value.length:1);inE=[];outE=[];for(k=0;k<d;k++){inE.push(new KeyframeEase(0,s));outE.push(new KeyframeEase(0,s));}for(k=0;k<keys.length;k++){n=keys[k];if(mode==='linear')p.setInterpolationTypeAtKey(n,KeyframeInterpolationType.LINEAR,KeyframeInterpolationType.LINEAR);else{p.setInterpolationTypeAtKey(n,mode==='out'?KeyframeInterpolationType.LINEAR:KeyframeInterpolationType.BEZIER,mode==='in'?KeyframeInterpolationType.LINEAR:KeyframeInterpolationType.BEZIER);p.setTemporalEaseAtKey(n,inE,outE);}count++;}}}catch(e){lines.push(ls[i].name+': '+String(e));}}
         return {ok:true,changed:count,severity:count?(lines.length?'warning':'success'):'warning',message:count+' keys adjusted.'+(lines.length?'\n'+lines.join('\n'):'')+(count?'':' Select property keyframes in the timeline first.')};
     }
-    function tool(a){var c=comp(),ls=c.selectedLayers,i,j,l,lines=[],count=0,m;if(a.name==='newText'||a.name==='newShape'||a.name==='newSolid'){l=a.name==='newText'?newText(c):newVisual(c,a.name,a.color||'#ff943f');for(i=1;i<=c.numLayers;i++)c.layer(i).selected=false;l.selected=true;return {message:'Created and selected '+(a.name==='newText'?'a text layer':a.name==='newShape'?'an editable shape layer':'a colored solid')+'.',changed:1};}if(!ls.length)fail('Select one or more layers first.');
+    function tool(a){var c=comp(),ls=c.selectedLayers,i,j,l,lines=[],count=0,m;if(a.name==='newText'||a.name==='newShape'||a.name==='newSolid'){l=a.name==='newText'?newText(c,a.font||''):newVisual(c,a.name,a.color||'#ff943f');for(i=1;i<=c.numLayers;i++)c.layer(i).selected=false;l.selected=true;return {message:'Created and selected '+(a.name==='newText'?'a text layer':a.name==='newShape'?'an editable shape layer':'a colored solid')+'.',changed:1};}if(!ls.length)fail('Select one or more layers first.');
+        if(a.name==='align'||a.name==='distribute')return layoutLayers(c,ls,a);
         if(a.name==='arrange'){arrange(c,ls,a.mode);return {message:'Reordered '+ls.length+' selected layer(s).',changed:ls.length};}
         if(a.name==='ease')return easeTool(c,ls,a);
         if(a.name==='parent'){
@@ -344,7 +360,8 @@ var MotionAstra=(function(){
         }catch(e){lines.push(l.name+': '+String(e));}}
         var result=report(lines,count);if(a.name==='anchor'&&count)result.message+='\nArtwork is preserved at the playhead when Keep artwork is enabled. Animated rotation/scale may change other frames.';return result;
     }
-    function dispatch(raw){var a,result,undo=false;try{a=parse(decodeURIComponent(raw));if(a.action==='status'){var c=app.project?app.project.activeItem:null;result={ok:true,hostVersion:'2.8.1',build:BUILD,version:app.version,composition:c instanceof CompItem?c.name:null,selected:c instanceof CompItem?c.selectedLayers.length:0};}
+    function dispatch(raw){var a,result,undo=false;try{a=parse(decodeURIComponent(raw));if(a.action==='status'){var c=app.project?app.project.activeItem:null;result={ok:true,hostVersion:'2.8.2',build:BUILD,version:app.version,composition:c instanceof CompItem?c.name:null,selected:c instanceof CompItem?c.selectedLayers.length:0};}
+        else if(a.action==='fonts')result=fontList();
         else if(a.action==='load'||a.action==='reconnect'){try{result=load(a);}catch(e){e.noChanges=true;throw e;}}
         else{if(a.action!=='generateBackground'&&a.action!=='apply'&&a.action!=='update'&&a.action!=='tool')fail('Unknown action.');app.beginUndoGroup('MotionAstra 2');undo=true;result=a.action==='generateBackground'?generateBackground(a):a.action==='apply'?apply(a):a.action==='update'?update(a):tool(a);result.ok=true;}
     }catch(e){result={ok:false,message:String(e)+(e.line?' (line '+e.line+')':'')+(e.noChanges?' — No changes were made.':' — Check the timeline; Undo once if the operation partially changed it.')};}
@@ -352,6 +369,6 @@ var MotionAstra=(function(){
     // Fail before any layer mutation if this host cannot preserve transport booleans.
     var transportProbe=parse('{"keep":true,"loop":false,"empty":null,"n":1.25}');
     if(transportProbe.keep!==true||transportProbe.loop!==false||transportProbe.empty!==null||transportProbe.n!==1.25)throw Error('MotionAstra JSON transport self-check failed. Restart AE and install the full package.');
-    return {dispatch:dispatch,version:'2.8.1',build:BUILD};
+    return {dispatch:dispatch,version:'2.8.2',build:BUILD};
 }());
 if(typeof $!=='undefined'&&$.global)$.global.MotionAstra=MotionAstra;
