@@ -1,0 +1,10 @@
+const vm=require('node:vm'),fs=require('node:fs'),assert=require('node:assert/strict');
+let callback,frames=0;
+const context=new Proxy({createRadialGradient:()=>({addColorStop(){}}),measureText:()=>({width:100})},{get:(o,k)=>k in o?o[k]:()=>{}});
+const canvas={width:440,height:250,isConnected:true,getContext:()=>context};
+const ctx={window:{},document:{hidden:false,body:{classList:{contains:()=>false}},addEventListener(){}},matchMedia:()=>({matches:false}),performance:{now:()=>0},IntersectionObserver:class{observe(){}unobserve(){}},requestAnimationFrame(fn){callback=fn;frames++;return frames;},cancelAnimationFrame(){callback=null;}};
+vm.runInNewContext(fs.readFileSync(__dirname+'/../js/preview.js','utf8'),ctx);
+const p=require('../presets.json').presets[0];
+ctx.window.MotionPreview.attach(canvas,p,{duration:1,loop:false},true);const tick=callback;callback=null;tick(1200);
+assert.equal(callback,null,'One-shot preview must stop requesting frames at completion');
+console.log('PASS: completed one-shot preview idles.');

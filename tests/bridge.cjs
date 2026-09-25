@@ -64,6 +64,8 @@ function environment(options = {}) {
     [{ malformed: true }, /damaged reply/]
   ]) await assert.rejects(environment(options).bridge.call({ action: 'status' }), expected);
 
+  const oldBuild=environment();oldBuild.host.MotionAstra={version:'2.8.0',build:'previous',dispatch(){throw Error('Stale host reused');}};
+  await oldBuild.bridge.call({action:'status'});assert.equal(oldBuild.metrics.loads.length,2,'Same-version hotfix must reload stale host build');
   const noReply = environment({ loseMailbox: true });
   await assert.rejects(noReply.bridge.call({ action: 'tool', name: 'unlock' }), /not retried/);
   assert.equal(noReply.metrics.writes, 1);

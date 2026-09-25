@@ -76,3 +76,14 @@ All ten backgrounds are covered by modeled-host creation/update regressions. Nat
 ## v2.8 — Pre-alpha
 
 Text FX require a selected text layer and never create one implicitly. Use New Text if needed. Background cards offer Customize and Generate Background. Generation needs only an active composition and creates its own layer; selected layers are untouched. Background Update retains the v2.5.6 update-or-generate behavior. The background UI uses a dedicated generateBackground host action. CEP uses numeric version 2.8.0; the GitHub prerelease tag is v2.8-pre-alpha. Native AE rendering and browser layout remain unverified; this is a pre-alpha release.
+
+### Stability build 2.8.0-stability.1 (same v2.8 Pre-alpha release)
+
+- A late status response cannot release the in-flight mutation lock.
+- Customize values, including colors, remain in per-preset drafts for this panel session and are used by card buttons. Reset explicitly restores defaults.
+- Generate updates matching selected background instances. Deselect all backgrounds to intentionally generate a new copy. Existing duplicate layers are not deleted automatically.
+- Color/slider updates preserve background masks and native effects. Count changes rebuild geometry; older builds rebuild once to migrate expressions.
+- Preview rendering pauses during host operations, is capped at 30 fps, and stops after one-shot animations.
+- Build checks reload an older host implementation even though the public version remains 2.8.0. Settings displays the build identifier.
+
+Thirteen host/state/preview suites pass locally, including reproductions of the late-status race, discarded card colors, repeat generation and idle preview. The release workflow also gates publication on real Chromium UI/checkbox tests. This does not measure native AE render performance or certify native effect behavior. Replace the full extension folder and restart AE. Old duplicated layers must be inspected and removed manually if unwanted.

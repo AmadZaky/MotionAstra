@@ -1,6 +1,6 @@
 /* Illustrative canvas studies. Native AE output can differ with fonts/resolution. */
 window.MotionPreview=(()=>{
-const entries=new Map();let raf=0;
+const entries=new Map();let raf=0,paused=false;
 const defaults=p=>Object.fromEntries(p.parameters.map(d=>[d.id,d.default]));
 const fract=n=>n-Math.floor(n),rand=n=>fract(Math.sin(n*127.1+311.7)*43758.5453);
 function clock(time,p){let q=p.manual?Math.max(0,Math.min(1,p.progress/100)):p.loop?Math.max(0,time/p.duration)%1:Math.max(0,Math.min(1,time/p.duration));q=p.ease===1?q*q:p.ease===2?1-(1-q)*(1-q):p.ease===3?q*q*(3-2*q):q;return p.reverse?1-q:q;}
@@ -63,11 +63,12 @@ ctx.restore();ctx.font='9px Arial';ctx.fillStyle='#9cb3c77a';ctx.textAlign='righ
 }
 
 const reduced=()=>document.body.classList.contains('reduced')||matchMedia('(prefers-reduced-motion: reduce)').matches;
-function tick(now){raf=0;let active=false;entries.forEach((e,c)=>{if(!c.isConnected){entries.delete(c);return;}if(e.active&&e.visible&&!document.hidden&&!reduced()){render(c,e.preset,(now-e.start)/1000,e.params);active=true;}});if(active)raf=requestAnimationFrame(tick);}
-function run(){if(!raf)raf=requestAnimationFrame(tick);}
+function tick(now){raf=0;if(paused)return;let active=false;entries.forEach((e,c)=>{if(!c.isConnected){observer.unobserve(c);entries.delete(c);return;}if(e.active&&e.visible&&!document.hidden&&!reduced()){const elapsed=(now-e.start)/1000,p=Object.assign(defaults(e.preset),e.params);const done=p.manual||(!p.loop&&elapsed>=p.duration);if(done||now-e.last>=1000/30){render(c,e.preset,elapsed,e.params);e.last=now;}if(done)e.active=false;else active=true;}});if(active)raf=requestAnimationFrame(tick);}
+function run(){if(!paused&&!raf)raf=requestAnimationFrame(tick);}
+function suspend(value){paused=value;if(paused&&raf){cancelAnimationFrame(raf);raf=0;}if(!paused)run();}
 const observer=new IntersectionObserver(list=>list.forEach(x=>{const e=entries.get(x.target);if(e){e.visible=x.isIntersecting;run();}}));
-function attach(canvas,preset,params={},always=false){if(!entries.has(canvas))observer.observe(canvas);entries.set(canvas,{preset,params,active:always,visible:true,start:performance.now()});render(canvas,preset,.9,params);run();}
+function attach(canvas,preset,params={},always=false){if(!entries.has(canvas))observer.observe(canvas);entries.set(canvas,{preset,params,active:always,visible:true,start:performance.now(),last:-Infinity});render(canvas,preset,.9,params);run();}
 function play(canvas,active){const e=entries.get(canvas);if(e){e.active=active;e.start=performance.now();if(!active)render(canvas,e.preset,.9,e.params);run();}}
 function clear(){entries.forEach((e,c)=>observer.unobserve(c));entries.clear();}
-document.addEventListener('visibilitychange',run);return {attach,play,clear,render,clock};
+document.addEventListener('visibilitychange',run);return {attach,play,clear,render,clock,suspend};
 })();

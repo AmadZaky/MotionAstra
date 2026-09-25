@@ -21,9 +21,15 @@ jobs:
           git checkout --detach FETCH_HEAD
       - name: Verify host tests
         run: |
-          for test in static engine expressions bridge tools checkboxes parser-boundary update-target background-create fx-target; do
+          for test in static engine expressions bridge tools checkboxes parser-boundary update-target background-create fx-target panel-state background-stability preview-idle; do
             node "tests/$test.cjs"
           done
+      - name: Verify browser workflow
+        run: |
+          npm install --no-save --package-lock=false playwright@1.56.1
+          npx playwright install --with-deps chromium
+          node tests/ui.cjs
+          node tests/checkbox-ui.cjs
       - name: Package extension
         run: |
           python3 - <<'PY'
