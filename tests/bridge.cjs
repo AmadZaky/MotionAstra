@@ -47,7 +47,7 @@ function environment(options = {}) {
   for (const drop of [undefined, '', 'undefined', 'null', 'EvalScript error.']) {
     const env = environment(drop === undefined ? {} : { drop });
     const status = await env.bridge.call({ action: 'status' });
-    assert.equal(status.hostVersion, '2.5.4');
+    assert.equal(status.hostVersion, '2.5.5');
     assert.equal(env.metrics.loads.length, 2, 'Load data and host exactly once');
     const cleaned = await env.bridge.call({ action: 'tool', name: 'unlock' });
     assert.equal(cleaned.changed,1);

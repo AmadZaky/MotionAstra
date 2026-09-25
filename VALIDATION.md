@@ -45,3 +45,7 @@ Canvas previews are original illustrative studies, not frame-accurate previews o
 2.5.4: parser-boundary.cjs reproduced the exact Keep artwork number NaN error before the parser change, using simulated string-like RegExp captures. After the change, actual host dispatch preserves both Keep artwork and Loop states. The simulation is not evidence of native Adobe capture behavior. Host initialization additionally checks JSON boolean/null/number decoding.
 
 Current hotfix run: static, engine, expressions, bridge, tools, checkboxes and parser-boundary passed. Browser tests could not be rerun because the Chromium executable is unavailable in this session. Browser coverage and screenshots above are retained from the previous release; this hotfix changes the host parser, not UI code.
+
+## 2.5.5 — clearer Update and bottom Apply
+
+Update on a selected layer without the chosen preset now gives Apply/Load guidance without an error prefix or unnecessary Undo advice. It never applies a new preset implicitly. Apply appears full-width below Customize on every card, and last in the inspector footer. Host regression tests reproduce the original Soft Bokeh message and verify no mutation on mismatched layers. Native AE and browser rendering of this revision remain unverified.

@@ -1,0 +1,10 @@
+const assert=require('node:assert/strict'),{create}=require('./host-model.cjs');
+const data=require('../presets.json'),id=data.presets.find(p=>p.name==='Soft Bokeh').id;
+const e=create(),l=e.comp.add('solid');l.name='Comp 1';l.selected=true;
+const r=e.rpc({action:'update',id,params:{}});
+assert.equal(r.changed,0);assert.equal(l.fx.numProperties,0);
+assert.match(r.message,/Apply/);assert.doesNotMatch(r.message,/Undo|Error:/);
+assert.equal(r.severity,'warning');
+assert.equal(e.rpc({action:'apply',id,params:{}}).changed,1);
+assert.equal(e.rpc({action:'update',id,params:{}}).changed,1);
+console.log('PASS: unmatched Update is non-mutating and gives Apply guidance; applied Soft Bokeh updates.');
