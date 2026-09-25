@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ExtensionManifest Version="7.0" ExtensionBundleId="com.motionastra.fx" ExtensionBundleVersion="2.5.6" ExtensionBundleName="MotionAstra FX">
-  <ExtensionList><Extension Id="com.motionastra.fx.panel" Version="2.5.6"/></ExtensionList>
+<ExtensionManifest Version="7.0" ExtensionBundleId="com.motionastra.fx" ExtensionBundleVersion="2.8.0" ExtensionBundleName="MotionAstra FX">
+  <ExtensionList><Extension Id="com.motionastra.fx.panel" Version="2.8.0"/></ExtensionList>
   <ExecutionEnvironment>
     <HostList><Host Name="AEFT" Version="[18.0,25.9]"/></HostList>
     <LocaleList><Locale Code="All"/></LocaleList>

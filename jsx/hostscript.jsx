@@ -1,4 +1,4 @@
-/* MotionAstra 2.5.6 — ES3 host. No third-party AE effects required. */
+/* MotionAstra 2.8.0 — ES3 host. No third-party AE effects required. */
 var MotionAstra=(function(){
     var recipes={},serial=0;for(var ri=0;ri<MA_PRESET_DATA.presets.length;ri++)recipes[MA_PRESET_DATA.presets[ri].id]=MA_PRESET_DATA.presets[ri];
     for(var li=0;li<(MA_PRESET_DATA.legacy||[]).length;li++){var lr=MA_PRESET_DATA.legacy[li];lr.legacy=true;recipes[lr.id]=lr;}
@@ -268,10 +268,11 @@ var MotionAstra=(function(){
         if(r.category==='Background'){
             ls=[];
             {l=r.legacy?c.layers.addShape():c.layers.addSolid(color(p.color1||"#101820").slice(0,3),'MotionAstra • '+r.name,c.width,c.height,c.pixelAspect,c.duration);l.name='MotionAstra • '+r.name;prop(l,'ADBE Position').setValue([c.width/2,c.height/2]);l.inPoint=0;l.outPoint=c.duration;l.moveToEnd();ls=[l];created=true;}
-        }else{ls=c.selectedLayers;if(!ls.length){ls=[newText(c)];created=true;}}
+        }else{ls=selection(c);}
         for(i=0;i<ls.length;i++){l=ls[i];m=null;try{preflight(l,r,false);m={id:r.id,token:'i'+new Date().getTime()+'_'+(++serial),values:p,version:2.5};setControls(l,r,p);markers(l,r,m,p.duration,true);if(r.category==='Text')textFx(l,r,p,m);else background(l,r,p,m);saveMeta(l,m);count++;lines.push(l.name+': '+r.name+' applied.');}catch(e){if(m)try{cleanup(l,m);}catch(ignore){}lines.push(l.name+': '+String(e));if(created)try{var deadSource=l.source;l.remove();if(deadSource&&deadSource.usedIn&&deadSource.usedIn.length===0)deadSource.remove();}catch(ignore2){}}}
         if(created&&count){for(i=1;i<=c.numLayers;i++)c.layer(i).selected=false;ls[0].selected=true;}return report(lines,count);
     }
+    function generateBackground(a){var r=recipes[a.id];if(!r||r.category!=='Background')fail('Choose a Background preset to generate.');return apply(a);}
     function load(a){var c=comp(),ls=selection(c),m=meta(ls[0]);if(!m||!recipes[m.id])fail('Select a MotionAstra 2 FX layer. V1 effects are not compatible with the v2 inspector.');var r=recipes[m.id];controlCheck(ls[0],r);return {ok:true,id:r.id,params:readControls(ls[0],r,m),message:'Loaded '+r.name+' from '+ls[0].name+'. Update affects matching selected layers only.'};}
     function update(a){var c=comp(),ls=c.selectedLayers,r=recipes[a.id];if(!r)fail('Choose a v2 preset.');var p=params(r,a.params),lines=[],count=0,i,l,m,oldDuration,started=false,errors=0;
         if(r.category==='Background'){var matching=[];for(i=0;i<ls.length;i++){m=meta(ls[i]);if(m&&m.id===r.id)matching.push(ls[i]);}if(!matching.length)return apply(a);ls=matching;}else ls=selection(c);
@@ -340,14 +341,14 @@ var MotionAstra=(function(){
         }catch(e){lines.push(l.name+': '+String(e));}}
         var result=report(lines,count);if(a.name==='anchor'&&count)result.message+='\nArtwork is preserved at the playhead when Keep artwork is enabled. Animated rotation/scale may change other frames.';return result;
     }
-    function dispatch(raw){var a,result,undo=false;try{a=parse(decodeURIComponent(raw));if(a.action==='status'){var c=app.project?app.project.activeItem:null;result={ok:true,hostVersion:'2.5.6',version:app.version,composition:c instanceof CompItem?c.name:null,selected:c instanceof CompItem?c.selectedLayers.length:0};}
+    function dispatch(raw){var a,result,undo=false;try{a=parse(decodeURIComponent(raw));if(a.action==='status'){var c=app.project?app.project.activeItem:null;result={ok:true,hostVersion:'2.8.0',version:app.version,composition:c instanceof CompItem?c.name:null,selected:c instanceof CompItem?c.selectedLayers.length:0};}
         else if(a.action==='load'||a.action==='reconnect'){try{result=load(a);}catch(e){e.noChanges=true;throw e;}}
-        else{if(a.action!=='apply'&&a.action!=='update'&&a.action!=='tool')fail('Unknown action.');app.beginUndoGroup('MotionAstra 2');undo=true;result=a.action==='apply'?apply(a):a.action==='update'?update(a):tool(a);result.ok=true;}
+        else{if(a.action!=='generateBackground'&&a.action!=='apply'&&a.action!=='update'&&a.action!=='tool')fail('Unknown action.');app.beginUndoGroup('MotionAstra 2');undo=true;result=a.action==='generateBackground'?generateBackground(a):a.action==='apply'?apply(a):a.action==='update'?update(a):tool(a);result.ok=true;}
     }catch(e){result={ok:false,message:String(e)+(e.line?' (line '+e.line+')':'')+(e.noChanges?' — No changes were made.':' — Check the timeline; Undo once if the operation partially changed it.')};}
     if(undo)try{app.endUndoGroup();}catch(e){result={ok:false,message:'Could not close Undo group. Check the timeline before retrying.'};}return encode(result);}
     // Fail before any layer mutation if this host cannot preserve transport booleans.
     var transportProbe=parse('{"keep":true,"loop":false,"empty":null,"n":1.25}');
     if(transportProbe.keep!==true||transportProbe.loop!==false||transportProbe.empty!==null||transportProbe.n!==1.25)throw Error('MotionAstra JSON transport self-check failed. Restart AE and install the full package.');
-    return {dispatch:dispatch,version:'2.5.6'};
+    return {dispatch:dispatch,version:'2.8.0'};
 }());
 if(typeof $!=='undefined'&&$.global)$.global.MotionAstra=MotionAstra;

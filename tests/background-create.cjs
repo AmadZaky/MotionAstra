@@ -1,6 +1,6 @@
 const assert=require('node:assert/strict'),{create}=require('./host-model.cjs');
 const presets=require('../presets.json').presets.filter(p=>p.category==='Background');
-for(const p of presets)for(const action of ['apply','update'])for(const kind of [null,'solid','video','text']){
+for(const p of presets)for(const action of ['generateBackground','apply','update'])for(const kind of [null,'solid','video','text']){
  const e=create(),old=kind?e.comp.add(kind):null;if(old)old.selected=true;
  const before=e.comp.numLayers,r=e.rpc({action,id:p.id,params:{duration:2}});
  assert.equal(r.changed,1,p.name+' '+action+': '+r.message);assert.equal(e.comp.numLayers,before+1);

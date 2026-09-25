@@ -1,0 +1,45 @@
+name: Publish v2.8 Pre-alpha
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/release-v2.8.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get exact source revision
+        env:
+          SOURCE_REPO: ${{ github.repository }}
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          git init .
+          git remote add origin "https://github.com/${SOURCE_REPO}.git"
+          git fetch --depth=1 origin "$SOURCE_SHA"
+          git checkout --detach FETCH_HEAD
+      - name: Verify host tests
+        run: |
+          for test in static engine expressions bridge tools checkboxes parser-boundary update-target background-create fx-target; do
+            node "tests/$test.cjs"
+          done
+      - name: Package extension
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import subprocess, zipfile
+          with zipfile.ZipFile('MotionAstra_FX_v2.8-pre-alpha.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
+              for name in subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0'):
+                  if name and not name.startswith('.github/'):
+                      archive.write(name, 'MotionAstra-FX/' + name)
+          PY
+      - name: Publish prerelease
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          gh release create v2.8-pre-alpha MotionAstra_FX_v2.8-pre-alpha.zip \
+            --target "$SOURCE_SHA" --title "MotionAstra v2.8 — Pre-alpha" \
+            --prerelease --notes-file RELEASE_NOTES_v2.8.md
