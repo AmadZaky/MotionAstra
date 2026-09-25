@@ -6,7 +6,7 @@ const external=l.fx.addProperty('Other');external.name='User FX';const removed=e
 assert.equal(e.rpc({action:'tool',name:'eraseAll'}).changed,1);assert.equal(l.fx.numProperties,0);
 }
 // Solid-target backgrounds must not silently alter footage; mixed selection reports skipped layers.
-{const e=create(),solid=e.comp.add('solid'),video=e.comp.add('video');solid.selected=video.selected=true;const r=e.rpc({action:'apply',id:'neongrid',params:{}});assert.equal(r.changed,1);assert.equal(r.severity,'warning');assert.equal(video.fx.numProperties,0);}
+{const e=create(),solid=e.comp.add('solid'),video=e.comp.add('video');solid.selected=video.selected=true;const r=e.rpc({action:'apply',id:'neongrid',params:{}});assert.equal(r.changed,1);assert.equal(r.severity,'success');assert.equal(solid.fx.numProperties,0);assert.equal(video.fx.numProperties,0);assert.equal(e.comp.numLayers,3);}
 // New effects reject conflicting instances and source-text animation.
 {const e=create(),l=e.comp.add('text');l.selected=true;l.text.property('ADBE Text Document').expression='"Existing"';assert.equal(e.rpc({action:'apply',id:'matrix',params:{}}).changed,0);assert.equal(l.fx.numProperties,0);}
 for(const loop of [false,0,'false','0']){const e=create();e.comp.add('text').selected=true;assert.equal(e.rpc({action:'apply',id:'counter',params:{loop}}).changed,1);assert.equal(e.comp.selectedLayers[0].fx.property('MA2 loop').property(1).value,0);}
