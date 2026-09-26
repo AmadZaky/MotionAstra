@@ -20,14 +20,15 @@ ma_verify() {
 # File transaction is separate from OS preferences so it can be tested safely.
 ma_install() (
   set -Eeuo pipefail
-  local payload="$1" extension_root="$2" backup_root="$3" root candidate answer version transaction destination
+  # Subshell variables survive Bash 3.2 EXIT traps; function locals do not.
+  payload="$1"; extension_root="$2"; backup_root="$3"
   shift 3
   ma_verify "$payload" || exit 1
   payload="$(cd "$payload" && pwd -P)" || exit 1
   mkdir -p "$extension_root" "$backup_root" || exit 1
   extension_root="$(cd "$extension_root" && pwd -P)" || exit 1
   destination="$extension_root/MotionAstra-FX"
-  local old=() saved=() count=0 moved=0 installed=0 success=0 i
+  old=(); saved=(); count=0; moved=0; installed=0; success=0
   for root in "$extension_root" "$@"; do
     [ -d "$root" ] || continue
     for candidate in "$root"/* "$root"/.[!.]* "$root"/..?*; do

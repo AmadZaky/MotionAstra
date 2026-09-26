@@ -1,4 +1,4 @@
-# MotionAstra 2.8.3 — Pre-alpha
+# MotionAstra 2.8.4 — Pre-alpha
 
 - Fixes the startup-blocking `Illegal use of reserved word` at hostscript.jsx line 237: the ES3-reserved identifier `native` is now `nativeProperty`.
 - Adds an ES3 parser and reserved-identifier release check, because Node's modern parser accepted the incompatible code.
@@ -8,4 +8,6 @@
 - Installer enables PlayerDebugMode for CSXS 11/12 in the current user account. No AE project files or AE preferences are edited.
 - Windows and macOS installer tests, ES3 checks, host regressions and Chromium workflows gate release publication.
 
-Close AE, extract the whole release ZIP, then double-click the launcher for your OS. Confirm replacement when prompted; restart AE and confirm Settings shows 2.8.3. The macOS script is unsigned; if macOS blocks it, use the approved Open action described in the guide. Direct AE rendering remains a manual check.
+Close AE, extract the whole release ZIP, then double-click the launcher for your OS. Confirm replacement when prompted; restart AE and confirm Settings shows 2.8.4. The macOS script is unsigned; if macOS blocks it, use the approved Open action described in the guide. Direct AE rendering remains a manual check.
+
+The v2.8.3 publication was blocked by the macOS rollback test. This release also fixes Bash 3.2 EXIT-trap state so failed activation restores the old installation.

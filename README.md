@@ -1,4 +1,4 @@
-# MotionAstra FX 2.8.3 — Pre-alpha
+# MotionAstra FX 2.8.4 — Pre-alpha
 
 Offline CEP extension for Adobe After Effects 2025. Minimal black/orange UI, local CSInterface + Lucide, 10 Text FX, 10 procedural Backgrounds, Quick Tools in the third top tab.
 
@@ -112,7 +112,7 @@ Thirteen host/state/preview suites pass locally, including reproductions of the 
 
 Replace the full extension folder, restart AE, and confirm 2.8.2 in Settings. For existing Text FX, Load FX Settings, choose a color, then Update to migrate its color binding. Native AE rendering still requires verification; modeled-host and Chromium tests are release gates.
 
-## MotionAstra 2.8.3 — Pre-alpha
+## MotionAstra 2.8.4 — Pre-alpha
 
 - Fixes the startup-blocking `Illegal use of reserved word` at hostscript.jsx line 237: the ES3-reserved identifier `native` is now `nativeProperty`.
 - Adds an ES3 parser and reserved-identifier release check, because Node's modern parser accepted the incompatible code.
@@ -122,4 +122,4 @@ Replace the full extension folder, restart AE, and confirm 2.8.2 in Settings. Fo
 - Installer enables PlayerDebugMode for CSXS 11/12 in the current user account. No AE project files or AE preferences are edited.
 - Windows and macOS installer tests, ES3 checks, host regressions and Chromium workflows gate release publication.
 
-Close AE, extract the whole release ZIP, then double-click the launcher for your OS. Confirm replacement when prompted; restart AE and confirm Settings shows 2.8.3. The macOS script is unsigned; if macOS blocks it, use the approved Open action described in the guide. Direct AE rendering remains a manual check.
+Close AE, extract the whole release ZIP, then double-click the launcher for your OS. Confirm replacement when prompted; restart AE and confirm Settings shows 2.8.4. The macOS script is unsigned; if macOS blocks it, use the approved Open action described in the guide. Direct AE rendering remains a manual check.

@@ -106,3 +106,7 @@ Replace the full extension folder, restart AE, and confirm 2.8.2 in Settings. Fo
 - Windows and macOS installer tests, ES3 checks, host regressions and Chromium workflows gate release publication.
 
 Close AE, extract the whole release ZIP, then double-click the launcher for your OS. Confirm replacement when prompted; restart AE and confirm Settings shows 2.8.3. The macOS script is unsigned; if macOS blocks it, use the approved Open action described in the guide. Direct AE rendering remains a manual check.
+
+## 2.8.4 — macOS rollback compatibility
+
+The v2.8.3 CI gate prevented publication when the macOS rollback regression failed. Reproduced under GNU Bash 3.2: function-local state becomes unavailable in the EXIT trap. Transaction state now lives in the isolated subshell, and all seven installer tests pass under Bash 3.2 and Bash 5.2. Native Windows/macOS CI remains a release gate; native AE rendering is a separate manual check.

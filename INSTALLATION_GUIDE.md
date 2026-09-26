@@ -1,4 +1,4 @@
-# MotionAstra FX 2.8.3 — Installation & workflow
+# MotionAstra FX 2.8.4 — Installation & workflow
 
 MotionAstra is an offline CEP panel for **After Effects 2025 (25.x)**. All JavaScript, icons, styles and previews are bundled. No CDN, npm, server, account, downloaded preset pack or third-party AE plug-in is needed to use the panel. After Effects itself is required; this is not an independent desktop renderer, a UXP plug-in, or a ScriptUI .jsx panel.
 
@@ -6,12 +6,12 @@ This source release is unsigned. Browser and modeled-host checks are included; a
 
 ## Click-to-install (recommended)
 
-1. Download **MotionAstra_FX_v2.8.3-pre-alpha.zip** from the GitHub release assets and **extract all files** to Downloads. Do not run a launcher inside ZIP preview or inside your installed CEP folder.
+1. Download **MotionAstra_FX_v2.8.4-pre-alpha.zip** from the GitHub release assets and **extract all files** to Downloads. Do not run a launcher inside ZIP preview or inside your installed CEP folder.
 2. Close After Effects completely.
 3. Windows: double-click **Install MotionAstra.cmd**. Keep **Install MotionAstra.ps1** beside it; it is the helper, not a second install step. The launcher uses a process-only PowerShell execution policy and does not change the machine policy.
 4. macOS: double-click **Install MotionAstra.command**. The ZIP preserves executable permissions. If macOS blocks this unsigned script, use Finder's **Open** action or follow the OS security prompt for this specific file. If executable permissions were lost during extraction, Terminal can run `bash ` followed by dragging this file into the Terminal window, then Return. The installer does not remove quarantine attributes or disable Gatekeeper.
 5. Review the displayed old-install paths. Type **y** then Return to remove the active copies and install the new version; any other answer cancels. Old files are moved to backups outside CEP instead of permanently erased. No files are merged into the new panel.
-6. Wait for **Installed MotionAstra 2.8.3**, then restart AE and open **Window > Extensions > MotionAstra FX**. Settings must show **2.8.3**.
+6. Wait for **Installed MotionAstra 2.8.4**, then restart AE and open **Window > Extensions > MotionAstra FX**. Settings must show **2.8.4**.
 
 The ZIP contains a **MotionAstra-FX** folder and the three launcher/helper files above, plus this guide. No Node, Python, npm or network access is needed by the installer.
 
@@ -26,7 +26,7 @@ If checksum verification fails, download and extract the full release again. If 
 ## 1. Upgrade or manual installation
 
 1. Close After Effects.
-2. Extract **MotionAstra_FX_v2.8.3-pre-alpha.zip**.
+2. Extract **MotionAstra_FX_v2.8.4-pre-alpha.zip**.
 3. Back up the old MotionAstra-FX folder **outside** all CEP extension directories. Keep only one installed `com.motionastra.fx` bundle. Do not merge individual v2.0.1 and v2.5 files.
 4. Copy the complete **MotionAstra-FX** folder to one location below:
 

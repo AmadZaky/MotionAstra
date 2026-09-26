@@ -1,6 +1,6 @@
-/* MotionAstra 2.8.3 — ES3 host. No third-party AE effects required. */
+/* MotionAstra 2.8.4 — ES3 host. No third-party AE effects required. */
 var MotionAstra=(function(){
-    var BUILD="2.8.3",recipes={},serial=0;for(var ri=0;ri<MA_PRESET_DATA.presets.length;ri++)recipes[MA_PRESET_DATA.presets[ri].id]=MA_PRESET_DATA.presets[ri];
+    var BUILD="2.8.4",recipes={},serial=0;for(var ri=0;ri<MA_PRESET_DATA.presets.length;ri++)recipes[MA_PRESET_DATA.presets[ri].id]=MA_PRESET_DATA.presets[ri];
     for(var li=0;li<(MA_PRESET_DATA.legacy||[]).length;li++){var lr=MA_PRESET_DATA.legacy[li];lr.legacy=true;recipes[lr.id]=lr;}
     function quote(s) { return '"' + String(s).replace(/\\/g,'\\\\').replace(/"/g,'\\"').replace(/\r/g,'\\r').replace(/\n/g,'\\n').replace(/\t/g,'\\t') + '"'; }
     function encode(v) {
@@ -360,7 +360,7 @@ var MotionAstra=(function(){
         }catch(e){lines.push(l.name+': '+String(e));}}
         var result=report(lines,count);if(a.name==='anchor'&&count)result.message+='\nArtwork is preserved at the playhead when Keep artwork is enabled. Animated rotation/scale may change other frames.';return result;
     }
-    function dispatch(raw){var a,result,undo=false;try{a=parse(decodeURIComponent(raw));if(a.action==='status'){var c=app.project?app.project.activeItem:null;result={ok:true,hostVersion:'2.8.3',build:BUILD,version:app.version,composition:c instanceof CompItem?c.name:null,selected:c instanceof CompItem?c.selectedLayers.length:0};}
+    function dispatch(raw){var a,result,undo=false;try{a=parse(decodeURIComponent(raw));if(a.action==='status'){var c=app.project?app.project.activeItem:null;result={ok:true,hostVersion:'2.8.4',build:BUILD,version:app.version,composition:c instanceof CompItem?c.name:null,selected:c instanceof CompItem?c.selectedLayers.length:0};}
         else if(a.action==='fonts')result=fontList();
         else if(a.action==='load'||a.action==='reconnect'){try{result=load(a);}catch(e){e.noChanges=true;throw e;}}
         else{if(a.action!=='generateBackground'&&a.action!=='apply'&&a.action!=='update'&&a.action!=='tool')fail('Unknown action.');app.beginUndoGroup('MotionAstra 2');undo=true;result=a.action==='generateBackground'?generateBackground(a):a.action==='apply'?apply(a):a.action==='update'?update(a):tool(a);result.ok=true;}
@@ -369,6 +369,6 @@ var MotionAstra=(function(){
     // Fail before any layer mutation if this host cannot preserve transport booleans.
     var transportProbe=parse('{"keep":true,"loop":false,"empty":null,"n":1.25}');
     if(transportProbe.keep!==true||transportProbe.loop!==false||transportProbe.empty!==null||transportProbe.n!==1.25)throw Error('MotionAstra JSON transport self-check failed. Restart AE and install the full package.');
-    return {dispatch:dispatch,version:'2.8.3',build:BUILD};
+    return {dispatch:dispatch,version:'2.8.4',build:BUILD};
 }());
 if(typeof $!=='undefined'&&$.global)$.global.MotionAstra=MotionAstra;
