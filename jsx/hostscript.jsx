@@ -1,6 +1,6 @@
-/* MotionAstra 2.8.2 — ES3 host. No third-party AE effects required. */
+/* MotionAstra 2.8.3 — ES3 host. No third-party AE effects required. */
 var MotionAstra=(function(){
-    var BUILD="2.8.2",recipes={},serial=0;for(var ri=0;ri<MA_PRESET_DATA.presets.length;ri++)recipes[MA_PRESET_DATA.presets[ri].id]=MA_PRESET_DATA.presets[ri];
+    var BUILD="2.8.3",recipes={},serial=0;for(var ri=0;ri<MA_PRESET_DATA.presets.length;ri++)recipes[MA_PRESET_DATA.presets[ri].id]=MA_PRESET_DATA.presets[ri];
     for(var li=0;li<(MA_PRESET_DATA.legacy||[]).length;li++){var lr=MA_PRESET_DATA.legacy[li];lr.legacy=true;recipes[lr.id]=lr;}
     function quote(s) { return '"' + String(s).replace(/\\/g,'\\\\').replace(/"/g,'\\"').replace(/\r/g,'\\r').replace(/\n/g,'\\n').replace(/\t/g,'\\t') + '"'; }
     function encode(v) {
@@ -234,11 +234,11 @@ var MotionAstra=(function(){
     function isSolid(l){return l instanceof AVLayer&&l.source&&l.source.mainSource instanceof SolidSource;}
     function isNewBackground(r){return r.category==='Background'&&!r.legacy;}
     function removeOwnedExpressions(g){var i,p;for(i=1;i<=(g.numProperties||0);i++){p=g.property(i);if(p.canSetExpression&&owned(p.expression))p.expression='';else if(p.numProperties)removeOwnedExpressions(p);}}
-    function syncTextColors(l,r,p){if(!p.tint)return;var effects=l.property('ADBE Effect Parade'),ramp=effects.property('MA2 native ramp'),col=color(p.tint),native,anims=l.property('ADBE Text Properties').property('ADBE Text Animators'),i,g,c;
+    function syncTextColors(l,r,p){if(!p.tint)return;var effects=l.property('ADBE Effect Parade'),ramp=effects.property('MA2 native ramp'),col=color(p.tint),nativeProperty,anims=l.property('ADBE Text Properties').property('ADBE Text Animators'),i,g,c;
         // Retire only our obsolete animator color expressions before refreshing clocks.
         for(i=1;i<=anims.numProperties;i++){g=anims.property(i);if(g.name.indexOf('MA2 ')!==0)continue;c=g.property('ADBE Text Animator Properties').property('ADBE Text Fill Color');if(c&&owned(c.expression))c.remove();}
-        if(ramp){native=ramp.property(2);native.expression='';set(native,col,l.containingComp.time);native=ramp.property(4);native.expression='';set(native,[col[0]*.22,col[1]*.22,col[2]*.22,1],l.containingComp.time);}
-        else{native=effects.property('MA2 native text color')||effects.property('MA2 native matrix tint');if(!native)native=nativeFx(l,'ADBE Fill','text color');native.property(3).expression='';set(native.property(3),col,l.containingComp.time);}
+        if(ramp){nativeProperty=ramp.property(2);nativeProperty.expression='';set(nativeProperty,col,l.containingComp.time);nativeProperty=ramp.property(4);nativeProperty.expression='';set(nativeProperty,[col[0]*.22,col[1]*.22,col[2]*.22,1],l.containingComp.time);}
+        else{nativeProperty=effects.property('MA2 native text color')||effects.property('MA2 native matrix tint');if(!nativeProperty)nativeProperty=nativeFx(l,'ADBE Fill','text color');nativeProperty.property(3).expression='';set(nativeProperty.property(3),col,l.containingComp.time);}
     }
     function syncBackgroundColors(l,r,p){if(r.legacy)return;var cloud=r.id==='nebula'||r.id==='smoke',e=l.property('ADBE Effect Parade').property('MA2 native '+(cloud?'cloud colors':'ramp'));if(!e)throw Error('Background color effect missing. Remove and regenerate this background.');var a=nativeParam(e,cloud?1:2),b=nativeParam(e,cloud?2:4);a.expression='';b.expression='';set(a,color(cloud?p.color1:p.color2),l.containingComp.time);set(b,color(cloud?p.color2:p.color3),l.containingComp.time);}
     function refreshOwnedClocks(g,m){var i,p,s,cut,separator='var T=q*6.28318530718;\n';for(i=1;i<=(g.numProperties||0);i++){p=g.property(i);if(p.canSetExpression&&owned(p.expression)){s=p.expression;cut=s.indexOf(separator);if(cut>=0)assign(p,clock(m,s.substr(cut+separator.length)));}else if(p.numProperties)refreshOwnedClocks(p,m);}}
@@ -360,7 +360,7 @@ var MotionAstra=(function(){
         }catch(e){lines.push(l.name+': '+String(e));}}
         var result=report(lines,count);if(a.name==='anchor'&&count)result.message+='\nArtwork is preserved at the playhead when Keep artwork is enabled. Animated rotation/scale may change other frames.';return result;
     }
-    function dispatch(raw){var a,result,undo=false;try{a=parse(decodeURIComponent(raw));if(a.action==='status'){var c=app.project?app.project.activeItem:null;result={ok:true,hostVersion:'2.8.2',build:BUILD,version:app.version,composition:c instanceof CompItem?c.name:null,selected:c instanceof CompItem?c.selectedLayers.length:0};}
+    function dispatch(raw){var a,result,undo=false;try{a=parse(decodeURIComponent(raw));if(a.action==='status'){var c=app.project?app.project.activeItem:null;result={ok:true,hostVersion:'2.8.3',build:BUILD,version:app.version,composition:c instanceof CompItem?c.name:null,selected:c instanceof CompItem?c.selectedLayers.length:0};}
         else if(a.action==='fonts')result=fontList();
         else if(a.action==='load'||a.action==='reconnect'){try{result=load(a);}catch(e){e.noChanges=true;throw e;}}
         else{if(a.action!=='generateBackground'&&a.action!=='apply'&&a.action!=='update'&&a.action!=='tool')fail('Unknown action.');app.beginUndoGroup('MotionAstra 2');undo=true;result=a.action==='generateBackground'?generateBackground(a):a.action==='apply'?apply(a):a.action==='update'?update(a):tool(a);result.ok=true;}
@@ -369,6 +369,6 @@ var MotionAstra=(function(){
     // Fail before any layer mutation if this host cannot preserve transport booleans.
     var transportProbe=parse('{"keep":true,"loop":false,"empty":null,"n":1.25}');
     if(transportProbe.keep!==true||transportProbe.loop!==false||transportProbe.empty!==null||transportProbe.n!==1.25)throw Error('MotionAstra JSON transport self-check failed. Restart AE and install the full package.');
-    return {dispatch:dispatch,version:'2.8.2',build:BUILD};
+    return {dispatch:dispatch,version:'2.8.3',build:BUILD};
 }());
 if(typeof $!=='undefined'&&$.global)$.global.MotionAstra=MotionAstra;

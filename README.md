@@ -1,8 +1,8 @@
-# MotionAstra FX 2.8.2 — Pre-alpha
+# MotionAstra FX 2.8.3 — Pre-alpha
 
 Offline CEP extension for Adobe After Effects 2025. Minimal black/orange UI, local CSInterface + Lucide, 10 Text FX, 10 procedural Backgrounds, Quick Tools in the third top tab.
 
-Extract this whole folder, follow **INSTALLATION_GUIDE.md**, then open Window → Extensions → MotionAstra FX. The package is unsigned source; no Adobe installation or signing certificate is bundled. No build step or internet connection is needed to use it.
+Download the release ZIP, extract everything, close AE, then double-click **Install MotionAstra.cmd** (Windows) or **Install MotionAstra.command** (macOS). Confirm replacement of older versions, restart AE, then open Window → Extensions → MotionAstra FX. The GitHub source archive is for development; use the release asset for the ready-to-install package. The package is unsigned source; no Adobe installation or signing certificate is bundled. No build step or internet connection is needed to use it.
 
 ## Current workflow
 
@@ -111,3 +111,15 @@ Thirteen host/state/preview suites pass locally, including reproductions of the 
 - Preserves single-layer background generation, direct background colors and compact bottom Apply/Update actions.
 
 Replace the full extension folder, restart AE, and confirm 2.8.2 in Settings. For existing Text FX, Load FX Settings, choose a color, then Update to migrate its color binding. Native AE rendering still requires verification; modeled-host and Chromium tests are release gates.
+
+## MotionAstra 2.8.3 — Pre-alpha
+
+- Fixes the startup-blocking `Illegal use of reserved word` at hostscript.jsx line 237: the ES3-reserved identifier `native` is now `nativeProperty`.
+- Adds an ES3 parser and reserved-identifier release check, because Node's modern parser accepted the incompatible code.
+- Release ZIP includes `MotionAstra-FX/`, `Install MotionAstra.cmd`, its PowerShell helper, and `Install MotionAstra.command` for macOS.
+- Installers detect existing MotionAstra bundles by manifest ID, including renamed folders in standard user/system CEP locations. They ask before removing active old copies, preserve backups outside CEP, and restore moved copies if activation fails.
+- Payload checksums are verified before replacement. Unrelated destination folders and linked payloads are rejected. Protected system installs require manual removal with administrator approval before retrying.
+- Installer enables PlayerDebugMode for CSXS 11/12 in the current user account. No AE project files or AE preferences are edited.
+- Windows and macOS installer tests, ES3 checks, host regressions and Chromium workflows gate release publication.
+
+Close AE, extract the whole release ZIP, then double-click the launcher for your OS. Confirm replacement when prompted; restart AE and confirm Settings shows 2.8.3. The macOS script is unsigned; if macOS blocks it, use the approved Open action described in the guide. Direct AE rendering remains a manual check.

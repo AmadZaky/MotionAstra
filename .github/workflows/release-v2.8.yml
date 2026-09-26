@@ -9,7 +9,33 @@ concurrency:
 permissions:
   contents: write
 jobs:
+  installer-tests:
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Get exact source revision
+        shell: bash
+        env:
+          SOURCE_REPO: ${{ github.repository }}
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          git init .
+          git remote add origin "https://github.com/${SOURCE_REPO}.git"
+          git fetch --depth=1 origin "$SOURCE_SHA"
+          git checkout --detach FETCH_HEAD
+      - name: Verify Windows installer
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: ./tests/installers-windows.ps1
+      - name: Verify macOS installer
+        if: runner.os == 'macOS'
+        run: |
+          bash -n install-macos.command
+          python3 tests/installers.py
   release:
+    needs: installer-tests
     runs-on: ubuntu-latest
     steps:
       - name: Get exact source revision
@@ -23,6 +49,11 @@ jobs:
           git checkout --detach FETCH_HEAD
       - name: Verify patch version
         run: python3 tools/check-version.py
+      - name: Verify ExtendScript compatibility and packaging
+        run: |
+          npm install --no-save --package-lock=false acorn@8.15.0
+          node tests/es3.cjs
+          python3 tests/package.py
       - name: Verify host tests
         run: |
           for test in static engine expressions bridge tools checkboxes parser-boundary update-target background-create fx-target panel-state background-stability preview-idle loop-modes background-colors loop-migration features-282; do
@@ -35,16 +66,7 @@ jobs:
           node tests/ui.cjs
           node tests/checkbox-ui.cjs
       - name: Package extension
-        run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          import subprocess, zipfile
-          version=Path('VERSION').read_text().strip()
-          with zipfile.ZipFile('MotionAstra_FX_v'+version+'-pre-alpha.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
-              for name in subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0'):
-                  if name and not name.startswith('.github/'):
-                      archive.write(name, 'MotionAstra-FX/' + name)
-          PY
+        run: python3 tools/package-release.py
       - name: Publish prerelease
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

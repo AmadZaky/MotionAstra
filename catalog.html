@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MotionAstra 2.8.2</title><style>/* MotionAstra 2.5.2 — local system fonts, quiet glass surfaces, orange focus. */
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MotionAstra 2.8.3</title><style>/* MotionAstra 2.5.2 — local system fonts, quiet glass surfaces, orange focus. */
 :root{color-scheme:dark;--bg:#080809;--surface:#161618;--text:#f4f4f5;--muted:#929296;--accent:#ff943f;--line:rgba(255,255,255,.085);--ease:cubic-bezier(.2,.8,.2,1)}
 *{box-sizing:border-box}[hidden]{display:none!important}html,body{height:100%;margin:0;overflow:hidden}body{min-width:300px;display:grid;grid-template-rows:auto auto auto minmax(0,1fr) 66px;background:var(--bg);color:var(--text);font:12px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
 button,input,select,textarea{font:inherit}button{color:var(--text);background:#ffffff05;border:1px solid var(--line);border-radius:9px;padding:8px 11px;cursor:pointer;transition:background .2s var(--ease),border-color .2s var(--ease),transform .2s var(--ease)}button:hover{background:#ffffff0d;border-color:#ffffff24}button:active{transform:scale(.98)}button:disabled{opacity:.35;cursor:not-allowed}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -27,7 +27,7 @@ footer{grid-row:5;display:grid;grid-template-rows:20px minmax(0,1fr);padding:5px
 
 .font-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:5px;align-items:center;margin-top:6px;font-size:9px}.font-row select,.font-row button{padding:4px;font-size:10px}.font-row select{width:100%}
 </style></head><body class="catalog">
-<header><a class="brand" href="index.html"><span class="brand-icon"><i data-lucide="asterisk"></i></span>MotionAstra <b>2.8.2</b></a><div class="header-actions"><button id="fold-quick" aria-controls="quick" aria-expanded="true">Quick ▴</button><button id="fold-nav" aria-controls="nav" aria-expanded="true">Menu ▴</button></div></header>
+<header><a class="brand" href="index.html"><span class="brand-icon"><i data-lucide="asterisk"></i></span>MotionAstra <b>2.8.3</b></a><div class="header-actions"><button id="fold-quick" aria-controls="quick" aria-expanded="true">Quick ▴</button><button id="fold-nav" aria-controls="nav" aria-expanded="true">Menu ▴</button></div></header>
 <nav id="nav" aria-label="Main navigation"><div class="search"><i data-lucide="search"></i><input id="search" type="search" placeholder="Search presets…" aria-label="Search presets"><span id="count">10</span></div><div class="category-tabs"><button class="active" data-tab="Text">Text FX <span>10</span></button><button data-tab="Background">Backgrounds <span>10</span></button><button data-tab="Tools">Quick Tools</button></div></nav>
 <div id="quick"><div class="create-row" aria-label="Create layers"><button data-tool="newShape" data-host><i data-lucide="square"></i>New Shape</button><button data-tool="newText" data-host><i data-lucide="type"></i>New Text</button><button data-tool="newSolid" data-host><i data-lucide="layers"></i>New Solid</button><label class="layer-color" title="Shape and solid color"><input id="new-layer-color" type="color" value="#ff943f" aria-label="New shape and solid color"></label></div><div class="font-row"><label for="new-text-font">New Text font</label><select id="new-text-font" aria-label="New Text font"><option value="">Current AE font</option></select><button id="refresh-fonts" data-host>Load fonts</button></div><div class="utility-row"><button id="quick-anchor" data-host><i data-lucide="crosshair"></i>Center anchor</button><button id="load-fx" data-host><i data-lucide="sliders-horizontal"></i>Load FX Settings</button><button data-tab="Settings" aria-label="Settings"><i data-lucide="settings"></i></button></div></div>
 <div id="workspace"><main>
@@ -40,7 +40,7 @@ footer{grid-row:5;display:grid;grid-template-rows:20px minmax(0,1fr);padding:5px
 <details><summary><i data-lucide="type"></i>Text appearance</summary><p>Changes the underlying text style, including counters and switchers.</p><div class="row"><label>Size · px<input id="text-size" type="number" value="100" min="1" max="1000"></label><label>Fill<input id="text-color" type="color" value="#ffffff"></label></div><label>Paragraph alignment<select id="text-align"><option value="left">Left</option><option value="center">Center</option><option value="right">Right</option></select></label><button id="text-style" data-host>Apply text style</button></details>
 <details open><summary><i data-lucide="eraser"></i>Remove effects</summary><p>Removes effects only from selected unlocked layers.</p><button id="remove-owned" data-host>Remove MotionAstra FX</button><button id="erase-all" class="danger" data-host>Erase ALL effects on selected layers</button><p class="hint">Erase ALL also removes third-party/native Effects stacks. Unrelated expressions and non-MotionAstra text animators remain. Other layers are not deleted.</p><div id="review" hidden><strong>Review removal</strong><p id="review-text"></p><div class="row"><button id="confirm-remove" class="danger" data-host>Confirm removal</button><button id="cancel-remove">Cancel</button></div></div></details>
 </section>
-<section id="settings" hidden><div class="eyebrow">MOTIONASTRA 2.8.2</div><h1>Your workspace.</h1><details open><summary>Preview & connection</summary><label class="check"><input id="reduced" type="checkbox">Reduce preview motion</label><button id="refresh">Refresh AE connection</button><p id="connection"></p><a href="catalog.html">Open preview catalog ↗</a><p>All panel assets are local. Browser mode offers previews; Apply and tools require After Effects.</p><p>Use Project Settings → Expressions → JavaScript. Version 2.5 includes 20 presets. Existing v2 effects remain loadable through Load selected FX. Existing projects are never migrated automatically.</p><a href="INSTALLATION_GUIDE.md">Installation and workflow guide ↗</a></details><details open><summary>Operation history</summary><ol id="history"></ol></details></section>
+<section id="settings" hidden><div class="eyebrow">MOTIONASTRA 2.8.3</div><h1>Your workspace.</h1><details open><summary>Preview & connection</summary><label class="check"><input id="reduced" type="checkbox">Reduce preview motion</label><button id="refresh">Refresh AE connection</button><p id="connection"></p><a href="catalog.html">Open preview catalog ↗</a><p>All panel assets are local. Browser mode offers previews; Apply and tools require After Effects.</p><p>Use Project Settings → Expressions → JavaScript. Version 2.5 includes 20 presets. Existing v2 effects remain loadable through Load selected FX. Existing projects are never migrated automatically.</p><a href="INSTALLATION_GUIDE.md">Installation and workflow guide ↗</a></details><details open><summary>Operation history</summary><ol id="history"></ol></details></section>
 </main>
 <aside id="inspector" hidden aria-labelledby="fx-title"><div class="inspector-head"><div><span class="eyebrow">CUSTOMIZE PRESET</span><h2 id="fx-title"></h2></div><button id="close" aria-label="Close effect settings">✕</button></div><div class="inspector-scroll"><canvas id="preview" width="600" height="340" aria-label="Effect preview"></canvas><p id="fx-description"></p><div class="row inspector-options"><button id="replay">Replay ↻</button><button id="reset">Reset settings</button></div><div id="parameters"></div><p class="hint" id="parameter-help">Text/background animation starts at the layer in-point. Changes reach AE when you click Apply or Update.</p><p class="hint" id="structural-help" hidden>Count changes rebuild artwork on Update. Native count controls need Load selected FX → Update to rebuild.</p></div><div class="inspector-actions"><button id="apply" class="primary" data-host>Apply FX</button><button id="update" data-host>Update</button></div></aside>
 </div>
@@ -1354,7 +1354,7 @@ lucide.createIcons({icons});\``);if(typeof document>"u")throw new Error("`create
 
 </script><script>
 window.MA_PRESETS = {
-  "version": "2.8.2",
+  "version": "2.8.3",
   "presets": [
     {
       "id": "counter",
@@ -6924,14 +6924,14 @@ document.addEventListener('visibilitychange',run);return {attach,play,clear,rend
 })();
 
 </script><script>
-/* MotionAstra CEP transport v2.8.2.
+/* MotionAstra CEP transport v2.8.3.
  * Host files load by absolute path; all replies are tagged and request-correlated.
  * Empty callbacks recover the stored reply, NEVER replay the host mutation.
  */
 (function (root) {
   'use strict';
-  const VERSION = '2.8.2';
-  const BUILD = '2.8.2';
+  const VERSION = '2.8.3';
+  const BUILD = '2.8.3';
   const PREFIX = 'MAFX1:';
   const ERROR_PREFIX = 'MAFX1E:';
   const available = !!root.__adobe_cep__;
