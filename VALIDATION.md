@@ -141,3 +141,7 @@ The v2.8.3 CI gate prevented publication when the macOS rollback regression fail
 ## 3.0.1 ExtendScript syntax regression
 
 The user supplied `SyntaxError: Expected: : (line 380)` during host initialization. That line is the second question mark in an ungrouped nested true-branch ternary. `tests/es3.cjs` now rejects nested true-branch ternaries in shipped JSX, beyond standard Acorn ES3 parsing. The guard failed on the v3.0.0 source before the three occurrences were replaced with explicit branches or a single conditional. Actual AE startup still requires native confirmation.
+
+## 3.0.2 FXTools native contracts
+
+The three supplied AE errors were reproduced with stricter scalar/color/range fixtures before changing production code. Fill Color uses `ADBE Fill-0002`; Glow Based On is a 1–2 enum rather than a threshold; Gradient Ramp Blend With Original uses normalized values on the reported host. Percentage conversion now reads actual native bounds and accepts 0–1 or 0–100 representations. Tests assert correct threshold, radius, intensity, color and blend destinations. The general host model is still not a full Adobe effect-schema or renderer implementation.

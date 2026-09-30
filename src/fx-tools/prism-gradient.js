@@ -36,7 +36,7 @@ function prismGradient(p) {
         "ADBE Ramp-0004": rgba(p.colorB),
         "ADBE Ramp-0005": p.radial ? 2 : 1,
         "ADBE Ramp-0006": 10,
-        "ADBE Ramp-0007": p.blend
+        "ADBE Ramp-0007": percent(p.blend)
       },
       { "ADBE Ramp-0001": point(false), "ADBE Ramp-0003": point(true) }
     ),

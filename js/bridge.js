@@ -1,11 +1,11 @@
-/* MotionAstra CEP transport v3.0.1.
+/* MotionAstra CEP transport v3.0.2.
  * Host files load by absolute path; all replies are tagged and request-correlated.
  * Empty callbacks recover the stored reply, NEVER replay the host mutation.
  */
 (function (root) {
   "use strict";
-  const VERSION = "3.0.1";
-  const BUILD = "3.0.1";
+  const VERSION = "3.0.2";
+  const BUILD = "3.0.2";
   const PREFIX = "MAFX1:";
   const ERROR_PREFIX = "MAFX1E:";
   const available = !!root.__adobe_cep__;

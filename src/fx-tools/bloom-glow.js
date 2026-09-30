@@ -6,7 +6,7 @@ function bloomGlow(p) {
       id,
       "source tint",
       "ADBE Fill",
-      { "ADBE Fill-0003": rgba(p.color) },
+      { "ADBE Fill-0002": rgba(p.color) },
       null,
       p.tint
     ),

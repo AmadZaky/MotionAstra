@@ -1,8 +1,9 @@
-# MotionAstra 3.0.1 — Alpha
+# MotionAstra 3.0.2 — Alpha
 
-- Fixes the reported host startup error `SyntaxError: Expected: : (line 380)` in v3.0.0.
-- Replaces nested true-branch ternaries in checkbox conversion and compact expression serialization with explicit if/else. Simplifies the same pattern in easing status reporting.
-- Adds an ExtendScript compatibility gate rejecting this pattern in shipped JSX. Standard ES3 parsing alone did not catch the incompatibility reported by AE.
-- No changes to effect recipes, Glass Surface settings or panel layout.
+- Bloom Glow: writes RGBA to Fill Color (`ADBE Fill-0002`), not Horizontal Feather.
+- Shared Glow: sets Glow Based On to Color Channels, and writes threshold/radius/intensity to `ADBE Glo2-0002` / `0003` / `0004`.
+- Prism and Glass: convert Blend With Original from UI percentages to the range reported by the native Gradient Ramp property. Glow threshold uses the same percentage conversion.
+- Adds strict contract tests reproducing the reported scalar/color and out-of-range errors. Covers both 0–1 and 0–100 percentage ranges, plus updates and correct Glow routing.
+- Native write errors now identify the exact owned effect and parameter match name. Existing rollback remains enabled.
 
-Close After Effects, extract the complete ZIP, run the installer and restart AE. Settings should report version 3.0.1. Native AE is not available in the build environment; if another error appears, share Settings → Show connection report.
+Close AE, install the complete ZIP and restart. Settings should show 3.0.2. Failed applications in prior versions were rolled back; select your visual layer and Apply again. Native AE rendering is not available in the automated test environment.

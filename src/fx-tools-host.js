@@ -93,10 +93,37 @@ function spec(id, key, match, values, expressions, enabled) {
 }
 function glow(id, key, radius, intensity, threshold) {
   var p = {};
-  p["ADBE Glo2-0001"] = threshold;
-  p["ADBE Glo2-0002"] = radius;
-  p["ADBE Glo2-0003"] = intensity;
+  // Match-name suffixes are identifiers, not UI row numbers.
+  p["ADBE Glo2-0001"] = 1; // Glow Based On: Color Channels
+  p["ADBE Glo2-0002"] = percent(threshold);
+  p["ADBE Glo2-0003"] = radius;
+  p["ADBE Glo2-0004"] = intensity;
   return spec(id, key, "ADBE Glo2", p, null, intensity > 0);
+}
+// UI percentages are resolved against the actual native property's range.
+function percent(value) {
+  return { unit: "percent", value: value };
+}
+function nativeValue(property, value) {
+  if (value && value.unit === "percent") {
+    if (!property.hasMin || !property.hasMax || property.minValue !== 0)
+      throw Error("Cannot resolve percentage range for " + property.matchName);
+    if (property.maxValue === 1) value = value.value / 100;
+    else if (property.maxValue === 100) value = value.value;
+    else throw Error("Unsupported percentage range for " + property.matchName);
+  }
+  if (typeof value === "number") {
+    if (!isFinite(value)) throw Error("Non-finite value for " + property.matchName);
+    if ((property.hasMin && value < property.minValue) ||
+        (property.hasMax && value > property.maxValue))
+      throw Error("Value " + value + " outside native range for " + property.matchName);
+  }
+  return value;
+}
+function writeNative(g, spec, key) {
+  var property = param(g, spec.name, key);
+  try { property.setValue(nativeValue(property, spec.values[key])); }
+  catch (error) { throw Error(spec.name + " / " + key + ": " + String(error)); }
 }
 function descriptors(id, p) {
   var effects = { prism: prismGradient, bloom: bloomGlow, glass: glassSurface };
@@ -174,7 +201,7 @@ function transact(l, specs) {
       g.property(s.name).enabled = s.enabled;
       for (k in s.values)
         if (s.values.hasOwnProperty(k))
-          param(g, s.name, k).setValue(s.values[k]);
+          writeNative(g, s, k);
       for (k in s.expressions)
         if (s.expressions.hasOwnProperty(k)) {
           p = param(g, s.name, k);

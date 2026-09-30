@@ -16,7 +16,7 @@ class Group{
  else if(name==='ADBE Vector Graphic - Fill'){p=new Group(name);p.items=[property('ADBE Vector Fill Color')];}
  else if(name==='ADBE Vector Graphic - Stroke'){p=new Group(name);p.items=[property('ADBE Vector Stroke Color'),property('ADBE Vector Stroke Width')];}
  else if(this.name==='ADBE Text Animator Properties')p=property(name);
- else{p=new Group(name);for(let i=0;i<30;i++){const q=property(name+'-'+String(i+1).padStart(4,'0'));q.propertyIndex=i+1;q.parentProperty=p;p.items.push(q);}}
+ else{p=new Group(name);for(let i=0;i<30;i++){const q=property(name+'-'+String(i+1).padStart(4,'0'));q.propertyIndex=i+1;q.parentProperty=p;if((name==='ADBE Glo2'&&i===1)||(name==='ADBE Ramp'&&i===6)){q.hasMin=true;q.hasMax=true;q.minValue=0;q.maxValue=1;}p.items.push(q);}}
  p.parentProperty=this;Object.defineProperty(p,'propertyIndex',{get:()=>this.items.indexOf(p)+1,configurable:true});p.remove=()=>{this.items=this.items.filter(x=>x!==p);};this.items.push(p);return p;
  }
 }

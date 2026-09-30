@@ -19,7 +19,7 @@ function glassSurface(p) {
         "ADBE Ramp-0004": [1, 1, 1, 1],
         "ADBE Ramp-0005": 1,
         "ADBE Ramp-0006": 10,
-        "ADBE Ramp-0007": 100 - p.tint
+        "ADBE Ramp-0007": percent(100 - p.tint)
       },
       { "ADBE Ramp-0001": start, "ADBE Ramp-0003": end },
       p.tint > 0
