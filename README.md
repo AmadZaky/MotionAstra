@@ -1,4 +1,4 @@
-# MotionAstra FX 2.8.6 — Pre-alpha
+# MotionAstra FX 2.8.7 — Pre-alpha
 
 Offline CEP extension for Adobe After Effects 2025. Minimal black/orange UI, local CSInterface + Lucide, 10 Text FX, 10 procedural Backgrounds, Quick Tools and a dedicated FX Tweaker tab.
 
@@ -25,6 +25,14 @@ A separate tab offers **120 original YUGraphic text presets** in 12 categories: 
 Load YU settings reads one selected instance; Update loaded YU checks that selection still matches. The mode selector determines whether Load prefers IN or OUT. Apply replaces only its chosen YU phase; Remove YU removes both phases. Parameter changes take effect on Apply/Update, and the YU tab stores them without extra Effect Controls sliders. Current playhead placement is recalculated on each Apply/Update. BOTH always uses layer edges, as in the original engine. These finite IN/OUT animations do not use MotionAstra loop modes or markers.
 
 Animation math and text animator setup come from the supplied MIT-licensed engine. Credits and the original license are included in `vendor/yu-text-motion/LICENSE.txt` and THIRD_PARTY_NOTICES.md. Canvas typography is illustrative; native AE rendering still needs visual verification. The archive's separate Object/Shape collection is outside this text-tab integration.
+
+## Motion Curve and themes
+
+Open **Motion Curve**, choose one of eight easing shapes or drag the two Bézier handles. Numeric inputs and keyboard arrows provide precise edits; Mirror reverses the timing feel. The preview shows normalized progress over time. Select adjacent property keyframes in AE, then **Apply Curve to selected keyframes**. The tool writes native temporal easing without moving keyframes or adding expressions.
+
+Only intervals with both endpoints selected are modified. Scalar and 2D/3D properties are supported. Active expressions, roving keys and non-numeric properties are skipped with a message. Curved spatial paths support zero endpoint speed (Out progress 0, In progress 1); for custom nonzero endpoint speed use separate Position dimensions. Per-property rollback protects existing easing if a native write fails. Temporal auto/continuous modes are disabled for edited keys so the requested handles remain independent.
+
+Use **Light / Dark** in the header to switch themes. Theme and the last curve persist locally. The orange accent, reserved action footer and existing Text/YU/Background/Tools/Tweaker workflows remain available. Preview artwork keeps its own artistic background colors.
 
 ## Versioning and releases
 
@@ -126,7 +134,7 @@ Thirteen host/state/preview suites pass locally, including reproductions of the 
 
 Replace the full extension folder, restart AE, and confirm 2.8.2 in Settings. For existing Text FX, Load FX Settings, choose a color, then Update to migrate its color binding. Native AE rendering still requires verification; modeled-host and Chromium tests are release gates.
 
-## MotionAstra 2.8.6 — Pre-alpha
+## MotionAstra 2.8.7 — Pre-alpha
 
 - Fixes the startup-blocking `Illegal use of reserved word` at hostscript.jsx line 237: the ES3-reserved identifier `native` is now `nativeProperty`.
 - Adds an ES3 parser and reserved-identifier release check, because Node's modern parser accepted the incompatible code.
@@ -136,4 +144,4 @@ Replace the full extension folder, restart AE, and confirm 2.8.2 in Settings. Fo
 - Installer enables PlayerDebugMode for CSXS 11/12 in the current user account. No AE project files or AE preferences are edited.
 - Windows and macOS installer tests, ES3 checks, host regressions and Chromium workflows gate release publication.
 
-Close AE, extract the whole release ZIP, then double-click the launcher for your OS. Confirm replacement when prompted; restart AE and confirm Settings shows 2.8.6. The macOS script is unsigned; if macOS blocks it, use the approved Open action described in the guide. Direct AE rendering remains a manual check.
+Close AE, extract the whole release ZIP, then double-click the launcher for your OS. Confirm replacement when prompted; restart AE and confirm Settings shows 2.8.7. The macOS script is unsigned; if macOS blocks it, use the approved Open action described in the guide. Direct AE rendering remains a manual check.

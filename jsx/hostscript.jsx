@@ -1,6 +1,6 @@
-/* MotionAstra 2.8.6 — ES3 host. No third-party AE effects required. */
+/* MotionAstra 2.8.7 — ES3 host. No third-party AE effects required. */
 var MotionAstra=(function(){
-    var BUILD="2.8.6",recipes={},serial=0;for(var ri=0;ri<MA_PRESET_DATA.presets.length;ri++)recipes[MA_PRESET_DATA.presets[ri].id]=MA_PRESET_DATA.presets[ri];
+    var BUILD="2.8.7",recipes={},serial=0;for(var ri=0;ri<MA_PRESET_DATA.presets.length;ri++)recipes[MA_PRESET_DATA.presets[ri].id]=MA_PRESET_DATA.presets[ri];
     for(var li=0;li<(MA_PRESET_DATA.legacy||[]).length;li++){var lr=MA_PRESET_DATA.legacy[li];lr.legacy=true;recipes[lr.id]=lr;}
     function quote(s) { return '"' + String(s).replace(/\\/g,'\\\\').replace(/"/g,'\\"').replace(/\r/g,'\\r').replace(/\n/g,'\\n').replace(/\t/g,'\\t') + '"'; }
     function encode(v) {
@@ -359,6 +359,64 @@ for(i=0;i<r.parameters.length;i++){d=r.parameters[i];if(d.type==='text'||d.type=
         if(text)groups.push(text.property('ADBE Text Animators'));for(i=0;i<groups.length;i++)if(groups[i])for(j=groups[i].numProperties;j>=1;j--)if(/^MA i/.test(groups[i].property(j).name))groups[i].property(j).remove();
         var m=l.property('ADBE Marker'),v,p,k,changed,base,keep;if(m)for(i=m.numKeys;i>=1;i--){v=m.keyValue(i);p=v.getParameters();changed=false;for(k in p)if(p.hasOwnProperty(k)&&/^MA i.*marker /.test(k)){delete p[k];changed=true;}if(changed){base=p.MA_BASE||'';keep=p.MA_KEEP==='1';delete p.MA_BASE;delete p.MA_KEEP;if(keep||base){v.comment=base;v.setParameters(p);m.setValueAtTime(m.keyTime(i),v);}else m.removeKey(i);}}
     }
+    /* Cubic-Bezier temporal easing, normalized time/value coordinates.
+       Only adjacent selected keyframes form a segment. No times/values are moved. */
+    function curveTool(c,ls,a){
+        var v=a.curve,i,j,k,n,p,keys,plans=[],lines=[],changed=0;
+        if(Object.prototype.toString.call(v)!=='[object Array]'||v.length!==4)fail('Provide four curve coordinates.');
+        for(i=0;i<4;i++)v[i]=number(v[i],i%2===0?.001:0,i%2===0?.999:1);
+        if(v[0]>v[2])fail('The first time handle must not pass the second.');
+        function vector(x){return typeof x==='number'?[x]:x;}
+        function snapshot(q,key){return {key:key,inType:q.keyInInterpolationType(key),outType:q.keyOutInterpolationType(key),inEase:q.keyInTemporalEase(key),outEase:q.keyOutTemporalEase(key),auto:q.keyTemporalAutoBezier(key),continuous:q.keyTemporalContinuous(key)};}
+        function restore(q,s){q.setTemporalAutoBezierAtKey(s.key,false);q.setTemporalContinuousAtKey(s.key,false);q.setInterpolationTypeAtKey(s.key,s.inType,s.outType);q.setTemporalEaseAtKey(s.key,s.inEase,s.outEase);q.setTemporalContinuousAtKey(s.key,s.continuous);q.setTemporalAutoBezierAtKey(s.key,s.auto);}
+        function numericVector(x){if(Object.prototype.toString.call(x)!=='[object Array]'||x.length<1||x.length>3)throw Error('Use numeric scalar, 2D or 3D properties.');for(var z=0;z<x.length;z++)if(typeof x[z]!=='number'||!isFinite(x[z]))throw Error('Non-numeric keyframe values are unsupported.');}
+        // Plan each complete property before any of its keys is written.
+        for(i=0;i<ls.length;i++){
+            var layer=ls[i],props=layer.selectedProperties;
+            if(layer.locked){lines.push(layer.name+': locked layer skipped.');continue;}
+            for(j=0;j<props.length;j++){
+                p=props[j];if(!p.selectedKeys||p.selectedKeys.length<2||!p.setTemporalEaseAtKey)continue;
+                try{
+                    if(p.expressionEnabled&&p.expression)throw Error('Disable this property expression before easing its keys.');
+                    keys=p.selectedKeys.slice(0).sort(function(x,y){return x-y;});var edits={},saved={},segments=0;
+                    for(k=0;k<keys.length-1;k++){
+                        n=keys[k];if(keys[k+1]!==n+1)continue;
+                        if(p.isSpatial&&(p.keyRoving(n)||p.keyRoving(n+1)))throw Error('Disable roving keyframes before applying a curve.');
+                        var from=vector(p.keyValue(n)),to=vector(p.keyValue(n+1)),dt=p.keyTime(n+1)-p.keyTime(n);numericVector(from);numericVector(to);
+                        if(from.length!==to.length||dt<=0)throw Error('Invalid keyframe interval.');
+                        var outgoing=[],incoming=[],distance=0,d,base;
+                        for(d=0;d<from.length;d++)distance+=Math.pow(to[d]-from[d],2);
+                        if(p.isSpatial&&(v[1]!==0||v[3]!==1)){
+                            var ta=p.keyOutSpatialTangent(n),tb=p.keyInSpatialTangent(n+1);
+                            for(d=0;d<ta.length;d++)if(Math.abs(ta[d])>.000001||Math.abs(tb[d])>.000001)throw Error('Curved motion path: use zero endpoint speed (Y1 = 0, Y2 = 1), or separate Position dimensions.');
+                        }
+                        for(d=0;d<(p.isSpatial?1:from.length);d++){
+                            base=p.isSpatial?Math.sqrt(distance)/dt:(to[d]-from[d])/dt;
+                            outgoing.push(new KeyframeEase(base*v[1]/v[0],v[0]*100));
+                            incoming.push(new KeyframeEase(base*(1-v[3])/(1-v[2]),(1-v[2])*100));
+                        }
+                        if(!saved[n]){saved[n]=snapshot(p,n);edits[n]={key:n,inType:saved[n].inType,outType:saved[n].outType,inEase:saved[n].inEase,outEase:saved[n].outEase};}
+                        if(!saved[n+1]){saved[n+1]=snapshot(p,n+1);edits[n+1]={key:n+1,inType:saved[n+1].inType,outType:saved[n+1].outType,inEase:saved[n+1].inEase,outEase:saved[n+1].outEase};}
+                        edits[n].outType=KeyframeInterpolationType.BEZIER;edits[n].outEase=outgoing;
+                        edits[n+1].inType=KeyframeInterpolationType.BEZIER;edits[n+1].inEase=incoming;segments++;
+                    }
+                    if(segments)plans.push({p:p,edits:edits,saved:saved,count:segments,label:layer.name+' / '+p.name});
+                }catch(e){lines.push(layer.name+' / '+p.name+': '+String(e));}
+            }
+        }
+        for(i=0;i<plans.length;i++){
+            var plan=plans[i],written=[];p=plan.p;
+            try{
+                for(var key in plan.edits)if(plan.edits.hasOwnProperty(key)){
+                    var edit=plan.edits[key];written.push(plan.saved[key]);
+                    p.setTemporalAutoBezierAtKey(edit.key,false);p.setTemporalContinuousAtKey(edit.key,false);
+                    p.setInterpolationTypeAtKey(edit.key,edit.inType,edit.outType);p.setTemporalEaseAtKey(edit.key,edit.inEase,edit.outEase);
+                }
+                changed+=plan.count;
+            }catch(e){var rollback=true;for(j=written.length-1;j>=0;j--)try{restore(p,written[j]);}catch(ignored){rollback=false;}lines.push(plan.label+': '+String(e)+(rollback?' Original easing restored.':' Undo once: restoring this property failed.'));}
+        }
+        return {ok:true,changed:changed,severity:changed&&!lines.length?'success':'warning',message:changed+' keyframe segment(s) eased.'+(lines.length?'\n'+lines.join('\n'):'')+(changed?'':' Select at least two adjacent keyframes on a numeric property.')};
+    }
     function easeTool(c,ls,a){var count=0,lines=[],i,j,p,props,keys,k,d,inE,outE,n,s=number(a.strength,1,100),mode=a.mode;if(mode!=='in'&&mode!=='out'&&mode!=='both'&&mode!=='linear')fail('Choose an easing mode.');
         for(i=0;i<ls.length;i++){try{writable(ls[i]);props=ls[i].selectedProperties;for(j=0;j<props.length;j++){p=props[j];if(!p.selectedKeys||!p.selectedKeys.length||!p.setTemporalEaseAtKey)continue;keys=p.selectedKeys;d=p.isSpatial?1:(Object.prototype.toString.call(p.value)==='[object Array]'?p.value.length:1);inE=[];outE=[];for(k=0;k<d;k++){inE.push(new KeyframeEase(0,s));outE.push(new KeyframeEase(0,s));}for(k=0;k<keys.length;k++){n=keys[k];if(mode==='linear')p.setInterpolationTypeAtKey(n,KeyframeInterpolationType.LINEAR,KeyframeInterpolationType.LINEAR);else{p.setInterpolationTypeAtKey(n,mode==='out'?KeyframeInterpolationType.LINEAR:KeyframeInterpolationType.BEZIER,mode==='in'?KeyframeInterpolationType.LINEAR:KeyframeInterpolationType.BEZIER);p.setTemporalEaseAtKey(n,inE,outE);}count++;}}}catch(e){lines.push(ls[i].name+': '+String(e));}}
         return {ok:true,changed:count,severity:count?(lines.length?'warning':'success'):'warning',message:count+' keys adjusted.'+(lines.length?'\n'+lines.join('\n'):'')+(count?'':' Select property keyframes in the timeline first.')};
@@ -367,6 +425,7 @@ for(i=0;i<r.parameters.length;i++){d=r.parameters[i];if(d.type==='text'||d.type=
         if(a.name==='align'||a.name==='distribute')return layoutLayers(c,ls,a);
         if(a.name==='arrange'){arrange(c,ls,a.mode);return {message:'Reordered '+ls.length+' selected layer(s).',changed:ls.length};}
         if(a.name==='ease')return easeTool(c,ls,a);
+        if(a.name==='curve')return curveTool(c,ls,a);
         if(a.name==='parent'){
             var center=[0,0,0],three=false,eligible=[];for(i=0;i<ls.length;i++){try{writable(ls[i]);if(!prop(ls[i],'ADBE Anchor Point'))throw Error('Visual layers only.');var v=probe(ls[i],'var p=toWorld(anchorPoint);[p[0],p[1],p.length>2?p[2]:0];',c.time);eligible.push(ls[i]);center[0]+=v[0];center[1]+=v[1];center[2]+=v[2];three=three||ls[i].threeDLayer;}catch(e){lines.push(ls[i].name+': '+String(e));}}
             if(!eligible.length)return report(lines,0);l=c.layers.addNull(c.duration);l.name='MotionAstra Controller';l.threeDLayer=three;for(i=0;i<3;i++)center[i]/=eligible.length;prop(l,'ADBE Position').setValue(three?center:[center[0],center[1]]);for(i=0;i<eligible.length;i++){eligible[i].parent=l;lines.push(eligible[i].name+': parented.');}return report(lines,eligible.length);
@@ -387,7 +446,7 @@ for(i=0;i<r.parameters.length;i++){d=r.parameters[i];if(d.type==='text'||d.type=
         }catch(e){lines.push(l.name+': '+String(e));}}
         var result=report(lines,count);if(a.name==='anchor'&&count)result.message+='\nArtwork is preserved at the playhead when Keep artwork is enabled. Animated rotation/scale may change other frames.';return result;
     }
-    function dispatch(raw){var a,result,undo=false;try{a=parse(decodeURIComponent(raw));if(a.action==='status'){var c=app.project?app.project.activeItem:null;result={ok:true,hostVersion:'2.8.6',build:BUILD,version:app.version,composition:c instanceof CompItem?c.name:null,selected:c instanceof CompItem?c.selectedLayers.length:0};}
+    function dispatch(raw){var a,result,undo=false;try{a=parse(decodeURIComponent(raw));if(a.action==='status'){var c=app.project?app.project.activeItem:null;result={ok:true,hostVersion:'2.8.7',build:BUILD,version:app.version,composition:c instanceof CompItem?c.name:null,selected:c instanceof CompItem?c.selectedLayers.length:0};}
         else if(a.action==='fonts')result=fontList();
         else if(a.action==='yuText'&&a.operation==='load')result=MotionAstraYU.run(a,{parse:parse,encode:encode});
         else if(a.action==='load'||a.action==='reconnect'){try{result=load(a);}catch(e){e.noChanges=true;throw e;}}
@@ -397,6 +456,6 @@ for(i=0;i<r.parameters.length;i++){d=r.parameters[i];if(d.type==='text'||d.type=
     // Fail before any layer mutation if this host cannot preserve transport booleans.
     var transportProbe=parse('{"keep":true,"loop":false,"empty":null,"n":1.25}');
     if(transportProbe.keep!==true||transportProbe.loop!==false||transportProbe.empty!==null||transportProbe.n!==1.25)throw Error('MotionAstra JSON transport self-check failed. Restart AE and install the full package.');
-    return {dispatch:dispatch,version:'2.8.6',build:BUILD};
+    return {dispatch:dispatch,version:'2.8.7',build:BUILD};
 }());
 if(typeof $!=='undefined'&&$.global)$.global.MotionAstra=MotionAstra;

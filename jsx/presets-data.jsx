@@ -1,5 +1,5 @@
 var MA_PRESET_DATA = {
-  "version": "2.8.6",
+  "version": "2.8.7",
   "presets": [
     {
       "id": "counter",

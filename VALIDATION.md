@@ -118,3 +118,7 @@ The v2.8.3 CI gate prevented publication when the macOS rollback regression fail
 ## YUGraphic integration
 
 `tests/yu-text.cjs` compares 1,365 integrated selector expressions numerically with original YUGraphic expressions at ten timeline samples, across all 120 presets and IN/OUT/BOTH. It covers metadata, phase replacement, compact controls, target validation, cleanup, and staged creation failures. `tests/yu-ui.cjs` exercises search/category filtering, author attribution, apply/load/update/remove, invalid input, stale selections, responsive action layout and offline restrictions in Chromium. These checks do not certify Adobe glyph rendering or native property schemas. Run `tests/AE_YU_SMOKE_TEST.jsx` in a disposable AE project to create native fixtures and inspect previews.
+
+## Motion Curve and themes
+
+`tests/motion-curve.cjs` checks native easing conversion for scalar, descending, multidimensional and spatial values, selection boundaries, protected outside handles and keyframe values/times, skip conditions and injected-failure rollback. `tests/curve-ui.cjs` checks pointer/keyboard/numeric editing, preset application payload, bounded curve math, local persistence, both themes and responsive/offline behavior. Native AE rendering and temporal handle behavior remain manual verification requirements.
