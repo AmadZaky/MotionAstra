@@ -1,4 +1,4 @@
-# MotionAstra 2.5 architecture
+# MotionAstra architecture
 
 The runtime has three layers: local HTML/CSS/JavaScript; a serialized CSInterface transport; and an ES3-compatible After Effects host. The schema is compiled into local JS/JSX so file:// fetch restrictions do not prevent startup. No Node integration, external server, CDN, eval of user payloads, or internet access is required.
 
@@ -16,7 +16,7 @@ presets.json has exactly 20 public recipes. Legacy v2 records are separate and r
 
 Expressions use a tagged prefix. Only tagged expressions, generated MA2 animators/effects/masks and token-specific markers are removed by the owned-removal tool. User masks, comments, effects and marker text are preserved. Erase ALL explicitly clears the full Effects stack on selected layers in addition to owned animation. Transition removal disables its coverage layer and keeps the project source; no project-wide deletion is performed.
 
-Text/background clocks use layer.inPoint plus End marker time, bounded one-shot progress, optional loop, easing, reverse and manual progress. Numeric/color/boolean controls are live. Strings are embedded in generated expressions and committed on Update. Structural Count is reconstructed only on Update. Native background masks are deterministic and bounded in count.
+Text/background clocks use layer.inPoint plus End marker time, bounded one-shot progress, optional loop, easing, reverse and manual progress. New instances default to compact layout: one native MA2 MotionAstra Progress Slider Control, with typed parameter values stored in layer metadata and embedded in owned expressions on Update. Colors also write directly to native rendering effects. Individual layout retains separate live controls for advanced keyframing. Existing instances remain individual until explicitly converted. Structural Count is reconstructed only on Update. Native background masks are deterministic and bounded in count.
 
 Transition creation/update code was removed in 2.5.4. Only recognition for explicitly removing old transition instances remains; it disables the coverage layer after cleanup.
 
@@ -35,3 +35,9 @@ See VALIDATION.md for the distinction between modeled host testing and actual na
 ## 2.5.4 creation actions
 
 New Shape constructs a regular native filled path; New Solid uses composition dimensions and the requested RGB color; New Text retains native editable text. Creation requires an active comp, not a selection, and selects only its result. New shape/solid validates color before adding layers, removes its own partial layer on construction failure and uses the shared Undo dispatcher. The Create bar and standalone catalog share the same local UI.
+
+## Compact controls and FX Tweaker
+
+FX Tweaker loads one selected instance and binds updates to its composition, layer and instance token. A changed selection is rejected before mutation. Parameter search and collapsible groups organize settings without adding AE controls. Ordinary parameter updates preserve keyframes/expressions on the master progress slider. Enable Manual Progress to drive animation with that slider. End markers remain the timing source.
+
+Compact old controls is explicit and refuses animated parameter controls or external effect-expression dependencies. Conversion preserves native rendering effects and user artwork. Compact means one parameter controller, not one total Effects-stack entry: native Ramp, Blur, Bevel and other rendering effects remain necessary. Settings offers Individual controls for advanced keyframing.

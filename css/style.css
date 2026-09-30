@@ -26,3 +26,18 @@ footer{grid-row:5;display:grid;grid-template-rows:20px minmax(0,1fr);padding:5px
 .card-actions .card-apply{font-size:10px;padding:5px 4px;min-height:26px}
 
 .font-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:5px;align-items:center;margin-top:6px;font-size:9px}.font-row select,.font-row button{padding:4px;font-size:10px}.font-row select{width:100%}
+
+/* Compact FX Tweaker workspace. */
+.category-tabs{grid-template-columns:repeat(4,minmax(0,1fr))}
+.category-tabs button{font-size:10px}
+.tweaker-note{margin-top:24px;padding:16px;border:1px solid var(--line);border-radius:14px;background:#ffffff03}
+#tweaker-context{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:14px;padding:12px;border:1px solid #ff943f30;border-radius:12px;background:#ff943f08}
+#loaded-layer{flex:1;min-width:80px;overflow-wrap:anywhere;font-size:12px;font-weight:600}
+.layout-badge{font-size:9px;color:var(--accent);border:1px solid #ff943f30;border-radius:20px;padding:3px 7px}
+#compact-fx{font-size:10px;padding:6px 8px}#compact-help{font-size:10px;margin:0}
+.parameter-search{display:block;margin:0 0 12px}.parameter-search span{font-size:10px;color:var(--muted)}.parameter-search input{width:100%;margin-top:5px}
+#parameters .parameter-group{padding:10px 0 0;border-radius:0;background:none;box-shadow:none}
+#parameters .parameter-group>summary{font-size:10px;letter-spacing:.6px;color:var(--accent);padding:0;cursor:pointer}
+#parameters .parameter-group[hidden],#parameters .parameter[hidden]{display:none}
+.inspector-actions button[hidden]{display:none}.inspector-actions.tweaking{grid-template-columns:1fr}
+@media(max-width:339px){.category-tabs button{font-size:9px}.category-tabs span{display:none}}

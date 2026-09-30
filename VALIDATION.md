@@ -110,3 +110,7 @@ Close AE, extract the whole release ZIP, then double-click the launcher for your
 ## 2.8.4 — macOS rollback compatibility
 
 The v2.8.3 CI gate prevented publication when the macOS rollback regression failed. Reproduced under GNU Bash 3.2: function-local state becomes unavailable in the EXIT trap. Transaction state now lives in the isolated subshell, and all seven installer tests pass under Bash 3.2 and Bash 5.2. Native Windows/macOS CI remains a release gate; native AE rendering is a separate manual check.
+
+## Compact controller / FX Tweaker
+
+`node tests/compact-controls.cjs` checks all 20 compact recipes, parameter updates, native effect preservation, legacy conversion, animated/dependency guards and stale-target rejection. `node tests/tweaker-ui.cjs` exercises the real Chromium Tweaker workflow, search, conversion and guarded update. Native AE rendering remains a manual gate for production use.

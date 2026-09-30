@@ -1,13 +1,10 @@
-# MotionAstra 2.8.4 — Pre-alpha
+# MotionAstra 2.8.5 — Pre-alpha
 
-- Fixes the startup-blocking `Illegal use of reserved word` at hostscript.jsx line 237: the ES3-reserved identifier `native` is now `nativeProperty`.
-- Adds an ES3 parser and reserved-identifier release check, because Node's modern parser accepted the incompatible code.
-- Release ZIP includes `MotionAstra-FX/`, `Install MotionAstra.cmd`, its PowerShell helper, and `Install MotionAstra.command` for macOS.
-- Installers detect existing MotionAstra bundles by manifest ID, including renamed folders in standard user/system CEP locations. They ask before removing active old copies, preserve backups outside CEP, and restore moved copies if activation fails.
-- Payload checksums are verified before replacement. Unrelated destination folders and linked payloads are rejected. Protected system installs require manual removal with administrator approval before retrying.
-- Installer enables PlayerDebugMode for CSXS 11/12 in the current user account. No AE project files or AE preferences are edited.
-- Windows and macOS installer tests, ES3 checks, host regressions and Chromium workflows gate release publication.
+- New instances use one MotionAstra Progress parameter controller. Native effects that render the artwork remain necessary.
+- Adds a dedicated FX Tweaker tab with Load selected FX, parameter search, collapsible groups and a compact Update footer.
+- Tweaker updates are bound to the loaded composition/layer/instance; changing selection requires reloading and cannot accidentally generate another background.
+- Compact settings persist in layer metadata; Update rebuilds typed expression constants and writes native colors. Existing progress animation is preserved on ordinary updates.
+- Existing instances retain individual controls. Explicit Compact old controls conversion refuses animated controls or external expression dependencies. Individual layout remains available in Settings for advanced keyframing.
+- Adds compact-controller and Chromium Tweaker regression coverage for all 20 presets and migration safety.
 
-Close AE, extract the whole release ZIP, then double-click the launcher for your OS. Confirm replacement when prompted; restart AE and confirm Settings shows 2.8.4. The macOS script is unsigned; if macOS blocks it, use the approved Open action described in the guide. Direct AE rendering remains a manual check.
-
-The v2.8.3 publication was blocked by the macOS rollback test. This release also fixes Bash 3.2 EXIT-trap state so failed activation restores the old installation.
+Close AE, extract the entire release ZIP and run the installer for your OS. Confirm replacement, restart AE and check version 2.8.5. Native AE rendering still requires the included manual smoke test; automated host-model and browser tests do not replace it.
