@@ -41,3 +41,13 @@ footer{grid-row:5;display:grid;grid-template-rows:20px minmax(0,1fr);padding:5px
 #parameters .parameter-group[hidden],#parameters .parameter[hidden]{display:none}
 .inspector-actions button[hidden]{display:none}.inspector-actions.tweaking{grid-template-columns:1fr}
 @media(max-width:339px){.category-tabs button{font-size:9px}.category-tabs span{display:none}}
+
+/* YUGraphic library, with a reserved action row instead of an overlay. */
+.category-tabs{grid-template-columns:repeat(5,minmax(0,1fr))}
+#yu{height:100%;min-height:0;display:flex;flex-direction:column}#yu[hidden]{display:none}
+.yu-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;flex:none}.yu-heading h1{margin:5px 0}.yu-heading button{font-size:10px;padding:6px;max-width:100px}
+#yu-browser{overflow:auto;min-height:0;flex:1}.yu-filters{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}.yu-filters input{width:100%}.yu-filters select{max-width:120px}
+#yu-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;padding-bottom:12px}.yu-card{background:#111113;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}.yu-card canvas{width:100%;aspect-ratio:2}.yu-card .eyebrow{padding:10px 12px 0}.yu-card h2{font-size:13px;padding:0 12px;flex:1}.yu-card button{margin:0 10px 10px;font-size:11px;padding:6px}.yu-card:hover{border-color:#ff943f66}
+#yu-editor{min-height:0;flex:1;display:flex;flex-direction:column}#yu-editor[hidden],#yu-browser[hidden]{display:none}.yu-edit-scroll{flex:1;overflow:auto;min-height:0;padding:10px 0}#yu-preview{width:100%;border-radius:12px;max-height:200px;object-fit:contain}#yu-target{font-size:11px;overflow-wrap:anywhere}
+#yu-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:16px 0}#yu-controls label{font-size:11px;display:flex;flex-direction:column;gap:5px}#yu-controls input,#yu-controls select{min-width:0;width:100%}#yu-controls input:invalid{border-color:#ff6655}.yu-actions{flex:none;display:flex;gap:6px;padding:8px 0;border-top:1px solid var(--line)}.yu-actions button{flex:1;padding:6px;font-size:11px;min-height:28px}
+@media(max-width:550px){.category-tabs{grid-template-columns:repeat(3,minmax(0,1fr))}.category-tabs button{font-size:10px}.yu-heading h1{font-size:21px}#yu-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.yu-card h2{font-size:11px}.yu-card .eyebrow{font-size:8px}}

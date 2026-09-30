@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MotionAstra 2.8.5</title><style>/* MotionAstra 2.5.2 — local system fonts, quiet glass surfaces, orange focus. */
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MotionAstra 2.8.6</title><style>/* MotionAstra 2.5.2 — local system fonts, quiet glass surfaces, orange focus. */
 :root{color-scheme:dark;--bg:#080809;--surface:#161618;--text:#f4f4f5;--muted:#929296;--accent:#ff943f;--line:rgba(255,255,255,.085);--ease:cubic-bezier(.2,.8,.2,1)}
 *{box-sizing:border-box}[hidden]{display:none!important}html,body{height:100%;margin:0;overflow:hidden}body{min-width:300px;display:grid;grid-template-rows:auto auto auto minmax(0,1fr) 66px;background:var(--bg);color:var(--text);font:12px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
 button,input,select,textarea{font:inherit}button{color:var(--text);background:#ffffff05;border:1px solid var(--line);border-radius:9px;padding:8px 11px;cursor:pointer;transition:background .2s var(--ease),border-color .2s var(--ease),transform .2s var(--ease)}button:hover{background:#ffffff0d;border-color:#ffffff24}button:active{transform:scale(.98)}button:disabled{opacity:.35;cursor:not-allowed}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -41,12 +41,27 @@ footer{grid-row:5;display:grid;grid-template-rows:20px minmax(0,1fr);padding:5px
 #parameters .parameter-group[hidden],#parameters .parameter[hidden]{display:none}
 .inspector-actions button[hidden]{display:none}.inspector-actions.tweaking{grid-template-columns:1fr}
 @media(max-width:339px){.category-tabs button{font-size:9px}.category-tabs span{display:none}}
+
+/* YUGraphic library, with a reserved action row instead of an overlay. */
+.category-tabs{grid-template-columns:repeat(5,minmax(0,1fr))}
+#yu{height:100%;min-height:0;display:flex;flex-direction:column}#yu[hidden]{display:none}
+.yu-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;flex:none}.yu-heading h1{margin:5px 0}.yu-heading button{font-size:10px;padding:6px;max-width:100px}
+#yu-browser{overflow:auto;min-height:0;flex:1}.yu-filters{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}.yu-filters input{width:100%}.yu-filters select{max-width:120px}
+#yu-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;padding-bottom:12px}.yu-card{background:#111113;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}.yu-card canvas{width:100%;aspect-ratio:2}.yu-card .eyebrow{padding:10px 12px 0}.yu-card h2{font-size:13px;padding:0 12px;flex:1}.yu-card button{margin:0 10px 10px;font-size:11px;padding:6px}.yu-card:hover{border-color:#ff943f66}
+#yu-editor{min-height:0;flex:1;display:flex;flex-direction:column}#yu-editor[hidden],#yu-browser[hidden]{display:none}.yu-edit-scroll{flex:1;overflow:auto;min-height:0;padding:10px 0}#yu-preview{width:100%;border-radius:12px;max-height:200px;object-fit:contain}#yu-target{font-size:11px;overflow-wrap:anywhere}
+#yu-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:16px 0}#yu-controls label{font-size:11px;display:flex;flex-direction:column;gap:5px}#yu-controls input,#yu-controls select{min-width:0;width:100%}#yu-controls input:invalid{border-color:#ff6655}.yu-actions{flex:none;display:flex;gap:6px;padding:8px 0;border-top:1px solid var(--line)}.yu-actions button{flex:1;padding:6px;font-size:11px;min-height:28px}
+@media(max-width:550px){.category-tabs{grid-template-columns:repeat(3,minmax(0,1fr))}.category-tabs button{font-size:10px}.yu-heading h1{font-size:21px}#yu-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.yu-card h2{font-size:11px}.yu-card .eyebrow{font-size:8px}}
 </style></head><body class="catalog">
-<header><a class="brand" href="index.html"><span class="brand-icon"><i data-lucide="asterisk"></i></span>MotionAstra <b>2.8.5</b></a><div class="header-actions"><button id="fold-quick" aria-controls="quick" aria-expanded="true">Quick ▴</button><button id="fold-nav" aria-controls="nav" aria-expanded="true">Menu ▴</button></div></header>
-<nav id="nav" aria-label="Main navigation"><div class="search"><i data-lucide="search"></i><input id="search" type="search" placeholder="Search presets…" aria-label="Search presets"><span id="count">10</span></div><div class="category-tabs"><button class="active" data-tab="Text">Text FX <span>10</span></button><button data-tab="Background">Backgrounds <span>10</span></button><button data-tab="Tools">Quick Tools</button><button data-tab="Tweaker">FX Tweaker</button></div></nav>
+<header><a class="brand" href="index.html"><span class="brand-icon"><i data-lucide="asterisk"></i></span>MotionAstra <b>2.8.6</b></a><div class="header-actions"><button id="fold-quick" aria-controls="quick" aria-expanded="true">Quick ▴</button><button id="fold-nav" aria-controls="nav" aria-expanded="true">Menu ▴</button></div></header>
+<nav id="nav" aria-label="Main navigation"><div class="search"><i data-lucide="search"></i><input id="search" type="search" placeholder="Search presets…" aria-label="Search presets"><span id="count">10</span></div><div class="category-tabs"><button class="active" data-tab="Text">Text FX <span>10</span></button><button data-tab="Background">Backgrounds <span>10</span></button><button data-tab="YU">YU Txt Motion</button><button data-tab="Tools">Quick Tools</button><button data-tab="Tweaker">FX Tweaker</button></div></nav>
 <div id="quick"><div class="create-row" aria-label="Create layers"><button data-tool="newShape" data-host><i data-lucide="square"></i>New Shape</button><button data-tool="newText" data-host><i data-lucide="type"></i>New Text</button><button data-tool="newSolid" data-host><i data-lucide="layers"></i>New Solid</button><label class="layer-color" title="Shape and solid color"><input id="new-layer-color" type="color" value="#ff943f" aria-label="New shape and solid color"></label></div><div class="font-row"><label for="new-text-font">New Text font</label><select id="new-text-font" aria-label="New Text font"><option value="">Current AE font</option></select><button id="refresh-fonts" data-host>Load fonts</button></div><div class="utility-row"><button id="quick-anchor" data-host><i data-lucide="crosshair"></i>Center anchor</button><button id="load-fx" data-host><i data-lucide="sliders-horizontal"></i>Load FX Settings</button><button data-tab="Settings" aria-label="Settings"><i data-lucide="settings"></i></button></div></div>
 <div id="workspace"><main>
 <section id="library"><div class="eyebrow" id="library-kicker">10 TEXT ESSENTIALS</div><h1 id="library-title">Words in motion.</h1><p id="library-help">Select a text layer before applying FX.</p><div id="cards"></div></section>
+<section id="yu" hidden aria-label="YU Txt Motion"><div class="yu-heading"><div><span class="eyebrow">ANIMATION BY YUGraphic</span><h1>YU Txt Motion</h1></div><button id="yu-load" data-host>Load YU settings</button></div>
+<div id="yu-browser"><p>120 original text presets · by YUGraphic · MIT licensed</p><div class="yu-filters"><input id="yu-search" type="search" placeholder="Search YU presets…" aria-label="Search YU presets"><select id="yu-category" aria-label="YU category"></select></div><p id="yu-count"></p><div id="yu-cards"></div></div>
+<div id="yu-editor" hidden><div class="yu-edit-scroll"><button id="yu-back">← All YU presets</button><h2 id="yu-title"></h2><p id="yu-target"></p><canvas id="yu-preview" width="600" height="240" aria-label="YU preset preview"></canvas><button id="yu-replay">Replay preview</button>
+<div id="yu-controls"><label>Animation<select id="yu-mode"></select></label><label>Grouping<select id="yu-group"></select></label><label>Duration · seconds<input id="yu-duration" type="number" min="0.01" max="10" step="0.01" required></label><label>Stagger · seconds<input id="yu-stagger" type="number" min="0" max="2" step="0.005" required></label><label>Intensity · %<input id="yu-intensity" type="number" min="0" max="200" step="1" required></label><label>Random seed<input id="yu-seed" type="number" min="0" max="99999" step="1" required></label><label>Order<select id="yu-order"></select></label><label>Easing<select id="yu-easing"></select></label><label>Placement<select id="yu-placement"></select></label></div>
+<p class="hint">Original YUGraphic timing: IN starts at the layer edge; OUT ends one frame before the out-point. IN + OUT always uses layer edges. Short layers automatically fit the animation. Settings apply when you click Apply or Update. Text color and font stay unchanged.</p><button id="yu-clear" data-host>Remove YU animation from selection</button><p class="hint">Only YU IN/OUT animators are replaced or removed. Use Undo to restore. Canvas previews illustrate motion; AE typography and blur may render differently.</p><a href="vendor/yu-text-motion/LICENSE.txt">YUGraphic · MIT License</a></div><div class="yu-actions"><button id="yu-apply" class="primary" data-host>Apply YU</button><button id="yu-update" data-host>Update loaded YU</button></div></div></section>
 <section id="tweaker" hidden><div class="eyebrow">SELECT · LOAD · TWEAK</div><h1>FX Tweaker</h1><p>Select one MotionAstra layer in AE, then load its settings here.</p><button id="tweaker-load" class="primary" data-host>Load selected FX</button><div class="tweaker-note"><strong>One controller. Everything here.</strong><p>Compact FX keep a single MotionAstra Progress slider in Effect Controls. Look, color, timing and loop settings live in this panel.</p><p>Native rendering effects remain on the layer. Existing animated controls stay in Individual mode.</p></div></section><section id="tools" hidden><div class="eyebrow">EVERYDAY CONTROLS</div><h1>Quick Tools</h1><p>Tools operate on selected layers. Every action has one Undo step.</p>
 <details open><summary><i data-lucide="crosshair"></i>Anchor point</summary><p>Supports text, shapes, footage, solids, nulls, parenting and 3D. Cameras/lights have no anchor.</p><div class="anchor-grid" id="anchor-grid"></div><label class="check"><input id="anchor-keep" type="checkbox" checked>Keep artwork at the playhead</label><p class="hint">Offsets existing keys and expressions. Animated scale/rotation can change other frames after changing the pivot.</p><div class="row"><label>X · %<input id="anchor-x" type="number" value="50" min="0" max="100"></label><label>Y · %<input id="anchor-y" type="number" value="50" min="0" max="100"></label></div><button id="anchor-custom" data-host>Set custom anchor</button></details>
 <details><summary><i data-lucide="layers"></i>Arrange layers</summary><div class="button-grid"><button data-order="top" data-host>To top</button><button data-order="bottom" data-host>To bottom</button><button data-order="up" data-host>Move up</button><button data-order="down" data-host>Move down</button><button data-order="reverse" data-host>Reverse order</button><button data-order="name" data-host>Sort by name</button></div><label>Stagger interval · seconds<input id="stagger-seconds" type="number" value="0.1" min="-60" max="60" step="0.01"></label><button id="stagger" data-host>Sequence selected layers</button><label>Rename prefix<input id="rename-prefix" type="text" value="Layer" maxlength="80"></label><button id="rename" data-host>Rename + number</button><button data-tool="unlock" data-host>Unlock selected layers</button></details>
@@ -55,7 +70,7 @@ footer{grid-row:5;display:grid;grid-template-rows:20px minmax(0,1fr);padding:5px
 <details><summary><i data-lucide="type"></i>Text appearance</summary><p>Changes the underlying text style, including counters and switchers.</p><div class="row"><label>Size · px<input id="text-size" type="number" value="100" min="1" max="1000"></label><label>Fill<input id="text-color" type="color" value="#ffffff"></label></div><label>Paragraph alignment<select id="text-align"><option value="left">Left</option><option value="center">Center</option><option value="right">Right</option></select></label><button id="text-style" data-host>Apply text style</button></details>
 <details open><summary><i data-lucide="eraser"></i>Remove effects</summary><p>Removes effects only from selected unlocked layers.</p><button id="remove-owned" data-host>Remove MotionAstra FX</button><button id="erase-all" class="danger" data-host>Erase ALL effects on selected layers</button><p class="hint">Erase ALL also removes third-party/native Effects stacks. Unrelated expressions and non-MotionAstra text animators remain. Other layers are not deleted.</p><div id="review" hidden><strong>Review removal</strong><p id="review-text"></p><div class="row"><button id="confirm-remove" class="danger" data-host>Confirm removal</button><button id="cancel-remove">Cancel</button></div></div></details>
 </section>
-<section id="settings" hidden><div class="eyebrow">MOTIONASTRA 2.8.5</div><h1>Your workspace.</h1><details open><summary>Preview & connection</summary><label for="control-layout">New FX controls</label><select id="control-layout"><option value="compact">Compact · one controller</option><option value="legacy">Individual · advanced keyframing</option></select><p>Existing layers keep their current layout. Use FX Tweaker to compact unanimated old controls.</p><label class="check"><input id="reduced" type="checkbox">Reduce preview motion</label><button id="refresh">Refresh AE connection</button><p id="connection"></p><a href="catalog.html">Open preview catalog ↗</a><p>All panel assets are local. Browser mode offers previews; Apply and tools require After Effects.</p><p>Use Project Settings → Expressions → JavaScript. Includes 20 presets. Existing v2 effects remain loadable through Load selected FX. Existing projects are never migrated automatically.</p><a href="INSTALLATION_GUIDE.md">Installation and workflow guide ↗</a></details><details open><summary>Operation history</summary><ol id="history"></ol></details></section>
+<section id="settings" hidden><div class="eyebrow">MOTIONASTRA 2.8.6</div><h1>Your workspace.</h1><details open><summary>Preview & connection</summary><label for="control-layout">New FX controls</label><select id="control-layout"><option value="compact">Compact · one controller</option><option value="legacy">Individual · advanced keyframing</option></select><p>Existing layers keep their current layout. Use FX Tweaker to compact unanimated old controls.</p><label class="check"><input id="reduced" type="checkbox">Reduce preview motion</label><button id="refresh">Refresh AE connection</button><p id="connection"></p><a href="catalog.html">Open preview catalog ↗</a><p>All panel assets are local. Browser mode offers previews; Apply and tools require After Effects.</p><p>Use Project Settings → Expressions → JavaScript. Includes 20 MotionAstra presets and 120 YU Txt Motion presets by YUGraphic. Existing v2 effects remain loadable through Load selected FX. Existing projects are never migrated automatically.</p><a href="INSTALLATION_GUIDE.md">Installation and workflow guide ↗</a></details><details open><summary>Operation history</summary><ol id="history"></ol></details></section>
 </main>
 <aside id="inspector" hidden aria-labelledby="fx-title"><div class="inspector-head"><div><span class="eyebrow" id="inspector-mode">CUSTOMIZE PRESET</span><h2 id="fx-title"></h2></div><button id="close" aria-label="Close effect settings">✕</button></div><div class="inspector-scroll"><div id="tweaker-context" hidden><span id="loaded-layer"></span><span id="loaded-layout" class="layout-badge"></span><button id="compact-fx" data-host>Compact old controls</button><p id="compact-help">Compaction removes unanimated MotionAstra parameter controls. Native effects remain. Animated controls and external expression dependencies block conversion.</p></div><label class="parameter-search"><span>Find a setting</span><input id="parameter-search" type="search" placeholder="Color, duration, loop…" autocomplete="off"></label><canvas id="preview" width="600" height="340" aria-label="Effect preview"></canvas><p id="fx-description"></p><div class="row inspector-options"><button id="replay">Replay ↻</button><button id="reset">Reset settings</button></div><div id="parameters"></div><p class="hint" id="parameter-help">Text/background animation starts at the layer in-point. Changes reach AE when you click Apply or Update.</p><p class="hint" id="structural-help" hidden>Count changes rebuild artwork on Update. Native count controls need Load selected FX → Update to rebuild.</p></div><div class="inspector-actions"><button id="apply" class="primary" data-host>Apply FX</button><button id="update" data-host>Update</button></div></aside>
 </div>
@@ -1369,7 +1384,7 @@ lucide.createIcons({icons});\``);if(typeof document>"u")throw new Error("`create
 
 </script><script>
 window.MA_PRESETS = {
-  "version": "2.8.5",
+  "version": "2.8.6",
   "presets": [
     {
       "id": "counter",
@@ -6939,14 +6954,14 @@ document.addEventListener('visibilitychange',run);return {attach,play,clear,rend
 })();
 
 </script><script>
-/* MotionAstra CEP transport v2.8.5.
+/* MotionAstra CEP transport v2.8.6.
  * Host files load by absolute path; all replies are tagged and request-correlated.
  * Empty callbacks recover the stored reply, NEVER replay the host mutation.
  */
 (function (root) {
   'use strict';
-  const VERSION = '2.8.5';
-  const BUILD = '2.8.5';
+  const VERSION = '2.8.6';
+  const BUILD = '2.8.6';
   const PREFIX = 'MAFX1:';
   const ERROR_PREFIX = 'MAFX1E:';
   const available = !!root.__adobe_cep__;
@@ -7028,10 +7043,12 @@ document.addEventListener('visibilitychange',run);return {attach,play,clear,rend
       'var host=$.global.MotionAstra;' +
       'if(!host||host.version!==' + version + '||host.build!==' + JSON.stringify(BUILD) + '||typeof host.dispatch!=="function"){' +
       'var data=File(' + JSON.stringify(path + '/jsx/presets-data.jsx') + ');' +
+      'var yu=File(' + JSON.stringify(path + '/jsx/yu-text.jsx') + ');' +
       'var script=File(' + JSON.stringify(path + '/jsx/hostscript.jsx') + ');' +
       'if(!data.exists)throw Error("Missing presets-data.jsx. Install the complete folder.");' +
+      'if(!yu.exists)throw Error("Missing yu-text.jsx. Install the complete folder.");' +
       'if(!script.exists)throw Error("Missing host.jsx. Install the complete folder.");' +
-      '$.evalFile(data);$.evalFile(script);host=$.global.MotionAstra;' +
+      '$.evalFile(data);$.evalFile(yu);$.evalFile(script);host=$.global.MotionAstra;' +
       'if(!host||host.version!==' + version + '||host.build!==' + JSON.stringify(BUILD) + '||typeof host.dispatch!=="function")' +
       'throw Error("Host initialization failed or an old host is still installed.");}' +
       'var output=host.dispatch(' + JSON.stringify(encodeURIComponent('{"action":"status"}')) + ');'
@@ -7055,6 +7072,304 @@ document.addEventListener('visibilitychange',run);return {attach,play,clear,rend
 }(window));
 
 </script><script>
+/* Yu Text Motion 1.0 beta. Original procedural presets. ES3 compatible. */
+var YTMCore = (function () {
+    var presets = [];
+    function clamp(x, a, b) { return Math.max(a, Math.min(b, x)); }
+    function hash(n, seed) { var x = Math.sin(n * 127.1 + seed * 311.7) * 43758.5453; return x - Math.floor(x); }
+    function add(category, name, spec) {
+        var p = {id:presets.length + 1, category:category, name:name, x:0, y:0,
+            sx:100, sy:100, rotation:0, skew:0, blur:0, ease:"cubic", pattern:"plain",
+            order:"forward", duration:0.65, stagger:0.035, group:"chars", wave:0};
+        var k; for (k in spec) { if (spec.hasOwnProperty(k)) { p[k] = spec[k]; } }
+        presets.push(p);
+    }
+    add("Clean", "Soft Fade", {ease:"smooth",duration:0.5});
+    add("Clean", "Quick Fade", {ease:"expo",duration:0.3,stagger:0.015});
+    add("Clean", "Soft Rise", {y:22,ease:"smooth"});
+    add("Clean", "Soft Fall", {y:-22,ease:"smooth"});
+    add("Clean", "Gentle Zoom", {sx:92,sy:92,ease:"smooth"});
+    add("Clean", "Settle Down", {sx:112,sy:112,y:-10});
+    add("Clean", "Word Reveal", {y:18,group:"words",stagger:0.12});
+    add("Clean", "Line Reveal", {y:25,group:"lines",stagger:0.16});
+    add("Clean", "Center Fade", {order:"center",ease:"smooth"});
+    add("Clean", "Reverse Whisper", {x:12,order:"reverse",duration:0.8});
+    add("Slide", "Slide From Left", {x:-160});
+    add("Slide", "Slide From Right", {x:160});
+    add("Slide", "Slide From Bottom", {y:110});
+    add("Slide", "Slide From Top", {y:-110});
+    add("Slide", "Diagonal Left Up", {x:-100,y:80});
+    add("Slide", "Diagonal Right Up", {x:100,y:80});
+    add("Slide", "Diagonal Left Down", {x:-100,y:-80});
+    add("Slide", "Diagonal Right Down", {x:100,y:-80});
+    add("Slide", "Fast Whip Left", {x:-300,skew:18,ease:"expo",duration:0.45});
+    add("Slide", "Fast Whip Right", {x:300,skew:-18,ease:"expo",duration:0.45});
+    add("Pop", "Tiny Pop", {sx:0,sy:0,ease:"back",duration:0.45});
+    add("Pop", "Big Pop", {sx:180,sy:180,ease:"back",duration:0.55});
+    add("Pop", "Pop Lift", {sx:20,sy:20,y:65,ease:"back"});
+    add("Pop", "Pop Drop", {sx:30,sy:30,y:-65,ease:"back"});
+    add("Pop", "Pop Tilt Left", {sx:0,sy:0,rotation:-35,ease:"back"});
+    add("Pop", "Pop Tilt Right", {sx:0,sy:0,rotation:35,ease:"back"});
+    add("Pop", "Wide Pop", {sx:0,sy:160,ease:"back"});
+    add("Pop", "Tall Pop", {sx:150,sy:0,ease:"back"});
+    add("Pop", "Word Punch", {sx:165,sy:165,ease:"back",group:"words",stagger:0.16});
+    add("Pop", "Center Pop", {sx:0,sy:0,ease:"back",order:"center"});
+    add("Bounce", "Bounce Up", {y:150,ease:"bounce"});
+    add("Bounce", "Bounce Down", {y:-150,ease:"bounce"});
+    add("Bounce", "Bounce From Left", {x:-140,ease:"bounce"});
+    add("Bounce", "Bounce From Right", {x:140,ease:"bounce"});
+    add("Bounce", "Rubber Ball", {sx:0,sy:0,ease:"bounce"});
+    add("Bounce", "Heavy Drop", {y:-220,sx:130,sy:80,ease:"bounce",duration:0.9});
+    add("Bounce", "Tilt Bounce", {y:110,rotation:-30,ease:"bounce"});
+    add("Bounce", "Word Bounce", {y:100,ease:"bounce",group:"words",stagger:0.12});
+    add("Bounce", "Center Bounce", {y:90,ease:"bounce",order:"center"});
+    add("Bounce", "Scatter Bounce", {x:120,y:120,pattern:"scatter",ease:"bounce",order:"random"});
+    add("Elastic", "Spring Up", {y:110,ease:"elastic",duration:1});
+    add("Elastic", "Spring Down", {y:-110,ease:"elastic",duration:1});
+    add("Elastic", "Spring Left", {x:-150,ease:"elastic",duration:1});
+    add("Elastic", "Spring Right", {x:150,ease:"elastic",duration:1});
+    add("Elastic", "Rubber Pop", {sx:0,sy:0,ease:"elastic",duration:1});
+    add("Elastic", "Rubber Stretch", {sx:20,sy:160,ease:"elastic",duration:1});
+    add("Elastic", "Rubber Squash", {sx:170,sy:20,ease:"elastic",duration:1});
+    add("Elastic", "Spring Tilt", {rotation:-80,ease:"elastic",duration:1});
+    add("Elastic", "Word Spring", {sx:0,sy:0,ease:"elastic",group:"words",stagger:0.15,duration:1});
+    add("Elastic", "Elastic Scatter", {x:110,y:90,pattern:"scatter",ease:"elastic",duration:1});
+    add("Rotate", "Quarter Turn Left", {rotation:-90});
+    add("Rotate", "Quarter Turn Right", {rotation:90});
+    add("Rotate", "Half Turn", {rotation:180,sx:30,sy:30});
+    add("Rotate", "Full Spin", {rotation:360,sx:10,sy:10,duration:0.9});
+    add("Rotate", "Counter Spin", {rotation:-360,sx:10,sy:10,duration:0.9});
+    add("Rotate", "Swing In", {rotation:-65,y:-30,ease:"back"});
+    add("Rotate", "Pendulum", {rotation:55,ease:"elastic",duration:1});
+    add("Rotate", "Alternating Tilt", {rotation:60,pattern:"alternate"});
+    add("Rotate", "Tumble Rise", {rotation:-180,y:120});
+    add("Rotate", "Spiral Gather", {x:100,y:100,rotation:240,pattern:"spiral",duration:0.9});
+    add("Blur", "Focus In", {blur:35,ease:"smooth"});
+    add("Blur", "Blur Rise", {blur:24,y:60});
+    add("Blur", "Blur Drop", {blur:24,y:-60});
+    add("Blur", "Blur Left", {blur:28,x:-110});
+    add("Blur", "Blur Right", {blur:28,x:110});
+    add("Blur", "Dream Zoom", {blur:40,sx:145,sy:145,duration:1});
+    add("Blur", "Soft Bloom", {blur:20,sx:60,sy:60,duration:0.8});
+    add("Blur", "Random Focus", {blur:35,order:"random"});
+    add("Blur", "Center Focus", {blur:30,order:"center"});
+    add("Blur", "Word Focus", {blur:24,y:12,group:"words",stagger:0.16});
+    add("Typewriter", "Classic Type", {ease:"step",duration:0.06,stagger:0.075});
+    add("Typewriter", "Fast Type", {ease:"step",duration:0.04,stagger:0.035});
+    add("Typewriter", "Reverse Type", {ease:"step",duration:0.06,stagger:0.075,order:"reverse"});
+    add("Typewriter", "Random Type", {ease:"step",duration:0.06,stagger:0.055,order:"random"});
+    add("Typewriter", "Center Type", {ease:"step",duration:0.06,stagger:0.06,order:"center"});
+    add("Typewriter", "Word Cut", {ease:"step",duration:0.06,stagger:0.22,group:"words"});
+    add("Typewriter", "Line Cut", {ease:"step",duration:0.06,stagger:0.26,group:"lines"});
+    add("Typewriter", "Keycap Pop", {sx:60,sy:60,ease:"back",duration:0.22,stagger:0.075});
+    add("Typewriter", "Soft Keys", {y:14,duration:0.2,stagger:0.075});
+    add("Typewriter", "Digital Steps", {y:35,ease:"steps",duration:0.35,stagger:0.055});
+    add("Glitch", "Signal Jitter", {x:36,y:10,pattern:"glitch",duration:0.55});
+    add("Glitch", "Vertical Signal", {x:8,y:50,pattern:"glitch",duration:0.55});
+    add("Glitch", "Wide Signal", {x:85,y:3,pattern:"glitch",duration:0.55});
+    add("Glitch", "Broken Zoom", {sx:145,sy:65,x:20,pattern:"glitch"});
+    add("Glitch", "Skew Signal", {x:35,skew:30,pattern:"glitch"});
+    add("Glitch", "Flicker Reveal", {pattern:"flicker",duration:0.6});
+    add("Glitch", "Flicker Focus", {pattern:"flicker",blur:20,duration:0.7});
+    add("Glitch", "Scrambled Entry", {x:65,y:35,rotation:25,pattern:"glitch",order:"random"});
+    add("Glitch", "Word Interference", {x:45,y:6,pattern:"glitch",group:"words",stagger:0.13});
+    add("Glitch", "Stutter Shift", {x:-90,ease:"steps",duration:0.5});
+    add("Split", "Alternating Vertical", {y:100,pattern:"alternate"});
+    add("Split", "Alternating Horizontal", {x:100,pattern:"alternate"});
+    add("Split", "Alternating Diagonal", {x:85,y:65,pattern:"alternate"});
+    add("Split", "Center Gather", {x:140,pattern:"converge",order:"center"});
+    add("Split", "Edge Gather", {x:140,pattern:"converge",order:"edges"});
+    add("Split", "Fan In", {x:130,y:85,rotation:45,pattern:"fan"});
+    add("Split", "Scattered Letters", {x:170,y:100,rotation:55,pattern:"scatter",order:"random"});
+    add("Split", "Split Bounce", {y:100,pattern:"alternate",ease:"bounce"});
+    add("Split", "Split Spring", {x:110,pattern:"alternate",ease:"elastic",duration:1});
+    add("Split", "Gather Pop", {x:110,sx:0,sy:0,pattern:"converge",ease:"back",order:"center"});
+    add("Wave", "Ocean Rise", {y:65,wave:36,pattern:"wave",duration:0.9});
+    add("Wave", "Ocean Fall", {y:-65,wave:36,pattern:"wave",duration:0.9});
+    add("Wave", "Side Wave", {x:-90,wave:40,pattern:"wave",duration:0.9});
+    add("Wave", "Ripple Pop", {sx:30,sy:30,wave:25,pattern:"wave",order:"center",duration:0.9});
+    add("Wave", "Sine Sway", {rotation:20,wave:55,pattern:"wave",duration:1});
+    add("Wave", "Arc From Left", {x:-150,wave:80,pattern:"arc",duration:0.8});
+    add("Wave", "Arc From Right", {x:150,wave:80,pattern:"arc",duration:0.8});
+    add("Wave", "Under Arc", {x:-120,wave:-75,pattern:"arc",duration:0.8});
+    add("Wave", "Zigzag Rise", {y:90,wave:40,pattern:"zigzag",duration:0.85});
+    add("Wave", "Word Wave", {y:40,wave:26,pattern:"wave",group:"words",stagger:0.15,duration:0.9});
+    add("Kinetic", "Squash Release", {sx:155,sy:10,y:30,ease:"back"});
+    add("Kinetic", "Stretch Release", {sx:10,sy:165,y:-30,ease:"back"});
+    add("Kinetic", "Slanted Rush", {x:-190,skew:38,sx:140,ease:"expo"});
+    add("Kinetic", "Reverse Rush", {x:190,skew:-38,sx:140,ease:"expo",order:"reverse"});
+    add("Kinetic", "Impact Stamp", {sx:230,sy:230,rotation:-12,ease:"quint",duration:0.45,stagger:0.025});
+    add("Kinetic", "Spring Stamp", {sx:200,sy:200,rotation:12,ease:"elastic",duration:1});
+    add("Kinetic", "Word Slam", {y:-170,sx:140,sy:140,ease:"back",group:"words",stagger:0.16});
+    add("Kinetic", "Line Sweep", {x:-180,skew:12,group:"lines",stagger:0.18});
+    add("Kinetic", "Spiral Pop", {x:90,y:90,sx:0,sy:0,rotation:180,pattern:"spiral",duration:0.9});
+    add("Kinetic", "Scatter Snap", {x:160,y:110,sx:40,sy:40,rotation:90,pattern:"scatter",ease:"back",order:"random"});
+
+    function ease(t, kind) {
+        t = clamp(t, 0, 1);
+        if (t === 0 || t === 1) { return t; }
+        if (kind === "linear") { return t; }
+        if (kind === "smooth") { return t*t*(3-2*t); }
+        if (kind === "quint") { return 1-Math.pow(1-t,5); }
+        if (kind === "expo") { return 1-Math.pow(2,-10*t); }
+        if (kind === "back") { var b=t-1; return 1+2.70158*b*b*b+1.70158*b*b; }
+        if (kind === "elastic") { return Math.pow(2,-10*t)*Math.sin((t*10-0.75)*(2*Math.PI/3))+1; }
+        if (kind === "bounce") {
+            var n=7.5625, d=2.75;
+            if(t<1/d){return n*t*t;}
+            if(t<2/d){t-=1.5/d;return n*t*t+0.75;}
+            if(t<2.5/d){t-=2.25/d;return n*t*t+0.9375;}
+            t-=2.625/d;return n*t*t+0.984375;
+        }
+        if (kind === "step") { return 1; }
+        if (kind === "steps") { return Math.floor(t*6)/6; }
+        return 1-Math.pow(1-t,3);
+    }
+    function orderRank(index, total, kind, seed) {
+        var i=index, n=Math.max(1,total), mid=(n-1)/2;
+        if (kind === "reverse") { return n-1-i; }
+        if (kind === "center") { return Math.abs(i-mid); }
+        if (kind === "edges") { return mid-Math.abs(i-mid); }
+        if (kind === "together") { return 0; }
+        if (kind === "random") { return hash(i,seed)*(n-1); }
+        return i;
+    }
+    function rankSpan(total, kind) {
+        if(kind === "together"){return 0;}
+        if(kind === "center" || kind === "edges"){return Math.floor((total-1)/2);}
+        return Math.max(0,total-1);
+    }
+    function sample(p, progress, index, total, seed, intensity, easing) {
+        var t=clamp(progress,0,1), e=ease(t,easing || p.ease), rem=1-e;
+        var a=intensity/100, side=index%2===0?-1:1, norm=total<=1?0:(index/(total-1)*2-1);
+        var dx=p.x,dy=p.y,rot=p.rotation,extraX=0,extraY=0;
+        if(p.pattern === "alternate"){dx*=side;dy*=side;rot*=side;}
+        if(p.pattern === "scatter"){dx*=hash(index,seed)*2-1;dy*=hash(index+91,seed)*2-1;rot*=hash(index+173,seed)*2-1;}
+        if(p.pattern === "converge"){dx*=norm;}
+        if(p.pattern === "fan"){dx*=norm;dy*=Math.abs(norm);rot*=norm;}
+        if(p.pattern === "spiral"){
+            var ang=(1-t)*Math.PI*2+index*0.42;
+            dx=p.x*Math.cos(ang);dy=p.y*Math.sin(ang);
+        }
+        if(p.pattern === "wave"){extraY=Math.sin(t*Math.PI*4+index*0.5)*Math.sin(Math.PI*t)*(1-t)*p.wave;}
+        if(p.pattern === "arc"){extraY=-Math.sin(Math.PI*t)*p.wave;}
+        if(p.pattern === "zigzag"){extraX=Math.sin(t*Math.PI*6)*Math.sin(Math.PI*t)*(1-t)*p.wave;}
+        if(p.pattern === "glitch"){
+            var tick=Math.floor(t*18);
+            dx*=hash(index+tick*13,seed)*2-1;dy*=hash(index+tick*13+47,seed)*2-1;
+            rot*=hash(index+tick*13+93,seed)*2-1;
+        }
+        var opacity=clamp(t*4,0,1);
+        if((easing || p.ease)==="step"){opacity=t>0?1:0;}
+        if((easing || p.ease)==="steps"){opacity=Math.ceil(t*6)/6;}
+        if(p.pattern==="glitch" || p.pattern==="flicker"){
+            if(t>0 && t<0.8){opacity*=hash(index+Math.floor(t*24)*17,seed)>0.32?1:0.12;}
+        }
+        return {x:(dx*rem+extraX)*a,y:(dy*rem+extraY)*a,
+            sx:100+(p.sx-100)*rem*a,sy:100+(p.sy-100)*rem*a,
+            rotation:rot*rem*a,skew:clamp(p.skew*rem*a,-80,80),
+            blur:Math.max(0,p.blur*(1-clamp(e,0,1))*a),opacity:clamp(opacity,0,1)};
+    }
+    function timing(t, start, duration, stagger, index, total, order, seed, phase, fitEnd) {
+        var rank=orderRank(index,total,order,seed), d=Math.max(0.000001,duration), s=Math.max(0,stagger);
+        if(order==="center"){rank-=total%2===0?0.5:0;}
+        var span=rankSpan(total,order), length=d+s*span;
+        if(fitEnd!==null && start+length>fitEnd){
+            var f=Math.max(0.001,(fitEnd-start)/length);d*=f;s*=f;
+        }
+        var u=clamp((t-start-rank*s)/d,0,1);
+        if(u<0.0000001){u=0;}else if(u>0.9999999){u=1;}
+        return phase==="OUT"?1-u:u;
+    }
+    function channels(p) {
+        var result=["opacity"];
+        if(p.x || p.y || p.wave){result.push("position");}
+        if(p.sx!==100 || p.sy!==100){result.push("scale");}
+        if(p.rotation){result.push("rotation");}
+        if(p.skew){result.push("skew");}
+        if(p.blur){result.push("blur");}
+        return result;
+    }
+    function literal(p) {
+        var keys=["x","y","sx","sy","rotation","skew","blur","ease","pattern","wave"], s=[],i,k,v;
+        for(i=0;i<keys.length;i++){k=keys[i];v=p[k];s.push(k+":"+(typeof v==="string"?'"'+v+'"':String(v)));}
+        return "{"+s.join(",")+"}";
+    }
+    function expression(p, channel, phase, options) {
+        var prefix=(options.prefix || "YTM ")+phase+" | ";
+        var code=["// Yu Text Motion 1.0 | "+p.name+" | "+phase,
+            clamp.toString(),hash.toString(),ease.toString(),orderRank.toString(),rankSpan.toString(),sample.toString(),timing.toString(),
+            "var p="+literal(p)+";",
+            'var d=Math.max(0.01,effect("'+prefix+'Duration")(1));',
+            'var s=Math.max(0,effect("'+prefix+'Stagger")(1));',
+            'var a=clamp(effect("'+prefix+'Intensity")(1),0,200);',
+            'var seed=Math.round(effect("'+prefix+'Seed")(1));',
+            'var offset=effect("'+prefix+'Offset")(1);',
+            'var n=textTotal, i=textIndex-1, order="'+options.order+'";',
+            options.group==="all"?"n=1;i=0;":"",
+            "var span=d+s*rankSpan(n,order);",
+            "var stop=outPoint-thisComp.frameDuration;",
+            "var available=Math.max(thisComp.frameDuration,stop-inPoint);",
+            "var budget=available*"+(options.mode==="BOTH"?"0.45":"1")+";",
+            "if(span>budget){var factor=budget/span;d*=factor;s*=factor;span=budget;}"];
+        if(options.placement==="playhead" && options.mode!=="BOTH"){
+            if(phase==="IN" || options.mode==="OUT"){code.push("var start="+Number(options.playhead)+"+offset;");}
+            else {code.push("var start=stop-span+offset;");}
+        } else {code.push("var start="+(phase==="IN"?"inPoint":"stop-span")+"+offset;");}
+        code.push("var u=timing(time,start,d,s,i,n,order,seed,\""+phase+"\",stop);");
+        code.push('var v=sample(p,u,i,n,seed,a,"'+(options.easing==="preset"?p.ease:options.easing)+'");');
+        var end={opacity:"(1-v.opacity)*100;",position:"[v.x,v.y,0];",scale:"[100-v.sx,100-v.sy,0];",rotation:"v.rotation/10;",skew:"v.skew/0.8;",blur:"[v.blur,v.blur,0];"};
+        code.push(end[channel]);return code.join("\n");
+    }
+    return {presets:presets,clamp:clamp,hash:hash,ease:ease,orderRank:orderRank,rankSpan:rankSpan,
+        sample:sample,timing:timing,channels:channels,expression:expression};
+}());
+
+</script><script>
+/* YU Txt Motion browser integration. Motion engine © 2026 Yu Graphic, MIT. */
+window.MotionAstraYUUI=(()=>{
+'use strict';
+const $=id=>document.getElementById(id),core=window.YTMCore;
+let api,preset=core.presets[0],target=null,frame=0,visible=false,busy=false,activeCanvas=null;
+const fields={mode:['IN','OUT','BOTH'],group:['chars','charsNoSpaces','words','lines','all'],order:['forward','reverse','center','edges','random','together'],easing:['preset','smooth','cubic','quint','expo','back','bounce','elastic','linear','step','steps'],placement:['edges','playhead']};
+const labels={chars:'Characters',charsNoSpaces:'Characters · no spaces',words:'Words',lines:'Lines',all:'Whole text',edges:'Layer edges',playhead:'Playhead',BOTH:'IN + OUT'};
+function node(tag,cls,text){const e=document.createElement(tag);e.className=cls||'';if(text!==undefined)e.textContent=text;return e;}
+function defaults(p){return {mode:'IN',duration:p.duration,stagger:p.stagger,intensity:100,seed:1,group:p.group,order:p.order,easing:'preset',placement:'edges'};}
+function values(){const o={};Object.keys(fields).concat(['duration','stagger','intensity','seed']).forEach(k=>{const e=$('yu-'+k);o[k]=e.type==='number'?Number(e.value):e.value;});return o;}
+function valid(){return Array.from($('yu-controls').querySelectorAll('input,select')).every(e=>e.checkValidity()&&e.value!=='');}
+function sync(){['yu-apply','yu-update','yu-clear','yu-load'].forEach(id=>$(id).disabled=busy||!api.ready()||(id==='yu-update'&&!target)||(['yu-apply','yu-update'].includes(id)&&!valid()));$('yu-back').disabled=busy;$('yu-controls').querySelectorAll('input,select').forEach(e=>e.disabled=busy);}
+function stop(){cancelAnimationFrame(frame);frame=0;activeCanvas=null;}
+// Uses the author's exact sample/timing functions. Canvas typography is illustrative;
+// AE's native character/word/line selectors determine final glyph layout.
+function draw(canvas,p,o,t){
+ const ctx=canvas.getContext('2d'),w=canvas.width,h=canvas.height;ctx.clearRect(0,0,w,h);ctx.fillStyle='#0b0b0d';ctx.fillRect(0,0,w,h);
+ const groups=o.group==='all'?['YU MOTION']:o.group==='words'?['YU','MOTION']:o.group==='lines'?['YU','MOTION']:Array.from('YU MOTION');
+ const size=o.group==='all'?36:40;ctx.font='600 '+size+'px Arial';const widths=groups.map(s=>ctx.measureText(s).width),gap=o.group==='words'?12:3,total=widths.reduce((a,b)=>a+b,0)+(groups.length-1)*gap;
+ let x=(w-total)/2;
+ groups.forEach((text,i)=>{const n=groups.length,span=o.duration+o.stagger*core.rankSpan(n,o.order),phase=o.mode==='OUT'?'OUT':o.mode==='BOTH'&&t>span+.7?'OUT':'IN',start=phase==='OUT'&&o.mode==='BOTH'?span+.7:0;
+ const u=core.timing(t,start,o.duration,o.stagger,i,n,o.order,o.seed,phase,null),v=core.sample(p,u,i,n,o.seed,o.intensity,o.easing==='preset'?p.ease:o.easing);
+ ctx.save();ctx.translate(o.group==='lines'?w/2:x+widths[i]/2,o.group==='lines'?h/2-24+i*48:h/2);ctx.translate(v.x,v.y);ctx.rotate(v.rotation*Math.PI/180);ctx.transform(1,0,Math.tan(v.skew*Math.PI/180),1,0,0);ctx.scale(v.sx/100,v.sy/100);ctx.globalAlpha=v.opacity;ctx.filter=v.blur?'blur('+v.blur+'px)':'none';ctx.fillStyle='#ff943f';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(text,0,0);ctx.restore();x+=widths[i]+gap;});
+}
+function play(canvas,p,o){stop();activeCanvas=canvas;const started=performance.now(),length=o.duration+o.stagger*core.rankSpan(9,o.order),end=o.mode==='BOTH'?length*2+1.2:length+.6;
+ function tick(now){if(!visible||busy||document.hidden||document.body.classList.contains('reduced')){draw(canvas,p,o,o.mode==='OUT'?0:length);stop();return;}const t=(now-started)/1000;draw(canvas,p,o,Math.min(t,end));if(t<end)frame=requestAnimationFrame(tick);else stop();}frame=requestAnimationFrame(tick);
+}
+function render(){stop();$('yu-cards').textContent='';const q=$('yu-search').value.toLowerCase().trim(),cat=$('yu-category').value,list=core.presets.filter(p=>(cat==='All'||p.category===cat)&&(`${p.name} ${p.category}`).toLowerCase().includes(q));$('yu-count').textContent=list.length+' presets';
+ list.forEach(p=>{const card=node('article','yu-card'),canvas=node('canvas'),title=node('h2','',p.name),tag=node('span','eyebrow',p.category),button=node('button','yu-customize', 'Customize');canvas.width=440;canvas.height=220;canvas.setAttribute('aria-label',p.name+' preview');const o=defaults(p);draw(canvas,p,o,o.duration+o.stagger*10);button.onclick=()=>{if(!busy)open(p);};const applyButton=node('button','primary yu-card-apply','Apply YU');applyButton.dataset.host='';applyButton.disabled=busy||!api.ready();applyButton.onclick=()=>api.action({action:'yuText',operation:'apply',id:p.id,options:o});card.append(canvas,tag,title,button,applyButton);card.onmouseenter=()=>play(canvas,p,o);card.onmouseleave=()=>{if(activeCanvas===canvas){stop();draw(canvas,p,o,o.duration+o.stagger*10);}};button.onfocus=()=>play(canvas,p,o);$('yu-cards').appendChild(card);});if(!list.length)$('yu-cards').appendChild(node('p','','No matching presets.'));}
+function open(p,o,loaded){stop();preset=p;target=loaded?loaded.target:null;$('yu-browser').hidden=true;$('yu-editor').hidden=false;$('yu-title').textContent=p.name;$('yu-target').textContent=loaded?'Loaded: '+loaded.layerName:'Select text layers in AE. Apply replaces only the chosen YU phase.';o=o||defaults(p);Object.keys(o).forEach(k=>{if($('yu-'+k))$('yu-'+k).value=o[k];});sync();play($('yu-preview'),p,values());}
+async function load(){const r=await api.action({action:'yuText',operation:'load',phase:$('yu-mode').value==='OUT'?'OUT':'IN'});if(r&&r.id)open(core.presets[r.id-1],r.options,r);}
+async function apply(update){if(!valid())return;const r=await api.action({action:'yuText',operation:'apply',id:preset.id,options:values(),target:update?target:null});if(r&&r.changed&&update)await load();}
+function init(adapter){api=adapter;
+ Object.keys(fields).forEach(k=>fields[k].forEach(v=>{const e=node('option','',k==='order'&&v==='edges'?'Edges first':labels[v]||v);e.value=v;$('yu-'+k).appendChild(e);}));
+ ['All',...new Set(core.presets.map(p=>p.category))].forEach(v=>{const e=node('option','',v);e.value=v;$('yu-category').appendChild(e);});
+ $('yu-search').oninput=render;$('yu-category').onchange=render;$('yu-back').onclick=()=>{stop();$('yu-editor').hidden=true;$('yu-browser').hidden=false;};
+ $('yu-load').onclick=load;$('yu-apply').onclick=()=>apply(false);$('yu-update').onclick=()=>apply(true);$('yu-clear').onclick=async()=>{const r=await api.action({action:'yuText',operation:'clear'});if(r&&r.changed){target=null;sync();}};
+ $('yu-replay').onclick=()=>{if(valid())play($('yu-preview'),preset,values());};$('yu-controls').oninput=()=>{sync();if(valid())play($('yu-preview'),preset,values());};
+ Object.keys(defaults(preset)).forEach(k=>$('yu-'+k).value=defaults(preset)[k]);render();sync();document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
+}
+return {init,setVisible(on){visible=on;if(!on)stop();},setBusy(on){busy=on;if(on)stop();if(api)sync();}};
+})();
+
+</script><script>
 (() => {
 'use strict';
 const $=id=>document.getElementById(id),data=window.MA_PRESETS,bridge=window.MotionAstraBridge;
@@ -7062,12 +7377,12 @@ const state={tab:'Text',preset:null,params:{},busy:false,query:'',drafts:{},draf
 const store={get(k){try{return localStorage.getItem(k);}catch(e){return null;}},set(k,v){try{localStorage.setItem(k,String(v));}catch(e){}}};let timer,pendingRemove=null;
 function icon(){if(window.lucide)lucide.createIcons();}
 function notice(message,level='info'){clearTimeout(timer);$('notice-text').textContent=message;$('notice-icon').textContent={info:'i',success:'✓',warning:'!',error:'×'}[level]||'i';$('notice').dataset.level=level;$('notice').classList.add('visible');timer=setTimeout(()=>$('notice').classList.remove('visible'),3500);history.unshift({message,level,time:new Date().toLocaleTimeString()});history.splice(30);$('history').textContent='';history.forEach(item=>{const li=document.createElement('li');li.textContent=item.time+' · '+item.level+' · '+item.message;$('history').appendChild(li);});}
-function busy(value){state.busy=value;if(state.preset)state.draftInvalid[state.preset.id]=state.invalid.size>0;MotionPreview.suspend(value);document.querySelectorAll('[data-host]').forEach(b=>b.disabled=value||!bridge.isReady());$('apply').disabled=$('apply').disabled||state.invalid.size>0;$('compact-fx').disabled=$('compact-fx').disabled||!state.target||state.loadedLayout!=='legacy';$('update').disabled=$('update').disabled||state.invalid.size>0;document.querySelectorAll('.card-apply').forEach(b=>{b.disabled=b.disabled||!!state.draftInvalid[b.dataset.preset];});document.querySelectorAll('#parameters input,#parameters select,#parameters textarea').forEach(e=>e.disabled=value);}
+function busy(value){state.busy=value;if(state.preset)state.draftInvalid[state.preset.id]=state.invalid.size>0;MotionPreview.suspend(value);document.querySelectorAll('[data-host]').forEach(b=>b.disabled=value||!bridge.isReady());$('apply').disabled=$('apply').disabled||state.invalid.size>0;$('compact-fx').disabled=$('compact-fx').disabled||!state.target||state.loadedLayout!=='legacy';$('update').disabled=$('update').disabled||state.invalid.size>0;document.querySelectorAll('.card-apply').forEach(b=>{b.disabled=b.disabled||!!state.draftInvalid[b.dataset.preset];});document.querySelectorAll('#parameters input,#parameters select,#parameters textarea').forEach(e=>e.disabled=value);if(window.MotionAstraYUUI)window.MotionAstraYUUI.setBusy(value);}
 async function refresh(){if(state.busy)return;if(!bridge.isAvailable()){$('status').textContent='Browser preview · install in AE to apply';$('connection').textContent='Preview mode. No After Effects connection.';busy(false);return;}try{const r=await bridge.call({action:'status'});$('status').textContent=r.composition?`${r.composition} · ${r.selected} selected`:'AE connected · open a composition';$('connection').textContent=`After Effects ${r.version} · MotionAstra ${r.hostVersion} · ${r.build||'older build'}`;}catch(e){$('status').textContent=e.message;$('connection').textContent=e.message;}busy(state.busy);}
 async function action(payload){if(state.busy)return null;busy(true);try{const r=await bridge.call(JSON.parse(JSON.stringify(payload)));if(r.message)notice(r.message,r.severity||'success');return r;}catch(e){notice(e.message,'error');return null;}finally{busy(false);refresh();}}
 function el(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e;}
 function close(){if(state.busy)return;$('inspector').hidden=true;$('workspace').classList.remove('inspecting');MotionPreview.play($('preview'),false);}
-function tab(name){state.tab=name;document.querySelector('#nav .search').hidden=!['Text','Background'].includes(name);close();$('library').hidden=!['Text','Background'].includes(name);$('tools').hidden=name!=='Tools';$('settings').hidden=name!=='Settings';$('tweaker').hidden=name!=='Tweaker';document.querySelectorAll('[data-tab]').forEach(b=>{b.classList.toggle('active',b.dataset.tab===name);b.setAttribute('aria-pressed',String(b.dataset.tab===name));});if(['Text','Background'].includes(name)){state.query='';$('search').value='';$('library-kicker').textContent=name==='Text'?'TEXT FX':'BACKGROUNDS';$('library-title').textContent=name==='Text'?'Text in motion.':'A little atmosphere.';$('library-help').textContent=name==='Text'?'10 customizable presets · select a text layer before applying.':'Choose a style to generate its own background layer.';render();}document.querySelector('main').scrollTop=0;}
+function tab(name){state.tab=name;document.querySelector('#nav .search').hidden=!['Text','Background'].includes(name);close();$('library').hidden=!['Text','Background'].includes(name);$('tools').hidden=name!=='Tools';$('settings').hidden=name!=='Settings';$('tweaker').hidden=name!=='Tweaker';$('yu').hidden=name!=='YU';if(window.MotionAstraYUUI)window.MotionAstraYUUI.setVisible(name==='YU');document.querySelectorAll('[data-tab]').forEach(b=>{b.classList.toggle('active',b.dataset.tab===name);b.setAttribute('aria-pressed',String(b.dataset.tab===name));});if(['Text','Background'].includes(name)){state.query='';$('search').value='';$('library-kicker').textContent=name==='Text'?'TEXT FX':'BACKGROUNDS';$('library-title').textContent=name==='Text'?'Text in motion.':'A little atmosphere.';$('library-help').textContent=name==='Text'?'10 customizable presets · select a text layer before applying.':'Choose a style to generate its own background layer.';render();}document.querySelector('main').scrollTop=0;}
 function render(){MotionPreview.clear();$('cards').textContent='';const list=data.presets.filter(p=>p.category===state.tab&&`${p.name} ${p.description}`.toLowerCase().includes(state.query));$('count').textContent=list.length;list.forEach((p,i)=>{const article=el('article','card'),view=el('button','card-preview'),canvas=el('canvas');canvas.width=440;canvas.height=250;view.setAttribute('aria-label','Customize '+p.name);view.append(canvas,el('span','card-number',String(i+1).padStart(2,'0')));view.onclick=()=>open(p);const content=el('div','card-content');content.append(el('span','type',p.category==='Text'?'TEXT ANIMATION':'PROCEDURAL BACKGROUND'),el('h2','',p.name),el('p','',p.description));const actions=el('div','card-actions'),button=el('button','customize','Customize'),apply=el('button','primary card-apply',p.category==='Background'?'Generate Background':'Apply FX');button.onclick=()=>open(p);apply.dataset.host='';apply.dataset.preset=p.id;apply.setAttribute('aria-label',(p.category==='Background'?'Generate Background: ':'Apply FX: ')+p.name);apply.onclick=()=>{if(state.busy||state.draftInvalid[p.id])return;const values={};p.parameters.forEach(d=>values[d.id]=state.drafts[p.id]&&state.drafts[p.id][d.id]!==undefined?state.drafts[p.id][d.id]:d.default);action({action:p.category==='Background'?'generateBackground':'apply',id:p.id,params:values,layout:$('control-layout').value||'compact'});};actions.append(button,apply);content.appendChild(actions);article.append(view,content);$('cards').appendChild(article);MotionPreview.attach(canvas,p);article.onmouseenter=()=>MotionPreview.play(canvas,true);article.onmouseleave=()=>MotionPreview.play(canvas,false);article.onfocusin=()=>MotionPreview.play(canvas,true);article.onfocusout=()=>MotionPreview.play(canvas,false);});if(!list.length)$('cards').appendChild(el('p','empty','No matching effects.'));busy(state.busy);}
 function preview(){if(state.preset)MotionPreview.attach($('preview'),state.preset,state.params,true);}
 function checkboxValue(value){
@@ -7106,7 +7421,32 @@ $('remove-owned').onclick=()=>review('remove');$('erase-all').onclick=()=>review
 $('control-layout').value=store.get('ma-control-layout')==='legacy'?'legacy':'compact';$('control-layout').onchange=e=>store.set('ma-control-layout',e.target.value);
 $('show-history').onclick=()=>{tab('Settings');$('history').scrollIntoView({block:'nearest'});};$('refresh').onclick=refresh;$('reduced').checked=store.get('ma2-reduced')==='true';document.body.classList.toggle('reduced',$('reduced').checked);$('reduced').onchange=e=>{store.set('ma2-reduced',e.target.checked);document.body.classList.toggle('reduced',e.target.checked);preview();};
 function disclosure(button,target,key,label){const b=$(button),panel=$(target);function set(on){panel.hidden=on;b.setAttribute('aria-expanded',String(!on));b.textContent=label+(on?' ▾':' ▴');}set(store.get(key)==='true');b.onclick=()=>{const on=!panel.hidden;set(on);store.set(key,on);};}
+if(window.MotionAstraYUUI)window.MotionAstraYUUI.init({action:action,ready:()=>bridge.isReady()});
 disclosure('fold-nav','nav','ma2-nav','Menu');disclosure('fold-quick','quick','ma252-create','Create');tab('Text');busy(false);refresh();icon();window.addEventListener('focus',refresh);setInterval(()=>{if(!document.hidden&&!state.busy)refresh();},4000);
 })();
 
 </script></body></html>
+
+<!-- YU Txt Motion by YUGraphic
+MIT License
+
+Copyright (c) 2026 Yu Graphic
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->

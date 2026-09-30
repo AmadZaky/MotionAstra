@@ -1,6 +1,6 @@
-/* MotionAstra 2.8.5 — ES3 host. No third-party AE effects required. */
+/* MotionAstra 2.8.6 — ES3 host. No third-party AE effects required. */
 var MotionAstra=(function(){
-    var BUILD="2.8.5",recipes={},serial=0;for(var ri=0;ri<MA_PRESET_DATA.presets.length;ri++)recipes[MA_PRESET_DATA.presets[ri].id]=MA_PRESET_DATA.presets[ri];
+    var BUILD="2.8.6",recipes={},serial=0;for(var ri=0;ri<MA_PRESET_DATA.presets.length;ri++)recipes[MA_PRESET_DATA.presets[ri].id]=MA_PRESET_DATA.presets[ri];
     for(var li=0;li<(MA_PRESET_DATA.legacy||[]).length;li++){var lr=MA_PRESET_DATA.legacy[li];lr.legacy=true;recipes[lr.id]=lr;}
     function quote(s) { return '"' + String(s).replace(/\\/g,'\\\\').replace(/"/g,'\\"').replace(/\r/g,'\\r').replace(/\n/g,'\\n').replace(/\t/g,'\\t') + '"'; }
     function encode(v) {
@@ -381,21 +381,22 @@ for(i=0;i<r.parameters.length;i++){d=r.parameters[i];if(d.type==='text'||d.type=
                 else if(a.name==='rename'){var prefix=String(a.prefix||'Layer');if(prefix.length>80)throw Error('Name prefix is too long.');l.name=prefix+' '+('0'+(i+1)).slice(-2);}
                 else if(a.name==='unparent')l.parent=null;
                 else if(a.name==='style'){if(!isText(l))throw Error('Text layers only.');var sp=source(l),doc=sp.valueAtTime(c.time,true);doc.fontSize=number(a.size,1,1000);if(!/^#[0-9a-f]{6}$/i.test(a.color))throw Error('Invalid text color');doc.applyFill=true;doc.fillColor=color(a.color).slice(0,3);if(a.align==='left')doc.justification=ParagraphJustification.LEFT_JUSTIFY;else if(a.align==='center')doc.justification=ParagraphJustification.CENTER_JUSTIFY;else if(a.align==='right')doc.justification=ParagraphJustification.RIGHT_JUSTIFY;else throw Error('Invalid text alignment');set(sp,doc,c.time);}
-                else if(a.name==='remove'||a.name==='eraseAll'){m=meta(l);cleanup(l,m);clearLegacy(l);if(a.name==='eraseAll'){var effects=l.property('ADBE Effect Parade');if(effects)for(j=effects.numProperties;j>=1;j--)effects.property(j).remove();}}
+                else if(a.name==='remove'||a.name==='eraseAll'){m=meta(l);cleanup(l,m);clearLegacy(l);if(typeof MotionAstraYU!=='undefined')MotionAstraYU.clear(l);if(a.name==='eraseAll'){var effects=l.property('ADBE Effect Parade');if(effects)for(j=effects.numProperties;j>=1;j--)effects.property(j).remove();}}
                 else throw Error('Unknown tool.');
             }count++;lines.push(l.name+': done.');
         }catch(e){lines.push(l.name+': '+String(e));}}
         var result=report(lines,count);if(a.name==='anchor'&&count)result.message+='\nArtwork is preserved at the playhead when Keep artwork is enabled. Animated rotation/scale may change other frames.';return result;
     }
-    function dispatch(raw){var a,result,undo=false;try{a=parse(decodeURIComponent(raw));if(a.action==='status'){var c=app.project?app.project.activeItem:null;result={ok:true,hostVersion:'2.8.5',build:BUILD,version:app.version,composition:c instanceof CompItem?c.name:null,selected:c instanceof CompItem?c.selectedLayers.length:0};}
+    function dispatch(raw){var a,result,undo=false;try{a=parse(decodeURIComponent(raw));if(a.action==='status'){var c=app.project?app.project.activeItem:null;result={ok:true,hostVersion:'2.8.6',build:BUILD,version:app.version,composition:c instanceof CompItem?c.name:null,selected:c instanceof CompItem?c.selectedLayers.length:0};}
         else if(a.action==='fonts')result=fontList();
+        else if(a.action==='yuText'&&a.operation==='load')result=MotionAstraYU.run(a,{parse:parse,encode:encode});
         else if(a.action==='load'||a.action==='reconnect'){try{result=load(a);}catch(e){e.noChanges=true;throw e;}}
-        else{if(a.action!=='compact'&&a.action!=='generateBackground'&&a.action!=='apply'&&a.action!=='update'&&a.action!=='tool')fail('Unknown action.');app.beginUndoGroup('MotionAstra 2');undo=true;result=a.action==='compact'?compact(a):a.action==='generateBackground'?generateBackground(a):a.action==='apply'?apply(a):a.action==='update'?update(a):tool(a);result.ok=true;}
+        else{if(a.action!=='yuText'&&a.action!=='compact'&&a.action!=='generateBackground'&&a.action!=='apply'&&a.action!=='update'&&a.action!=='tool')fail('Unknown action.');app.beginUndoGroup('MotionAstra 2');undo=true;result=a.action==='yuText'?MotionAstraYU.run(a,{parse:parse,encode:encode}):a.action==='compact'?compact(a):a.action==='generateBackground'?generateBackground(a):a.action==='apply'?apply(a):a.action==='update'?update(a):tool(a);result.ok=true;}
     }catch(e){result={ok:false,message:String(e)+(e.line?' (line '+e.line+')':'')+(e.noChanges?' — No changes were made.':' — Check the timeline; Undo once if the operation partially changed it.')};}
     if(undo)try{app.endUndoGroup();}catch(e){result={ok:false,message:'Could not close Undo group. Check the timeline before retrying.'};}return encode(result);}
     // Fail before any layer mutation if this host cannot preserve transport booleans.
     var transportProbe=parse('{"keep":true,"loop":false,"empty":null,"n":1.25}');
     if(transportProbe.keep!==true||transportProbe.loop!==false||transportProbe.empty!==null||transportProbe.n!==1.25)throw Error('MotionAstra JSON transport self-check failed. Restart AE and install the full package.');
-    return {dispatch:dispatch,version:'2.8.5',build:BUILD};
+    return {dispatch:dispatch,version:'2.8.6',build:BUILD};
 }());
 if(typeof $!=='undefined'&&$.global)$.global.MotionAstra=MotionAstra;

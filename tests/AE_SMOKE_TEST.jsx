@@ -2,7 +2,7 @@
    Creates fixtures; does not erase the user's existing compositions. */
 (function(){
     var root=File($.fileName).parent.parent;
-    $.evalFile(File(root.fsName+'/jsx/presets-data.jsx'));$.evalFile(File(root.fsName+'/jsx/hostscript.jsx'));
+    $.evalFile(File(root.fsName+'/jsx/presets-data.jsx'));$.evalFile(File(root.fsName+'/jsx/yu-text.jsx'));$.evalFile(File(root.fsName+'/jsx/hostscript.jsx'));
     function quote(s){return '"'+String(s).replace(/\\/g,'\\\\').replace(/"/g,'\\"').replace(/\r/g,'\\r').replace(/\n/g,'\\n').replace(/\t/g,'\\t')+'"';}
     function json(v){var a=[],i,k;if(v===null||v===undefined)return 'null';if(typeof v==='string')return quote(v);if(typeof v==='number'||typeof v==='boolean')return String(v);if(v instanceof Array){for(i=0;i<v.length;i++)a.push(json(v[i]));return '['+a.join(',')+']';}for(k in v)if(v.hasOwnProperty(k))a.push(quote(k)+':'+json(v[k]));return '{'+a.join(',')+'}';}
     function rpc(p){return eval('('+MotionAstra.dispatch(encodeURIComponent(json(p)))+')');}

@@ -1,10 +1,10 @@
-# MotionAstra 2.8.5 — Pre-alpha
+# MotionAstra 2.8.6 — Pre-alpha
 
-- New instances use one MotionAstra Progress parameter controller. Native effects that render the artwork remain necessary.
-- Adds a dedicated FX Tweaker tab with Load selected FX, parameter search, collapsible groups and a compact Update footer.
-- Tweaker updates are bound to the loaded composition/layer/instance; changing selection requires reloading and cannot accidentally generate another background.
-- Compact settings persist in layer metadata; Update rebuilds typed expression constants and writes native colors. Existing progress animation is preserved on ordinary updates.
-- Existing instances retain individual controls. Explicit Compact old controls conversion refuses animated controls or external expression dependencies. Individual layout remains available in Settings for advanced keyframing.
-- Adds compact-controller and Chromium Tweaker regression coverage for all 20 presets and migration safety.
+- Adds the YU Txt Motion tab with all 120 text presets from the supplied YUGraphic plugin, credited to YUGraphic with its full MIT license.
+- Preserves the original motion math, native text animator setup and IN/OUT timing. Object/Shape presets are not included in this text-focused integration.
+- Adds category/search, hover previews and customizable mode, grouping, duration, stagger, intensity, random seed, order, easing and placement.
+- Keeps YU settings in the panel and layer metadata instead of adding individual Effect Controls sliders. Existing text fonts and colors remain unchanged.
+- Adds Load YU settings, guarded Update and owned Remove actions. Apply replaces only the selected YU phase; other animators remain.
+- Includes original-engine expression parity tests for all 120 presets, browser workflow coverage and a manual native AE smoke script.
 
-Close AE, extract the entire release ZIP and run the installer for your OS. Confirm replacement, restart AE and check version 2.8.5. Native AE rendering still requires the included manual smoke test; automated host-model and browser tests do not replace it.
+Close AE, extract the whole release ZIP, then run the installer. Restart AE and check version 2.8.6. Open YU Txt Motion, select a text layer, choose Customize, then Apply YU. Automated checks do not replace native AE visual verification.

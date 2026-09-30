@@ -114,3 +114,7 @@ The v2.8.3 CI gate prevented publication when the macOS rollback regression fail
 ## Compact controller / FX Tweaker
 
 `node tests/compact-controls.cjs` checks all 20 compact recipes, parameter updates, native effect preservation, legacy conversion, animated/dependency guards and stale-target rejection. `node tests/tweaker-ui.cjs` exercises the real Chromium Tweaker workflow, search, conversion and guarded update. Native AE rendering remains a manual gate for production use.
+
+## YUGraphic integration
+
+`tests/yu-text.cjs` compares 1,365 integrated selector expressions numerically with original YUGraphic expressions at ten timeline samples, across all 120 presets and IN/OUT/BOTH. It covers metadata, phase replacement, compact controls, target validation, cleanup, and staged creation failures. `tests/yu-ui.cjs` exercises search/category filtering, author attribution, apply/load/update/remove, invalid input, stale selections, responsive action layout and offline restrictions in Chromium. These checks do not certify Adobe glyph rendering or native property schemas. Run `tests/AE_YU_SMOKE_TEST.jsx` in a disposable AE project to create native fixtures and inspect previews.

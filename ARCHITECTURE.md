@@ -41,3 +41,9 @@ New Shape constructs a regular native filled path; New Solid uses composition di
 FX Tweaker loads one selected instance and binds updates to its composition, layer and instance token. A changed selection is rejected before mutation. Parameter search and collapsible groups organize settings without adding AE controls. Ordinary parameter updates preserve keyframes/expressions on the master progress slider. Enable Manual Progress to drive animation with that slider. End markers remain the timing source.
 
 Compact old controls is explicit and refuses animated parameter controls or external effect-expression dependencies. Conversion preserves native rendering effects and user artwork. Compact means one parameter controller, not one total Effects-stack entry: native Ramp, Blur, Bevel and other rendering effects remain necessary. Settings offers Individual controls for advanced keyframing.
+
+## YU Txt Motion integration
+
+The original MIT YUGraphic core and host source are vendored unchanged. `tools/build-yu.py` bundles them with `src/yu-adapter.js` into `jsx/yu-text.jsx`. Build-time adaptation omits the original per-parameter sliders; expression generation substitutes validated numeric constants for the five original effect lookups without changing motion math or text animator setup. The bridge loads this module before the main host. All mutations use the existing serialized transport and Undo dispatcher.
+
+YU uses its original `YTM IN |` / `YTM OUT |` ownership names, independent of MA2. Phase settings are stored in a delimited layer-comment record, preserving other comments. YU Load/Update is separate from the MotionAstra FX Tweaker and checks layer identity. Main owned-removal also removes YU animators so Erase ALL cannot strand slider expressions from original YU instances. `js/yu-text.js` renders the separate category/filter/editor UI; only an active preview animates.

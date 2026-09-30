@@ -1,11 +1,11 @@
-/* MotionAstra CEP transport v2.8.5.
+/* MotionAstra CEP transport v2.8.6.
  * Host files load by absolute path; all replies are tagged and request-correlated.
  * Empty callbacks recover the stored reply, NEVER replay the host mutation.
  */
 (function (root) {
   'use strict';
-  const VERSION = '2.8.5';
-  const BUILD = '2.8.5';
+  const VERSION = '2.8.6';
+  const BUILD = '2.8.6';
   const PREFIX = 'MAFX1:';
   const ERROR_PREFIX = 'MAFX1E:';
   const available = !!root.__adobe_cep__;
@@ -87,10 +87,12 @@
       'var host=$.global.MotionAstra;' +
       'if(!host||host.version!==' + version + '||host.build!==' + JSON.stringify(BUILD) + '||typeof host.dispatch!=="function"){' +
       'var data=File(' + JSON.stringify(path + '/jsx/presets-data.jsx') + ');' +
+      'var yu=File(' + JSON.stringify(path + '/jsx/yu-text.jsx') + ');' +
       'var script=File(' + JSON.stringify(path + '/jsx/hostscript.jsx') + ');' +
       'if(!data.exists)throw Error("Missing presets-data.jsx. Install the complete folder.");' +
+      'if(!yu.exists)throw Error("Missing yu-text.jsx. Install the complete folder.");' +
       'if(!script.exists)throw Error("Missing host.jsx. Install the complete folder.");' +
-      '$.evalFile(data);$.evalFile(script);host=$.global.MotionAstra;' +
+      '$.evalFile(data);$.evalFile(yu);$.evalFile(script);host=$.global.MotionAstra;' +
       'if(!host||host.version!==' + version + '||host.build!==' + JSON.stringify(BUILD) + '||typeof host.dispatch!=="function")' +
       'throw Error("Host initialization failed or an old host is still installed.");}' +
       'var output=host.dispatch(' + JSON.stringify(encodeURIComponent('{"action":"status"}')) + ');'

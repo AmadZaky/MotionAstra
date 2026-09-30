@@ -18,3 +18,9 @@ The accompanying license is preserved as `vendor/LUCIDE-LICENSE.txt`. The standa
 MotionAstra FX is independent of Adobe and Apple and is not an official product of either company. The interface uses an original dark panel design and local system fonts; no Apple artwork, logos, or redistributed proprietary fonts are included.
 
 Mister Horse, Animation Composer, and Motion Bro are references to workflow only. No assets, code, presets, names of proprietary preset packs, or logos from those products are included.
+
+## YU Txt Motion — YUGraphic
+
+Animation author: **YUGraphic** (copyright notice: Copyright (c) 2026 Yu Graphic). Source supplied by the user in `Yu_Text_Motion_v2.1_Object_Shape.zip`, under the MIT license included in that archive. The original text engine and AE adapter are preserved in `vendor/yu-text-motion/core.js` and `host.js`; the complete license is `vendor/yu-text-motion/LICENSE.txt`.
+
+MotionAstra embeds all 120 text presets and the original motion formulas. Its adapter embeds parameter constants instead of adding individual sliders, adds metadata and selection guards, and uses MotionAstra's existing transport/Undo handling. The preview uses the author's sample/timing functions with illustrative canvas typography. The separate Object/Shape collection and the original standalone panel are not included.

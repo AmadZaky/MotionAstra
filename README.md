@@ -1,4 +1,4 @@
-# MotionAstra FX 2.8.5 — Pre-alpha
+# MotionAstra FX 2.8.6 — Pre-alpha
 
 Offline CEP extension for Adobe After Effects 2025. Minimal black/orange UI, local CSInterface + Lucide, 10 Text FX, 10 procedural Backgrounds, Quick Tools and a dedicated FX Tweaker tab.
 
@@ -17,6 +17,14 @@ Apply/Generate and Update are compact adjacent buttons at the inspector bottom. 
 New FX use one **MotionAstra Progress** parameter controller. Native effects needed to render the artwork remain in Effect Controls. Use **FX Tweaker → Load selected FX**, search or expand parameter groups, then **Update selected FX**. Updates are bound to the loaded layer; reload if you change selection. Enable Manual Progress to animate the single progress slider.
 
 Existing instances keep their controls. **Compact old controls** converts an unanimated instance; it refuses animated controls and external expression dependencies to protect existing projects. Settings → control layout → Individual keeps separate controls for advanced keyframing.
+
+## YU Txt Motion · by YUGraphic
+
+A separate tab offers **120 original YUGraphic text presets** in 12 categories: Clean, Slide, Pop, Bounce, Elastic, Rotate, Blur, Typewriter, Glitch, Split, Wave and Kinetic. Select text layers, choose a preset, Customize, then Apply YU. Options include IN/OUT/BOTH, grouping, duration, stagger, intensity, seed, order, easing and placement. Colors/fonts remain native text properties.
+
+Load YU settings reads one selected instance; Update loaded YU checks that selection still matches. The mode selector determines whether Load prefers IN or OUT. Apply replaces only its chosen YU phase; Remove YU removes both phases. Parameter changes take effect on Apply/Update, and the YU tab stores them without extra Effect Controls sliders. Current playhead placement is recalculated on each Apply/Update. BOTH always uses layer edges, as in the original engine. These finite IN/OUT animations do not use MotionAstra loop modes or markers.
+
+Animation math and text animator setup come from the supplied MIT-licensed engine. Credits and the original license are included in `vendor/yu-text-motion/LICENSE.txt` and THIRD_PARTY_NOTICES.md. Canvas typography is illustrative; native AE rendering still needs visual verification. The archive's separate Object/Shape collection is outside this text-tab integration.
 
 ## Versioning and releases
 
@@ -118,7 +126,7 @@ Thirteen host/state/preview suites pass locally, including reproductions of the 
 
 Replace the full extension folder, restart AE, and confirm 2.8.2 in Settings. For existing Text FX, Load FX Settings, choose a color, then Update to migrate its color binding. Native AE rendering still requires verification; modeled-host and Chromium tests are release gates.
 
-## MotionAstra 2.8.5 — Pre-alpha
+## MotionAstra 2.8.6 — Pre-alpha
 
 - Fixes the startup-blocking `Illegal use of reserved word` at hostscript.jsx line 237: the ES3-reserved identifier `native` is now `nativeProperty`.
 - Adds an ES3 parser and reserved-identifier release check, because Node's modern parser accepted the incompatible code.
@@ -128,4 +136,4 @@ Replace the full extension folder, restart AE, and confirm 2.8.2 in Settings. Fo
 - Installer enables PlayerDebugMode for CSXS 11/12 in the current user account. No AE project files or AE preferences are edited.
 - Windows and macOS installer tests, ES3 checks, host regressions and Chromium workflows gate release publication.
 
-Close AE, extract the whole release ZIP, then double-click the launcher for your OS. Confirm replacement when prompted; restart AE and confirm Settings shows 2.8.5. The macOS script is unsigned; if macOS blocks it, use the approved Open action described in the guide. Direct AE rendering remains a manual check.
+Close AE, extract the whole release ZIP, then double-click the launcher for your OS. Confirm replacement when prompted; restart AE and confirm Settings shows 2.8.6. The macOS script is unsigned; if macOS blocks it, use the approved Open action described in the guide. Direct AE rendering remains a manual check.
