@@ -1,0 +1,224 @@
+{
+  "effects": [
+    {
+      "id": "prism",
+      "name": "Prism Gradient",
+      "tag": "COLOR & DIFFUSION",
+      "description": "Rotating two-color gradients, organic distortion, soft diffusion and a luminous finish for text, shapes and footage.",
+      "reference": "Cosmic-inspired workflow \u00b7 native AE approximation",
+      "parameters": [
+        {
+          "id": "colorA",
+          "label": "Color A",
+          "type": "color",
+          "default": "#8257ff",
+          "group": "Color"
+        },
+        {
+          "id": "colorB",
+          "label": "Color B",
+          "type": "color",
+          "default": "#ff934a",
+          "group": "Color"
+        },
+        {
+          "id": "angle",
+          "label": "Gradient angle",
+          "type": "number",
+          "default": -35,
+          "min": -360,
+          "max": 360,
+          "step": 1,
+          "group": "Look"
+        },
+        {
+          "id": "spread",
+          "label": "Gradient spread \u00b7 %",
+          "type": "number",
+          "default": 110,
+          "min": 10,
+          "max": 300,
+          "step": 1,
+          "group": "Look"
+        },
+        {
+          "id": "centerX",
+          "label": "Center X \u00b7 %",
+          "type": "number",
+          "default": 50,
+          "min": -100,
+          "max": 200,
+          "step": 1,
+          "group": "Look"
+        },
+        {
+          "id": "centerY",
+          "label": "Center Y \u00b7 %",
+          "type": "number",
+          "default": 50,
+          "min": -100,
+          "max": 200,
+          "step": 1,
+          "group": "Look"
+        },
+        {
+          "id": "radial",
+          "label": "Radial gradient",
+          "type": "checkbox",
+          "default": false,
+          "group": "Look"
+        },
+        {
+          "id": "blend",
+          "label": "Original image blend \u00b7 %",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "group": "Look"
+        },
+        {
+          "id": "distortion",
+          "label": "Organic distortion \u00b7 px",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "group": "Look"
+        },
+        {
+          "id": "size",
+          "label": "Distortion scale",
+          "type": "number",
+          "default": 80,
+          "min": 5,
+          "max": 500,
+          "step": 1,
+          "group": "Look"
+        },
+        {
+          "id": "diffusion",
+          "label": "Diffusion blur \u00b7 px",
+          "type": "number",
+          "default": 0,
+          "min": 0,
+          "max": 50,
+          "step": 0.5,
+          "group": "Look"
+        },
+        {
+          "id": "glow",
+          "label": "Glow intensity",
+          "type": "number",
+          "default": 0.6,
+          "min": 0,
+          "max": 5,
+          "step": 0.05,
+          "group": "Look"
+        },
+        {
+          "id": "radius",
+          "label": "Glow radius \u00b7 px",
+          "type": "number",
+          "default": 35,
+          "min": 0,
+          "max": 300,
+          "step": 1,
+          "group": "Look"
+        },
+        {
+          "id": "animate",
+          "label": "Animate gradient rotation",
+          "type": "checkbox",
+          "default": false,
+          "group": "Animation"
+        },
+        {
+          "id": "duration",
+          "label": "Rotation duration \u00b7 seconds",
+          "type": "number",
+          "default": 8,
+          "min": 0.1,
+          "max": 60,
+          "step": 0.1,
+          "group": "Animation"
+        }
+      ]
+    },
+    {
+      "id": "bloom",
+      "name": "Bloom Glow",
+      "tag": "LIGHT & ATMOSPHERE",
+      "description": "A three-scale glow stack with a tight core, soft halo and broad bloom. Keeps source colors or tints the entire source.",
+      "reference": "Deep Glow-inspired workflow \u00b7 native AE approximation",
+      "parameters": [
+        {
+          "id": "radius",
+          "label": "Base radius \u00b7 px",
+          "type": "number",
+          "default": 40,
+          "min": 1,
+          "max": 100,
+          "step": 1,
+          "group": "Look"
+        },
+        {
+          "id": "intensity",
+          "label": "Intensity",
+          "type": "number",
+          "default": 1.2,
+          "min": 0,
+          "max": 10,
+          "step": 0.05,
+          "group": "Look"
+        },
+        {
+          "id": "threshold",
+          "label": "Luminance threshold \u00b7 %",
+          "type": "number",
+          "default": 45,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "group": "Look"
+        },
+        {
+          "id": "spread",
+          "label": "Outer radius multiplier",
+          "type": "number",
+          "default": 3,
+          "min": 1,
+          "max": 5,
+          "step": 0.1,
+          "group": "Look"
+        },
+        {
+          "id": "falloff",
+          "label": "Outer falloff",
+          "type": "number",
+          "default": 0.45,
+          "min": 0,
+          "max": 1,
+          "step": 0.05,
+          "group": "Look"
+        },
+        {
+          "id": "tint",
+          "label": "Tint entire source",
+          "type": "checkbox",
+          "default": false,
+          "group": "Color"
+        },
+        {
+          "id": "color",
+          "label": "Source tint",
+          "type": "color",
+          "default": "#ffa76b",
+          "group": "Color"
+        }
+      ]
+    }
+  ]
+}

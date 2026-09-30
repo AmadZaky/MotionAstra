@@ -2,7 +2,7 @@
    Creates fixtures; does not erase the user's existing compositions. */
 (function(){
     var root=File($.fileName).parent.parent;
-    $.evalFile(File(root.fsName+'/jsx/presets-data.jsx'));$.evalFile(File(root.fsName+'/jsx/yu-text.jsx'));$.evalFile(File(root.fsName+'/jsx/hostscript.jsx'));
+    $.evalFile(File(root.fsName+'/jsx/presets-data.jsx'));$.evalFile(File(root.fsName+'/jsx/yu-text.jsx'));$.evalFile(File(root.fsName+'/jsx/fx-tools.jsx'));$.evalFile(File(root.fsName+'/jsx/hostscript.jsx'));
     function quote(s){return '"'+String(s).replace(/\\/g,'\\\\').replace(/"/g,'\\"').replace(/\r/g,'\\r').replace(/\n/g,'\\n').replace(/\t/g,'\\t')+'"';}
     function json(v){var a=[],i,k;if(v===null||v===undefined)return 'null';if(typeof v==='string')return quote(v);if(typeof v==='number'||typeof v==='boolean')return String(v);if(v instanceof Array){for(i=0;i<v.length;i++)a.push(json(v[i]));return '['+a.join(',')+']';}for(k in v)if(v.hasOwnProperty(k))a.push(quote(k)+':'+json(v[k]));return '{'+a.join(',')+'}';}
     function rpc(p){return eval('('+MotionAstra.dispatch(encodeURIComponent(json(p)))+')');}
@@ -42,6 +42,9 @@
     // Native temporal-ease verification for the Motion Curve toolkit.
     try{var cc=project.items.addComp('Motion Curve validation',960,540,1,5,30);cc.parentFolder=folder;cc.openInViewer();var cl=cc.layers.addText('CURVE');selectOnly(cc,cl);var cp=cl.property('ADBE Transform Group').property('ADBE Opacity');cp.setValueAtTime(0,0);cp.setValueAtTime(1,20);cp.setValueAtTime(3,100);cp.setValueAtTime(4,50);cp.selected=true;cp.setSelectedAtKey(2,true);cp.setSelectedAtKey(3,true);var cr=rpc({action:'tool',name:'curve',curve:[.25,.1,.75,.9]});log('Motion Curve native easing',cr.changed===1&&Math.abs(cp.keyOutTemporalEase(2)[0].speed-16)<.001&&Math.abs(cp.keyOutTemporalEase(2)[0].influence-25)<.001&&cp.keyTime(2)===1&&cp.keyValue(2)===20,cr.message);}
     catch(curveError){log('Motion Curve native easing',false,String(curveError));}
+    // FXTools native parameter schemas, color assignment and layer-count checks.
+    try{var fc=project.items.addComp('FXTools native validation',960,540,1,8,30);fc.parentFolder=folder;fc.openInViewer();var fl=fc.layers.addText('FXTOOLS');selectOnly(fc,fl);fl.inPoint=1;fl.outPoint=7;fc.time=2;var fp=rpc({action:'fxTools',operation:'apply',id:'prism',params:{colorA:'#cc2244',animate:true}});log('Prism native apply',fp.changed===1&&fc.numLayers===1,fp.message);if(fp.changed){scan(fl,2,'Prism native expressions');var rgba=fl.property('ADBE Effect Parade').property('MAFT prism | gradient').property('ADBE Ramp-0002').value;log('Prism RGBA',rgba.length===4&&Math.abs(rgba[0]-.8)<.001,'Color='+rgba.toString());}var fb=rpc({action:'fxTools',operation:'apply',id:'bloom',params:{intensity:1.5}});log('Bloom native apply',fb.changed===1&&fc.numLayers===1,fb.message);if(fb.changed){var intensity=fl.property('ADBE Effect Parade').property('MAFT bloom | core').property('ADBE Glo2-0003').value;log('Bloom intensity',Math.abs(intensity-1.5)<.001,'Intensity='+intensity);}}
+    catch(fxError){log('FXTools native validation',false,String(fxError));}
     report.push('Failures: '+failures);report.push('Expression/control checks are not visual acceptance. RAM-preview each fixture and inspect appearance.');
     var file=File.saveDialog('Save MotionAstra validation report','*.txt');if(file){file.encoding='UTF-8';if(file.open('w')){file.write(report.join('\n'));file.close();}}
     alert('MotionAstra validation finished. Failures: '+failures+'. Inspect the fixtures and saved report.');

@@ -26,3 +26,5 @@ Animation author: **YUGraphic** (copyright notice: Copyright (c) 2026 Yu Graphic
 MotionAstra embeds all 120 text presets and the original motion formulas. Its adapter embeds parameter constants instead of adding individual sliders, adds metadata and selection guards, and uses MotionAstra's existing transport/Undo handling. The preview uses the author's sample/timing functions with illustrative canvas typography. The separate Object/Shape collection and the original standalone panel are not included.
 
 Motion Curve is an original MotionAstra implementation of cubic-Bézier temporal easing. Easify was referenced for the general visual-editor workflow only; no Easify source, artwork, branding or proprietary presets are included.
+
+FXTools' Prism Gradient and Bloom Glow are independent MotionAstra implementations using Adobe's native effects. Cosmic (loophouse) and Deep Glow (Plugin Everything) were visual/workflow references only. Their code, binaries, assets, branding and proprietary rendering engines are not included. No third-party effect license is supplied or required for these two MotionAstra tools.
