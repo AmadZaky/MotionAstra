@@ -82,6 +82,28 @@ window.MotionAstraFXToolsUI = (() => {
       c.fillText("ASTRA", w / 2, h / 2);
       c.filter = "none";
       c.shadowBlur = 0;
+    } else if (r.id === "glass") {
+      const gradient = c.createLinearGradient(
+        w * 0.2,
+        h * 0.25,
+        w * 0.8,
+        h * 0.75
+      );
+      gradient.addColorStop(0, "#ffffff");
+      gradient.addColorStop(0.35, p.color);
+      gradient.addColorStop(1, "#253444");
+      c.fillStyle = gradient;
+      c.shadowColor = p.lightColor;
+      c.shadowBlur = p.radius * p.glow;
+      c.filter = "blur(" + p.blur * 0.15 + "px)";
+      c.fillText("GLASS", w / 2, h / 2);
+      c.filter = "none";
+      c.shadowBlur = 0;
+      c.strokeStyle = p.lightColor;
+      c.globalAlpha = p.light;
+      c.lineWidth = Math.max(0.2, p.edge * 0.2);
+      c.strokeText("GLASS", w / 2, h / 2);
+      c.globalAlpha = 1;
     } else {
       c.strokeStyle = p.tint ? p.color : "#ffb177";
       c.lineWidth = 3;

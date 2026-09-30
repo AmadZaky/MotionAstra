@@ -65,3 +65,9 @@ Per-effect settings are stored in the layer's MA_FXTOOLS comment record, separat
 The bridge boots only core data and host. Optional modules explicitly export versioned handlers into `$.global.MotionAstraModules`, including when evalFile runs in a local scope. Every command has its own dispatcher route. A missing YU module cannot block FXTools and vice versa; module errors do not trigger mutation retries. Owned cleanup reads ownership names/comments without loading optional engines.
 
 Prism descriptors live in `src/fx-tools/prism-gradient.js`; Bloom descriptors live in `src/fx-tools/bloom-glow.js`. `src/fx-tools-host.js` contains shared validation, persistence and rollback. Run `python3 tools/build-fxtools.py` after editing these sources. Original YUGraphic vendor sources remain unchanged.
+
+## 3.0 Alpha runtime and Glass Surface
+
+Initialization validates the live global dispatcher before each serialized command, rather than trusting a panel-only ready flag. Only absent/incompatible hosts reload. Optional YU/FXTools engines remain lazy and independent. Settings diagnostics are a read-only host action outside Undo groups.
+
+`src/fx-tools/glass-surface.js` contains the new surface descriptor; `fx-tools.json` owns its inputs. The shared adapter continues to validate, snapshot and roll back native effect writes. It intentionally has no source replacement or scene duplication. Build with `tools/build-fxtools.py` and `tools/build-catalog.py`. Release version is numeric 3.0.0 with an `-alpha` asset/tag suffix; subsequent pushes increment its patch.

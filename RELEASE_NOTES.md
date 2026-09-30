@@ -1,9 +1,9 @@
-# MotionAstra 2.8.9 — Pre-alpha
+# MotionAstra 3.0.0 — Alpha
 
-- Fixes FXTools failing with a YU Txt Motion command/module error: each collection now loads independently and registers an explicit versioned host handler.
-- Separates Prism Gradient and Bloom Glow implementation files, and makes each command route explicit.
-- Text Apply / Update refreshes matching instances without adding duplicate controls, including mixed selections.
-- Tools Bar Load settings follows the active collection. Loaded YU/FXTools editors show Save changes; removing the loaded setup restores Apply.
-- Preserves existing presets, native parameter protection, serialized commands and no-replay recovery.
+- Recovers missing/replaced AE host globals before a queued command; does not replay uncertain mutations.
+- Adds a Settings connection report with runtime versions, installed path, native-effect capabilities, selected-layer state and recent operation errors.
+- Adds FXTools → Glass Surface, an independent native recipe with tint, distortion, frost blur, beveled highlights and glow. No generated layers. This surface treatment uses selected source pixels, not background refraction or the commercial Glasser engine.
+- Keeps Prism Gradient, Bloom Glow and YU recipes unchanged. Formats the panel markup and separates the new recipe from shared transport/validation code.
+- Moves release packaging/version checks to the approved 3.0.0 Alpha series.
 
-Close After Effects, extract the complete release ZIP, run its installer, then restart AE. Native AE rendering remains a manual verification step; automated tests use an AE model and Chromium.
+Close AE, extract the full ZIP, run its installer and restart AE. If Apply/Generate still fails, open Settings → Show connection report and copy its contents. Automated model/browser tests cannot verify native AE rendering. The reported all-effects failure has not yet been reproduced in the user's AE installation; the stale-runtime failure is covered by a regression test.

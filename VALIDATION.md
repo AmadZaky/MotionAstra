@@ -130,3 +130,10 @@ The v2.8.3 CI gate prevented publication when the macOS rollback regression fail
 ## 2.8.9 regression coverage
 
 `module-isolation.cjs` verifies missing optional modules, scoped evalFile exports, recovery after module failure and independent cleanup. `smart-apply.cjs` covers all ten core Text FX with repeated and mixed-selection Apply. FXTools browser tests use context-aware toolbar Load and verify Apply returns after Remove. Native After Effects is not available in this test environment.
+
+## 3.0.0 Alpha
+
+- `bridge-lifecycle.cjs`: missing/replaced runtime recovers before a command with exactly one mutation; diagnostics open no Undo group and perform no writes.
+- `glass-surface.cjs`: Apply/Load/Update/Remove across text, shape, solid and video models; native color arrays and blur values; no extra layers or duplicate effects.
+- `fxtools-ui.cjs`: three cards, Glass Surface edit/update/remove, toolbar load and Settings report in Chromium.
+- Full host suite, ES3 parsing, six browser suites, package checks and local installer tests passed. Native effect schemas/rendering are not modeled. The exact all-effects failure on the user's system remains unconfirmed without its error report.

@@ -1,11 +1,11 @@
-/* MotionAstra CEP transport v2.8.9.
+/* MotionAstra CEP transport v3.0.0.
  * Host files load by absolute path; all replies are tagged and request-correlated.
  * Empty callbacks recover the stored reply, NEVER replay the host mutation.
  */
 (function (root) {
   "use strict";
-  const VERSION = "2.8.9";
-  const BUILD = "2.8.9";
+  const VERSION = "3.0.0";
+  const BUILD = "3.0.0";
   const PREFIX = "MAFX1:";
   const ERROR_PREFIX = "MAFX1E:";
   const available = !!root.__adobe_cep__;
@@ -13,6 +13,8 @@
   let ready = false;
   let extensionPath = null;
   let serial = 0;
+  let lastError = null;
+  let lastAction = null;
   let queue = Promise.resolve();
 
   function error(message) {
@@ -102,7 +104,8 @@
   }
 
   async function initialize() {
-    if (ready) return;
+    // Verify the actual AE runtime on each queued request. CEP can outlive it.
+    ready = false;
     if (!available)
       throw error(
         "Browser preview only. Open this panel inside After Effects."
@@ -205,6 +208,7 @@
   function call(payload) {
     // Every call, including selection polling, shares this queue.
     const task = queue.then(async () => {
+      lastAction = payload.action;
       await initialize();
       await ensureModule(payload);
       const argument = JSON.stringify(
@@ -217,7 +221,15 @@
           ");"
       );
     });
-    queue = task.catch(() => {});
+    queue = task.catch((e) => {
+      lastError = {
+        action: payload.action,
+        preset: payload.id || null,
+        operation: payload.operation || null,
+        message: e.message,
+        time: new Date().toISOString()
+      };
+    });
     return task;
   }
 
@@ -225,6 +237,14 @@
     call,
     isAvailable: () => available,
     isReady: () => ready,
+    diagnostics: () => ({
+      version: VERSION,
+      available,
+      ready,
+      extensionPath,
+      lastAction,
+      lastError
+    }),
     version: VERSION
   };
 })(window);

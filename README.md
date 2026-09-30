@@ -1,4 +1,4 @@
-# MotionAstra FX 2.8.9 — Pre-alpha
+# MotionAstra FX 3.0.0 — Alpha
 
 Offline CEP extension for Adobe After Effects 2025. Minimal black/orange UI, local CSInterface + Lucide, 10 Text FX, 10 procedural Backgrounds, Quick Tools and a dedicated FX Tweaker tab.
 
@@ -156,4 +156,12 @@ Replace the full extension folder, restart AE, and confirm 2.8.2 in Settings. Fo
 - Installer enables PlayerDebugMode for CSXS 11/12 in the current user account. No AE project files or AE preferences are edited.
 - Windows and macOS installer tests, ES3 checks, host regressions and Chromium workflows gate release publication.
 
-Close AE, extract the whole release ZIP, then double-click the launcher for your OS. Confirm replacement when prompted; restart AE and confirm Settings shows 2.8.9. The macOS script is unsigned; if macOS blocks it, use the approved Open action described in the guide. Direct AE rendering remains a manual check.
+Close AE, extract the whole release ZIP, then double-click the launcher for your OS. Confirm replacement when prompted; restart AE and confirm Settings shows 3.0.0. The macOS script is unsigned; if macOS blocks it, use the approved Open action described in the guide. Direct AE rendering remains a manual check.
+
+## 3.0.0 Alpha
+
+The bridge now verifies the live host before every queued command. A missing or replaced runtime is bootstrapped before executing the requested action. Mutations are never replayed after a lost reply. Settings → Show connection report exposes the installation path, host version, native-effect availability and recent errors; select/copy the report if Apply fails. This fixes a reproduced stale-host failure, but does not establish the cause of every reported AE failure.
+
+FXTools → Glass Surface is an independent native effect recipe: gradient tint, organic distortion, frost blur, beveled rim lighting and glow. It treats the selected layer's pixels and alpha without generating layers. It does not refract the underlying composition or reproduce Glasser's precomp/material engine. Use a precomp containing the artwork you want to process. Existing Prism/Bloom engines and YUGraphic source are preserved.
+
+Download the `MotionAstra_FX_v3.0.0-alpha.zip` release asset. Numeric CEP version is 3.0.0; the release channel is Alpha.

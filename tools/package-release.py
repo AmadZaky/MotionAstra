@@ -4,7 +4,7 @@ from pathlib import Path
 import zipfile
 root=Path(__file__).resolve().parent.parent
 version=(root/'VERSION').read_text().strip()
-parser=argparse.ArgumentParser();parser.add_argument('--output',default=str(root/('MotionAstra_FX_v'+version+'-pre-alpha.zip')))
+parser=argparse.ArgumentParser();parser.add_argument('--output',default=str(root/('MotionAstra_FX_v'+version+'-alpha.zip')))
 args=parser.parse_args();payload={}
 for folder in ['CSXS','css','js','jsx','vendor']:
  for p in sorted((root/folder).rglob('*')):

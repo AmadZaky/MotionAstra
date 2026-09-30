@@ -1,4 +1,4 @@
-name: Publish MotionAstra patch prerelease
+name: Publish MotionAstra alpha
 on:
   push:
     branches: [main]
@@ -57,7 +57,7 @@ jobs:
           python3 tests/package.py
       - name: Verify host tests
         run: |
-          for test in static engine expressions bridge tools checkboxes parser-boundary update-target background-create fx-target panel-state background-stability preview-idle loop-modes background-colors loop-migration features-282 compact-controls yu-text motion-curve fx-tools module-isolation smart-apply; do
+          for test in static engine expressions bridge tools checkboxes parser-boundary update-target background-create fx-target panel-state background-stability preview-idle loop-modes background-colors loop-migration features-282 compact-controls yu-text motion-curve fx-tools module-isolation smart-apply bridge-lifecycle glass-surface; do
             node "tests/$test.cjs"
           done
       - name: Verify browser workflow
@@ -79,13 +79,13 @@ jobs:
           SOURCE_SHA: ${{ github.sha }}
         run: |
           version="$(cat VERSION)"
-          tag="v${version}-pre-alpha"
-          asset="MotionAstra_FX_v${version}-pre-alpha.zip"
+          tag="v${version}-alpha"
+          asset="MotionAstra_FX_v${version}-alpha.zip"
           if gh release view "$tag" >/dev/null 2>&1; then
             existing="$(gh api "repos/$GH_REPO/git/ref/tags/$tag" --jq '.object.sha')"
             test "$existing" = "$SOURCE_SHA"
             gh release upload "$tag" "$asset" --clobber
           else
             gh release create "$tag" "$asset" --target "$SOURCE_SHA" \
-              --title "MotionAstra v${version} — Pre-alpha" --prerelease --notes-file RELEASE_NOTES.md
+              --title "MotionAstra v${version} — Alpha" --prerelease --notes-file RELEASE_NOTES.md
           fi

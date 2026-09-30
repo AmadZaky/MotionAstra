@@ -227,3 +227,9 @@ Use the ZIP attached to the v2.8.1-pre-alpha release. Future code pushes must in
 - Preserves single-layer background generation, direct background colors and compact bottom Apply/Update actions.
 
 Replace the full extension folder, restart AE, and confirm 2.8.2 in Settings. For existing Text FX, Load FX Settings, choose a color, then Update to migrate its color binding. Native AE rendering still requires verification; modeled-host and Chromium tests are release gates.
+
+## 3.0 Alpha connection troubleshooting
+
+Close After Effects before replacing the extension. Install the complete release ZIP, restart AE, and check that Settings reports MotionAstra 3.0.0. If Apply or Generate fails, choose **Settings → Show connection report**, then copy the selected report. It includes the actual extension path, host version, native effect availability and recent error messages. The report does not read project source text or footage contents; layer/comp names may appear.
+
+Glass Surface processes the selected layer's own pixels; it does not sample the composition behind it. Native rendering must be checked in AE.

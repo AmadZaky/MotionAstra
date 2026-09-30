@@ -99,7 +99,7 @@ function glow(id, key, radius, intensity, threshold) {
   return spec(id, key, "ADBE Glo2", p, null, intensity > 0);
 }
 function descriptors(id, p) {
-  var effects = { prism: prismGradient, bloom: bloomGlow };
+  var effects = { prism: prismGradient, bloom: bloomGlow, glass: glassSurface };
   if (!effects.hasOwnProperty(id))
     throw Error("No native adapter for FXTools effect: " + id);
   return effects[id](p);

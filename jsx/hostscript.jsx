@@ -1,6 +1,6 @@
-/* MotionAstra 2.8.9 — ES3 host. No third-party AE effects required. */
+/* MotionAstra 3.0.0 — ES3 host. No third-party AE effects required. */
 var MotionAstra = (function () {
-  var BUILD = "2.8.9",
+  var BUILD = "3.0.0",
     recipes = {},
     serial = 0;
   for (var ri = 0; ri < MA_PRESET_DATA.presets.length; ri++)
@@ -2727,6 +2727,53 @@ var MotionAstra = (function () {
           composition: c instanceof CompItem ? c.name : null,
           selected: c instanceof CompItem ? c.selectedLayers.length : 0
         };
+      } else if (a.action === "diagnostics") {
+        var active = app.project ? app.project.activeItem : null;
+        var installed = app.effects || [];
+        var required = [
+          "ADBE Slider Control",
+          "ADBE Ramp",
+          "ADBE Tint",
+          "ADBE Fill",
+          "ADBE Turbulent Displace",
+          "ADBE Gaussian Blur 2",
+          "ADBE Glo2",
+          "ADBE Bevel Alpha"
+        ];
+        var capabilities = {},
+          di,
+          dj;
+        for (di = 0; di < required.length; di++) {
+          capabilities[required[di]] = false;
+          for (dj = 0; dj < installed.length; dj++) {
+            if (installed[dj].matchName === required[di]) {
+              capabilities[required[di]] = true;
+              break;
+            }
+          }
+        }
+        var selectedInfo = [];
+        if (active instanceof CompItem) {
+          var selectedLayers = active.selectedLayers;
+          for (di = 0; di < selectedLayers.length; di++) {
+            var selectedLayer = selectedLayers[di];
+            selectedInfo.push({
+              name: selectedLayer.name,
+              locked: selectedLayer.locked,
+              hasVideo: selectedLayer.hasVideo,
+              nullLayer: selectedLayer.nullLayer
+            });
+          }
+        }
+        result = {
+          ok: true,
+          build: BUILD,
+          hostVersion: app.version,
+          composition: active instanceof CompItem ? active.name : null,
+          selected: selectedInfo,
+          nativeEffects: capabilities,
+          effectRegistryAvailable: installed.length > 0
+        };
       } else if (a.action === "fonts") {
         result = fontList();
       } else if (a.action === "load" || a.action === "reconnect") {
@@ -2818,6 +2865,6 @@ var MotionAstra = (function () {
     throw Error(
       "MotionAstra JSON transport self-check failed. Restart AE and install the full package."
     );
-  return { dispatch: dispatch, version: "2.8.9", build: BUILD };
+  return { dispatch: dispatch, version: "3.0.0", build: BUILD };
 })();
 if (typeof $ !== "undefined" && $.global) $.global.MotionAstra = MotionAstra;

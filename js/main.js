@@ -667,6 +667,29 @@
     $("history").scrollIntoView({ block: "nearest" });
   };
   $("refresh").onclick = refresh;
+  $("diagnose").onclick = async () => {
+    await refresh();
+    let host;
+    try {
+      host = await bridge.call({ action: "diagnostics" });
+    } catch (e) {
+      host = { error: e.message };
+    }
+    const details = bridge.diagnostics ? bridge.diagnostics() : {};
+    $("diagnostic-report").hidden = false;
+    $("diagnostic-report").value = JSON.stringify(
+      {
+        panel: details,
+        host,
+        connection: $("connection").textContent,
+        recentOperations: history.slice(0, 5)
+      },
+      null,
+      2
+    );
+    $("diagnostic-report").focus();
+    $("diagnostic-report").select();
+  };
   $("reduced").checked = store.get("ma2-reduced") === "true";
   document.body.classList.toggle("reduced", $("reduced").checked);
   $("reduced").onchange = (e) => {
