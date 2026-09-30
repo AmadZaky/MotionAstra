@@ -1,6 +1,6 @@
-/* MotionAstra 3.0.0 — ES3 host. No third-party AE effects required. */
+/* MotionAstra 3.0.1 — ES3 host. No third-party AE effects required. */
 var MotionAstra = (function () {
-  var BUILD = "3.0.0",
+  var BUILD = "3.0.1",
     recipes = {},
     serial = 0;
   for (var ri = 0; ri < MA_PRESET_DATA.presets.length; ri++)
@@ -371,17 +371,16 @@ var MotionAstra = (function () {
               : "ADBE Slider Control",
           "MA2 " + d.id
         );
-      set(
-        e.property(1),
-        d.type === "color"
-          ? color(p[d.id])
-          : d.type === "checkbox"
-            ? p[d.id]
-              ? 1
-              : 0
-            : p[d.id],
-        l.containingComp.time
-      );
+      // ExtendScript rejects an ungrouped ternary inside a true branch.
+      // Keep explicit branches here; modern formatters can remove needed grouping.
+      var controlValue = p[d.id];
+      if (d.type === "color") {
+        controlValue = color(p[d.id]);
+      } else if (d.type === "checkbox") {
+        controlValue = 0;
+        if (p[d.id]) controlValue = 1;
+      }
+      set(e.property(1), controlValue, l.containingComp.time);
     }
   }
   function readControls(l, r, m) {
@@ -518,14 +517,14 @@ var MotionAstra = (function () {
       for (k in m.values)
         if (m.values.hasOwnProperty(k)) {
           v = m.values[k];
-          values[k] =
-            typeof v === "boolean"
-              ? v
-                ? 1
-                : 0
-              : typeof v === "string" && /^#[0-9a-f]{6}$/i.test(v)
-                ? color(v)
-                : v;
+          if (typeof v === "boolean") {
+            values[k] = 0;
+            if (v) values[k] = 1;
+          } else if (typeof v === "string" && /^#[0-9a-f]{6}$/i.test(v)) {
+            values[k] = color(v);
+          } else {
+            values[k] = v;
+          }
         }
       prefix +=
         "var MA_VALUES=" +
@@ -2517,7 +2516,7 @@ var MotionAstra = (function () {
     return {
       ok: true,
       changed: count,
-      severity: count ? (lines.length ? "warning" : "success") : "warning",
+      severity: count && !lines.length ? "success" : "warning",
       message:
         count +
         " keys adjusted." +
@@ -2865,6 +2864,6 @@ var MotionAstra = (function () {
     throw Error(
       "MotionAstra JSON transport self-check failed. Restart AE and install the full package."
     );
-  return { dispatch: dispatch, version: "3.0.0", build: BUILD };
+  return { dispatch: dispatch, version: "3.0.1", build: BUILD };
 })();
 if (typeof $ !== "undefined" && $.global) $.global.MotionAstra = MotionAstra;

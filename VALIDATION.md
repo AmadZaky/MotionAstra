@@ -137,3 +137,7 @@ The v2.8.3 CI gate prevented publication when the macOS rollback regression fail
 - `glass-surface.cjs`: Apply/Load/Update/Remove across text, shape, solid and video models; native color arrays and blur values; no extra layers or duplicate effects.
 - `fxtools-ui.cjs`: three cards, Glass Surface edit/update/remove, toolbar load and Settings report in Chromium.
 - Full host suite, ES3 parsing, six browser suites, package checks and local installer tests passed. Native effect schemas/rendering are not modeled. The exact all-effects failure on the user's system remains unconfirmed without its error report.
+
+## 3.0.1 ExtendScript syntax regression
+
+The user supplied `SyntaxError: Expected: : (line 380)` during host initialization. That line is the second question mark in an ungrouped nested true-branch ternary. `tests/es3.cjs` now rejects nested true-branch ternaries in shipped JSX, beyond standard Acorn ES3 parsing. The guard failed on the v3.0.0 source before the three occurrences were replaced with explicit branches or a single conditional. Actual AE startup still requires native confirmation.

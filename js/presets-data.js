@@ -1,5 +1,5 @@
 window.MA_PRESETS = {
-  "version": "3.0.0",
+  "version": "3.0.1",
   "presets": [
     {
       "id": "counter",
