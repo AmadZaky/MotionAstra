@@ -1,11 +1,9 @@
-# MotionAstra 2.8.8 — Pre-alpha
+# MotionAstra 2.8.9 — Pre-alpha
 
-- Adds the extensible FXTools tab, starting with Prism Gradient and Bloom Glow.
-- Prism offers editable two-color palettes, gradient placement/angle/spread, linear/radial modes, optional looping rotation, organic distortion, diffusion and glow.
-- Bloom combines three native Glow scales with radius, intensity, threshold, falloff and optional source tint.
-- Apply updates existing named effects without generating layers. Both tools can coexist on the same layer.
-- Load/Update binds to the loaded layer; Remove affects only the chosen FXTools stack. Native animated parameters are protected, and failed writes attempt rollback.
-- Uses built-in AE effects, with no extra plugin dependency or parameter-only sliders. These are artistic approximations, not the Cosmic or Deep Glow rendering engines.
-- Adds host and Chromium tests for both effects and the FXTools workflow.
+- Fixes FXTools failing with a YU Txt Motion command/module error: each collection now loads independently and registers an explicit versioned host handler.
+- Separates Prism Gradient and Bloom Glow implementation files, and makes each command route explicit.
+- Text Apply / Update refreshes matching instances without adding duplicate controls, including mixed selections.
+- Tools Bar Load settings follows the active collection. Loaded YU/FXTools editors show Save changes; removing the loaded setup restores Apply.
+- Preserves existing presets, native parameter protection, serialized commands and no-replay recovery.
 
-Close AE, extract the complete ZIP, run the installer and restart AE. Open FXTools, select a visual layer, Customize and Apply FX. Native AE rendering is still a manual verification step.
+Close After Effects, extract the complete release ZIP, run its installer, then restart AE. Native AE rendering remains a manual verification step; automated tests use an AE model and Chromium.

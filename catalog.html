@@ -7,7 +7,7 @@ function apply(value){theme=value;document.documentElement.dataset.theme=theme;t
 apply(theme);document.addEventListener('DOMContentLoaded',()=>{apply(theme);document.getElementById('theme-toggle').onclick=()=>apply(theme==='dark'?'light':'dark');});
 })();
 
-</script><title>MotionAstra 2.8.8</title><style>/* MotionAstra 2.5.2 — local system fonts, quiet glass surfaces, orange focus. */
+</script><title>MotionAstra 2.8.9</title><style>/* MotionAstra 2.5.2 — local system fonts, quiet glass surfaces, orange focus. */
 :root{color-scheme:dark;--bg:#080809;--surface:#161618;--text:#f4f4f5;--muted:#929296;--accent:#ff943f;--line:rgba(255,255,255,.085);--ease:cubic-bezier(.2,.8,.2,1)}
 *{box-sizing:border-box}[hidden]{display:none!important}html,body{height:100%;margin:0;overflow:hidden}body{min-width:300px;display:grid;grid-template-rows:auto auto auto minmax(0,1fr) 66px;background:var(--bg);color:var(--text);font:12px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
 button,input,select,textarea{font:inherit}button{color:var(--text);background:#ffffff05;border:1px solid var(--line);border-radius:9px;padding:8px 11px;cursor:pointer;transition:background .2s var(--ease),border-color .2s var(--ease),transform .2s var(--ease)}button:hover{background:#ffffff0d;border-color:#ffffff24}button:active{transform:scale(.98)}button:disabled{opacity:.35;cursor:not-allowed}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -77,12 +77,12 @@ body{background:var(--bg);color:var(--text)}header{background:var(--panel)}butto
 #fx-tools{height:100%;min-height:0}#ft-library{height:100%;overflow:auto}#ft-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}.ft-card{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface)}.ft-card canvas{width:100%;aspect-ratio:1.83}.ft-card-content{display:flex;flex-direction:column;gap:7px;flex:1;padding:14px}.ft-card-content p{font-size:11px;flex:1}.ft-card-content button{font-size:11px;padding:7px}.ft-card h2{font-size:18px}.ft-card .eyebrow{color:var(--accent)}#ft-editor{height:100%;display:flex;flex-direction:column;min-height:0}#ft-scroll{flex:1;overflow:auto;min-height:0;padding:12px 0}.ft-head{display:flex;justify-content:space-between;gap:8px;flex:none}.ft-head button{font-size:10px;padding:6px}#ft-preview{width:100%;border-radius:12px;max-height:260px;object-fit:contain}#ft-target{font-size:11px;overflow-wrap:anywhere}#ft-palettes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}#ft-palettes button{font-size:10px;padding:6px}.ft-group{padding:12px}.ft-field{display:grid;grid-template-columns:minmax(0,1fr) 100px;align-items:center;font-size:11px;gap:8px}.ft-field input{width:100%}.ft-field input[type=checkbox]{width:auto;justify-self:end}.ft-field input[type=color]{width:100%;height:30px}.ft-field input:invalid{border-color:#dc5334}.ft-actions{flex:none;display:flex;gap:6px;border-top:1px solid var(--line);padding-top:8px}.ft-actions button{flex:1;padding:7px;font-size:11px}
 .category-tabs{grid-template-columns:repeat(4,minmax(0,1fr))}@media(min-width:800px){.category-tabs{grid-template-columns:repeat(7,minmax(0,1fr))}}@media(max-width:550px){.category-tabs span{display:none}.category-tabs button{font-size:9px}}
 </style></head><body class="catalog">
-<header><a class="brand" href="index.html"><span class="brand-icon"><i data-lucide="asterisk"></i></span>MotionAstra <b>2.8.8</b></a><div class="header-actions"><button id="theme-toggle" aria-label="Switch to light mode" aria-pressed="false">Light ☀</button><button id="fold-quick" aria-controls="quick" aria-expanded="true">Quick ▴</button><button id="fold-nav" aria-controls="nav" aria-expanded="true">Menu ▴</button></div></header>
+<header><a class="brand" href="index.html"><span class="brand-icon"><i data-lucide="asterisk"></i></span>MotionAstra <b>2.8.9</b></a><div class="header-actions"><button id="theme-toggle" aria-label="Switch to light mode" aria-pressed="false">Light ☀</button><button id="fold-quick" aria-controls="quick" aria-expanded="true">Quick ▴</button><button id="fold-nav" aria-controls="nav" aria-expanded="true">Menu ▴</button></div></header>
 <nav id="nav" aria-label="Main navigation"><div class="search"><i data-lucide="search"></i><input id="search" type="search" placeholder="Search presets…" aria-label="Search presets"><span id="count">10</span></div><div class="category-tabs"><button class="active" data-tab="Text">Text FX <span>10</span></button><button data-tab="Background">Backgrounds <span>10</span></button><button data-tab="YU">YU Txt Motion</button><button data-tab="FXTools">FXTools</button><button data-tab="Curve">Motion Curve</button><button data-tab="Tools">Quick Tools</button><button data-tab="Tweaker">FX Tweaker</button></div></nav>
-<div id="quick"><div class="create-row" aria-label="Create layers"><button data-tool="newShape" data-host><i data-lucide="square"></i>New Shape</button><button data-tool="newText" data-host><i data-lucide="type"></i>New Text</button><button data-tool="newSolid" data-host><i data-lucide="layers"></i>New Solid</button><label class="layer-color" title="Shape and solid color"><input id="new-layer-color" type="color" value="#ff943f" aria-label="New shape and solid color"></label></div><div class="font-row"><label for="new-text-font">New Text font</label><select id="new-text-font" aria-label="New Text font"><option value="">Current AE font</option></select><button id="refresh-fonts" data-host>Load fonts</button></div><div class="utility-row"><button id="quick-anchor" data-host><i data-lucide="crosshair"></i>Center anchor</button><button id="load-fx" data-host><i data-lucide="sliders-horizontal"></i>Load FX Settings</button><button data-tab="Settings" aria-label="Settings"><i data-lucide="settings"></i></button></div></div>
+<div id="quick"><div class="create-row" aria-label="Create layers"><button data-tool="newShape" data-host><i data-lucide="square"></i>New Shape</button><button data-tool="newText" data-host><i data-lucide="type"></i>New Text</button><button data-tool="newSolid" data-host><i data-lucide="layers"></i>New Solid</button><label class="layer-color" title="Shape and solid color"><input id="new-layer-color" type="color" value="#ff943f" aria-label="New shape and solid color"></label></div><div class="font-row"><label for="new-text-font">New Text font</label><select id="new-text-font" aria-label="New Text font"><option value="">Current AE font</option></select><button id="refresh-fonts" data-host>Load fonts</button></div><div class="utility-row"><button id="quick-anchor" data-host><i data-lucide="crosshair"></i>Center anchor</button><button id="load-fx" data-host><i data-lucide="sliders-horizontal"></i>Load settings</button><button data-tab="Settings" aria-label="Settings"><i data-lucide="settings"></i></button></div></div>
 <div id="workspace"><main>
 <section id="library"><div class="eyebrow" id="library-kicker">10 TEXT ESSENTIALS</div><h1 id="library-title">Words in motion.</h1><p id="library-help">Select a text layer before applying FX.</p><div id="cards"></div></section>
-<section id="fx-tools" hidden aria-label="FXTools"><div id="ft-library"><span class="eyebrow">THE EFFECT WORKBENCH</span><h1>FXTools</h1><p>Color, light and atmosphere. Built for your layers.</p><div id="ft-cards"></div><p class="hint">Native AE effects · no additional plugin required. More tools can be added to this collection.</p></div><div id="ft-editor" hidden><div class="ft-head"><button id="ft-back">← FXTools</button><button id="ft-load" data-host>Load selected</button></div><div id="ft-scroll"><span class="eyebrow">FXTOOLS</span><h1 id="ft-title"></h1><p id="ft-target"></p><canvas id="ft-preview" width="600" height="260" aria-label="FXTools illustrative preview"></canvas><button id="ft-replay">Replay preview</button><p id="ft-description"></p><div id="ft-palettes"></div><div id="ft-parameters"></div><p class="hint" id="ft-reference"></p><p class="hint">Settings apply on Apply/Update. Native rendering effects remain in Effect Controls. This is an artistic approximation; it does not reproduce the commercial plugins’ optical or GPU engines. Diffusion softens the entire source, and organic distortion also bends its outline.</p><button id="ft-remove" data-host>Remove this FX from selection</button></div><div class="ft-actions"><button id="ft-apply" class="primary" data-host>Apply FX</button><button id="ft-update" data-host>Update loaded FX</button></div></div></section>
+<section id="fx-tools" hidden aria-label="FXTools"><div id="ft-library"><span class="eyebrow">THE EFFECT WORKBENCH</span><h1>FXTools</h1><p>Color, light and atmosphere. Built for your layers.</p><div id="ft-cards"></div><p class="hint">Native AE effects · no additional plugin required. More tools can be added to this collection.</p></div><div id="ft-editor" hidden><div class="ft-head"><button id="ft-back">← FXTools</button><button id="ft-load" data-host>Load selected</button></div><div id="ft-scroll"><span class="eyebrow">FXTOOLS</span><h1 id="ft-title"></h1><p id="ft-target"></p><canvas id="ft-preview" width="600" height="260" aria-label="FXTools illustrative preview"></canvas><button id="ft-replay">Replay preview</button><p id="ft-description"></p><div id="ft-palettes"></div><div id="ft-parameters"></div><p class="hint" id="ft-reference"></p><p class="hint">Settings apply on Apply/Update. Native rendering effects remain in Effect Controls. This is an artistic approximation; it does not reproduce the commercial plugins’ optical or GPU engines. Diffusion softens the entire source, and organic distortion also bends its outline.</p><button id="ft-remove" data-host>Remove this FX from selection</button></div><div class="ft-actions"><button id="ft-apply" class="primary" data-host>Apply / Update</button><button id="ft-update" data-host>Update loaded FX</button></div></div></section>
 <section id="motion-curve" hidden aria-label="Motion Curve"><div class="curve-top"><span class="eyebrow">KEYFRAME TOOLKIT</span><h1>Motion Curve</h1><p>Shape the feel of your motion.</p></div><div class="curve-scroll"><div class="curve-board"><div class="curve-labels"><span>Progress ↑</span><span>Time →</span></div><svg id="curve-graph" viewBox="0 0 320 300" role="group" aria-label="Interactive cubic Bezier easing graph"><path class="curve-grid" d="M30 30V270H290V30Z M95 30V270 M160 30V270 M225 30V270 M30 90H290 M30 150H290 M30 210H290"/><path class="curve-diagonal" d="M30 270L290 30"/><path id="curve-arm1" class="curve-arm"/><path id="curve-arm2" class="curve-arm"/><path id="curve-path"/><circle cx="30" cy="270" r="4" class="curve-end"/><circle cx="290" cy="30" r="4" class="curve-end"/><circle id="curve-h1" r="9" tabindex="0" role="slider" aria-label="Outgoing handle; arrow keys adjust time and progress"/><circle id="curve-h2" r="9" tabindex="0" role="slider" aria-label="Incoming handle; arrow keys adjust time and progress"/><circle id="curve-playhead" cx="30" cy="270" r="4"/></svg><div id="curve-code"></div></div><div class="curve-track"><span id="curve-dot"></span></div><div class="curve-toolbar"><button id="curve-replay">Replay</button><button id="curve-mirror">Mirror</button><button id="curve-reset">Reset</button></div><div id="curve-inputs"><label>Out · time<input id="curve-x1" type="number" min="0.001" max="0.999" step="0.001"></label><label>Out · progress<input id="curve-y1" type="number" min="0" max="1" step="0.001"></label><label>In · time<input id="curve-x2" type="number" min="0.001" max="0.999" step="0.001"></label><label>In · progress<input id="curve-y2" type="number" min="0" max="1" step="0.001"></label></div><p id="curve-error" hidden>Use values within the field ranges, with Out time ≤ In time.</p><div class="eyebrow">CURVE PRESETS</div><div id="curve-presets"></div><details class="curve-guide"><summary>How to apply</summary><p>Select two or more adjacent keyframes in AE, then Apply Curve. Handles change temporal easing; key times, values and motion paths stay in place. The graph shows normalized progress, not AE's raw speed graph.</p><p>Supports scalar, 2D and 3D properties. Roving keys and active expressions are skipped. For curved Position paths use zero endpoint speed (Out progress 0, In progress 1), or separate dimensions for custom endpoint speeds.</p><p>Drag a handle or focus it and use arrow keys; Shift makes larger steps. Only intervals whose two endpoints are selected are changed.</p></details></div><div class="curve-actions"><button id="curve-apply" class="primary" data-host>Apply Curve to selected keyframes</button></div></section>
 <section id="yu" hidden aria-label="YU Txt Motion"><div class="yu-heading"><div><span class="eyebrow">ANIMATION BY YUGraphic</span><h1>YU Txt Motion</h1></div><button id="yu-load" data-host>Load YU settings</button></div>
 <div id="yu-browser"><p>120 original text presets · by YUGraphic · MIT licensed</p><div class="yu-filters"><input id="yu-search" type="search" placeholder="Search YU presets…" aria-label="Search YU presets"><select id="yu-category" aria-label="YU category"></select></div><p id="yu-count"></p><div id="yu-cards"></div></div>
@@ -97,9 +97,9 @@ body{background:var(--bg);color:var(--text)}header{background:var(--panel)}butto
 <details><summary><i data-lucide="type"></i>Text appearance</summary><p>Changes the underlying text style, including counters and switchers.</p><div class="row"><label>Size · px<input id="text-size" type="number" value="100" min="1" max="1000"></label><label>Fill<input id="text-color" type="color" value="#ffffff"></label></div><label>Paragraph alignment<select id="text-align"><option value="left">Left</option><option value="center">Center</option><option value="right">Right</option></select></label><button id="text-style" data-host>Apply text style</button></details>
 <details open><summary><i data-lucide="eraser"></i>Remove effects</summary><p>Removes effects only from selected unlocked layers.</p><button id="remove-owned" data-host>Remove MotionAstra FX</button><button id="erase-all" class="danger" data-host>Erase ALL effects on selected layers</button><p class="hint">Erase ALL also removes third-party/native Effects stacks. Unrelated expressions and non-MotionAstra text animators remain. Other layers are not deleted.</p><div id="review" hidden><strong>Review removal</strong><p id="review-text"></p><div class="row"><button id="confirm-remove" class="danger" data-host>Confirm removal</button><button id="cancel-remove">Cancel</button></div></div></details>
 </section>
-<section id="settings" hidden><div class="eyebrow">MOTIONASTRA 2.8.8</div><h1>Your workspace.</h1><details open><summary>Preview & connection</summary><label for="control-layout">New FX controls</label><select id="control-layout"><option value="compact">Compact · one controller</option><option value="legacy">Individual · advanced keyframing</option></select><p>Existing layers keep their current layout. Use FX Tweaker to compact unanimated old controls.</p><label class="check"><input id="reduced" type="checkbox">Reduce preview motion</label><button id="refresh">Refresh AE connection</button><p id="connection"></p><a href="catalog.html">Open preview catalog ↗</a><p>All panel assets are local. Browser mode offers previews; Apply and tools require After Effects.</p><p>Use Project Settings → Expressions → JavaScript. Includes 20 MotionAstra presets and 120 YU Txt Motion presets by YUGraphic, plus the FXTools collection. Existing v2 effects remain loadable through Load selected FX. Existing projects are never migrated automatically.</p><a href="INSTALLATION_GUIDE.md">Installation and workflow guide ↗</a></details><details open><summary>Operation history</summary><ol id="history"></ol></details></section>
+<section id="settings" hidden><div class="eyebrow">MOTIONASTRA 2.8.9</div><h1>Your workspace.</h1><details open><summary>Preview & connection</summary><label for="control-layout">New FX controls</label><select id="control-layout"><option value="compact">Compact · one controller</option><option value="legacy">Individual · advanced keyframing</option></select><p>Existing layers keep their current layout. Use FX Tweaker to compact unanimated old controls.</p><label class="check"><input id="reduced" type="checkbox">Reduce preview motion</label><button id="refresh">Refresh AE connection</button><p id="connection"></p><a href="catalog.html">Open preview catalog ↗</a><p>All panel assets are local. Browser mode offers previews; Apply and tools require After Effects.</p><p>Use Project Settings → Expressions → JavaScript. Includes 20 MotionAstra presets and 120 YU Txt Motion presets by YUGraphic, plus the FXTools collection. Existing v2 effects remain loadable through Load selected FX. Existing projects are never migrated automatically.</p><a href="INSTALLATION_GUIDE.md">Installation and workflow guide ↗</a></details><details open><summary>Operation history</summary><ol id="history"></ol></details></section>
 </main>
-<aside id="inspector" hidden aria-labelledby="fx-title"><div class="inspector-head"><div><span class="eyebrow" id="inspector-mode">CUSTOMIZE PRESET</span><h2 id="fx-title"></h2></div><button id="close" aria-label="Close effect settings">✕</button></div><div class="inspector-scroll"><div id="tweaker-context" hidden><span id="loaded-layer"></span><span id="loaded-layout" class="layout-badge"></span><button id="compact-fx" data-host>Compact old controls</button><p id="compact-help">Compaction removes unanimated MotionAstra parameter controls. Native effects remain. Animated controls and external expression dependencies block conversion.</p></div><label class="parameter-search"><span>Find a setting</span><input id="parameter-search" type="search" placeholder="Color, duration, loop…" autocomplete="off"></label><canvas id="preview" width="600" height="340" aria-label="Effect preview"></canvas><p id="fx-description"></p><div class="row inspector-options"><button id="replay">Replay ↻</button><button id="reset">Reset settings</button></div><div id="parameters"></div><p class="hint" id="parameter-help">Text/background animation starts at the layer in-point. Changes reach AE when you click Apply or Update.</p><p class="hint" id="structural-help" hidden>Count changes rebuild artwork on Update. Native count controls need Load selected FX → Update to rebuild.</p></div><div class="inspector-actions"><button id="apply" class="primary" data-host>Apply FX</button><button id="update" data-host>Update</button></div></aside>
+<aside id="inspector" hidden aria-labelledby="fx-title"><div class="inspector-head"><div><span class="eyebrow" id="inspector-mode">CUSTOMIZE PRESET</span><h2 id="fx-title"></h2></div><button id="close" aria-label="Close effect settings">✕</button></div><div class="inspector-scroll"><div id="tweaker-context" hidden><span id="loaded-layer"></span><span id="loaded-layout" class="layout-badge"></span><button id="compact-fx" data-host>Compact old controls</button><p id="compact-help">Compaction removes unanimated MotionAstra parameter controls. Native effects remain. Animated controls and external expression dependencies block conversion.</p></div><label class="parameter-search"><span>Find a setting</span><input id="parameter-search" type="search" placeholder="Color, duration, loop…" autocomplete="off"></label><canvas id="preview" width="600" height="340" aria-label="Effect preview"></canvas><p id="fx-description"></p><div class="row inspector-options"><button id="replay">Replay ↻</button><button id="reset">Reset settings</button></div><div id="parameters"></div><p class="hint" id="parameter-help">Text/background animation starts at the layer in-point. Changes reach AE when you click Apply or Update.</p><p class="hint" id="structural-help" hidden>Count changes rebuild artwork on Update. Native count controls need Load selected FX → Update to rebuild.</p></div><div class="inspector-actions"><button id="apply" class="primary" data-host>Apply / Update</button><button id="update" data-host>Update</button></div></aside>
 </div>
 <footer><div class="status-line"><span id="status">Connecting to After Effects…</span><button id="show-history">History</button></div><div id="notice" role="status" aria-live="polite"><b id="notice-icon"></b><span id="notice-text"></span></div></footer>
 <script>
@@ -1411,7 +1411,7 @@ lucide.createIcons({icons});\``);if(typeof document>"u")throw new Error("`create
 
 </script><script>
 window.MA_PRESETS = {
-  "version": "2.8.8",
+  "version": "2.8.9",
   "presets": [
     {
       "id": "counter",
@@ -6981,72 +6981,103 @@ document.addEventListener('visibilitychange',run);return {attach,play,clear,rend
 })();
 
 </script><script>
-/* MotionAstra CEP transport v2.8.8.
+/* MotionAstra CEP transport v2.8.9.
  * Host files load by absolute path; all replies are tagged and request-correlated.
  * Empty callbacks recover the stored reply, NEVER replay the host mutation.
  */
 (function (root) {
-  'use strict';
-  const VERSION = '2.8.8';
-  const BUILD = '2.8.8';
-  const PREFIX = 'MAFX1:';
-  const ERROR_PREFIX = 'MAFX1E:';
+  "use strict";
+  const VERSION = "2.8.9";
+  const BUILD = "2.8.9";
+  const PREFIX = "MAFX1:";
+  const ERROR_PREFIX = "MAFX1E:";
   const available = !!root.__adobe_cep__;
   let client = null;
   let ready = false;
+  let extensionPath = null;
   let serial = 0;
   let queue = Promise.resolve();
 
-  function error(message) { return new Error('MotionAstra: ' + message); }
+  function error(message) {
+    return new Error("MotionAstra: " + message);
+  }
   function decode(raw) {
-    if (typeof raw !== 'string' || !raw.trim() || /^(undefined|null)$/i.test(raw.trim())) {
-      throw error('AE returned an empty reply.');
+    if (
+      typeof raw !== "string" ||
+      !raw.trim() ||
+      /^(undefined|null)$/i.test(raw.trim())
+    ) {
+      throw error("AE returned an empty reply.");
     }
     if (raw.indexOf(ERROR_PREFIX) === 0) {
       throw error(decodeURIComponent(raw.slice(ERROR_PREFIX.length)));
     }
     if (raw.indexOf(PREFIX) !== 0) {
-      throw error('Invalid CEP reply: ' + raw.slice(0, 160));
+      throw error("Invalid CEP reply: " + raw.slice(0, 160));
     }
     let response;
-    try { response = JSON.parse(decodeURIComponent(raw.slice(PREFIX.length))); }
-    catch (_) { throw error('AE returned a damaged reply. Restart AE and reopen this panel.'); }
-    if (!response || typeof response !== 'object' || typeof response.ok !== 'boolean') {
-      throw error('AE returned an invalid response object.');
+    try {
+      response = JSON.parse(decodeURIComponent(raw.slice(PREFIX.length)));
+    } catch (_) {
+      throw error(
+        "AE returned a damaged reply. Restart AE and reopen this panel."
+      );
     }
-    if (!response.ok) throw error(response.message || 'Host operation failed.');
+    if (
+      !response ||
+      typeof response !== "object" ||
+      typeof response.ok !== "boolean"
+    ) {
+      throw error("AE returned an invalid response object.");
+    }
+    if (!response.ok) throw error(response.message || "Host operation failed.");
     return response;
   }
 
   function evaluate(source) {
     return new Promise((resolve, reject) => {
-      try { client.evalScript(source, resolve); }
-      catch (e) { reject(error('CEP could not evaluate the host script: ' + e.message)); }
+      try {
+        client.evalScript(source, resolve);
+      } catch (e) {
+        reject(error("CEP could not evaluate the host script: " + e.message));
+      }
     });
   }
 
   function wrap(body, requestId) {
     // The final return is deliberately OUTSIDE try/catch/finally for ExtendScript.
-    return '(function(){var wire;try{' + body +
+    return (
+      "(function(){var wire;try{" +
+      body +
       'if(typeof output!=="string"||!output.length)throw Error("Host dispatcher returned no response.");' +
       'wire="MAFX1:"+encodeURIComponent(output);' +
       '}catch(e){wire="MAFX1E:"+encodeURIComponent(String(e)+" (line "+e.line+")");}' +
-      '$.global.__MotionAstraLastReply={id:' + JSON.stringify(requestId) + ',wire:wire};' +
-      'return wire;}())';
+      "$.global.__MotionAstraLastReply={id:" +
+      JSON.stringify(requestId) +
+      ",wire:wire};" +
+      "return wire;}())"
+    );
   }
 
   async function send(body) {
-    const id = 'ma_' + Date.now() + '_' + (++serial);
+    const id = "ma_" + Date.now() + "_" + ++serial;
     let raw = await evaluate(wrap(body, id));
     // If CEP lost the completion value, read the reply already stored in the host.
     // A single queue keeps this slot from being overwritten by our status polling.
-    if (typeof raw !== 'string' || !raw.trim() || /^(undefined|null|EvalScript error\.)$/i.test(raw.trim())) {
+    if (
+      typeof raw !== "string" ||
+      !raw.trim() ||
+      /^(undefined|null|EvalScript error\.)$/i.test(raw.trim())
+    ) {
       const stored = await evaluate(
-        '(function(){var r=$.global.__MotionAstraLastReply;return r&&r.id===' +
-        JSON.stringify(id) + '?r.wire:"MAFX_MISSING_REPLY";}())'
+        "(function(){var r=$.global.__MotionAstraLastReply;return r&&r.id===" +
+          JSON.stringify(id) +
+          '?r.wire:"MAFX_MISSING_REPLY";}())'
       );
-      if (typeof stored !== 'string' || stored.indexOf('MAFX1') !== 0) {
-        throw error('No confirmed response from AE. The action was not retried. Check the timeline before applying again; restart AE if needed.');
+      if (typeof stored !== "string" || stored.indexOf("MAFX1") !== 0) {
+        throw error(
+          "No confirmed response from AE. The action was not retried. Check the timeline before applying again; restart AE if needed."
+        );
       }
       raw = stored;
     }
@@ -7055,50 +7086,131 @@ document.addEventListener('visibilitychange',run);return {attach,play,clear,rend
 
   async function initialize() {
     if (ready) return;
-    if (!available) throw error('Browser preview only. Open this panel inside After Effects.');
+    if (!available)
+      throw error(
+        "Browser preview only. Open this panel inside After Effects."
+      );
     if (!client) {
-      try { client = new root.CSInterface(); }
-      catch (e) { throw error('CEP initialization failed. Restart AE and reopen the panel. ' + e.message); }
+      try {
+        client = new root.CSInterface();
+      } catch (e) {
+        throw error(
+          "CEP initialization failed. Restart AE and reopen the panel. " +
+            e.message
+        );
+      }
     }
     let path;
-    try { path = client.getSystemPath(root.SystemPath.EXTENSION); }
-    catch (e) { throw error('Cannot resolve the installed extension folder: ' + e.message); }
-    if (typeof path !== 'string' || !path) throw error('The installed extension folder is empty.');
-    path = path.replace(/\\/g, '/').replace(/\/$/, '');
+    try {
+      path = client.getSystemPath(root.SystemPath.EXTENSION);
+    } catch (e) {
+      throw error(
+        "Cannot resolve the installed extension folder: " + e.message
+      );
+    }
+    if (typeof path !== "string" || !path)
+      throw error("The installed extension folder is empty.");
+    path = path.replace(/\\/g, "/").replace(/\/$/, "");
+    extensionPath = path;
     const version = JSON.stringify(VERSION);
     await send(
-      'var host=$.global.MotionAstra;' +
-      'if(!host||host.version!==' + version + '||host.build!==' + JSON.stringify(BUILD) + '||typeof host.dispatch!=="function"){' +
-      'var data=File(' + JSON.stringify(path + '/jsx/presets-data.jsx') + ');' +
-      'var yu=File(' + JSON.stringify(path + '/jsx/yu-text.jsx') + ');' +
-      'var fxTools=File(' + JSON.stringify(path + '/jsx/fx-tools.jsx') + ');' +
-      'var script=File(' + JSON.stringify(path + '/jsx/hostscript.jsx') + ');' +
-      'if(!data.exists)throw Error("Missing presets-data.jsx. Install the complete folder.");' +
-      'if(!yu.exists)throw Error("Missing yu-text.jsx. Install the complete folder.");' +
-      'if(!script.exists)throw Error("Missing host.jsx. Install the complete folder.");' +
-      'if(!fxTools.exists)throw Error("Missing fx-tools.jsx. Install the complete folder.");' +
-      '$.evalFile(data);$.evalFile(yu);$.evalFile(fxTools);$.evalFile(script);host=$.global.MotionAstra;' +
-      'if(!host||host.version!==' + version + '||host.build!==' + JSON.stringify(BUILD) + '||typeof host.dispatch!=="function")' +
-      'throw Error("Host initialization failed or an old host is still installed.");}' +
-      'var output=host.dispatch(' + JSON.stringify(encodeURIComponent('{"action":"status"}')) + ');'
+      "var host=$.global.MotionAstra;" +
+        "if(!host||host.version!==" +
+        version +
+        "||host.build!==" +
+        JSON.stringify(BUILD) +
+        '||typeof host.dispatch!=="function"){' +
+        "var data=File(" +
+        JSON.stringify(path + "/jsx/presets-data.jsx") +
+        ");" +
+        "var script=File(" +
+        JSON.stringify(path + "/jsx/hostscript.jsx") +
+        ");" +
+        'if(!data.exists)throw Error("Missing presets-data.jsx. Install the complete folder.");' +
+        'if(!script.exists)throw Error("Missing host.jsx. Install the complete folder.");' +
+        "$.evalFile(data);$.evalFile(script);host=$.global.MotionAstra;" +
+        "if(!host||host.version!==" +
+        version +
+        "||host.build!==" +
+        JSON.stringify(BUILD) +
+        '||typeof host.dispatch!=="function")' +
+        'throw Error("Host initialization failed or an old host is still installed.");}' +
+        "var output=host.dispatch(" +
+        JSON.stringify(encodeURIComponent('{"action":"status"}')) +
+        ");"
     );
     ready = true;
+  }
+
+  async function ensureModule(payload) {
+    const modules = {
+      yuText: { file: "yu-text.jsx", label: "YU Txt Motion" },
+      fxTools: { file: "fx-tools.jsx", label: "FXTools" }
+    };
+    const module = modules[payload.action];
+    if (!module) return;
+    const key = JSON.stringify(payload.action);
+    const expected = JSON.stringify(BUILD);
+    await send(
+      "var registry=$.global.MotionAstraModules||{};var module=registry[" +
+        key +
+        "];" +
+        "if(!module||module.build!==" +
+        expected +
+        '||typeof module.run!=="function"){' +
+        "var file=File(" +
+        JSON.stringify(extensionPath + "/jsx/" + module.file) +
+        ");" +
+        "if(!file.exists)throw Error(" +
+        JSON.stringify(
+          module.label +
+            " unavailable: Missing " +
+            module.file +
+            ". Reinstall the complete package."
+        ) +
+        ");" +
+        "$.evalFile(file);registry=$.global.MotionAstraModules||{};module=registry[" +
+        key +
+        "];" +
+        "if(!module||module.build!==" +
+        expected +
+        '||typeof module.run!=="function")throw Error(' +
+        JSON.stringify(
+          module.label + " failed to register. Reinstall the complete package."
+        ) +
+        ");}" +
+        "var output=" +
+        JSON.stringify('{"ok":true}') +
+        ";"
+    );
   }
 
   function call(payload) {
     // Every call, including selection polling, shares this queue.
     const task = queue.then(async () => {
       await initialize();
-      const argument = JSON.stringify(encodeURIComponent(JSON.stringify(payload)));
-      return send('if(!$.global.MotionAstra)throw Error("Host is not loaded. Restart the panel.");' +
-        'var output=$.global.MotionAstra.dispatch(' + argument + ');');
+      await ensureModule(payload);
+      const argument = JSON.stringify(
+        encodeURIComponent(JSON.stringify(payload))
+      );
+      return send(
+        'if(!$.global.MotionAstra)throw Error("Host is not loaded. Restart the panel.");' +
+          "var output=$.global.MotionAstra.dispatch(" +
+          argument +
+          ");"
+      );
     });
     queue = task.catch(() => {});
     return task;
   }
 
-  root.MotionAstraBridge = { call, isAvailable: () => available, isReady: () => ready, version: VERSION };
-}(window));
+  root.MotionAstraBridge = {
+    call,
+    isAvailable: () => available,
+    isReady: () => ready,
+    version: VERSION
+  };
+})(window);
 
 </script><script>
 /* Yu Text Motion 1.0 beta. Original procedural presets. ES3 compatible. */
@@ -7356,46 +7468,348 @@ var YTMCore = (function () {
 
 </script><script>
 /* YU Txt Motion browser integration. Motion engine © 2026 Yu Graphic, MIT. */
-window.MotionAstraYUUI=(()=>{
-'use strict';
-const $=id=>document.getElementById(id),core=window.YTMCore;
-let api,preset=core.presets[0],target=null,frame=0,visible=false,busy=false,activeCanvas=null;
-const fields={mode:['IN','OUT','BOTH'],group:['chars','charsNoSpaces','words','lines','all'],order:['forward','reverse','center','edges','random','together'],easing:['preset','smooth','cubic','quint','expo','back','bounce','elastic','linear','step','steps'],placement:['edges','playhead']};
-const labels={chars:'Characters',charsNoSpaces:'Characters · no spaces',words:'Words',lines:'Lines',all:'Whole text',edges:'Layer edges',playhead:'Playhead',BOTH:'IN + OUT'};
-function node(tag,cls,text){const e=document.createElement(tag);e.className=cls||'';if(text!==undefined)e.textContent=text;return e;}
-function defaults(p){return {mode:'IN',duration:p.duration,stagger:p.stagger,intensity:100,seed:1,group:p.group,order:p.order,easing:'preset',placement:'edges'};}
-function values(){const o={};Object.keys(fields).concat(['duration','stagger','intensity','seed']).forEach(k=>{const e=$('yu-'+k);o[k]=e.type==='number'?Number(e.value):e.value;});return o;}
-function valid(){return Array.from($('yu-controls').querySelectorAll('input,select')).every(e=>e.checkValidity()&&e.value!=='');}
-function sync(){['yu-apply','yu-update','yu-clear','yu-load'].forEach(id=>$(id).disabled=busy||!api.ready()||(id==='yu-update'&&!target)||(['yu-apply','yu-update'].includes(id)&&!valid()));$('yu-back').disabled=busy;$('yu-controls').querySelectorAll('input,select').forEach(e=>e.disabled=busy);}
-function stop(){cancelAnimationFrame(frame);frame=0;activeCanvas=null;}
-// Uses the author's exact sample/timing functions. Canvas typography is illustrative;
-// AE's native character/word/line selectors determine final glyph layout.
-function draw(canvas,p,o,t){
- const ctx=canvas.getContext('2d'),w=canvas.width,h=canvas.height;ctx.clearRect(0,0,w,h);ctx.fillStyle='#0b0b0d';ctx.fillRect(0,0,w,h);
- const groups=o.group==='all'?['YU MOTION']:o.group==='words'?['YU','MOTION']:o.group==='lines'?['YU','MOTION']:Array.from('YU MOTION');
- const size=o.group==='all'?36:40;ctx.font='600 '+size+'px Arial';const widths=groups.map(s=>ctx.measureText(s).width),gap=o.group==='words'?12:3,total=widths.reduce((a,b)=>a+b,0)+(groups.length-1)*gap;
- let x=(w-total)/2;
- groups.forEach((text,i)=>{const n=groups.length,span=o.duration+o.stagger*core.rankSpan(n,o.order),phase=o.mode==='OUT'?'OUT':o.mode==='BOTH'&&t>span+.7?'OUT':'IN',start=phase==='OUT'&&o.mode==='BOTH'?span+.7:0;
- const u=core.timing(t,start,o.duration,o.stagger,i,n,o.order,o.seed,phase,null),v=core.sample(p,u,i,n,o.seed,o.intensity,o.easing==='preset'?p.ease:o.easing);
- ctx.save();ctx.translate(o.group==='lines'?w/2:x+widths[i]/2,o.group==='lines'?h/2-24+i*48:h/2);ctx.translate(v.x,v.y);ctx.rotate(v.rotation*Math.PI/180);ctx.transform(1,0,Math.tan(v.skew*Math.PI/180),1,0,0);ctx.scale(v.sx/100,v.sy/100);ctx.globalAlpha=v.opacity;ctx.filter=v.blur?'blur('+v.blur+'px)':'none';ctx.fillStyle='#ff943f';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(text,0,0);ctx.restore();x+=widths[i]+gap;});
-}
-function play(canvas,p,o){stop();activeCanvas=canvas;const started=performance.now(),length=o.duration+o.stagger*core.rankSpan(9,o.order),end=o.mode==='BOTH'?length*2+1.2:length+.6;
- function tick(now){if(!visible||busy||document.hidden||document.body.classList.contains('reduced')){draw(canvas,p,o,o.mode==='OUT'?0:length);stop();return;}const t=(now-started)/1000;draw(canvas,p,o,Math.min(t,end));if(t<end)frame=requestAnimationFrame(tick);else stop();}frame=requestAnimationFrame(tick);
-}
-function render(){stop();$('yu-cards').textContent='';const q=$('yu-search').value.toLowerCase().trim(),cat=$('yu-category').value,list=core.presets.filter(p=>(cat==='All'||p.category===cat)&&(`${p.name} ${p.category}`).toLowerCase().includes(q));$('yu-count').textContent=list.length+' presets';
- list.forEach(p=>{const card=node('article','yu-card'),canvas=node('canvas'),title=node('h2','',p.name),tag=node('span','eyebrow',p.category),button=node('button','yu-customize', 'Customize');canvas.width=440;canvas.height=220;canvas.setAttribute('aria-label',p.name+' preview');const o=defaults(p);draw(canvas,p,o,o.duration+o.stagger*10);button.onclick=()=>{if(!busy)open(p);};const applyButton=node('button','primary yu-card-apply','Apply YU');applyButton.dataset.host='';applyButton.disabled=busy||!api.ready();applyButton.onclick=()=>api.action({action:'yuText',operation:'apply',id:p.id,options:o});card.append(canvas,tag,title,button,applyButton);card.onmouseenter=()=>play(canvas,p,o);card.onmouseleave=()=>{if(activeCanvas===canvas){stop();draw(canvas,p,o,o.duration+o.stagger*10);}};button.onfocus=()=>play(canvas,p,o);$('yu-cards').appendChild(card);});if(!list.length)$('yu-cards').appendChild(node('p','','No matching presets.'));}
-function open(p,o,loaded){stop();preset=p;target=loaded?loaded.target:null;$('yu-browser').hidden=true;$('yu-editor').hidden=false;$('yu-title').textContent=p.name;$('yu-target').textContent=loaded?'Loaded: '+loaded.layerName:'Select text layers in AE. Apply replaces only the chosen YU phase.';o=o||defaults(p);Object.keys(o).forEach(k=>{if($('yu-'+k))$('yu-'+k).value=o[k];});sync();play($('yu-preview'),p,values());}
-async function load(){const r=await api.action({action:'yuText',operation:'load',phase:$('yu-mode').value==='OUT'?'OUT':'IN'});if(r&&r.id)open(core.presets[r.id-1],r.options,r);}
-async function apply(update){if(!valid())return;const r=await api.action({action:'yuText',operation:'apply',id:preset.id,options:values(),target:update?target:null});if(r&&r.changed&&update)await load();}
-function init(adapter){api=adapter;
- Object.keys(fields).forEach(k=>fields[k].forEach(v=>{const e=node('option','',k==='order'&&v==='edges'?'Edges first':labels[v]||v);e.value=v;$('yu-'+k).appendChild(e);}));
- ['All',...new Set(core.presets.map(p=>p.category))].forEach(v=>{const e=node('option','',v);e.value=v;$('yu-category').appendChild(e);});
- $('yu-search').oninput=render;$('yu-category').onchange=render;$('yu-back').onclick=()=>{stop();$('yu-editor').hidden=true;$('yu-browser').hidden=false;};
- $('yu-load').onclick=load;$('yu-apply').onclick=()=>apply(false);$('yu-update').onclick=()=>apply(true);$('yu-clear').onclick=async()=>{const r=await api.action({action:'yuText',operation:'clear'});if(r&&r.changed){target=null;sync();}};
- $('yu-replay').onclick=()=>{if(valid())play($('yu-preview'),preset,values());};$('yu-controls').oninput=()=>{sync();if(valid())play($('yu-preview'),preset,values());};
- Object.keys(defaults(preset)).forEach(k=>$('yu-'+k).value=defaults(preset)[k]);render();sync();document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
-}
-return {init,setVisible(on){visible=on;if(!on)stop();},setBusy(on){busy=on;if(on)stop();if(api)sync();}};
+window.MotionAstraYUUI = (() => {
+  "use strict";
+  const $ = (id) => document.getElementById(id),
+    core = window.YTMCore;
+  let api,
+    preset = core.presets[0],
+    target = null,
+    frame = 0,
+    visible = false,
+    busy = false,
+    activeCanvas = null;
+  const fields = {
+    mode: ["IN", "OUT", "BOTH"],
+    group: ["chars", "charsNoSpaces", "words", "lines", "all"],
+    order: ["forward", "reverse", "center", "edges", "random", "together"],
+    easing: [
+      "preset",
+      "smooth",
+      "cubic",
+      "quint",
+      "expo",
+      "back",
+      "bounce",
+      "elastic",
+      "linear",
+      "step",
+      "steps"
+    ],
+    placement: ["edges", "playhead"]
+  };
+  const labels = {
+    chars: "Characters",
+    charsNoSpaces: "Characters · no spaces",
+    words: "Words",
+    lines: "Lines",
+    all: "Whole text",
+    edges: "Layer edges",
+    playhead: "Playhead",
+    BOTH: "IN + OUT"
+  };
+  function node(tag, cls, text) {
+    const e = document.createElement(tag);
+    e.className = cls || "";
+    if (text !== undefined) e.textContent = text;
+    return e;
+  }
+  function defaults(p) {
+    return {
+      mode: "IN",
+      duration: p.duration,
+      stagger: p.stagger,
+      intensity: 100,
+      seed: 1,
+      group: p.group,
+      order: p.order,
+      easing: "preset",
+      placement: "edges"
+    };
+  }
+  function values() {
+    const o = {};
+    Object.keys(fields)
+      .concat(["duration", "stagger", "intensity", "seed"])
+      .forEach((k) => {
+        const e = $("yu-" + k);
+        o[k] = e.type === "number" ? Number(e.value) : e.value;
+      });
+    return o;
+  }
+  function valid() {
+    return Array.from($("yu-controls").querySelectorAll("input,select")).every(
+      (e) => e.checkValidity() && e.value !== ""
+    );
+  }
+  function sync() {
+    $("yu-apply").hidden = !!target;
+    ["yu-apply", "yu-update", "yu-clear", "yu-load"].forEach(
+      (id) =>
+        ($(id).disabled =
+          busy ||
+          !api.ready() ||
+          (id === "yu-update" && !target) ||
+          (["yu-apply", "yu-update"].includes(id) && !valid()))
+    );
+    $("yu-back").disabled = busy;
+    $("yu-controls")
+      .querySelectorAll("input,select")
+      .forEach((e) => (e.disabled = busy));
+  }
+  function stop() {
+    cancelAnimationFrame(frame);
+    frame = 0;
+    activeCanvas = null;
+  }
+  // Uses the author's exact sample/timing functions. Canvas typography is illustrative;
+  // AE's native character/word/line selectors determine final glyph layout.
+  function draw(canvas, p, o, t) {
+    const ctx = canvas.getContext("2d"),
+      w = canvas.width,
+      h = canvas.height;
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = "#0b0b0d";
+    ctx.fillRect(0, 0, w, h);
+    const groups =
+      o.group === "all"
+        ? ["YU MOTION"]
+        : o.group === "words"
+          ? ["YU", "MOTION"]
+          : o.group === "lines"
+            ? ["YU", "MOTION"]
+            : Array.from("YU MOTION");
+    const size = o.group === "all" ? 36 : 40;
+    ctx.font = "600 " + size + "px Arial";
+    const widths = groups.map((s) => ctx.measureText(s).width),
+      gap = o.group === "words" ? 12 : 3,
+      total = widths.reduce((a, b) => a + b, 0) + (groups.length - 1) * gap;
+    let x = (w - total) / 2;
+    groups.forEach((text, i) => {
+      const n = groups.length,
+        span = o.duration + o.stagger * core.rankSpan(n, o.order),
+        phase =
+          o.mode === "OUT"
+            ? "OUT"
+            : o.mode === "BOTH" && t > span + 0.7
+              ? "OUT"
+              : "IN",
+        start = phase === "OUT" && o.mode === "BOTH" ? span + 0.7 : 0;
+      const u = core.timing(
+          t,
+          start,
+          o.duration,
+          o.stagger,
+          i,
+          n,
+          o.order,
+          o.seed,
+          phase,
+          null
+        ),
+        v = core.sample(
+          p,
+          u,
+          i,
+          n,
+          o.seed,
+          o.intensity,
+          o.easing === "preset" ? p.ease : o.easing
+        );
+      ctx.save();
+      ctx.translate(
+        o.group === "lines" ? w / 2 : x + widths[i] / 2,
+        o.group === "lines" ? h / 2 - 24 + i * 48 : h / 2
+      );
+      ctx.translate(v.x, v.y);
+      ctx.rotate((v.rotation * Math.PI) / 180);
+      ctx.transform(1, 0, Math.tan((v.skew * Math.PI) / 180), 1, 0, 0);
+      ctx.scale(v.sx / 100, v.sy / 100);
+      ctx.globalAlpha = v.opacity;
+      ctx.filter = v.blur ? "blur(" + v.blur + "px)" : "none";
+      ctx.fillStyle = "#ff943f";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(text, 0, 0);
+      ctx.restore();
+      x += widths[i] + gap;
+    });
+  }
+  function play(canvas, p, o) {
+    stop();
+    activeCanvas = canvas;
+    const started = performance.now(),
+      length = o.duration + o.stagger * core.rankSpan(9, o.order),
+      end = o.mode === "BOTH" ? length * 2 + 1.2 : length + 0.6;
+    function tick(now) {
+      if (
+        !visible ||
+        busy ||
+        document.hidden ||
+        document.body.classList.contains("reduced")
+      ) {
+        draw(canvas, p, o, o.mode === "OUT" ? 0 : length);
+        stop();
+        return;
+      }
+      const t = (now - started) / 1000;
+      draw(canvas, p, o, Math.min(t, end));
+      if (t < end) frame = requestAnimationFrame(tick);
+      else stop();
+    }
+    frame = requestAnimationFrame(tick);
+  }
+  function render() {
+    stop();
+    $("yu-cards").textContent = "";
+    const q = $("yu-search").value.toLowerCase().trim(),
+      cat = $("yu-category").value,
+      list = core.presets.filter(
+        (p) =>
+          (cat === "All" || p.category === cat) &&
+          `${p.name} ${p.category}`.toLowerCase().includes(q)
+      );
+    $("yu-count").textContent = list.length + " presets";
+    list.forEach((p) => {
+      const card = node("article", "yu-card"),
+        canvas = node("canvas"),
+        title = node("h2", "", p.name),
+        tag = node("span", "eyebrow", p.category),
+        button = node("button", "yu-customize", "Customize");
+      canvas.width = 440;
+      canvas.height = 220;
+      canvas.setAttribute("aria-label", p.name + " preview");
+      const o = defaults(p);
+      draw(canvas, p, o, o.duration + o.stagger * 10);
+      button.onclick = () => {
+        if (!busy) open(p);
+      };
+      const applyButton = node("button", "primary yu-card-apply", "Apply YU");
+      applyButton.dataset.host = "";
+      applyButton.disabled = busy || !api.ready();
+      applyButton.onclick = () =>
+        api.action({
+          action: "yuText",
+          operation: "apply",
+          id: p.id,
+          options: o
+        });
+      card.append(canvas, tag, title, button, applyButton);
+      card.onmouseenter = () => play(canvas, p, o);
+      card.onmouseleave = () => {
+        if (activeCanvas === canvas) {
+          stop();
+          draw(canvas, p, o, o.duration + o.stagger * 10);
+        }
+      };
+      button.onfocus = () => play(canvas, p, o);
+      $("yu-cards").appendChild(card);
+    });
+    if (!list.length)
+      $("yu-cards").appendChild(node("p", "", "No matching presets."));
+  }
+  function open(p, o, loaded) {
+    stop();
+    preset = p;
+    target = loaded ? loaded.target : null;
+    $("yu-apply").hidden = !!loaded;
+    $("yu-update").textContent = loaded ? "Save changes" : "Update loaded FX";
+    $("yu-browser").hidden = true;
+    $("yu-editor").hidden = false;
+    $("yu-title").textContent = p.name;
+    $("yu-target").textContent = loaded
+      ? "Loaded: " + loaded.layerName
+      : "Select text layers in AE. Apply replaces only the chosen YU phase.";
+    o = o || defaults(p);
+    Object.keys(o).forEach((k) => {
+      if ($("yu-" + k)) $("yu-" + k).value = o[k];
+    });
+    sync();
+    play($("yu-preview"), p, values());
+  }
+  async function load() {
+    const r = await api.action({
+      action: "yuText",
+      operation: "load",
+      phase: $("yu-mode").value === "OUT" ? "OUT" : "IN"
+    });
+    if (r && r.id) open(core.presets[r.id - 1], r.options, r);
+  }
+  async function apply(update) {
+    if (!valid()) return;
+    const r = await api.action({
+      action: "yuText",
+      operation: "apply",
+      id: preset.id,
+      options: values(),
+      target: update ? target : null
+    });
+    if (r && r.changed && update) await load();
+  }
+  function init(adapter) {
+    api = adapter;
+    Object.keys(fields).forEach((k) =>
+      fields[k].forEach((v) => {
+        const e = node(
+          "option",
+          "",
+          k === "order" && v === "edges" ? "Edges first" : labels[v] || v
+        );
+        e.value = v;
+        $("yu-" + k).appendChild(e);
+      })
+    );
+    ["All", ...new Set(core.presets.map((p) => p.category))].forEach((v) => {
+      const e = node("option", "", v);
+      e.value = v;
+      $("yu-category").appendChild(e);
+    });
+    $("yu-search").oninput = render;
+    $("yu-category").onchange = render;
+    $("yu-back").onclick = () => {
+      stop();
+      $("yu-editor").hidden = true;
+      $("yu-browser").hidden = false;
+    };
+    $("yu-load").onclick = load;
+    $("yu-apply").onclick = () => apply(false);
+    $("yu-update").onclick = () => apply(true);
+    $("yu-clear").onclick = async () => {
+      const r = await api.action({ action: "yuText", operation: "clear" });
+      if (r && r.changed) {
+        target = null;
+        sync();
+      }
+    };
+    $("yu-replay").onclick = () => {
+      if (valid()) play($("yu-preview"), preset, values());
+    };
+    $("yu-controls").oninput = () => {
+      sync();
+      if (valid()) play($("yu-preview"), preset, values());
+    };
+    Object.keys(defaults(preset)).forEach(
+      (k) => ($("yu-" + k).value = defaults(preset)[k])
+    );
+    render();
+    sync();
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) stop();
+    });
+  }
+  return {
+    init,
+    load,
+    setVisible(on) {
+      visible = on;
+      if (!on) stop();
+    },
+    setBusy(on) {
+      busy = on;
+      if (on) stop();
+      if (api) sync();
+    }
+  };
 })();
 
 </script><script>
@@ -7437,87 +7851,1012 @@ window.MA_FXTOOLS={"effects":[{"id":"prism","name":"Prism Gradient","tag":"COLOR
 
 </script><script>
 /* Registry-driven FXTools editor. Adding an entry requires an AE adapter, not a new UI. */
-window.MotionAstraFXToolsUI=(()=>{
-'use strict';const $=id=>document.getElementById(id),data=window.MA_FXTOOLS;
-let api,current=data.effects[0],target=null,values={},drafts={},busy=false,visible=false,raf=0;
-function el(tag,cls,text){const e=document.createElement(tag);e.className=cls||'';if(text!==undefined)e.textContent=text;return e;}
-function defaults(r){const p={};r.parameters.forEach(d=>p[d.id]=d.default);return p;}
-function valid(){return Array.from($('ft-parameters').querySelectorAll('input')).every(e=>e.type==='checkbox'||e.checkValidity()&&e.value!=='');}
-function sync(){if(!api)return;for(const id of ['ft-apply','ft-update','ft-load','ft-remove'])$(id).disabled=busy||!api.ready()||(['ft-apply','ft-update'].includes(id)&&!valid())||(id==='ft-update'&&!target);$('ft-parameters').querySelectorAll('input').forEach(e=>e.disabled=busy);$('ft-palettes').querySelectorAll('button').forEach(e=>e.disabled=busy);$('ft-back').disabled=busy;}
-function stop(){cancelAnimationFrame(raf);raf=0;}
-function draw(canvas,r,p,t=0){const c=canvas.getContext('2d'),w=canvas.width,h=canvas.height;c.clearRect(0,0,w,h);c.fillStyle='#09090c';c.fillRect(0,0,w,h);c.textAlign='center';c.textBaseline='middle';c.font='800 '+Math.floor(w*.19)+'px Arial';
- if(r.id==='prism'){const a=(p.angle+(p.animate?t*360/p.duration:0))*Math.PI/180,x=w*p.centerX/100,y=h*p.centerY/100,d=w*p.spread/200,g=p.radial?c.createRadialGradient(x,y,0,x,y,d):c.createLinearGradient(x-Math.cos(a)*d,y-Math.sin(a)*d,x+Math.cos(a)*d,y+Math.sin(a)*d);g.addColorStop(0,p.colorA);g.addColorStop(1,p.colorB);c.fillStyle=g;c.shadowColor=p.colorA;c.shadowBlur=p.radius*.15*p.glow;c.filter=p.diffusion?'blur('+p.diffusion*.12+'px)':'none';c.fillText('ASTRA',w/2,h/2);c.filter='none';c.shadowBlur=0;}
- else{c.strokeStyle=p.tint?p.color:'#ffb177';c.lineWidth=3;c.shadowColor=c.strokeStyle;[p.radius*p.spread*.5,p.radius*.5,0].forEach((b,i)=>{c.shadowBlur=b;c.globalAlpha=Math.min(1,p.intensity*(i===0?p.falloff:1));c.strokeRect(w*.2,h*.3,w*.6,h*.4);});c.globalAlpha=1;c.shadowBlur=0;}
- c.fillStyle='#8a8a94';c.font='10px Arial';c.fillText('Illustrative preview',w/2,h-15);
-}
-function preview(){stop();if(!current||!valid())return;draw($('ft-preview'),current,values);if(!visible||busy||!values.animate||document.body.classList.contains('reduced'))return;const start=performance.now();function tick(now){if(!visible||busy||document.hidden){stop();return;}draw($('ft-preview'),current,values,(now-start)/1000);if(now-start<4000)raf=requestAnimationFrame(tick);}raf=requestAnimationFrame(tick);}
-function renderParameters(){const groups={};$('ft-parameters').textContent='';current.parameters.forEach(d=>{if(!groups[d.group]){const g=el('details','ft-group');g.open=true;g.appendChild(el('summary','',d.group));groups[d.group]=g;$('ft-parameters').appendChild(g);}const label=el('label','ft-field',d.label),input=el('input');input.id='ft-param-'+d.id;input.type=d.type;input.required=d.type!=='checkbox';if(d.type==='number'){input.min=d.min;input.max=d.max;input.step=d.step;}if(d.type==='checkbox')input.checked=values[d.id];else input.value=values[d.id];input.oninput=()=>{if(input.checkValidity()&&(input.type==='checkbox'||input.value!=='')){values[d.id]=d.type==='checkbox'?input.checked:d.type==='number'?Number(input.value):input.value;drafts[current.id]=values;preview();}sync();};label.appendChild(input);groups[d.group].appendChild(label);});sync();}
-function open(r,p,loaded){if(busy)return;current=r;values=Object.assign({},p||drafts[r.id]||defaults(r));target=loaded?loaded.target:null;$('ft-library').hidden=true;$('ft-editor').hidden=false;$('ft-title').textContent=r.name;$('ft-description').textContent=r.description;$('ft-reference').textContent=r.reference;$('ft-target').textContent=loaded?'Loaded: '+loaded.layerName:'Select visual layers in AE. Apply adds or updates this effect without creating layers.';$('ft-palettes').hidden=r.id!=='prism';renderParameters();$('ft-scroll').scrollTop=0;preview();}
-async function load(){const r=await api.action({action:'fxTools',operation:'load',id:current.id});if(r&&r.params)open(current,r.params,r);}
-async function apply(update){if(!valid())return;const r=await api.action({action:'fxTools',operation:update?'update':'apply',id:current.id,params:values,target:update?target:null});if(r&&r.changed&&update)load();}
-function init(adapter){api=adapter;data.effects.forEach(r=>{const card=el('article','ft-card'),canvas=el('canvas');canvas.width=440;canvas.height=240;draw(canvas,r,defaults(r));const content=el('div','ft-card-content'),custom=el('button','','Customize'),applyButton=el('button','primary','Apply '+r.name);applyButton.dataset.host='';custom.onclick=()=>open(r);applyButton.onclick=()=>api.action({action:'fxTools',operation:'apply',id:r.id,params:drafts[r.id]||defaults(r)});content.append(el('span','eyebrow',r.tag),el('h2','',r.name),el('p','',r.description),custom,applyButton);card.append(canvas,content);$('ft-cards').appendChild(card);});
- [['Violet Ember','#8257ff','#ff934a'],['Ocean Mint','#145bff','#6affbc'],['Rose Gold','#e04486','#ffe29b'],['Polar','#64dfff','#d7c8ff']].forEach(([name,a,b])=>{const button=el('button','',name);button.onclick=()=>{if(busy)return;values.colorA=a;values.colorB=b;drafts[current.id]=values;renderParameters();preview();};$('ft-palettes').appendChild(button);});
- $('ft-back').onclick=()=>{stop();$('ft-editor').hidden=true;$('ft-library').hidden=false;};$('ft-load').onclick=load;$('ft-apply').onclick=()=>apply(false);$('ft-update').onclick=()=>apply(true);$('ft-replay').onclick=preview;$('ft-remove').onclick=async()=>{const r=await api.action({action:'fxTools',operation:'remove',id:current.id,target:target});if(r&&r.changed){target=null;sync();}};document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});sync();
-}
-return {init,setBusy(on){busy=on;if(on)stop();sync();},setVisible(on){visible=on;if(!on)stop();}};
+window.MotionAstraFXToolsUI = (() => {
+  "use strict";
+  const $ = (id) => document.getElementById(id),
+    data = window.MA_FXTOOLS;
+  let api,
+    current = data.effects[0],
+    target = null,
+    values = {},
+    drafts = {},
+    busy = false,
+    visible = false,
+    raf = 0;
+  function el(tag, cls, text) {
+    const e = document.createElement(tag);
+    e.className = cls || "";
+    if (text !== undefined) e.textContent = text;
+    return e;
+  }
+  function defaults(r) {
+    const p = {};
+    r.parameters.forEach((d) => (p[d.id] = d.default));
+    return p;
+  }
+  function valid() {
+    return Array.from($("ft-parameters").querySelectorAll("input")).every(
+      (e) => e.type === "checkbox" || (e.checkValidity() && e.value !== "")
+    );
+  }
+  function sync() {
+    $("ft-apply").hidden = !!target;
+    if (!api) return;
+    for (const id of ["ft-apply", "ft-update", "ft-load", "ft-remove"])
+      $(id).disabled =
+        busy ||
+        !api.ready() ||
+        (["ft-apply", "ft-update"].includes(id) && !valid()) ||
+        (id === "ft-update" && !target);
+    $("ft-parameters")
+      .querySelectorAll("input")
+      .forEach((e) => (e.disabled = busy));
+    $("ft-palettes")
+      .querySelectorAll("button")
+      .forEach((e) => (e.disabled = busy));
+    $("ft-back").disabled = busy;
+  }
+  function stop() {
+    cancelAnimationFrame(raf);
+    raf = 0;
+  }
+  function draw(canvas, r, p, t = 0) {
+    const c = canvas.getContext("2d"),
+      w = canvas.width,
+      h = canvas.height;
+    c.clearRect(0, 0, w, h);
+    c.fillStyle = "#09090c";
+    c.fillRect(0, 0, w, h);
+    c.textAlign = "center";
+    c.textBaseline = "middle";
+    c.font = "800 " + Math.floor(w * 0.19) + "px Arial";
+    if (r.id === "prism") {
+      const a =
+          ((p.angle + (p.animate ? (t * 360) / p.duration : 0)) * Math.PI) /
+          180,
+        x = (w * p.centerX) / 100,
+        y = (h * p.centerY) / 100,
+        d = (w * p.spread) / 200,
+        g = p.radial
+          ? c.createRadialGradient(x, y, 0, x, y, d)
+          : c.createLinearGradient(
+              x - Math.cos(a) * d,
+              y - Math.sin(a) * d,
+              x + Math.cos(a) * d,
+              y + Math.sin(a) * d
+            );
+      g.addColorStop(0, p.colorA);
+      g.addColorStop(1, p.colorB);
+      c.fillStyle = g;
+      c.shadowColor = p.colorA;
+      c.shadowBlur = p.radius * 0.15 * p.glow;
+      c.filter = p.diffusion ? "blur(" + p.diffusion * 0.12 + "px)" : "none";
+      c.fillText("ASTRA", w / 2, h / 2);
+      c.filter = "none";
+      c.shadowBlur = 0;
+    } else {
+      c.strokeStyle = p.tint ? p.color : "#ffb177";
+      c.lineWidth = 3;
+      c.shadowColor = c.strokeStyle;
+      [p.radius * p.spread * 0.5, p.radius * 0.5, 0].forEach((b, i) => {
+        c.shadowBlur = b;
+        c.globalAlpha = Math.min(1, p.intensity * (i === 0 ? p.falloff : 1));
+        c.strokeRect(w * 0.2, h * 0.3, w * 0.6, h * 0.4);
+      });
+      c.globalAlpha = 1;
+      c.shadowBlur = 0;
+    }
+    c.fillStyle = "#8a8a94";
+    c.font = "10px Arial";
+    c.fillText("Illustrative preview", w / 2, h - 15);
+  }
+  function preview() {
+    stop();
+    if (!current || !valid()) return;
+    draw($("ft-preview"), current, values);
+    if (
+      !visible ||
+      busy ||
+      !values.animate ||
+      document.body.classList.contains("reduced")
+    )
+      return;
+    const start = performance.now();
+    function tick(now) {
+      if (!visible || busy || document.hidden) {
+        stop();
+        return;
+      }
+      draw($("ft-preview"), current, values, (now - start) / 1000);
+      if (now - start < 4000) raf = requestAnimationFrame(tick);
+    }
+    raf = requestAnimationFrame(tick);
+  }
+  function renderParameters() {
+    const groups = {};
+    $("ft-parameters").textContent = "";
+    current.parameters.forEach((d) => {
+      if (!groups[d.group]) {
+        const g = el("details", "ft-group");
+        g.open = true;
+        g.appendChild(el("summary", "", d.group));
+        groups[d.group] = g;
+        $("ft-parameters").appendChild(g);
+      }
+      const label = el("label", "ft-field", d.label),
+        input = el("input");
+      input.id = "ft-param-" + d.id;
+      input.type = d.type;
+      input.required = d.type !== "checkbox";
+      if (d.type === "number") {
+        input.min = d.min;
+        input.max = d.max;
+        input.step = d.step;
+      }
+      if (d.type === "checkbox") input.checked = values[d.id];
+      else input.value = values[d.id];
+      input.oninput = () => {
+        if (
+          input.checkValidity() &&
+          (input.type === "checkbox" || input.value !== "")
+        ) {
+          values[d.id] =
+            d.type === "checkbox"
+              ? input.checked
+              : d.type === "number"
+                ? Number(input.value)
+                : input.value;
+          drafts[current.id] = values;
+          preview();
+        }
+        sync();
+      };
+      label.appendChild(input);
+      groups[d.group].appendChild(label);
+    });
+    sync();
+  }
+  function open(r, p, loaded) {
+    if (busy) return;
+    current = r;
+    values = Object.assign({}, p || drafts[r.id] || defaults(r));
+    target = loaded ? loaded.target : null;
+    $("ft-apply").hidden = !!loaded;
+    $("ft-update").textContent = loaded ? "Save changes" : "Update loaded FX";
+    $("ft-library").hidden = true;
+    $("ft-editor").hidden = false;
+    $("ft-title").textContent = r.name;
+    $("ft-description").textContent = r.description;
+    $("ft-reference").textContent = r.reference;
+    $("ft-target").textContent = loaded
+      ? "Loaded: " + loaded.layerName
+      : "Select visual layers in AE. Apply adds or updates this effect without creating layers.";
+    $("ft-palettes").hidden = r.id !== "prism";
+    renderParameters();
+    $("ft-scroll").scrollTop = 0;
+    preview();
+  }
+  async function load() {
+    const r = await api.action({
+      action: "fxTools",
+      operation: "load",
+      id: current.id
+    });
+    if (r && r.params) open(current, r.params, r);
+  }
+  async function apply(update) {
+    if (!valid()) return;
+    const r = await api.action({
+      action: "fxTools",
+      operation: update ? "update" : "apply",
+      id: current.id,
+      params: values,
+      target: update ? target : null
+    });
+    if (r && r.changed && update) load();
+  }
+  function init(adapter) {
+    api = adapter;
+    data.effects.forEach((r) => {
+      const card = el("article", "ft-card"),
+        canvas = el("canvas");
+      canvas.width = 440;
+      canvas.height = 240;
+      draw(canvas, r, defaults(r));
+      const content = el("div", "ft-card-content"),
+        custom = el("button", "", "Customize"),
+        applyButton = el("button", "primary", "Apply " + r.name);
+      applyButton.dataset.host = "";
+      custom.onclick = () => open(r);
+      applyButton.onclick = () =>
+        api.action({
+          action: "fxTools",
+          operation: "apply",
+          id: r.id,
+          params: drafts[r.id] || defaults(r)
+        });
+      content.append(
+        el("span", "eyebrow", r.tag),
+        el("h2", "", r.name),
+        el("p", "", r.description),
+        custom,
+        applyButton
+      );
+      card.append(canvas, content);
+      $("ft-cards").appendChild(card);
+    });
+    [
+      ["Violet Ember", "#8257ff", "#ff934a"],
+      ["Ocean Mint", "#145bff", "#6affbc"],
+      ["Rose Gold", "#e04486", "#ffe29b"],
+      ["Polar", "#64dfff", "#d7c8ff"]
+    ].forEach(([name, a, b]) => {
+      const button = el("button", "", name);
+      button.onclick = () => {
+        if (busy) return;
+        values.colorA = a;
+        values.colorB = b;
+        drafts[current.id] = values;
+        renderParameters();
+        preview();
+      };
+      $("ft-palettes").appendChild(button);
+    });
+    $("ft-back").onclick = () => {
+      stop();
+      $("ft-editor").hidden = true;
+      $("ft-library").hidden = false;
+    };
+    $("ft-load").onclick = load;
+    $("ft-apply").onclick = () => apply(false);
+    $("ft-update").onclick = () => apply(true);
+    $("ft-replay").onclick = preview;
+    $("ft-remove").onclick = async () => {
+      const r = await api.action({
+        action: "fxTools",
+        operation: "remove",
+        id: current.id,
+        target: target
+      });
+      if (r && r.changed) {
+        target = null;
+        sync();
+      }
+    };
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) stop();
+    });
+    sync();
+  }
+  return {
+    init,
+    load,
+    setBusy(on) {
+      busy = on;
+      if (on) stop();
+      sync();
+    },
+    setVisible(on) {
+      visible = on;
+      if (!on) stop();
+    }
+  };
 })();
 
 </script><script>
 (() => {
-'use strict';
-const $=id=>document.getElementById(id),data=window.MA_PRESETS,bridge=window.MotionAstraBridge;
-const state={tab:'Text',preset:null,params:{},busy:false,query:'',drafts:{},draftInvalid:{},invalid:new Set(),target:null,loadedLayout:null,loadedProgress:null,dirty:false},history=[];
-const store={get(k){try{return localStorage.getItem(k);}catch(e){return null;}},set(k,v){try{localStorage.setItem(k,String(v));}catch(e){}}};let timer,pendingRemove=null;
-function icon(){if(window.lucide)lucide.createIcons();}
-function notice(message,level='info'){clearTimeout(timer);$('notice-text').textContent=message;$('notice-icon').textContent={info:'i',success:'✓',warning:'!',error:'×'}[level]||'i';$('notice').dataset.level=level;$('notice').classList.add('visible');timer=setTimeout(()=>$('notice').classList.remove('visible'),3500);history.unshift({message,level,time:new Date().toLocaleTimeString()});history.splice(30);$('history').textContent='';history.forEach(item=>{const li=document.createElement('li');li.textContent=item.time+' · '+item.level+' · '+item.message;$('history').appendChild(li);});}
-function busy(value){state.busy=value;if(state.preset)state.draftInvalid[state.preset.id]=state.invalid.size>0;MotionPreview.suspend(value);document.querySelectorAll('[data-host]').forEach(b=>b.disabled=value||!bridge.isReady());$('apply').disabled=$('apply').disabled||state.invalid.size>0;$('compact-fx').disabled=$('compact-fx').disabled||!state.target||state.loadedLayout!=='legacy';$('update').disabled=$('update').disabled||state.invalid.size>0;document.querySelectorAll('.card-apply').forEach(b=>{b.disabled=b.disabled||!!state.draftInvalid[b.dataset.preset];});document.querySelectorAll('#parameters input,#parameters select,#parameters textarea').forEach(e=>e.disabled=value);if(window.MotionAstraYUUI)window.MotionAstraYUUI.setBusy(value);if(window.MotionCurve)window.MotionCurve.setBusy(value);if(window.MotionAstraFXToolsUI)window.MotionAstraFXToolsUI.setBusy(value);}
-async function refresh(){if(state.busy)return;if(!bridge.isAvailable()){$('status').textContent='Browser preview · install in AE to apply';$('connection').textContent='Preview mode. No After Effects connection.';busy(false);return;}try{const r=await bridge.call({action:'status'});$('status').textContent=r.composition?`${r.composition} · ${r.selected} selected`:'AE connected · open a composition';$('connection').textContent=`After Effects ${r.version} · MotionAstra ${r.hostVersion} · ${r.build||'older build'}`;}catch(e){$('status').textContent=e.message;$('connection').textContent=e.message;}busy(state.busy);}
-async function action(payload){if(state.busy)return null;busy(true);try{const r=await bridge.call(JSON.parse(JSON.stringify(payload)));if(r.message)notice(r.message,r.severity||'success');return r;}catch(e){notice(e.message,'error');return null;}finally{busy(false);refresh();}}
-function el(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e;}
-function close(){if(state.busy)return;$('inspector').hidden=true;$('workspace').classList.remove('inspecting');MotionPreview.play($('preview'),false);}
-function tab(name){state.tab=name;document.querySelector('#nav .search').hidden=!['Text','Background'].includes(name);close();$('library').hidden=!['Text','Background'].includes(name);$('tools').hidden=name!=='Tools';$('settings').hidden=name!=='Settings';$('tweaker').hidden=name!=='Tweaker';$('yu').hidden=name!=='YU';$('motion-curve').hidden=name!=='Curve';$('fx-tools').hidden=name!=='FXTools';if(window.MotionAstraFXToolsUI)window.MotionAstraFXToolsUI.setVisible(name==='FXTools');if(window.MotionCurve)window.MotionCurve.setVisible(name==='Curve');if(window.MotionAstraYUUI)window.MotionAstraYUUI.setVisible(name==='YU');document.querySelectorAll('[data-tab]').forEach(b=>{b.classList.toggle('active',b.dataset.tab===name);b.setAttribute('aria-pressed',String(b.dataset.tab===name));});if(['Text','Background'].includes(name)){state.query='';$('search').value='';$('library-kicker').textContent=name==='Text'?'TEXT FX':'BACKGROUNDS';$('library-title').textContent=name==='Text'?'Text in motion.':'A little atmosphere.';$('library-help').textContent=name==='Text'?'10 customizable presets · select a text layer before applying.':'Choose a style to generate its own background layer.';render();}document.querySelector('main').scrollTop=0;}
-function render(){MotionPreview.clear();$('cards').textContent='';const list=data.presets.filter(p=>p.category===state.tab&&`${p.name} ${p.description}`.toLowerCase().includes(state.query));$('count').textContent=list.length;list.forEach((p,i)=>{const article=el('article','card'),view=el('button','card-preview'),canvas=el('canvas');canvas.width=440;canvas.height=250;view.setAttribute('aria-label','Customize '+p.name);view.append(canvas,el('span','card-number',String(i+1).padStart(2,'0')));view.onclick=()=>open(p);const content=el('div','card-content');content.append(el('span','type',p.category==='Text'?'TEXT ANIMATION':'PROCEDURAL BACKGROUND'),el('h2','',p.name),el('p','',p.description));const actions=el('div','card-actions'),button=el('button','customize','Customize'),apply=el('button','primary card-apply',p.category==='Background'?'Generate Background':'Apply FX');button.onclick=()=>open(p);apply.dataset.host='';apply.dataset.preset=p.id;apply.setAttribute('aria-label',(p.category==='Background'?'Generate Background: ':'Apply FX: ')+p.name);apply.onclick=()=>{if(state.busy||state.draftInvalid[p.id])return;const values={};p.parameters.forEach(d=>values[d.id]=state.drafts[p.id]&&state.drafts[p.id][d.id]!==undefined?state.drafts[p.id][d.id]:d.default);action({action:p.category==='Background'?'generateBackground':'apply',id:p.id,params:values,layout:$('control-layout').value||'compact'});};actions.append(button,apply);content.appendChild(actions);article.append(view,content);$('cards').appendChild(article);MotionPreview.attach(canvas,p);article.onmouseenter=()=>MotionPreview.play(canvas,true);article.onmouseleave=()=>MotionPreview.play(canvas,false);article.onfocusin=()=>MotionPreview.play(canvas,true);article.onfocusout=()=>MotionPreview.play(canvas,false);});if(!list.length)$('cards').appendChild(el('p','empty','No matching effects.'));busy(state.busy);}
-function preview(){if(state.preset)MotionPreview.attach($('preview'),state.preset,state.params,true);}
-function checkboxValue(value){
- let v=value;for(let i=0;i<4&&v!==null&&typeof v==='object';i++){
-  if(Array.isArray(v)&&v.length===1)v=v[0];
-  else if(Object.keys(v).length===1&&Object.prototype.hasOwnProperty.call(v,'value'))v=v.value;
-  else break;
- }
- if(v===true||v===1)return true;if(v===false||v===0)return false;
- if(typeof v==='string'){const t=v.trim().toLowerCase();if(['true','on','checked'].includes(t))return true;if(['false','off','unchecked'].includes(t))return false;if(/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?$/.test(t)){const n=Number(t);if(n===0||n===1)return n===1;}}
- throw Error('Invalid checkbox value');
-}
-function parameters(){state.invalid.clear();$('parameters').textContent='';const groups={};state.preset.parameters.forEach(d=>{if(!groups[d.group]){const g=el('details','parameter-group');g.open=true;g.appendChild(el('summary','',d.group));$('parameters').appendChild(g);groups[d.group]=g;}const row=el('div','parameter'),label=el('label','',d.label),input=el(d.type==='select'?'select':d.type==='textarea'?'textarea':'input');input.id='param-'+d.id;label.htmlFor=input.id;row.dataset.search=(d.label+' '+d.group).toLowerCase();row.appendChild(label);
-const change=v=>{state.params[d.id]=v;state.dirty=true;state.invalid.delete(d.id);input.removeAttribute('aria-invalid');preview();busy(state.busy);};
-if(d.type==='select'){d.options.forEach(o=>{const opt=el('option','',o.label);opt.value=o.value;input.appendChild(opt);});input.value=state.params[d.id];input.onchange=()=>change(Number(input.value));}
-else if(d.type==='checkbox'){input.type='checkbox';try{input.checked=checkboxValue(state.params[d.id]);state.params[d.id]=input.checked;}catch(e){input.checked=false;state.invalid.add(d.id);input.setAttribute('aria-invalid','true');notice(d.label+': choose ON or OFF before applying.','warning');}input.onchange=()=>change(input.checked);}
-else if(d.type==='range'||d.type==='number'){input.type=d.type;input.min=d.min;input.max=d.id==='duration'?Math.max(d.max,Number(state.params[d.id])):d.max;input.step=d.step;input.value=state.params[d.id];input.className=d.type==='number'?'wide':'';let exact=null;
-const commit=(e)=>{const v=Number(e.value);if(e.value===''||!Number.isFinite(v)||v<Number(input.min)||v>Number(input.max)||(d.step===1&&!Number.isInteger(v))){state.invalid.add(d.id);e.setAttribute('aria-invalid','true');busy(state.busy);return;}e.removeAttribute('aria-invalid');input.value=v;if(exact)exact.value=v;change(v);};
-if(d.type==='range'){exact=el('input','exact');exact.type='number';exact.id='exact-'+d.id;exact.min=input.min;exact.max=input.max;exact.step=d.step;exact.value=input.value;exact.setAttribute('aria-label',d.label+' exact value');exact.oninput=()=>commit(exact);row.appendChild(exact);}input.oninput=()=>commit(input);
-}else{if(d.type!=='textarea')input.type=d.type;input.value=state.params[d.id];if(d.maxLength)input.maxLength=d.maxLength;input.className=d.type==='color'?'':'wide';input.oninput=()=>change(input.value);}
-row.appendChild(input);groups[d.group].appendChild(row);});busy(state.busy);}
-function open(p,values,loaded){if(state.busy)return;values=values||state.drafts[p.id];state.preset=p;state.target=loaded?loaded.target:null;state.loadedLayout=loaded?loaded.layout:null;state.loadedProgress=loaded?loaded.params.progress:null;state.dirty=false;state.params={};p.parameters.forEach(d=>state.params[d.id]=values&&values[d.id]!==undefined?values[d.id]:d.default);state.drafts[p.id]=state.params;$('fx-title').textContent=p.name;$('inspector-mode').textContent=loaded?'FX TWEAKER':'CUSTOMIZE PRESET';$('tweaker-context').hidden=!loaded;$('apply').hidden=!!loaded;document.querySelector('.inspector-actions').classList.toggle('tweaking',!!loaded);$('loaded-layer').textContent=loaded?loaded.layerName:'';$('loaded-layout').textContent=loaded?(loaded.layout==='compact'?'Compact':'Individual'):'';$('compact-fx').hidden=!loaded||loaded.layout!=='legacy';$('compact-help').hidden=!loaded||loaded.layout!=='legacy';$('parameter-search').value='';$('fx-description').textContent=p.description;$('apply').textContent=p.category==='Background'?'Generate Background':'Apply FX';$('update').textContent=loaded?'Update selected FX':'Update';$('structural-help').hidden=!p.parameters.some(d=>d.id==='count');$('inspector').hidden=false;$('workspace').classList.add('inspecting');parameters();preview();$('parameter-help').textContent=(p.category==='Background'?'Generate updates a matching selected background; otherwise it creates one. Deselect backgrounds to create another copy. ':'')+'Animation starts at the layer in-point. Drag [FX End] to retime; Loop mode: None, Ping-Pong, Cycle or Continue. Static backgrounds freeze at the start. Use FX Tweaker for settings. Compact mode keeps one Progress controller; enable manual Progress to animate it. Changes apply on Update. Count rebuilds artwork.';document.querySelector('.inspector-scroll').scrollTop=0;$('inspector').scrollTop=0;$('close').focus();}
-async function load(){const r=await action({action:'load'});if(r&&r.id){const p=data.presets.concat(data.legacy||[]).find(p=>p.id===r.id);if(p){tab('Tweaker');open(p,r.params,r);}}}
-$('tweaker-load').onclick=load;
-$('compact-fx').onclick=async()=>{if(!state.target)return;if(state.dirty){notice('Update or reload your edited settings before compacting.','warning');return;}const r=await action({action:'compact',target:state.target});if(r&&r.changed)load();};
-$('parameter-search').oninput=e=>{const q=e.target.value.trim().toLowerCase();document.querySelectorAll('#parameters .parameter').forEach(row=>row.hidden=!row.dataset.search.includes(q));document.querySelectorAll('#parameters .parameter-group').forEach(group=>{group.hidden=!Array.from(group.querySelectorAll('.parameter')).some(row=>!row.hidden);if(q)group.open=true;});};
-function tool(name,extra={}){return action(Object.assign({action:'tool',name},extra));}
-$('close').onclick=close;document.addEventListener('keydown',e=>{if(e.key==='Escape')close();});$('apply').onclick=()=>{if(state.preset&&!state.invalid.size)action({action:state.preset.category==='Background'?'generateBackground':'apply',id:state.preset.id,params:state.params,layout:$('control-layout').value||'compact'});};$('update').onclick=async()=>{if(state.preset&&!state.invalid.size){const r=await action({action:'update',id:state.preset.id,params:state.params,target:state.target,editProgress:state.target&&state.params.progress!==state.loadedProgress,layout:$('control-layout').value||'compact'});if(r&&r.changed){state.dirty=false;state.loadedProgress=state.params.progress;}}};$('load-fx').onclick=load;
-$('reset').onclick=()=>{if(state.preset){delete state.drafts[state.preset.id];const current=state.target?{target:state.target,layout:state.loadedLayout,layerName:$('loaded-layer').textContent,params:{progress:state.loadedProgress}}:null;open(state.preset,{},current);state.dirty=true;}};$('replay').onclick=preview;$('search').oninput=e=>{state.query=e.target.value.trim().toLowerCase();render();};document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{if(!state.busy)tab(b.dataset.tab);});
-const glyphs=['↖','↑','↗','←','·','→','↙','↓','↘'];glyphs.forEach((g,i)=>{const b=el('button','',g);b.dataset.host='';b.setAttribute('aria-label','Anchor '+(i+1));b.onclick=()=>tool('anchor',{x:i%3/2,y:Math.floor(i/3)/2,keep:$('anchor-keep').checked});$('anchor-grid').appendChild(b);});$('quick-anchor').onclick=()=>tool('anchor',{x:.5,y:.5,keep:$('anchor-keep').checked});$('anchor-custom').onclick=()=>tool('anchor',{x:Number($('anchor-x').value)/100,y:Number($('anchor-y').value)/100,keep:$('anchor-keep').checked});
-document.querySelectorAll('[data-tool]').forEach(b=>b.onclick=()=>tool(b.dataset.tool,b.dataset.tool==='newText'?{font:$('new-text-font').value}:['newShape','newSolid'].includes(b.dataset.tool)?{color:$('new-layer-color').value}:{}));document.querySelectorAll('[data-order]').forEach(b=>b.onclick=()=>tool('arrange',{mode:b.dataset.order}));document.querySelectorAll('[data-ease]').forEach(b=>b.onclick=()=>tool('ease',{mode:b.dataset.ease,strength:Number($('ease-strength').value)}));
-$('refresh-fonts').onclick=async()=>{const r=await action({action:'fonts'});if(r&&r.fonts){const chosen=$('new-text-font').value;$('new-text-font').textContent='';const current=el('option','','Current AE font');current.value='';$('new-text-font').appendChild(current);r.fonts.forEach(f=>{const o=el('option','',f.label);o.value=f.value;$('new-text-font').appendChild(o);});$('new-text-font').value=r.fonts.some(f=>f.value===chosen)?chosen:'';}};document.querySelectorAll('[data-align]').forEach(b=>b.onclick=()=>tool('align',{mode:b.dataset.align}));document.querySelectorAll('[data-distribute]').forEach(b=>b.onclick=()=>tool('distribute',{axis:b.dataset.distribute}));
-$('stagger').onclick=()=>tool('stagger',{seconds:Number($('stagger-seconds').value)});$('rename').onclick=()=>tool('rename',{prefix:$('rename-prefix').value});$('offset').onclick=()=>tool('offset',{x:Number($('offset-x').value),y:Number($('offset-y').value),z:Number($('offset-z').value)});$('text-style').onclick=()=>tool('style',{size:Number($('text-size').value),color:$('text-color').value,align:$('text-align').value});
-function review(name){pendingRemove=name;$('review').hidden=false;$('review-text').textContent=name==='eraseAll'?'Remove ALL native/third-party Effects stacks and MotionAstra animation from the current selected layers? Other expressions may depend on removed effects. Generated artwork will be removed. Transition layers are disabled; project source comps remain.':'Remove MotionAstra v1/v2 animation, controls and generated artwork from selected layers? Unrelated effects remain. Transition layers are disabled after removal. Other layers and project sources are not deleted.';$('review').scrollIntoView({block:'nearest'});}
-$('remove-owned').onclick=()=>review('remove');$('erase-all').onclick=()=>review('eraseAll');$('cancel-remove').onclick=()=>{$('review').hidden=true;pendingRemove=null;};$('confirm-remove').onclick=()=>{if(pendingRemove){const name=pendingRemove;pendingRemove=null;$('review').hidden=true;tool(name);}};
-$('control-layout').value=store.get('ma-control-layout')==='legacy'?'legacy':'compact';$('control-layout').onchange=e=>store.set('ma-control-layout',e.target.value);
-$('show-history').onclick=()=>{tab('Settings');$('history').scrollIntoView({block:'nearest'});};$('refresh').onclick=refresh;$('reduced').checked=store.get('ma2-reduced')==='true';document.body.classList.toggle('reduced',$('reduced').checked);$('reduced').onchange=e=>{store.set('ma2-reduced',e.target.checked);document.body.classList.toggle('reduced',e.target.checked);preview();};
-function disclosure(button,target,key,label){const b=$(button),panel=$(target);function set(on){panel.hidden=on;b.setAttribute('aria-expanded',String(!on));b.textContent=label+(on?' ▾':' ▴');}set(store.get(key)==='true');b.onclick=()=>{const on=!panel.hidden;set(on);store.set(key,on);};}
-if(window.MotionAstraFXToolsUI)window.MotionAstraFXToolsUI.init({action:action,ready:()=>bridge.isReady()});
-if(window.MotionCurve)window.MotionCurve.init({action:action,ready:()=>bridge.isReady()});
-if(window.MotionAstraYUUI)window.MotionAstraYUUI.init({action:action,ready:()=>bridge.isReady()});
-disclosure('fold-nav','nav','ma2-nav','Menu');disclosure('fold-quick','quick','ma252-create','Create');tab('Text');busy(false);refresh();icon();window.addEventListener('focus',refresh);setInterval(()=>{if(!document.hidden&&!state.busy)refresh();},4000);
+  "use strict";
+  const $ = (id) => document.getElementById(id),
+    data = window.MA_PRESETS,
+    bridge = window.MotionAstraBridge;
+  const state = {
+      tab: "Text",
+      preset: null,
+      params: {},
+      busy: false,
+      query: "",
+      drafts: {},
+      draftInvalid: {},
+      invalid: new Set(),
+      target: null,
+      loadedLayout: null,
+      loadedProgress: null,
+      dirty: false
+    },
+    history = [];
+  const store = {
+    get(k) {
+      try {
+        return localStorage.getItem(k);
+      } catch (e) {
+        return null;
+      }
+    },
+    set(k, v) {
+      try {
+        localStorage.setItem(k, String(v));
+      } catch (e) {}
+    }
+  };
+  let timer,
+    pendingRemove = null;
+  function icon() {
+    if (window.lucide) lucide.createIcons();
+  }
+  function notice(message, level = "info") {
+    clearTimeout(timer);
+    $("notice-text").textContent = message;
+    $("notice-icon").textContent =
+      { info: "i", success: "✓", warning: "!", error: "×" }[level] || "i";
+    $("notice").dataset.level = level;
+    $("notice").classList.add("visible");
+    timer = setTimeout(() => $("notice").classList.remove("visible"), 3500);
+    history.unshift({ message, level, time: new Date().toLocaleTimeString() });
+    history.splice(30);
+    $("history").textContent = "";
+    history.forEach((item) => {
+      const li = document.createElement("li");
+      li.textContent = item.time + " · " + item.level + " · " + item.message;
+      $("history").appendChild(li);
+    });
+  }
+  function busy(value) {
+    state.busy = value;
+    if (state.preset)
+      state.draftInvalid[state.preset.id] = state.invalid.size > 0;
+    MotionPreview.suspend(value);
+    document
+      .querySelectorAll("[data-host]")
+      .forEach((b) => (b.disabled = value || !bridge.isReady()));
+    $("apply").disabled = $("apply").disabled || state.invalid.size > 0;
+    $("compact-fx").disabled =
+      $("compact-fx").disabled ||
+      !state.target ||
+      state.loadedLayout !== "legacy";
+    $("update").disabled = $("update").disabled || state.invalid.size > 0;
+    document.querySelectorAll(".card-apply").forEach((b) => {
+      b.disabled = b.disabled || !!state.draftInvalid[b.dataset.preset];
+    });
+    document
+      .querySelectorAll(
+        "#parameters input,#parameters select,#parameters textarea"
+      )
+      .forEach((e) => (e.disabled = value));
+    if (window.MotionAstraYUUI) window.MotionAstraYUUI.setBusy(value);
+    if (window.MotionCurve) window.MotionCurve.setBusy(value);
+    if (window.MotionAstraFXToolsUI) window.MotionAstraFXToolsUI.setBusy(value);
+  }
+  async function refresh() {
+    if (state.busy) return;
+    if (!bridge.isAvailable()) {
+      $("status").textContent = "Browser preview · install in AE to apply";
+      $("connection").textContent =
+        "Preview mode. No After Effects connection.";
+      busy(false);
+      return;
+    }
+    try {
+      const r = await bridge.call({ action: "status" });
+      $("status").textContent = r.composition
+        ? `${r.composition} · ${r.selected} selected`
+        : "AE connected · open a composition";
+      $("connection").textContent =
+        `After Effects ${r.version} · MotionAstra ${r.hostVersion} · ${r.build || "older build"}`;
+    } catch (e) {
+      $("status").textContent = e.message;
+      $("connection").textContent = e.message;
+    }
+    busy(state.busy);
+  }
+  async function action(payload) {
+    if (state.busy) return null;
+    busy(true);
+    try {
+      const r = await bridge.call(JSON.parse(JSON.stringify(payload)));
+      if (r.message) notice(r.message, r.severity || "success");
+      return r;
+    } catch (e) {
+      notice(e.message, "error");
+      return null;
+    } finally {
+      busy(false);
+      refresh();
+    }
+  }
+  function el(tag, cls, text) {
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text !== undefined) e.textContent = text;
+    return e;
+  }
+  function close() {
+    if (state.busy) return;
+    $("inspector").hidden = true;
+    $("workspace").classList.remove("inspecting");
+    MotionPreview.play($("preview"), false);
+  }
+  function tab(name) {
+    state.tab = name;
+    document.querySelector("#nav .search").hidden = ![
+      "Text",
+      "Background"
+    ].includes(name);
+    close();
+    $("library").hidden = !["Text", "Background"].includes(name);
+    $("tools").hidden = name !== "Tools";
+    $("settings").hidden = name !== "Settings";
+    $("tweaker").hidden = name !== "Tweaker";
+    $("yu").hidden = name !== "YU";
+    $("motion-curve").hidden = name !== "Curve";
+    $("fx-tools").hidden = name !== "FXTools";
+    if (window.MotionAstraFXToolsUI)
+      window.MotionAstraFXToolsUI.setVisible(name === "FXTools");
+    if (window.MotionCurve) window.MotionCurve.setVisible(name === "Curve");
+    if (window.MotionAstraYUUI)
+      window.MotionAstraYUUI.setVisible(name === "YU");
+    document.querySelectorAll("[data-tab]").forEach((b) => {
+      b.classList.toggle("active", b.dataset.tab === name);
+      b.setAttribute("aria-pressed", String(b.dataset.tab === name));
+    });
+    if (["Text", "Background"].includes(name)) {
+      state.query = "";
+      $("search").value = "";
+      $("library-kicker").textContent =
+        name === "Text" ? "TEXT FX" : "BACKGROUNDS";
+      $("library-title").textContent =
+        name === "Text" ? "Text in motion." : "A little atmosphere.";
+      $("library-help").textContent =
+        name === "Text"
+          ? "10 customizable presets · select a text layer before applying."
+          : "Choose a style to generate its own background layer.";
+      render();
+    }
+    document.querySelector("main").scrollTop = 0;
+  }
+  function render() {
+    MotionPreview.clear();
+    $("cards").textContent = "";
+    const list = data.presets.filter(
+      (p) =>
+        p.category === state.tab &&
+        `${p.name} ${p.description}`.toLowerCase().includes(state.query)
+    );
+    $("count").textContent = list.length;
+    list.forEach((p, i) => {
+      const article = el("article", "card"),
+        view = el("button", "card-preview"),
+        canvas = el("canvas");
+      canvas.width = 440;
+      canvas.height = 250;
+      view.setAttribute("aria-label", "Customize " + p.name);
+      view.append(
+        canvas,
+        el("span", "card-number", String(i + 1).padStart(2, "0"))
+      );
+      view.onclick = () => open(p);
+      const content = el("div", "card-content");
+      content.append(
+        el(
+          "span",
+          "type",
+          p.category === "Text" ? "TEXT ANIMATION" : "PROCEDURAL BACKGROUND"
+        ),
+        el("h2", "", p.name),
+        el("p", "", p.description)
+      );
+      const actions = el("div", "card-actions"),
+        button = el("button", "customize", "Customize"),
+        apply = el(
+          "button",
+          "primary card-apply",
+          p.category === "Background" ? "Generate Background" : "Apply / Update"
+        );
+      button.onclick = () => open(p);
+      apply.dataset.host = "";
+      apply.dataset.preset = p.id;
+      apply.setAttribute(
+        "aria-label",
+        (p.category === "Background" ? "Generate Background: " : "Apply FX: ") +
+          p.name
+      );
+      apply.onclick = () => {
+        if (state.busy || state.draftInvalid[p.id]) return;
+        const values = {};
+        p.parameters.forEach(
+          (d) =>
+            (values[d.id] =
+              state.drafts[p.id] && state.drafts[p.id][d.id] !== undefined
+                ? state.drafts[p.id][d.id]
+                : d.default)
+        );
+        action({
+          action: p.category === "Background" ? "generateBackground" : "apply",
+          id: p.id,
+          params: values,
+          smart: true,
+          layout: $("control-layout").value || "compact"
+        });
+      };
+      actions.append(button, apply);
+      content.appendChild(actions);
+      article.append(view, content);
+      $("cards").appendChild(article);
+      MotionPreview.attach(canvas, p);
+      article.onmouseenter = () => MotionPreview.play(canvas, true);
+      article.onmouseleave = () => MotionPreview.play(canvas, false);
+      article.onfocusin = () => MotionPreview.play(canvas, true);
+      article.onfocusout = () => MotionPreview.play(canvas, false);
+    });
+    if (!list.length)
+      $("cards").appendChild(el("p", "empty", "No matching effects."));
+    busy(state.busy);
+  }
+  function preview() {
+    if (state.preset)
+      MotionPreview.attach($("preview"), state.preset, state.params, true);
+  }
+  function checkboxValue(value) {
+    let v = value;
+    for (let i = 0; i < 4 && v !== null && typeof v === "object"; i++) {
+      if (Array.isArray(v) && v.length === 1) v = v[0];
+      else if (
+        Object.keys(v).length === 1 &&
+        Object.prototype.hasOwnProperty.call(v, "value")
+      )
+        v = v.value;
+      else break;
+    }
+    if (v === true || v === 1) return true;
+    if (v === false || v === 0) return false;
+    if (typeof v === "string") {
+      const t = v.trim().toLowerCase();
+      if (["true", "on", "checked"].includes(t)) return true;
+      if (["false", "off", "unchecked"].includes(t)) return false;
+      if (/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?$/.test(t)) {
+        const n = Number(t);
+        if (n === 0 || n === 1) return n === 1;
+      }
+    }
+    throw Error("Invalid checkbox value");
+  }
+  function parameters() {
+    state.invalid.clear();
+    $("parameters").textContent = "";
+    const groups = {};
+    state.preset.parameters.forEach((d) => {
+      if (!groups[d.group]) {
+        const g = el("details", "parameter-group");
+        g.open = true;
+        g.appendChild(el("summary", "", d.group));
+        $("parameters").appendChild(g);
+        groups[d.group] = g;
+      }
+      const row = el("div", "parameter"),
+        label = el("label", "", d.label),
+        input = el(
+          d.type === "select"
+            ? "select"
+            : d.type === "textarea"
+              ? "textarea"
+              : "input"
+        );
+      input.id = "param-" + d.id;
+      label.htmlFor = input.id;
+      row.dataset.search = (d.label + " " + d.group).toLowerCase();
+      row.appendChild(label);
+      const change = (v) => {
+        state.params[d.id] = v;
+        state.dirty = true;
+        state.invalid.delete(d.id);
+        input.removeAttribute("aria-invalid");
+        preview();
+        busy(state.busy);
+      };
+      if (d.type === "select") {
+        d.options.forEach((o) => {
+          const opt = el("option", "", o.label);
+          opt.value = o.value;
+          input.appendChild(opt);
+        });
+        input.value = state.params[d.id];
+        input.onchange = () => change(Number(input.value));
+      } else if (d.type === "checkbox") {
+        input.type = "checkbox";
+        try {
+          input.checked = checkboxValue(state.params[d.id]);
+          state.params[d.id] = input.checked;
+        } catch (e) {
+          input.checked = false;
+          state.invalid.add(d.id);
+          input.setAttribute("aria-invalid", "true");
+          notice(d.label + ": choose ON or OFF before applying.", "warning");
+        }
+        input.onchange = () => change(input.checked);
+      } else if (d.type === "range" || d.type === "number") {
+        input.type = d.type;
+        input.min = d.min;
+        input.max =
+          d.id === "duration"
+            ? Math.max(d.max, Number(state.params[d.id]))
+            : d.max;
+        input.step = d.step;
+        input.value = state.params[d.id];
+        input.className = d.type === "number" ? "wide" : "";
+        let exact = null;
+        const commit = (e) => {
+          const v = Number(e.value);
+          if (
+            e.value === "" ||
+            !Number.isFinite(v) ||
+            v < Number(input.min) ||
+            v > Number(input.max) ||
+            (d.step === 1 && !Number.isInteger(v))
+          ) {
+            state.invalid.add(d.id);
+            e.setAttribute("aria-invalid", "true");
+            busy(state.busy);
+            return;
+          }
+          e.removeAttribute("aria-invalid");
+          input.value = v;
+          if (exact) exact.value = v;
+          change(v);
+        };
+        if (d.type === "range") {
+          exact = el("input", "exact");
+          exact.type = "number";
+          exact.id = "exact-" + d.id;
+          exact.min = input.min;
+          exact.max = input.max;
+          exact.step = d.step;
+          exact.value = input.value;
+          exact.setAttribute("aria-label", d.label + " exact value");
+          exact.oninput = () => commit(exact);
+          row.appendChild(exact);
+        }
+        input.oninput = () => commit(input);
+      } else {
+        if (d.type !== "textarea") input.type = d.type;
+        input.value = state.params[d.id];
+        if (d.maxLength) input.maxLength = d.maxLength;
+        input.className = d.type === "color" ? "" : "wide";
+        input.oninput = () => change(input.value);
+      }
+      row.appendChild(input);
+      groups[d.group].appendChild(row);
+    });
+    busy(state.busy);
+  }
+  function open(p, values, loaded) {
+    if (state.busy) return;
+    values = values || state.drafts[p.id];
+    state.preset = p;
+    state.target = loaded ? loaded.target : null;
+    state.loadedLayout = loaded ? loaded.layout : null;
+    state.loadedProgress = loaded ? loaded.params.progress : null;
+    state.dirty = false;
+    state.params = {};
+    p.parameters.forEach(
+      (d) =>
+        (state.params[d.id] =
+          values && values[d.id] !== undefined ? values[d.id] : d.default)
+    );
+    state.drafts[p.id] = state.params;
+    $("fx-title").textContent = p.name;
+    $("inspector-mode").textContent = loaded
+      ? "FX TWEAKER"
+      : "CUSTOMIZE PRESET";
+    $("tweaker-context").hidden = !loaded;
+    $("apply").hidden = !!loaded;
+    document
+      .querySelector(".inspector-actions")
+      .classList.toggle("tweaking", !!loaded);
+    $("loaded-layer").textContent = loaded ? loaded.layerName : "";
+    $("loaded-layout").textContent = loaded
+      ? loaded.layout === "compact"
+        ? "Compact"
+        : "Individual"
+      : "";
+    $("compact-fx").hidden = !loaded || loaded.layout !== "legacy";
+    $("compact-help").hidden = !loaded || loaded.layout !== "legacy";
+    $("parameter-search").value = "";
+    $("fx-description").textContent = p.description;
+    $("apply").textContent =
+      p.category === "Background" ? "Generate Background" : "Apply / Update";
+    $("update").textContent = loaded ? "Update selected FX" : "Update";
+    $("structural-help").hidden = !p.parameters.some((d) => d.id === "count");
+    $("inspector").hidden = false;
+    $("workspace").classList.add("inspecting");
+    parameters();
+    preview();
+    $("parameter-help").textContent =
+      (p.category === "Background"
+        ? "Generate updates a matching selected background; otherwise it creates one. Deselect backgrounds to create another copy. "
+        : "") +
+      "Animation starts at the layer in-point. Drag [FX End] to retime; Loop mode: None, Ping-Pong, Cycle or Continue. Static backgrounds freeze at the start. Use FX Tweaker for settings. Compact mode keeps one Progress controller; enable manual Progress to animate it. Changes apply on Update. Count rebuilds artwork.";
+    document.querySelector(".inspector-scroll").scrollTop = 0;
+    $("inspector").scrollTop = 0;
+    $("close").focus();
+  }
+  async function load() {
+    const r = await action({ action: "load" });
+    if (r && r.id) {
+      const p = data.presets
+        .concat(data.legacy || [])
+        .find((p) => p.id === r.id);
+      if (p) {
+        tab("Tweaker");
+        open(p, r.params, r);
+      }
+    }
+  }
+  $("tweaker-load").onclick = load;
+  $("compact-fx").onclick = async () => {
+    if (!state.target) return;
+    if (state.dirty) {
+      notice(
+        "Update or reload your edited settings before compacting.",
+        "warning"
+      );
+      return;
+    }
+    const r = await action({ action: "compact", target: state.target });
+    if (r && r.changed) load();
+  };
+  $("parameter-search").oninput = (e) => {
+    const q = e.target.value.trim().toLowerCase();
+    document
+      .querySelectorAll("#parameters .parameter")
+      .forEach((row) => (row.hidden = !row.dataset.search.includes(q)));
+    document
+      .querySelectorAll("#parameters .parameter-group")
+      .forEach((group) => {
+        group.hidden = !Array.from(group.querySelectorAll(".parameter")).some(
+          (row) => !row.hidden
+        );
+        if (q) group.open = true;
+      });
+  };
+  function tool(name, extra = {}) {
+    return action(Object.assign({ action: "tool", name }, extra));
+  }
+  $("close").onclick = close;
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") close();
+  });
+  $("apply").onclick = () => {
+    if (state.preset && !state.invalid.size)
+      action({
+        action:
+          state.preset.category === "Background"
+            ? "generateBackground"
+            : "apply",
+        id: state.preset.id,
+        params: state.params,
+        smart: true,
+        layout: $("control-layout").value || "compact"
+      });
+  };
+  $("update").onclick = async () => {
+    if (state.preset && !state.invalid.size) {
+      const r = await action({
+        action: "update",
+        id: state.preset.id,
+        params: state.params,
+        target: state.target,
+        editProgress:
+          state.target && state.params.progress !== state.loadedProgress,
+        smart: true,
+        layout: $("control-layout").value || "compact"
+      });
+      if (r && r.changed) {
+        state.dirty = false;
+        state.loadedProgress = state.params.progress;
+      }
+    }
+  };
+  $("load-fx").onclick = () => {
+    if (state.tab === "FXTools" && window.MotionAstraFXToolsUI)
+      return window.MotionAstraFXToolsUI.load();
+    if (state.tab === "YU" && window.MotionAstraYUUI)
+      return window.MotionAstraYUUI.load();
+    return load();
+  };
+  $("reset").onclick = () => {
+    if (state.preset) {
+      delete state.drafts[state.preset.id];
+      const current = state.target
+        ? {
+            target: state.target,
+            layout: state.loadedLayout,
+            layerName: $("loaded-layer").textContent,
+            params: { progress: state.loadedProgress }
+          }
+        : null;
+      open(state.preset, {}, current);
+      state.dirty = true;
+    }
+  };
+  $("replay").onclick = preview;
+  $("search").oninput = (e) => {
+    state.query = e.target.value.trim().toLowerCase();
+    render();
+  };
+  document.querySelectorAll("[data-tab]").forEach(
+    (b) =>
+      (b.onclick = () => {
+        if (!state.busy) tab(b.dataset.tab);
+      })
+  );
+  const glyphs = ["↖", "↑", "↗", "←", "·", "→", "↙", "↓", "↘"];
+  glyphs.forEach((g, i) => {
+    const b = el("button", "", g);
+    b.dataset.host = "";
+    b.setAttribute("aria-label", "Anchor " + (i + 1));
+    b.onclick = () =>
+      tool("anchor", {
+        x: (i % 3) / 2,
+        y: Math.floor(i / 3) / 2,
+        keep: $("anchor-keep").checked
+      });
+    $("anchor-grid").appendChild(b);
+  });
+  $("quick-anchor").onclick = () =>
+    tool("anchor", { x: 0.5, y: 0.5, keep: $("anchor-keep").checked });
+  $("anchor-custom").onclick = () =>
+    tool("anchor", {
+      x: Number($("anchor-x").value) / 100,
+      y: Number($("anchor-y").value) / 100,
+      keep: $("anchor-keep").checked
+    });
+  document
+    .querySelectorAll("[data-tool]")
+    .forEach(
+      (b) =>
+        (b.onclick = () =>
+          tool(
+            b.dataset.tool,
+            b.dataset.tool === "newText"
+              ? { font: $("new-text-font").value }
+              : ["newShape", "newSolid"].includes(b.dataset.tool)
+                ? { color: $("new-layer-color").value }
+                : {}
+          ))
+    );
+  document
+    .querySelectorAll("[data-order]")
+    .forEach(
+      (b) => (b.onclick = () => tool("arrange", { mode: b.dataset.order }))
+    );
+  document.querySelectorAll("[data-ease]").forEach(
+    (b) =>
+      (b.onclick = () =>
+        tool("ease", {
+          mode: b.dataset.ease,
+          strength: Number($("ease-strength").value)
+        }))
+  );
+  $("refresh-fonts").onclick = async () => {
+    const r = await action({ action: "fonts" });
+    if (r && r.fonts) {
+      const chosen = $("new-text-font").value;
+      $("new-text-font").textContent = "";
+      const current = el("option", "", "Current AE font");
+      current.value = "";
+      $("new-text-font").appendChild(current);
+      r.fonts.forEach((f) => {
+        const o = el("option", "", f.label);
+        o.value = f.value;
+        $("new-text-font").appendChild(o);
+      });
+      $("new-text-font").value = r.fonts.some((f) => f.value === chosen)
+        ? chosen
+        : "";
+    }
+  };
+  document
+    .querySelectorAll("[data-align]")
+    .forEach(
+      (b) => (b.onclick = () => tool("align", { mode: b.dataset.align }))
+    );
+  document
+    .querySelectorAll("[data-distribute]")
+    .forEach(
+      (b) =>
+        (b.onclick = () => tool("distribute", { axis: b.dataset.distribute }))
+    );
+  $("stagger").onclick = () =>
+    tool("stagger", { seconds: Number($("stagger-seconds").value) });
+  $("rename").onclick = () =>
+    tool("rename", { prefix: $("rename-prefix").value });
+  $("offset").onclick = () =>
+    tool("offset", {
+      x: Number($("offset-x").value),
+      y: Number($("offset-y").value),
+      z: Number($("offset-z").value)
+    });
+  $("text-style").onclick = () =>
+    tool("style", {
+      size: Number($("text-size").value),
+      color: $("text-color").value,
+      align: $("text-align").value
+    });
+  function review(name) {
+    pendingRemove = name;
+    $("review").hidden = false;
+    $("review-text").textContent =
+      name === "eraseAll"
+        ? "Remove ALL native/third-party Effects stacks and MotionAstra animation from the current selected layers? Other expressions may depend on removed effects. Generated artwork will be removed. Transition layers are disabled; project source comps remain."
+        : "Remove MotionAstra v1/v2 animation, controls and generated artwork from selected layers? Unrelated effects remain. Transition layers are disabled after removal. Other layers and project sources are not deleted.";
+    $("review").scrollIntoView({ block: "nearest" });
+  }
+  $("remove-owned").onclick = () => review("remove");
+  $("erase-all").onclick = () => review("eraseAll");
+  $("cancel-remove").onclick = () => {
+    $("review").hidden = true;
+    pendingRemove = null;
+  };
+  $("confirm-remove").onclick = () => {
+    if (pendingRemove) {
+      const name = pendingRemove;
+      pendingRemove = null;
+      $("review").hidden = true;
+      tool(name);
+    }
+  };
+  $("control-layout").value =
+    store.get("ma-control-layout") === "legacy" ? "legacy" : "compact";
+  $("control-layout").onchange = (e) =>
+    store.set("ma-control-layout", e.target.value);
+  $("show-history").onclick = () => {
+    tab("Settings");
+    $("history").scrollIntoView({ block: "nearest" });
+  };
+  $("refresh").onclick = refresh;
+  $("reduced").checked = store.get("ma2-reduced") === "true";
+  document.body.classList.toggle("reduced", $("reduced").checked);
+  $("reduced").onchange = (e) => {
+    store.set("ma2-reduced", e.target.checked);
+    document.body.classList.toggle("reduced", e.target.checked);
+    preview();
+  };
+  function disclosure(button, target, key, label) {
+    const b = $(button),
+      panel = $(target);
+    function set(on) {
+      panel.hidden = on;
+      b.setAttribute("aria-expanded", String(!on));
+      b.textContent = label + (on ? " ▾" : " ▴");
+    }
+    set(store.get(key) === "true");
+    b.onclick = () => {
+      const on = !panel.hidden;
+      set(on);
+      store.set(key, on);
+    };
+  }
+  if (window.MotionAstraFXToolsUI)
+    window.MotionAstraFXToolsUI.init({
+      action: action,
+      ready: () => bridge.isReady()
+    });
+  if (window.MotionCurve)
+    window.MotionCurve.init({ action: action, ready: () => bridge.isReady() });
+  if (window.MotionAstraYUUI)
+    window.MotionAstraYUUI.init({
+      action: action,
+      ready: () => bridge.isReady()
+    });
+  disclosure("fold-nav", "nav", "ma2-nav", "Menu");
+  disclosure("fold-quick", "quick", "ma252-create", "Create");
+  tab("Text");
+  busy(false);
+  refresh();
+  icon();
+  window.addEventListener("focus", refresh);
+  setInterval(() => {
+    if (!document.hidden && !state.busy) refresh();
+  }, 4000);
 })();
 
 </script></body></html>

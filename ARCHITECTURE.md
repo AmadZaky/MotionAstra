@@ -44,7 +44,7 @@ Compact old controls is explicit and refuses animated parameter controls or exte
 
 ## YU Txt Motion integration
 
-The original MIT YUGraphic core and host source are vendored unchanged. `tools/build-yu.py` bundles them with `src/yu-adapter.js` into `jsx/yu-text.jsx`. Build-time adaptation omits the original per-parameter sliders; expression generation substitutes validated numeric constants for the five original effect lookups without changing motion math or text animator setup. The bridge loads this module before the main host. All mutations use the existing serialized transport and Undo dispatcher.
+The original MIT YUGraphic core and host source are vendored unchanged. `tools/build-yu.py` bundles them with `src/yu-adapter.js` into `jsx/yu-text.jsx`. Build-time adaptation omits the original per-parameter sliders; expression generation substitutes validated numeric constants for the five original effect lookups without changing motion math or text animator setup. The bridge loads this module only when a YU command is requested. All mutations use the existing serialized transport and Undo dispatcher.
 
 YU uses its original `YTM IN |` / `YTM OUT |` ownership names, independent of MA2. Phase settings are stored in a delimited layer-comment record, preserving other comments. YU Load/Update is separate from the MotionAstra FX Tweaker and checks layer identity. Main owned-removal also removes YU animators so Erase ALL cannot strand slider expressions from original YU instances. `js/yu-text.js` renders the separate category/filter/editor UI; only an active preview animates.
 
@@ -56,6 +56,12 @@ Writes are planned per property across adjacent selected keyframes. Opposite end
 
 ## FXTools collection
 
-`fx-tools.json` defines an independent effect registry. `tools/build-fxtools.py` compiles UI data and the ES3 `MotionAstraFXTools` adapter; the bridge loads it before the main dispatcher. `js/fx-tools.js` renders cards and parameter groups from the registry. Native descriptors use effect/parameter match names. Prism uses Gradient Ramp, Turbulent Displace, Gaussian Blur and Glow; Bloom uses optional Fill and three native Glow scales. No extra layers or parameter sliders are created.
+`fx-tools.json` defines an independent effect registry. `tools/build-fxtools.py` compiles UI data and the ES3 `MotionAstraFXTools` adapter; the bridge loads it only for FXTools commands. `js/fx-tools.js` renders cards and parameter groups from the registry. Native descriptors use effect/parameter match names. Prism uses Gradient Ramp, Turbulent Displace, Gaussian Blur and Glow; Bloom uses optional Fill and three native Glow scales. No extra layers or parameter sliders are created.
 
 Per-effect settings are stored in the layer's MA_FXTOOLS comment record, separate from MA2 and YU. Named effect instances are updated in place; duplicates/mismatched effects and animated controlled parameters are rejected. Native parameter snapshots and enabled states are restored after a failed write, and partial new effects are removed. Loaded-target tokens guard Update. Cleanup is scoped to MAFT prefixes. Future tools need a registry entry, native adapter and test coverage.
+
+## Command isolation (2.8.9)
+
+The bridge boots only core data and host. Optional modules explicitly export versioned handlers into `$.global.MotionAstraModules`, including when evalFile runs in a local scope. Every command has its own dispatcher route. A missing YU module cannot block FXTools and vice versa; module errors do not trigger mutation retries. Owned cleanup reads ownership names/comments without loading optional engines.
+
+Prism descriptors live in `src/fx-tools/prism-gradient.js`; Bloom descriptors live in `src/fx-tools/bloom-glow.js`. `src/fx-tools-host.js` contains shared validation, persistence and rollback. Run `python3 tools/build-fxtools.py` after editing these sources. Original YUGraphic vendor sources remain unchanged.

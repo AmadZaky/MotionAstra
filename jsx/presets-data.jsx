@@ -1,5 +1,5 @@
 var MA_PRESET_DATA = {
-  "version": "2.8.8",
+  "version": "2.8.9",
   "presets": [
     {
       "id": "counter",
@@ -5490,3 +5490,4 @@ var MA_PRESET_DATA = {
     }
   ]
 };
+if(typeof $!=="undefined"&&$.global)$.global.MA_PRESET_DATA=MA_PRESET_DATA;

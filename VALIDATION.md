@@ -126,3 +126,7 @@ The v2.8.3 CI gate prevented publication when the macOS rollback regression fail
 ## FXTools
 
 `tests/fx-tools.cjs` checks registry parity, both effects on text/shape/solid/footage models, direct RGBA colors, single-layer behavior, repeat-apply stability, coexisting effects, continuous gradient loop expressions, loaded target checks, owned cleanup, keyframe protection and native-failure rollback. `tests/fxtools-ui.cjs` checks cards, palettes, controls and the Apply/Load/Update/Remove browser workflow, selection guards and responsive/offline behavior. Actual AE effect schemas and pixel appearance still require the native smoke test.
+
+## 2.8.9 regression coverage
+
+`module-isolation.cjs` verifies missing optional modules, scoped evalFile exports, recovery after module failure and independent cleanup. `smart-apply.cjs` covers all ten core Text FX with repeated and mixed-selection Apply. FXTools browser tests use context-aware toolbar Load and verify Apply returns after Remove. Native After Effects is not available in this test environment.

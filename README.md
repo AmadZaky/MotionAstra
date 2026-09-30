@@ -1,4 +1,4 @@
-# MotionAstra FX 2.8.8 — Pre-alpha
+# MotionAstra FX 2.8.9 — Pre-alpha
 
 Offline CEP extension for Adobe After Effects 2025. Minimal black/orange UI, local CSInterface + Lucide, 10 Text FX, 10 procedural Backgrounds, Quick Tools and a dedicated FX Tweaker tab.
 
@@ -10,7 +10,7 @@ Select a text layer for Text FX. Background Generate needs only an active compos
 
 Loop mode is a dropdown: Ping-Pong, Cycle (default), Continue, None (play once and hold). Continue advances normalized animation time beyond Duration; finite text reveals naturally finish while procedural motion keeps advancing. Manual Progress overrides looping. Existing project expressions stay unchanged until Update; legacy checkbox instances migrate to Cycle unless another mode is chosen.
 
-Apply/Generate and Update are compact adjacent buttons at the inspector bottom. Load FX Settings is in the Tools Bar. Unwanted old duplicate layers are not deleted automatically.
+Apply/Generate and Update are compact adjacent buttons at the inspector bottom. Load settings in the Tools Bar follows the active Text FX, YU or FXTools tab. Text Apply / Update refreshes the same preset already on a layer instead of stacking another instance. After loading YU or FXTools settings, use Save changes; Remove restores Apply. Unwanted old duplicate layers are not deleted automatically.
 
 ## FX Tweaker and compact controls
 
@@ -146,7 +146,7 @@ Thirteen host/state/preview suites pass locally, including reproductions of the 
 
 Replace the full extension folder, restart AE, and confirm 2.8.2 in Settings. For existing Text FX, Load FX Settings, choose a color, then Update to migrate its color binding. Native AE rendering still requires verification; modeled-host and Chromium tests are release gates.
 
-## MotionAstra 2.8.8 — Pre-alpha
+## MotionAstra 2.8.9 — Pre-alpha
 
 - Fixes the startup-blocking `Illegal use of reserved word` at hostscript.jsx line 237: the ES3-reserved identifier `native` is now `nativeProperty`.
 - Adds an ES3 parser and reserved-identifier release check, because Node's modern parser accepted the incompatible code.
@@ -156,4 +156,4 @@ Replace the full extension folder, restart AE, and confirm 2.8.2 in Settings. Fo
 - Installer enables PlayerDebugMode for CSXS 11/12 in the current user account. No AE project files or AE preferences are edited.
 - Windows and macOS installer tests, ES3 checks, host regressions and Chromium workflows gate release publication.
 
-Close AE, extract the whole release ZIP, then double-click the launcher for your OS. Confirm replacement when prompted; restart AE and confirm Settings shows 2.8.8. The macOS script is unsigned; if macOS blocks it, use the approved Open action described in the guide. Direct AE rendering remains a manual check.
+Close AE, extract the whole release ZIP, then double-click the launcher for your OS. Confirm replacement when prompted; restart AE and confirm Settings shows 2.8.9. The macOS script is unsigned; if macOS blocks it, use the approved Open action described in the guide. Direct AE rendering remains a manual check.
