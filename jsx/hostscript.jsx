@@ -1,6 +1,6 @@
-/* MotionAstra 3.0.4 — ES3 host. No third-party AE effects required. */
+/* MotionAstra 3.0.5 — ES3 host. No third-party AE effects required. */
 var MotionAstra = (function () {
-  var BUILD = "3.0.4",
+  var BUILD = "3.0.5",
     recipes = {},
     serial = 0;
   for (var ri = 0; ri < MA_PRESET_DATA.presets.length; ri++)
@@ -2864,6 +2864,6 @@ var MotionAstra = (function () {
     throw Error(
       "MotionAstra JSON transport self-check failed. Restart AE and install the full package."
     );
-  return { dispatch: dispatch, version: "3.0.4", build: BUILD };
+  return { dispatch: dispatch, version: "3.0.5", build: BUILD };
 })();
 if (typeof $ !== "undefined" && $.global) $.global.MotionAstra = MotionAstra;

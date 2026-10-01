@@ -10,4 +10,4 @@ for(const p of presets)for(const action of ['generateBackground','apply','update
  assert.equal(e.rpc({action:'update',id:p.id,params:{duration:3}}).changed,1);
  assert.equal(e.comp.numLayers,before+1,'Update matching layer must not duplicate');
 }
-console.log('PASS: all 10 backgrounds create independent layers for Apply/unmatched Update; matching Update does not duplicate.');
+console.log('PASS: all 8 backgrounds create independent layers for Apply/unmatched Update; matching Update does not duplicate.');

@@ -4,14 +4,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <script src="js/theme.js"></script>
-    <title>MotionAstra 3.0.4 Alpha</title>
+    <title>MotionAstra 3.0.5 Alpha</title>
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
     <header>
       <a class="brand" href="index.html"
         ><span class="brand-icon"><i data-lucide="asterisk"></i></span
-        >MotionAstra <b>3.0.4</b></a
+        >MotionAstra <b>3.0.5</b></a
       >
       <div class="header-actions">
         <button
@@ -35,16 +35,14 @@
           type="search"
           placeholder="Search presets…"
           aria-label="Search presets"
-        /><span id="count">10</span>
+        /><span id="count">8</span>
       </div>
       <div class="category-tabs">
-        <button class="active" data-tab="Text">Text FX <span>10</span></button
-        ><button data-tab="Background">Backgrounds <span>10</span></button
-        ><button data-tab="YU">YU Txt Motion</button
-        ><button data-tab="FXTools">FXTools</button
+        <button class="active" data-tab="Text">Text Tools <span>8</span></button
+        ><button data-tab="Background">SolidGen <span>8</span></button
+        ><button data-tab="YU">Text Animate</button
         ><button data-tab="Curve">Motion Curve</button
-        ><button data-tab="Tools">Quick Tools</button
-        ><button data-tab="Tweaker">FX Tweaker</button>
+        ><button data-tab="Tools">Quick Tools</button>
       </div>
     </nav>
     <div id="quick">
@@ -64,11 +62,20 @@
         /></label>
       </div>
       <div class="font-row">
-        <label for="new-text-font">New Text font</label
-        ><select id="new-text-font" aria-label="New Text font">
+        <label for="new-text-font">After Effects font</label
+        ><input
+          id="font-search"
+          type="search"
+          placeholder="Search AE fonts…"
+          aria-label="Search After Effects fonts"
+          autocomplete="off"
+        /><select id="new-text-font" aria-label="New Text font">
           <option value="">Current AE font</option></select
-        ><button id="refresh-fonts" data-host>Load fonts</button>
+        ><button id="refresh-fonts" title="Refresh fonts from After Effects" aria-label="Refresh fonts" data-host>↻</button>
       </div>
+      <p id="font-status" class="hint" role="status" aria-live="polite">
+        Focus font search to load fonts from After Effects.
+      </p>
       <div class="utility-row">
         <button id="quick-anchor" data-host>
           <i data-lucide="crosshair"></i>Center anchor</button
@@ -82,59 +89,10 @@
     <div id="workspace">
       <main>
         <section id="library">
-          <div class="eyebrow" id="library-kicker">10 TEXT ESSENTIALS</div>
+          <div class="eyebrow" id="library-kicker">8 TEXT ESSENTIALS</div>
           <h1 id="library-title">Words in motion.</h1>
           <p id="library-help">Select a text layer before applying FX.</p>
           <div id="cards"></div>
-        </section>
-        <section id="fx-tools" hidden aria-label="FXTools">
-          <div id="ft-library">
-            <span class="eyebrow">THE EFFECT WORKBENCH</span>
-            <h1>FXTools</h1>
-            <p>Color, light and atmosphere. Built for your layers.</p>
-            <div id="ft-cards"></div>
-            <p class="hint">
-              Native AE effects · no additional plugin required. More tools can
-              be added to this collection.
-            </p>
-          </div>
-          <div id="ft-editor" hidden>
-            <div class="ft-head">
-              <button id="ft-back">← FXTools</button
-              ><button id="ft-load" data-host>Load selected</button>
-            </div>
-            <div id="ft-scroll">
-              <span class="eyebrow">FXTOOLS</span>
-              <h1 id="ft-title"></h1>
-              <p id="ft-target"></p>
-              <canvas
-                id="ft-preview"
-                width="600"
-                height="260"
-                aria-label="FXTools illustrative preview"
-              ></canvas
-              ><button id="ft-replay">Replay preview</button>
-              <p id="ft-description"></p>
-              <div id="ft-palettes"></div>
-              <div id="ft-parameters"></div>
-              <p class="hint" id="ft-reference"></p>
-              <p class="hint">
-                Settings apply on Apply/Update. Native rendering effects remain
-                in Effect Controls. This is an artistic approximation; it does
-                not reproduce the commercial plugins’ optical or GPU engines.
-                Diffusion softens the entire source, and organic distortion also
-                bends its outline.
-              </p>
-              <button id="ft-remove" data-host>
-                Remove this FX from selection
-              </button>
-            </div>
-            <div class="ft-actions">
-              <button id="ft-apply" class="primary" data-host>
-                Apply / Update</button
-              ><button id="ft-update" data-host>Update loaded FX</button>
-            </div>
-          </div>
         </section>
         <section id="motion-curve" hidden aria-label="Motion Curve">
           <div class="curve-top">
@@ -250,13 +208,13 @@
             </button>
           </div>
         </section>
-        <section id="yu" hidden aria-label="YU Txt Motion">
+        <section id="yu" hidden aria-label="Text Animate">
           <div class="yu-heading">
             <div>
               <span class="eyebrow">ANIMATION BY YUGraphic</span>
-              <h1>YU Txt Motion</h1>
+              <h1>Text Animate</h1>
             </div>
-            <button id="yu-load" data-host>Load YU settings</button>
+            <button id="yu-load" data-host>Load animation settings</button>
           </div>
           <div id="yu-browser">
             <p>120 original text presets · by YUGraphic · MIT licensed</p>
@@ -264,23 +222,26 @@
               <input
                 id="yu-search"
                 type="search"
-                placeholder="Search YU presets…"
-                aria-label="Search YU presets"
-              /><select id="yu-category" aria-label="YU category"></select>
+                placeholder="Search text animations…"
+                aria-label="Search text animations"
+              /><select
+                id="yu-category"
+                aria-label="Animation category"
+              ></select>
             </div>
             <p id="yu-count"></p>
             <div id="yu-cards"></div>
           </div>
           <div id="yu-editor" hidden>
             <div class="yu-edit-scroll">
-              <button id="yu-back">← All YU presets</button>
+              <button id="yu-back">← All text animations</button>
               <h2 id="yu-title"></h2>
               <p id="yu-target"></p>
               <canvas
                 id="yu-preview"
                 width="600"
                 height="240"
-                aria-label="YU preset preview"
+                aria-label="Text animation preview"
               ></canvas
               ><button id="yu-replay">Replay preview</button>
               <div id="yu-controls">
@@ -330,7 +291,7 @@
                 unchanged.
               </p>
               <button id="yu-clear" data-host>
-                Remove YU animation from selection
+                Remove text animation from selection
               </button>
               <p class="hint">
                 Only YU IN/OUT animators are replaced or removed. Use Undo to
@@ -342,31 +303,10 @@
               >
             </div>
             <div class="yu-actions">
-              <button id="yu-apply" class="primary" data-host>Apply YU</button
-              ><button id="yu-update" data-host>Update loaded YU</button>
+              <button id="yu-apply" class="primary" data-host>
+                Apply animation</button
+              ><button id="yu-update" data-host>Update animation</button>
             </div>
-          </div>
-        </section>
-        <section id="tweaker" hidden>
-          <div class="eyebrow">SELECT · LOAD · TWEAK</div>
-          <h1>FX Tweaker</h1>
-          <p>
-            Select one MotionAstra layer in AE, then load its settings here.
-          </p>
-          <button id="tweaker-load" class="primary" data-host>
-            Load selected FX
-          </button>
-          <div class="tweaker-note">
-            <strong>One controller. Everything here.</strong>
-            <p>
-              Compact FX keep a single MotionAstra Progress slider in Effect
-              Controls. Look, color, timing and loop settings live in this
-              panel.
-            </p>
-            <p>
-              Native rendering effects remain on the layer. Existing animated
-              controls stay in Individual mode.
-            </p>
           </div>
         </section>
         <section id="tools" hidden>
@@ -375,6 +315,27 @@
           <p>
             Tools operate on selected layers. Every action has one Undo step.
           </p>
+          <details id="tweaker" open>
+            <summary>FX settings</summary>
+            <p>
+              Select one MotionAstra layer in AE, then load its settings here.
+            </p>
+            <button id="tweaker-load" class="primary" data-host>
+              Load selected FX
+            </button>
+            <div class="tweaker-note">
+              <strong>One controller. Everything here.</strong>
+              <p>
+                Compact FX keep a single MotionAstra Progress slider in Effect
+                Controls. Look, color, timing and loop settings live in this
+                panel.
+              </p>
+              <p>
+                Native rendering effects remain on the layer. Existing animated
+                controls stay in Individual mode.
+              </p>
+            </div>
+          </details>
           <details open>
             <summary><i data-lucide="crosshair"></i>Anchor point</summary>
             <p>
@@ -572,7 +533,7 @@
           </details>
         </section>
         <section id="settings" hidden>
-          <div class="eyebrow">MOTIONASTRA 3.0.4</div>
+          <div class="eyebrow">MOTIONASTRA 3.0.5</div>
           <h1>Your workspace.</h1>
           <details open>
             <summary>Preview & connection</summary>
@@ -582,8 +543,8 @@
               <option value="legacy">Individual · advanced keyframing</option>
             </select>
             <p>
-              Existing layers keep their current layout. Use FX Tweaker to
-              compact unanimated old controls.
+              Existing layers keep their current layout. Use Quick Tools → FX
+              settings to compact unanimated old controls.
             </p>
             <label class="check"
               ><input id="reduced" type="checkbox" />Reduce preview
@@ -604,11 +565,10 @@
               and tools require After Effects.
             </p>
             <p>
-              Use Project Settings → Expressions → JavaScript. Includes 20
-              MotionAstra presets and 120 YU Txt Motion presets by YUGraphic,
-              plus the FXTools collection. Existing v2 effects remain loadable
-              through Load selected FX. Existing projects are never migrated
-              automatically.
+              Use Project Settings → Expressions → JavaScript. Includes 16
+              MotionAstra presets and 120 Text Animate presets by YUGraphic,
+              Existing v2 effects remain loadable through Load selected FX.
+              Existing projects are never migrated automatically.
             </p>
             <a href="INSTALLATION_GUIDE.md"
               >Installation and workflow guide ↗</a
@@ -690,8 +650,6 @@
     <script src="vendor/yu-text-motion/core.js"></script>
     <script src="js/yu-text.js"></script>
     <script src="js/motion-curve.js"></script>
-    <script src="js/fx-tools-data.js"></script>
-    <script src="js/fx-tools.js"></script>
     <script src="js/main.js"></script>
   </body>
 </html>

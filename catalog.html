@@ -83,13 +83,20 @@ body{background:var(--bg);color:var(--text)}header{background:var(--panel)}butto
 /* Extensible native-effect library. */
 #fx-tools{height:100%;min-height:0}#ft-library{height:100%;overflow:auto}#ft-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}.ft-card{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface)}.ft-card canvas{width:100%;aspect-ratio:1.83}.ft-card-content{display:flex;flex-direction:column;gap:7px;flex:1;padding:14px}.ft-card-content p{font-size:11px;flex:1}.ft-card-content button{font-size:11px;padding:7px}.ft-card h2{font-size:18px}.ft-card .eyebrow{color:var(--accent)}#ft-editor{height:100%;display:flex;flex-direction:column;min-height:0}#ft-scroll{flex:1;overflow:auto;min-height:0;padding:12px 0}.ft-head{display:flex;justify-content:space-between;gap:8px;flex:none}.ft-head button{font-size:10px;padding:6px}#ft-preview{width:100%;border-radius:12px;max-height:260px;object-fit:contain}#ft-target{font-size:11px;overflow-wrap:anywhere}#ft-palettes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}#ft-palettes button{font-size:10px;padding:6px}.ft-group{padding:12px}.ft-field{display:grid;grid-template-columns:minmax(0,1fr) 100px;align-items:center;font-size:11px;gap:8px}.ft-field input{width:100%}.ft-field input[type=checkbox]{width:auto;justify-self:end}.ft-field input[type=color]{width:100%;height:30px}.ft-field input:invalid{border-color:#dc5334}.ft-actions{flex:none;display:flex;gap:6px;border-top:1px solid var(--line);padding-top:8px}.ft-actions button{flex:1;padding:7px;font-size:11px}
 .category-tabs{grid-template-columns:repeat(4,minmax(0,1fr))}@media(min-width:800px){.category-tabs{grid-template-columns:repeat(7,minmax(0,1fr))}}@media(max-width:550px){.category-tabs span{display:none}.category-tabs button{font-size:9px}}
+
+/* Host font search stays usable in narrow CEP panels. */
+.font-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; }
+.font-row > label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+#font-search { flex: 1 1 100%; min-width: 0; width: 100%; }
+#font-status { margin: 4px 0 8px; font-size: 11px; }
+#tweaker { margin-bottom: 16px; }
 </style>
   </head>
   <body class="catalog">
     <header>
       <a class="brand" href="index.html"
         ><span class="brand-icon"><i data-lucide="asterisk"></i></span
-        >MotionAstra <b>3.0.4</b></a
+        >MotionAstra <b>3.0.5</b></a
       >
       <div class="header-actions">
         <button
@@ -113,16 +120,14 @@ body{background:var(--bg);color:var(--text)}header{background:var(--panel)}butto
           type="search"
           placeholder="Search presets…"
           aria-label="Search presets"
-        /><span id="count">10</span>
+        /><span id="count">8</span>
       </div>
       <div class="category-tabs">
-        <button class="active" data-tab="Text">Text FX <span>10</span></button
-        ><button data-tab="Background">Backgrounds <span>10</span></button
-        ><button data-tab="YU">YU Txt Motion</button
-        ><button data-tab="FXTools">FXTools</button
+        <button class="active" data-tab="Text">Text Tools <span>8</span></button
+        ><button data-tab="Background">SolidGen <span>8</span></button
+        ><button data-tab="YU">Text Animate</button
         ><button data-tab="Curve">Motion Curve</button
-        ><button data-tab="Tools">Quick Tools</button
-        ><button data-tab="Tweaker">FX Tweaker</button>
+        ><button data-tab="Tools">Quick Tools</button>
       </div>
     </nav>
     <div id="quick">
@@ -142,11 +147,20 @@ body{background:var(--bg);color:var(--text)}header{background:var(--panel)}butto
         /></label>
       </div>
       <div class="font-row">
-        <label for="new-text-font">New Text font</label
-        ><select id="new-text-font" aria-label="New Text font">
+        <label for="new-text-font">After Effects font</label
+        ><input
+          id="font-search"
+          type="search"
+          placeholder="Search AE fonts…"
+          aria-label="Search After Effects fonts"
+          autocomplete="off"
+        /><select id="new-text-font" aria-label="New Text font">
           <option value="">Current AE font</option></select
-        ><button id="refresh-fonts" data-host>Load fonts</button>
+        ><button id="refresh-fonts" title="Refresh fonts from After Effects" aria-label="Refresh fonts" data-host>↻</button>
       </div>
+      <p id="font-status" class="hint" role="status" aria-live="polite">
+        Focus font search to load fonts from After Effects.
+      </p>
       <div class="utility-row">
         <button id="quick-anchor" data-host>
           <i data-lucide="crosshair"></i>Center anchor</button
@@ -160,59 +174,10 @@ body{background:var(--bg);color:var(--text)}header{background:var(--panel)}butto
     <div id="workspace">
       <main>
         <section id="library">
-          <div class="eyebrow" id="library-kicker">10 TEXT ESSENTIALS</div>
+          <div class="eyebrow" id="library-kicker">8 TEXT ESSENTIALS</div>
           <h1 id="library-title">Words in motion.</h1>
           <p id="library-help">Select a text layer before applying FX.</p>
           <div id="cards"></div>
-        </section>
-        <section id="fx-tools" hidden aria-label="FXTools">
-          <div id="ft-library">
-            <span class="eyebrow">THE EFFECT WORKBENCH</span>
-            <h1>FXTools</h1>
-            <p>Color, light and atmosphere. Built for your layers.</p>
-            <div id="ft-cards"></div>
-            <p class="hint">
-              Native AE effects · no additional plugin required. More tools can
-              be added to this collection.
-            </p>
-          </div>
-          <div id="ft-editor" hidden>
-            <div class="ft-head">
-              <button id="ft-back">← FXTools</button
-              ><button id="ft-load" data-host>Load selected</button>
-            </div>
-            <div id="ft-scroll">
-              <span class="eyebrow">FXTOOLS</span>
-              <h1 id="ft-title"></h1>
-              <p id="ft-target"></p>
-              <canvas
-                id="ft-preview"
-                width="600"
-                height="260"
-                aria-label="FXTools illustrative preview"
-              ></canvas
-              ><button id="ft-replay">Replay preview</button>
-              <p id="ft-description"></p>
-              <div id="ft-palettes"></div>
-              <div id="ft-parameters"></div>
-              <p class="hint" id="ft-reference"></p>
-              <p class="hint">
-                Settings apply on Apply/Update. Native rendering effects remain
-                in Effect Controls. This is an artistic approximation; it does
-                not reproduce the commercial plugins’ optical or GPU engines.
-                Diffusion softens the entire source, and organic distortion also
-                bends its outline.
-              </p>
-              <button id="ft-remove" data-host>
-                Remove this FX from selection
-              </button>
-            </div>
-            <div class="ft-actions">
-              <button id="ft-apply" class="primary" data-host>
-                Apply / Update</button
-              ><button id="ft-update" data-host>Update loaded FX</button>
-            </div>
-          </div>
         </section>
         <section id="motion-curve" hidden aria-label="Motion Curve">
           <div class="curve-top">
@@ -328,13 +293,13 @@ body{background:var(--bg);color:var(--text)}header{background:var(--panel)}butto
             </button>
           </div>
         </section>
-        <section id="yu" hidden aria-label="YU Txt Motion">
+        <section id="yu" hidden aria-label="Text Animate">
           <div class="yu-heading">
             <div>
               <span class="eyebrow">ANIMATION BY YUGraphic</span>
-              <h1>YU Txt Motion</h1>
+              <h1>Text Animate</h1>
             </div>
-            <button id="yu-load" data-host>Load YU settings</button>
+            <button id="yu-load" data-host>Load animation settings</button>
           </div>
           <div id="yu-browser">
             <p>120 original text presets · by YUGraphic · MIT licensed</p>
@@ -342,23 +307,26 @@ body{background:var(--bg);color:var(--text)}header{background:var(--panel)}butto
               <input
                 id="yu-search"
                 type="search"
-                placeholder="Search YU presets…"
-                aria-label="Search YU presets"
-              /><select id="yu-category" aria-label="YU category"></select>
+                placeholder="Search text animations…"
+                aria-label="Search text animations"
+              /><select
+                id="yu-category"
+                aria-label="Animation category"
+              ></select>
             </div>
             <p id="yu-count"></p>
             <div id="yu-cards"></div>
           </div>
           <div id="yu-editor" hidden>
             <div class="yu-edit-scroll">
-              <button id="yu-back">← All YU presets</button>
+              <button id="yu-back">← All text animations</button>
               <h2 id="yu-title"></h2>
               <p id="yu-target"></p>
               <canvas
                 id="yu-preview"
                 width="600"
                 height="240"
-                aria-label="YU preset preview"
+                aria-label="Text animation preview"
               ></canvas
               ><button id="yu-replay">Replay preview</button>
               <div id="yu-controls">
@@ -408,7 +376,7 @@ body{background:var(--bg);color:var(--text)}header{background:var(--panel)}butto
                 unchanged.
               </p>
               <button id="yu-clear" data-host>
-                Remove YU animation from selection
+                Remove text animation from selection
               </button>
               <p class="hint">
                 Only YU IN/OUT animators are replaced or removed. Use Undo to
@@ -420,31 +388,10 @@ body{background:var(--bg);color:var(--text)}header{background:var(--panel)}butto
               >
             </div>
             <div class="yu-actions">
-              <button id="yu-apply" class="primary" data-host>Apply YU</button
-              ><button id="yu-update" data-host>Update loaded YU</button>
+              <button id="yu-apply" class="primary" data-host>
+                Apply animation</button
+              ><button id="yu-update" data-host>Update animation</button>
             </div>
-          </div>
-        </section>
-        <section id="tweaker" hidden>
-          <div class="eyebrow">SELECT · LOAD · TWEAK</div>
-          <h1>FX Tweaker</h1>
-          <p>
-            Select one MotionAstra layer in AE, then load its settings here.
-          </p>
-          <button id="tweaker-load" class="primary" data-host>
-            Load selected FX
-          </button>
-          <div class="tweaker-note">
-            <strong>One controller. Everything here.</strong>
-            <p>
-              Compact FX keep a single MotionAstra Progress slider in Effect
-              Controls. Look, color, timing and loop settings live in this
-              panel.
-            </p>
-            <p>
-              Native rendering effects remain on the layer. Existing animated
-              controls stay in Individual mode.
-            </p>
           </div>
         </section>
         <section id="tools" hidden>
@@ -453,6 +400,27 @@ body{background:var(--bg);color:var(--text)}header{background:var(--panel)}butto
           <p>
             Tools operate on selected layers. Every action has one Undo step.
           </p>
+          <details id="tweaker" open>
+            <summary>FX settings</summary>
+            <p>
+              Select one MotionAstra layer in AE, then load its settings here.
+            </p>
+            <button id="tweaker-load" class="primary" data-host>
+              Load selected FX
+            </button>
+            <div class="tweaker-note">
+              <strong>One controller. Everything here.</strong>
+              <p>
+                Compact FX keep a single MotionAstra Progress slider in Effect
+                Controls. Look, color, timing and loop settings live in this
+                panel.
+              </p>
+              <p>
+                Native rendering effects remain on the layer. Existing animated
+                controls stay in Individual mode.
+              </p>
+            </div>
+          </details>
           <details open>
             <summary><i data-lucide="crosshair"></i>Anchor point</summary>
             <p>
@@ -650,7 +618,7 @@ body{background:var(--bg);color:var(--text)}header{background:var(--panel)}butto
           </details>
         </section>
         <section id="settings" hidden>
-          <div class="eyebrow">MOTIONASTRA 3.0.4</div>
+          <div class="eyebrow">MOTIONASTRA 3.0.5</div>
           <h1>Your workspace.</h1>
           <details open>
             <summary>Preview & connection</summary>
@@ -660,8 +628,8 @@ body{background:var(--bg);color:var(--text)}header{background:var(--panel)}butto
               <option value="legacy">Individual · advanced keyframing</option>
             </select>
             <p>
-              Existing layers keep their current layout. Use FX Tweaker to
-              compact unanimated old controls.
+              Existing layers keep their current layout. Use Quick Tools → FX
+              settings to compact unanimated old controls.
             </p>
             <label class="check"
               ><input id="reduced" type="checkbox" />Reduce preview
@@ -682,11 +650,10 @@ body{background:var(--bg);color:var(--text)}header{background:var(--panel)}butto
               and tools require After Effects.
             </p>
             <p>
-              Use Project Settings → Expressions → JavaScript. Includes 20
-              MotionAstra presets and 120 YU Txt Motion presets by YUGraphic,
-              plus the FXTools collection. Existing v2 effects remain loadable
-              through Load selected FX. Existing projects are never migrated
-              automatically.
+              Use Project Settings → Expressions → JavaScript. Includes 16
+              MotionAstra presets and 120 Text Animate presets by YUGraphic,
+              Existing v2 effects remain loadable through Load selected FX.
+              Existing projects are never migrated automatically.
             </p>
             <a href="INSTALLATION_GUIDE.md"
               >Installation and workflow guide ↗</a
@@ -2071,7 +2038,7 @@ lucide.createIcons({icons});\``);if(typeof document>"u")throw new Error("`create
 </script>
     <script>
 window.MA_PRESETS = {
-  "version": "3.0.4",
+  "version": "3.0.5",
   "presets": [
     {
       "id": "counter",
@@ -2522,125 +2489,6 @@ window.MA_PRESETS = {
       ]
     },
     {
-      "id": "gold",
-      "name": "Liquid Gold",
-      "category": "Text",
-      "description": "A warm metallic gradient with a flowing distorted edge.",
-      "parameters": [
-        {
-          "id": "amount",
-          "label": "Intensity",
-          "type": "range",
-          "default": 60,
-          "min": 0,
-          "max": 100,
-          "step": 1,
-          "group": "Appearance"
-        },
-        {
-          "id": "detail",
-          "label": "Detail / motion frequency",
-          "type": "range",
-          "default": 5,
-          "min": 1,
-          "max": 20,
-          "step": 1,
-          "group": "Appearance"
-        },
-        {
-          "id": "tint",
-          "label": "Primary color",
-          "type": "color",
-          "default": "#ffd778",
-          "group": "Colors"
-        },
-        {
-          "id": "duration",
-          "label": "Duration \u00b7 seconds",
-          "type": "range",
-          "default": 2,
-          "min": 0.1,
-          "max": 120,
-          "step": 0.1,
-          "group": "Timing"
-        },
-        {
-          "id": "ease",
-          "label": "Easing",
-          "type": "select",
-          "default": 2,
-          "options": [
-            {
-              "value": 0,
-              "label": "Linear"
-            },
-            {
-              "value": 1,
-              "label": "Ease in"
-            },
-            {
-              "value": 2,
-              "label": "Ease out"
-            },
-            {
-              "value": 3,
-              "label": "Smooth"
-            }
-          ],
-          "group": "Timing"
-        },
-        {
-          "id": "loopMode",
-          "label": "Loop mode",
-          "type": "select",
-          "group": "Timing",
-          "default": 1,
-          "options": [
-            {
-              "value": 0,
-              "label": "Ping-Pong"
-            },
-            {
-              "value": 1,
-              "label": "Cycle"
-            },
-            {
-              "value": 2,
-              "label": "Continue"
-            },
-            {
-              "value": 3,
-              "label": "None"
-            }
-          ]
-        },
-        {
-          "id": "reverse",
-          "label": "Reverse playback",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
-        },
-        {
-          "id": "manual",
-          "label": "Use progress slider",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
-        },
-        {
-          "id": "progress",
-          "label": "Progress \u00b7 %",
-          "type": "range",
-          "default": 0,
-          "min": 0,
-          "max": 100,
-          "step": 0.1,
-          "group": "Timing"
-        }
-      ]
-    },
-    {
       "id": "ember",
       "name": "Burning Ember",
       "category": "Text",
@@ -2791,115 +2639,6 @@ window.MA_PRESETS = {
           "max": 20,
           "step": 1,
           "group": "Appearance"
-        },
-        {
-          "id": "duration",
-          "label": "Duration \u00b7 seconds",
-          "type": "range",
-          "default": 2,
-          "min": 0.1,
-          "max": 120,
-          "step": 0.1,
-          "group": "Timing"
-        },
-        {
-          "id": "ease",
-          "label": "Easing",
-          "type": "select",
-          "default": 2,
-          "options": [
-            {
-              "value": 0,
-              "label": "Linear"
-            },
-            {
-              "value": 1,
-              "label": "Ease in"
-            },
-            {
-              "value": 2,
-              "label": "Ease out"
-            },
-            {
-              "value": 3,
-              "label": "Smooth"
-            }
-          ],
-          "group": "Timing"
-        },
-        {
-          "id": "loopMode",
-          "label": "Loop mode",
-          "type": "select",
-          "group": "Timing",
-          "default": 1,
-          "options": [
-            {
-              "value": 0,
-              "label": "Ping-Pong"
-            },
-            {
-              "value": 1,
-              "label": "Cycle"
-            },
-            {
-              "value": 2,
-              "label": "Continue"
-            },
-            {
-              "value": 3,
-              "label": "None"
-            }
-          ]
-        },
-        {
-          "id": "reverse",
-          "label": "Reverse playback",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
-        },
-        {
-          "id": "manual",
-          "label": "Use progress slider",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
-        },
-        {
-          "id": "progress",
-          "label": "Progress \u00b7 %",
-          "type": "range",
-          "default": 0,
-          "min": 0,
-          "max": 100,
-          "step": 0.1,
-          "group": "Timing"
-        }
-      ]
-    },
-    {
-      "id": "glass",
-      "name": "3D Glass",
-      "category": "Text",
-      "description": "A cool glass-like bevel and drifting highlight; simulated depth.",
-      "parameters": [
-        {
-          "id": "amount",
-          "label": "Intensity",
-          "type": "range",
-          "default": 60,
-          "min": 0,
-          "max": 100,
-          "step": 1,
-          "group": "Appearance"
-        },
-        {
-          "id": "tint",
-          "label": "Primary color",
-          "type": "color",
-          "default": "#b7deff",
-          "group": "Colors"
         },
         {
           "id": "duration",
@@ -4265,159 +4004,6 @@ window.MA_PRESETS = {
       ]
     },
     {
-      "id": "glassbg",
-      "name": "Glassmorphism",
-      "category": "Background",
-      "description": "A translucent gradient card with soft edges and a subtle bevel.",
-      "parameters": [
-        {
-          "id": "static",
-          "label": "Static background",
-          "type": "checkbox",
-          "group": "Timing",
-          "default": false
-        },
-        {
-          "id": "color2",
-          "label": "Primary color",
-          "type": "color",
-          "default": "#198deb",
-          "group": "Colors"
-        },
-        {
-          "id": "color3",
-          "label": "Secondary color",
-          "type": "color",
-          "default": "#b277ff",
-          "group": "Colors"
-        },
-        {
-          "id": "size",
-          "label": "Element size \u00b7 px",
-          "type": "range",
-          "default": 50,
-          "min": 5,
-          "max": 300,
-          "step": 1,
-          "group": "Appearance"
-        },
-        {
-          "id": "amount",
-          "label": "Motion amount",
-          "type": "range",
-          "default": 40,
-          "min": 0,
-          "max": 100,
-          "step": 1,
-          "group": "Appearance"
-        },
-        {
-          "id": "cycles",
-          "label": "Cycles across duration",
-          "type": "range",
-          "default": 1,
-          "min": 0.1,
-          "max": 8,
-          "step": 0.1,
-          "group": "Appearance"
-        },
-        {
-          "id": "softness",
-          "label": "Softness \u00b7 px",
-          "type": "range",
-          "default": 25,
-          "min": 0,
-          "max": 100,
-          "step": 1,
-          "group": "Appearance"
-        },
-        {
-          "id": "duration",
-          "label": "Duration \u00b7 seconds",
-          "type": "number",
-          "default": 5,
-          "min": 0.1,
-          "max": 3600,
-          "step": 0.1,
-          "group": "Timing"
-        },
-        {
-          "id": "ease",
-          "label": "Easing",
-          "type": "select",
-          "default": 0,
-          "options": [
-            {
-              "value": 0,
-              "label": "Linear"
-            },
-            {
-              "value": 1,
-              "label": "Ease in"
-            },
-            {
-              "value": 2,
-              "label": "Ease out"
-            },
-            {
-              "value": 3,
-              "label": "Smooth"
-            }
-          ],
-          "group": "Timing"
-        },
-        {
-          "id": "loopMode",
-          "label": "Loop mode",
-          "type": "select",
-          "group": "Timing",
-          "default": 1,
-          "options": [
-            {
-              "value": 0,
-              "label": "Ping-Pong"
-            },
-            {
-              "value": 1,
-              "label": "Cycle"
-            },
-            {
-              "value": 2,
-              "label": "Continue"
-            },
-            {
-              "value": 3,
-              "label": "None"
-            }
-          ]
-        },
-        {
-          "id": "reverse",
-          "label": "Reverse playback",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
-        },
-        {
-          "id": "manual",
-          "label": "Use progress slider",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
-        },
-        {
-          "id": "progress",
-          "label": "Progress \u00b7 %",
-          "type": "range",
-          "default": 0,
-          "min": 0,
-          "max": 100,
-          "step": 0.1,
-          "group": "Timing"
-        }
-      ]
-    },
-    {
       "id": "smoke",
       "name": "Dark Smoke",
       "category": "Background",
@@ -4625,159 +4211,6 @@ window.MA_PRESETS = {
           "min": 1,
           "max": 999,
           "step": 1,
-          "group": "Appearance"
-        },
-        {
-          "id": "duration",
-          "label": "Duration \u00b7 seconds",
-          "type": "number",
-          "default": 5,
-          "min": 0.1,
-          "max": 3600,
-          "step": 0.1,
-          "group": "Timing"
-        },
-        {
-          "id": "ease",
-          "label": "Easing",
-          "type": "select",
-          "default": 0,
-          "options": [
-            {
-              "value": 0,
-              "label": "Linear"
-            },
-            {
-              "value": 1,
-              "label": "Ease in"
-            },
-            {
-              "value": 2,
-              "label": "Ease out"
-            },
-            {
-              "value": 3,
-              "label": "Smooth"
-            }
-          ],
-          "group": "Timing"
-        },
-        {
-          "id": "loopMode",
-          "label": "Loop mode",
-          "type": "select",
-          "group": "Timing",
-          "default": 1,
-          "options": [
-            {
-              "value": 0,
-              "label": "Ping-Pong"
-            },
-            {
-              "value": 1,
-              "label": "Cycle"
-            },
-            {
-              "value": 2,
-              "label": "Continue"
-            },
-            {
-              "value": 3,
-              "label": "None"
-            }
-          ]
-        },
-        {
-          "id": "reverse",
-          "label": "Reverse playback",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
-        },
-        {
-          "id": "manual",
-          "label": "Use progress slider",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
-        },
-        {
-          "id": "progress",
-          "label": "Progress \u00b7 %",
-          "type": "range",
-          "default": 0,
-          "min": 0,
-          "max": 100,
-          "step": 0.1,
-          "group": "Timing"
-        }
-      ]
-    },
-    {
-      "id": "blueprint",
-      "name": "Blueprint CAD",
-      "category": "Background",
-      "description": "A drafting grid with moving crosshairs and construction circles.",
-      "parameters": [
-        {
-          "id": "static",
-          "label": "Static background",
-          "type": "checkbox",
-          "group": "Timing",
-          "default": false
-        },
-        {
-          "id": "color2",
-          "label": "Primary color",
-          "type": "color",
-          "default": "#198deb",
-          "group": "Colors"
-        },
-        {
-          "id": "color3",
-          "label": "Secondary color",
-          "type": "color",
-          "default": "#b277ff",
-          "group": "Colors"
-        },
-        {
-          "id": "count",
-          "label": "Elements / density",
-          "type": "range",
-          "default": 16,
-          "min": 4,
-          "max": 40,
-          "step": 1,
-          "group": "Appearance"
-        },
-        {
-          "id": "size",
-          "label": "Element size \u00b7 px",
-          "type": "range",
-          "default": 50,
-          "min": 5,
-          "max": 300,
-          "step": 1,
-          "group": "Appearance"
-        },
-        {
-          "id": "amount",
-          "label": "Motion amount",
-          "type": "range",
-          "default": 40,
-          "min": 0,
-          "max": 100,
-          "step": 1,
-          "group": "Appearance"
-        },
-        {
-          "id": "cycles",
-          "label": "Cycles across duration",
-          "type": "range",
-          "default": 1,
-          "min": 0.1,
-          "max": 8,
-          "step": 0.1,
           "group": "Appearance"
         },
         {
@@ -7643,14 +7076,14 @@ document.addEventListener('visibilitychange',run);return {attach,play,clear,rend
 
 </script>
     <script>
-/* MotionAstra CEP transport v3.0.4.
+/* MotionAstra CEP transport v3.0.5.
  * Host files load by absolute path; all replies are tagged and request-correlated.
  * Empty callbacks recover the stored reply, NEVER replay the host mutation.
  */
 (function (root) {
   "use strict";
-  const VERSION = "3.0.4";
-  const BUILD = "3.0.4";
+  const VERSION = "3.0.5";
+  const BUILD = "3.0.5";
   const PREFIX = "MAFX1:";
   const ERROR_PREFIX = "MAFX1E:";
   const available = !!root.__adobe_cep__;
@@ -8368,7 +7801,7 @@ window.MotionAstraYUUI = (() => {
       button.onclick = () => {
         if (!busy) open(p);
       };
-      const applyButton = node("button", "primary yu-card-apply", "Apply YU");
+      const applyButton = node("button", "primary yu-card-apply", "Apply animation");
       applyButton.dataset.host = "";
       applyButton.disabled = busy || !api.ready();
       applyButton.onclick = () =>
@@ -8533,327 +7966,6 @@ return {init,setBusy(on){busy=on;if(on)stop();sync();},setVisible(on){visible=on
 
 </script>
     <script>
-window.MA_FXTOOLS={"effects":[{"id":"prism","name":"Prism Gradient","tag":"COLOR & DIFFUSION","description":"Rotating two-color gradients, organic distortion, soft diffusion and a luminous finish for text, shapes and footage.","reference":"Cosmic-inspired workflow \u00b7 native AE approximation","parameters":[{"id":"colorA","label":"Color A","type":"color","default":"#8257ff","group":"Color"},{"id":"colorB","label":"Color B","type":"color","default":"#ff934a","group":"Color"},{"id":"angle","label":"Gradient angle","type":"number","default":-35,"min":-360,"max":360,"step":1,"group":"Look"},{"id":"spread","label":"Gradient spread \u00b7 %","type":"number","default":110,"min":10,"max":300,"step":1,"group":"Look"},{"id":"centerX","label":"Center X \u00b7 %","type":"number","default":50,"min":-100,"max":200,"step":1,"group":"Look"},{"id":"centerY","label":"Center Y \u00b7 %","type":"number","default":50,"min":-100,"max":200,"step":1,"group":"Look"},{"id":"radial","label":"Radial gradient","type":"checkbox","default":false,"group":"Look"},{"id":"blend","label":"Original image blend \u00b7 %","type":"number","default":0,"min":0,"max":100,"step":1,"group":"Look"},{"id":"distortion","label":"Organic distortion \u00b7 px","type":"number","default":0,"min":0,"max":100,"step":1,"group":"Look"},{"id":"size","label":"Distortion scale","type":"number","default":80,"min":5,"max":500,"step":1,"group":"Look"},{"id":"diffusion","label":"Diffusion blur \u00b7 px","type":"number","default":0,"min":0,"max":50,"step":0.5,"group":"Look"},{"id":"glow","label":"Glow intensity","type":"number","default":0.6,"min":0,"max":5,"step":0.05,"group":"Look"},{"id":"radius","label":"Glow radius \u00b7 px","type":"number","default":35,"min":0,"max":300,"step":1,"group":"Look"},{"id":"animate","label":"Animate gradient rotation","type":"checkbox","default":false,"group":"Animation"},{"id":"duration","label":"Rotation duration \u00b7 seconds","type":"number","default":8,"min":0.1,"max":60,"step":0.1,"group":"Animation"}]},{"id":"bloom","name":"Bloom Glow","tag":"LIGHT & ATMOSPHERE","description":"A three-scale glow stack with a tight core, soft halo and broad bloom. Keeps source colors or tints the entire source.","reference":"Deep Glow-inspired workflow \u00b7 native AE approximation","parameters":[{"id":"radius","label":"Base radius \u00b7 px","type":"number","default":40,"min":1,"max":100,"step":1,"group":"Look"},{"id":"intensity","label":"Intensity","type":"number","default":1.2,"min":0,"max":10,"step":0.05,"group":"Look"},{"id":"threshold","label":"Luminance threshold \u00b7 %","type":"number","default":45,"min":0,"max":100,"step":1,"group":"Look"},{"id":"spread","label":"Outer radius multiplier","type":"number","default":3,"min":1,"max":5,"step":0.1,"group":"Look"},{"id":"falloff","label":"Outer falloff","type":"number","default":0.45,"min":0,"max":1,"step":0.05,"group":"Look"},{"id":"tint","label":"Tint entire source","type":"checkbox","default":false,"group":"Color"},{"id":"color","label":"Source tint","type":"color","default":"#ffa76b","group":"Color"}]},{"id":"glass","name":"Glass Surface","tag":"FROST & RIM LIGHT","description":"A frosted glass-inspired finish on your existing artwork: tint, liquid distortion, blur and beveled highlights. Uses source pixels; does not refract the background behind the layer.","reference":"Glasser-inspired aesthetic \u00b7 independent native surface treatment","parameters":[{"id":"color","label":"Glass tint","type":"color","default":"#b6ddff","group":"Material"},{"id":"lightColor","label":"Light color","type":"color","default":"#ffffff","group":"Lighting"},{"id":"tint","label":"Tint amount \u00b7 %","type":"number","default":30,"min":0,"max":100,"step":1,"group":"Material"},{"id":"distortion","label":"Surface distortion","type":"number","default":12,"min":0,"max":100,"step":1,"group":"Material"},{"id":"size","label":"Distortion size","type":"number","default":80,"min":2,"max":500,"step":1,"group":"Material"},{"id":"blur","label":"Frost blur","type":"number","default":3,"min":0,"max":50,"step":0.1,"group":"Material"},{"id":"edge","label":"Edge thickness","type":"number","default":5,"min":0,"max":10,"step":0.1,"group":"Lighting"},{"id":"angle","label":"Light angle","type":"number","default":-45,"min":-360,"max":360,"step":1,"group":"Lighting"},{"id":"light","label":"Light intensity","type":"number","default":0.7,"min":0,"max":1,"step":0.01,"group":"Lighting"},{"id":"glow","label":"Highlight glow","type":"number","default":0.3,"min":0,"max":3,"step":0.05,"group":"Lighting"},{"id":"radius","label":"Glow radius","type":"number","default":25,"min":0,"max":200,"step":1,"group":"Lighting"}]}]};
-
-</script>
-    <script>
-/* Registry-driven FXTools editor. Adding an entry requires an AE adapter, not a new UI. */
-window.MotionAstraFXToolsUI = (() => {
-  "use strict";
-  const $ = (id) => document.getElementById(id),
-    data = window.MA_FXTOOLS;
-  let api,
-    current = data.effects[0],
-    target = null,
-    values = {},
-    drafts = {},
-    busy = false,
-    visible = false,
-    raf = 0;
-  function el(tag, cls, text) {
-    const e = document.createElement(tag);
-    e.className = cls || "";
-    if (text !== undefined) e.textContent = text;
-    return e;
-  }
-  function defaults(r) {
-    const p = {};
-    r.parameters.forEach((d) => (p[d.id] = d.default));
-    return p;
-  }
-  function valid() {
-    return Array.from($("ft-parameters").querySelectorAll("input")).every(
-      (e) => e.type === "checkbox" || (e.checkValidity() && e.value !== "")
-    );
-  }
-  function sync() {
-    $("ft-apply").hidden = !!target;
-    if (!api) return;
-    for (const id of ["ft-apply", "ft-update", "ft-load", "ft-remove"])
-      $(id).disabled =
-        busy ||
-        !api.ready() ||
-        (["ft-apply", "ft-update"].includes(id) && !valid()) ||
-        (id === "ft-update" && !target);
-    $("ft-parameters")
-      .querySelectorAll("input")
-      .forEach((e) => (e.disabled = busy));
-    $("ft-palettes")
-      .querySelectorAll("button")
-      .forEach((e) => (e.disabled = busy));
-    $("ft-back").disabled = busy;
-  }
-  function stop() {
-    cancelAnimationFrame(raf);
-    raf = 0;
-  }
-  function draw(canvas, r, p, t = 0) {
-    const c = canvas.getContext("2d"),
-      w = canvas.width,
-      h = canvas.height;
-    c.clearRect(0, 0, w, h);
-    c.fillStyle = "#09090c";
-    c.fillRect(0, 0, w, h);
-    c.textAlign = "center";
-    c.textBaseline = "middle";
-    c.font = "800 " + Math.floor(w * 0.19) + "px Arial";
-    if (r.id === "prism") {
-      const a =
-          ((p.angle + (p.animate ? (t * 360) / p.duration : 0)) * Math.PI) /
-          180,
-        x = (w * p.centerX) / 100,
-        y = (h * p.centerY) / 100,
-        d = (w * p.spread) / 200,
-        g = p.radial
-          ? c.createRadialGradient(x, y, 0, x, y, d)
-          : c.createLinearGradient(
-              x - Math.cos(a) * d,
-              y - Math.sin(a) * d,
-              x + Math.cos(a) * d,
-              y + Math.sin(a) * d
-            );
-      g.addColorStop(0, p.colorA);
-      g.addColorStop(1, p.colorB);
-      c.fillStyle = g;
-      c.shadowColor = p.colorA;
-      c.shadowBlur = p.radius * 0.15 * p.glow;
-      c.filter = p.diffusion ? "blur(" + p.diffusion * 0.12 + "px)" : "none";
-      c.fillText("ASTRA", w / 2, h / 2);
-      c.filter = "none";
-      c.shadowBlur = 0;
-    } else if (r.id === "glass") {
-      const gradient = c.createLinearGradient(
-        w * 0.2,
-        h * 0.25,
-        w * 0.8,
-        h * 0.75
-      );
-      gradient.addColorStop(0, "#ffffff");
-      gradient.addColorStop(0.35, p.color);
-      gradient.addColorStop(1, "#253444");
-      c.fillStyle = gradient;
-      c.shadowColor = p.lightColor;
-      c.shadowBlur = p.radius * p.glow;
-      c.filter = "blur(" + p.blur * 0.15 + "px)";
-      c.fillText("GLASS", w / 2, h / 2);
-      c.filter = "none";
-      c.shadowBlur = 0;
-      c.strokeStyle = p.lightColor;
-      c.globalAlpha = p.light;
-      c.lineWidth = Math.max(0.2, p.edge * 0.2);
-      c.strokeText("GLASS", w / 2, h / 2);
-      c.globalAlpha = 1;
-    } else {
-      c.strokeStyle = p.tint ? p.color : "#ffb177";
-      c.lineWidth = 3;
-      c.shadowColor = c.strokeStyle;
-      [p.radius * p.spread * 0.5, p.radius * 0.5, 0].forEach((b, i) => {
-        c.shadowBlur = b;
-        c.globalAlpha = Math.min(1, p.intensity * (i === 0 ? p.falloff : 1));
-        c.strokeRect(w * 0.2, h * 0.3, w * 0.6, h * 0.4);
-      });
-      c.globalAlpha = 1;
-      c.shadowBlur = 0;
-    }
-    c.fillStyle = "#8a8a94";
-    c.font = "10px Arial";
-    c.fillText("Illustrative preview", w / 2, h - 15);
-  }
-  function preview() {
-    stop();
-    if (!current || !valid()) return;
-    draw($("ft-preview"), current, values);
-    if (
-      !visible ||
-      busy ||
-      !values.animate ||
-      document.body.classList.contains("reduced")
-    )
-      return;
-    const start = performance.now();
-    function tick(now) {
-      if (!visible || busy || document.hidden) {
-        stop();
-        return;
-      }
-      draw($("ft-preview"), current, values, (now - start) / 1000);
-      if (now - start < 4000) raf = requestAnimationFrame(tick);
-    }
-    raf = requestAnimationFrame(tick);
-  }
-  function renderParameters() {
-    const groups = {};
-    $("ft-parameters").textContent = "";
-    current.parameters.forEach((d) => {
-      if (!groups[d.group]) {
-        const g = el("details", "ft-group");
-        g.open = true;
-        g.appendChild(el("summary", "", d.group));
-        groups[d.group] = g;
-        $("ft-parameters").appendChild(g);
-      }
-      const label = el("label", "ft-field", d.label),
-        input = el("input");
-      input.id = "ft-param-" + d.id;
-      input.type = d.type;
-      input.required = d.type !== "checkbox";
-      if (d.type === "number") {
-        input.min = d.min;
-        input.max = d.max;
-        input.step = d.step;
-      }
-      if (d.type === "checkbox") input.checked = values[d.id];
-      else input.value = values[d.id];
-      input.oninput = () => {
-        if (
-          input.checkValidity() &&
-          (input.type === "checkbox" || input.value !== "")
-        ) {
-          values[d.id] =
-            d.type === "checkbox"
-              ? input.checked
-              : d.type === "number"
-                ? Number(input.value)
-                : input.value;
-          drafts[current.id] = values;
-          preview();
-        }
-        sync();
-      };
-      label.appendChild(input);
-      groups[d.group].appendChild(label);
-    });
-    sync();
-  }
-  function open(r, p, loaded) {
-    if (busy) return;
-    current = r;
-    values = Object.assign({}, p || drafts[r.id] || defaults(r));
-    target = loaded ? loaded.target : null;
-    $("ft-apply").hidden = !!loaded;
-    $("ft-update").textContent = loaded ? "Save changes" : "Update loaded FX";
-    $("ft-library").hidden = true;
-    $("ft-editor").hidden = false;
-    $("ft-title").textContent = r.name;
-    $("ft-description").textContent = r.description;
-    $("ft-reference").textContent = r.reference;
-    $("ft-target").textContent = loaded
-      ? "Loaded: " + loaded.layerName
-      : "Select visual layers in AE. Apply adds or updates this effect without creating layers.";
-    $("ft-palettes").hidden = r.id !== "prism";
-    renderParameters();
-    $("ft-scroll").scrollTop = 0;
-    preview();
-  }
-  async function load() {
-    const r = await api.action({
-      action: "fxTools",
-      operation: "load",
-      id: current.id
-    });
-    if (r && r.params) open(current, r.params, r);
-  }
-  async function apply(update) {
-    if (!valid()) return;
-    const r = await api.action({
-      action: "fxTools",
-      operation: update ? "update" : "apply",
-      id: current.id,
-      params: values,
-      target: update ? target : null
-    });
-    if (r && r.changed && update) load();
-  }
-  function init(adapter) {
-    api = adapter;
-    data.effects.forEach((r) => {
-      const card = el("article", "ft-card"),
-        canvas = el("canvas");
-      canvas.width = 440;
-      canvas.height = 240;
-      draw(canvas, r, defaults(r));
-      const content = el("div", "ft-card-content"),
-        custom = el("button", "", "Customize"),
-        applyButton = el("button", "primary", "Apply " + r.name);
-      applyButton.dataset.host = "";
-      custom.onclick = () => open(r);
-      applyButton.onclick = () =>
-        api.action({
-          action: "fxTools",
-          operation: "apply",
-          id: r.id,
-          params: drafts[r.id] || defaults(r)
-        });
-      content.append(
-        el("span", "eyebrow", r.tag),
-        el("h2", "", r.name),
-        el("p", "", r.description),
-        custom,
-        applyButton
-      );
-      card.append(canvas, content);
-      $("ft-cards").appendChild(card);
-    });
-    [
-      ["Violet Ember", "#8257ff", "#ff934a"],
-      ["Ocean Mint", "#145bff", "#6affbc"],
-      ["Rose Gold", "#e04486", "#ffe29b"],
-      ["Polar", "#64dfff", "#d7c8ff"]
-    ].forEach(([name, a, b]) => {
-      const button = el("button", "", name);
-      button.onclick = () => {
-        if (busy) return;
-        values.colorA = a;
-        values.colorB = b;
-        drafts[current.id] = values;
-        renderParameters();
-        preview();
-      };
-      $("ft-palettes").appendChild(button);
-    });
-    $("ft-back").onclick = () => {
-      stop();
-      $("ft-editor").hidden = true;
-      $("ft-library").hidden = false;
-    };
-    $("ft-load").onclick = load;
-    $("ft-apply").onclick = () => apply(false);
-    $("ft-update").onclick = () => apply(true);
-    $("ft-replay").onclick = preview;
-    $("ft-remove").onclick = async () => {
-      const r = await api.action({
-        action: "fxTools",
-        operation: "remove",
-        id: current.id,
-        target: target
-      });
-      if (r && r.changed) {
-        target = null;
-        sync();
-      }
-    };
-    document.addEventListener("visibilitychange", () => {
-      if (document.hidden) stop();
-    });
-    sync();
-  }
-  return {
-    init,
-    load,
-    setBusy(on) {
-      busy = on;
-      if (on) stop();
-      sync();
-    },
-    setVisible(on) {
-      visible = on;
-      if (!on) stop();
-    }
-  };
-})();
-
-</script>
-    <script>
 (() => {
   "use strict";
   const $ = (id) => document.getElementById(id),
@@ -8871,7 +7983,7 @@ window.MotionAstraFXToolsUI = (() => {
       target: null,
       loadedLayout: null,
       loadedProgress: null,
-      dirty: false
+      dirty: false,
     },
     history = [];
   const store = {
@@ -8886,7 +7998,7 @@ window.MotionAstraFXToolsUI = (() => {
       try {
         localStorage.setItem(k, String(v));
       } catch (e) {}
-    }
+    },
   };
   let timer,
     pendingRemove = null;
@@ -8929,12 +8041,11 @@ window.MotionAstraFXToolsUI = (() => {
     });
     document
       .querySelectorAll(
-        "#parameters input,#parameters select,#parameters textarea"
+        "#parameters input,#parameters select,#parameters textarea",
       )
       .forEach((e) => (e.disabled = value));
     if (window.MotionAstraYUUI) window.MotionAstraYUUI.setBusy(value);
     if (window.MotionCurve) window.MotionCurve.setBusy(value);
-    if (window.MotionAstraFXToolsUI) window.MotionAstraFXToolsUI.setBusy(value);
   }
   async function refresh() {
     if (state.busy) return;
@@ -8989,18 +8100,14 @@ window.MotionAstraFXToolsUI = (() => {
     state.tab = name;
     document.querySelector("#nav .search").hidden = ![
       "Text",
-      "Background"
+      "Background",
     ].includes(name);
     close();
     $("library").hidden = !["Text", "Background"].includes(name);
     $("tools").hidden = name !== "Tools";
     $("settings").hidden = name !== "Settings";
-    $("tweaker").hidden = name !== "Tweaker";
     $("yu").hidden = name !== "YU";
     $("motion-curve").hidden = name !== "Curve";
-    $("fx-tools").hidden = name !== "FXTools";
-    if (window.MotionAstraFXToolsUI)
-      window.MotionAstraFXToolsUI.setVisible(name === "FXTools");
     if (window.MotionCurve) window.MotionCurve.setVisible(name === "Curve");
     if (window.MotionAstraYUUI)
       window.MotionAstraYUUI.setVisible(name === "YU");
@@ -9012,12 +8119,12 @@ window.MotionAstraFXToolsUI = (() => {
       state.query = "";
       $("search").value = "";
       $("library-kicker").textContent =
-        name === "Text" ? "TEXT FX" : "BACKGROUNDS";
+        name === "Text" ? "TEXT TOOLS" : "SOLIDGEN";
       $("library-title").textContent =
         name === "Text" ? "Text in motion." : "A little atmosphere.";
       $("library-help").textContent =
         name === "Text"
-          ? "10 customizable presets · select a text layer before applying."
+          ? "8 customizable presets · select a text layer before applying."
           : "Choose a style to generate its own background layer.";
       render();
     }
@@ -9029,7 +8136,7 @@ window.MotionAstraFXToolsUI = (() => {
     const list = data.presets.filter(
       (p) =>
         p.category === state.tab &&
-        `${p.name} ${p.description}`.toLowerCase().includes(state.query)
+        `${p.name} ${p.description}`.toLowerCase().includes(state.query),
     );
     $("count").textContent = list.length;
     list.forEach((p, i) => {
@@ -9041,7 +8148,7 @@ window.MotionAstraFXToolsUI = (() => {
       view.setAttribute("aria-label", "Customize " + p.name);
       view.append(
         canvas,
-        el("span", "card-number", String(i + 1).padStart(2, "0"))
+        el("span", "card-number", String(i + 1).padStart(2, "0")),
       );
       view.onclick = () => open(p);
       const content = el("div", "card-content");
@@ -9049,17 +8156,19 @@ window.MotionAstraFXToolsUI = (() => {
         el(
           "span",
           "type",
-          p.category === "Text" ? "TEXT ANIMATION" : "PROCEDURAL BACKGROUND"
+          p.category === "Text" ? "TEXT ANIMATION" : "PROCEDURAL BACKGROUND",
         ),
         el("h2", "", p.name),
-        el("p", "", p.description)
+        el("p", "", p.description),
       );
       const actions = el("div", "card-actions"),
         button = el("button", "customize", "Customize"),
         apply = el(
           "button",
           "primary card-apply",
-          p.category === "Background" ? "Generate Background" : "Apply / Update"
+          p.category === "Background"
+            ? "Generate Background"
+            : "Apply / Update",
         );
       button.onclick = () => open(p);
       apply.dataset.host = "";
@@ -9067,7 +8176,7 @@ window.MotionAstraFXToolsUI = (() => {
       apply.setAttribute(
         "aria-label",
         (p.category === "Background" ? "Generate Background: " : "Apply FX: ") +
-          p.name
+          p.name,
       );
       apply.onclick = () => {
         if (state.busy || state.draftInvalid[p.id]) return;
@@ -9077,14 +8186,14 @@ window.MotionAstraFXToolsUI = (() => {
             (values[d.id] =
               state.drafts[p.id] && state.drafts[p.id][d.id] !== undefined
                 ? state.drafts[p.id][d.id]
-                : d.default)
+                : d.default),
         );
         action({
           action: p.category === "Background" ? "generateBackground" : "apply",
           id: p.id,
           params: values,
           smart: true,
-          layout: $("control-layout").value || "compact"
+          layout: $("control-layout").value || "compact",
         });
       };
       actions.append(button, apply);
@@ -9148,7 +8257,7 @@ window.MotionAstraFXToolsUI = (() => {
             ? "select"
             : d.type === "textarea"
               ? "textarea"
-              : "input"
+              : "input",
         );
       input.id = "param-" + d.id;
       label.htmlFor = input.id;
@@ -9249,7 +8358,7 @@ window.MotionAstraFXToolsUI = (() => {
     p.parameters.forEach(
       (d) =>
         (state.params[d.id] =
-          values && values[d.id] !== undefined ? values[d.id] : d.default)
+          values && values[d.id] !== undefined ? values[d.id] : d.default),
     );
     state.drafts[p.id] = state.params;
     $("fx-title").textContent = p.name;
@@ -9295,7 +8404,7 @@ window.MotionAstraFXToolsUI = (() => {
         .concat(data.legacy || [])
         .find((p) => p.id === r.id);
       if (p) {
-        tab("Tweaker");
+        tab("Tools");
         open(p, r.params, r);
       }
     }
@@ -9306,7 +8415,7 @@ window.MotionAstraFXToolsUI = (() => {
     if (state.dirty) {
       notice(
         "Update or reload your edited settings before compacting.",
-        "warning"
+        "warning",
       );
       return;
     }
@@ -9322,7 +8431,7 @@ window.MotionAstraFXToolsUI = (() => {
       .querySelectorAll("#parameters .parameter-group")
       .forEach((group) => {
         group.hidden = !Array.from(group.querySelectorAll(".parameter")).some(
-          (row) => !row.hidden
+          (row) => !row.hidden,
         );
         if (q) group.open = true;
       });
@@ -9344,7 +8453,7 @@ window.MotionAstraFXToolsUI = (() => {
         id: state.preset.id,
         params: state.params,
         smart: true,
-        layout: $("control-layout").value || "compact"
+        layout: $("control-layout").value || "compact",
       });
   };
   $("update").onclick = async () => {
@@ -9357,7 +8466,7 @@ window.MotionAstraFXToolsUI = (() => {
         editProgress:
           state.target && state.params.progress !== state.loadedProgress,
         smart: true,
-        layout: $("control-layout").value || "compact"
+        layout: $("control-layout").value || "compact",
       });
       if (r && r.changed) {
         state.dirty = false;
@@ -9366,8 +8475,6 @@ window.MotionAstraFXToolsUI = (() => {
     }
   };
   $("load-fx").onclick = () => {
-    if (state.tab === "FXTools" && window.MotionAstraFXToolsUI)
-      return window.MotionAstraFXToolsUI.load();
     if (state.tab === "YU" && window.MotionAstraYUUI)
       return window.MotionAstraYUUI.load();
     return load();
@@ -9380,7 +8487,7 @@ window.MotionAstraFXToolsUI = (() => {
             target: state.target,
             layout: state.loadedLayout,
             layerName: $("loaded-layer").textContent,
-            params: { progress: state.loadedProgress }
+            params: { progress: state.loadedProgress },
           }
         : null;
       open(state.preset, {}, current);
@@ -9396,7 +8503,7 @@ window.MotionAstraFXToolsUI = (() => {
     (b) =>
       (b.onclick = () => {
         if (!state.busy) tab(b.dataset.tab);
-      })
+      }),
   );
   const glyphs = ["↖", "↑", "↗", "←", "·", "→", "↙", "↓", "↘"];
   glyphs.forEach((g, i) => {
@@ -9407,7 +8514,7 @@ window.MotionAstraFXToolsUI = (() => {
       tool("anchor", {
         x: (i % 3) / 2,
         y: Math.floor(i / 3) / 2,
-        keep: $("anchor-keep").checked
+        keep: $("anchor-keep").checked,
       });
     $("anchor-grid").appendChild(b);
   });
@@ -9417,7 +8524,7 @@ window.MotionAstraFXToolsUI = (() => {
     tool("anchor", {
       x: Number($("anchor-x").value) / 100,
       y: Number($("anchor-y").value) / 100,
-      keep: $("anchor-keep").checked
+      keep: $("anchor-keep").checked,
     });
   document
     .querySelectorAll("[data-tool]")
@@ -9430,50 +8537,98 @@ window.MotionAstraFXToolsUI = (() => {
               ? { font: $("new-text-font").value }
               : ["newShape", "newSolid"].includes(b.dataset.tool)
                 ? { color: $("new-layer-color").value }
-                : {}
-          ))
+                : {},
+          )),
     );
   document
     .querySelectorAll("[data-order]")
     .forEach(
-      (b) => (b.onclick = () => tool("arrange", { mode: b.dataset.order }))
+      (b) => (b.onclick = () => tool("arrange", { mode: b.dataset.order })),
     );
   document.querySelectorAll("[data-ease]").forEach(
     (b) =>
       (b.onclick = () =>
         tool("ease", {
           mode: b.dataset.ease,
-          strength: Number($("ease-strength").value)
-        }))
+          strength: Number($("ease-strength").value),
+        })),
   );
-  $("refresh-fonts").onclick = async () => {
-    const r = await action({ action: "fonts" });
-    if (r && r.fonts) {
-      const chosen = $("new-text-font").value;
-      $("new-text-font").textContent = "";
-      const current = el("option", "", "Current AE font");
-      current.value = "";
-      $("new-text-font").appendChild(current);
-      r.fonts.forEach((f) => {
-        const o = el("option", "", f.label);
-        o.value = f.value;
-        $("new-text-font").appendChild(o);
-      });
-      $("new-text-font").value = r.fonts.some((f) => f.value === chosen)
-        ? chosen
-        : "";
+  // Only host FontObjects are offered. Never substitute browser fonts.
+  let hostFonts = [],
+    fontsLoaded = false,
+    fontsLoading = false;
+  function filterFonts() {
+    const query = $("font-search").value.trim().toLocaleLowerCase();
+    const select = $("new-text-font"),
+      chosen = select.value;
+    const matches = hostFonts.filter((f) =>
+      (f.label + " " + f.value).toLocaleLowerCase().includes(query),
+    );
+    select.textContent = "";
+    const current = el("option", "", "Current AE font");
+    current.value = "";
+    select.appendChild(current);
+    // Keep the explicit choice when a new search hides it.
+    const selected = hostFonts.find((f) => f.value === chosen);
+    const visible =
+      selected && !matches.includes(selected)
+        ? [selected, ...matches]
+        : matches;
+    visible.forEach((f) => {
+      const option = el("option", "", f.label);
+      option.value = f.value;
+      select.appendChild(option);
+    });
+    select.value = selected ? chosen : "";
+    $("font-status").textContent = fontsLoaded
+      ? matches.length
+        ? `${matches.length} of ${hostFonts.length} AE fonts`
+        : "No matching AE fonts. Try a family, style or PostScript name."
+      : "Connect to After Effects to load its fonts.";
+  }
+  async function loadFonts() {
+    if (fontsLoading || state.busy) return;
+    if (!bridge.isReady()) {
+      filterFonts();
+      return;
     }
+    fontsLoading = true;
+    $("font-status").textContent = "Loading fonts from After Effects…";
+    try {
+      const r = await action({ action: "fonts" });
+      if (r && Array.isArray(r.fonts)) {
+        hostFonts = r.fonts;
+        fontsLoaded = true;
+        filterFonts();
+        if (!hostFonts.length)
+          $("font-status").textContent =
+            r.message ||
+            "After Effects returned no available fonts. Refresh after activating a font.";
+      } else
+        $("font-status").textContent =
+          "Could not load AE fonts. Use Refresh fonts to retry.";
+    } finally {
+      fontsLoading = false;
+    }
+  }
+  $("refresh-fonts").onclick = loadFonts;
+  $("font-search").oninput = filterFonts;
+  $("font-search").onfocus = () => {
+    if (!fontsLoaded) loadFonts();
+  };
+  $("new-text-font").onfocus = () => {
+    if (!fontsLoaded) loadFonts();
   };
   document
     .querySelectorAll("[data-align]")
     .forEach(
-      (b) => (b.onclick = () => tool("align", { mode: b.dataset.align }))
+      (b) => (b.onclick = () => tool("align", { mode: b.dataset.align })),
     );
   document
     .querySelectorAll("[data-distribute]")
     .forEach(
       (b) =>
-        (b.onclick = () => tool("distribute", { axis: b.dataset.distribute }))
+        (b.onclick = () => tool("distribute", { axis: b.dataset.distribute })),
     );
   $("stagger").onclick = () =>
     tool("stagger", { seconds: Number($("stagger-seconds").value) });
@@ -9483,13 +8638,13 @@ window.MotionAstraFXToolsUI = (() => {
     tool("offset", {
       x: Number($("offset-x").value),
       y: Number($("offset-y").value),
-      z: Number($("offset-z").value)
+      z: Number($("offset-z").value),
     });
   $("text-style").onclick = () =>
     tool("style", {
       size: Number($("text-size").value),
       color: $("text-color").value,
-      align: $("text-align").value
+      align: $("text-align").value,
     });
   function review(name) {
     pendingRemove = name;
@@ -9538,10 +8693,10 @@ window.MotionAstraFXToolsUI = (() => {
         panel: details,
         host,
         connection: $("connection").textContent,
-        recentOperations: history.slice(0, 5)
+        recentOperations: history.slice(0, 5),
       },
       null,
-      2
+      2,
     );
     $("diagnostic-report").focus();
     $("diagnostic-report").select();
@@ -9568,17 +8723,12 @@ window.MotionAstraFXToolsUI = (() => {
       store.set(key, on);
     };
   }
-  if (window.MotionAstraFXToolsUI)
-    window.MotionAstraFXToolsUI.init({
-      action: action,
-      ready: () => bridge.isReady()
-    });
   if (window.MotionCurve)
     window.MotionCurve.init({ action: action, ready: () => bridge.isReady() });
   if (window.MotionAstraYUUI)
     window.MotionAstraYUUI.init({
       action: action,
-      ready: () => bridge.isReady()
+      ready: () => bridge.isReady(),
     });
   disclosure("fold-nav", "nav", "ma2-nav", "Menu");
   disclosure("fold-quick", "quick", "ma252-create", "Create");

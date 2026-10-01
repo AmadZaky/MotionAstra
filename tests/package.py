@@ -9,6 +9,7 @@ with tempfile.TemporaryDirectory() as t:
   for name in ['Install MotionAstra.cmd','Install MotionAstra.ps1','Install MotionAstra.command','INSTALLATION_GUIDE.md','MotionAstra-FX/CSXS/manifest.xml','MotionAstra-FX/jsx/hostscript.jsx','Installer/WindowsUI.ps1','Installer/Window.xaml','Installer/Backend.ps1']:
    assert name in names,name
   assert z.getinfo('Install MotionAstra.command').external_attr>>16 & 0o111
+  assert not any(n.endswith(('fx-tools.js','fx-tools-data.js','fx-tools.jsx','fx-tools.json')) for n in names)
   sums=z.read('MotionAstra-FX/SHA256SUMS').decode().splitlines()
   checked=set()
   for line in sums:

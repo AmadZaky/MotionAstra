@@ -1,6 +1,6 @@
-# MotionAstra FX 3.0.4 — Alpha
+# MotionAstra FX 3.0.5 — Alpha
 
-Offline CEP extension for Adobe After Effects 2025. Minimal black/orange UI, local CSInterface + Lucide, 10 Text FX, 10 procedural Backgrounds, Quick Tools and a dedicated FX Tweaker tab.
+Offline CEP extension for Adobe After Effects 2025. Minimal black/orange UI, local CSInterface + Lucide, 8 Text Tools, 8 procedural SolidGen presets, Text Animate (120 presets) and Quick Tools with integrated FX settings.
 
 Download the release ZIP, extract everything, close AE, then double-click **Install MotionAstra.exe** (Windows) or **Install MotionAstra.command** (macOS). Confirm replacement of older versions, restart AE, then open Window → Extensions → MotionAstra FX. The GitHub source archive is for development; use the release asset for the ready-to-install package. The package is unsigned source; no Adobe installation or signing certificate is bundled. No build step or internet connection is needed to use it.
 
@@ -10,17 +10,17 @@ Select a text layer for Text FX. Background Generate needs only an active compos
 
 Loop mode is a dropdown: Ping-Pong, Cycle (default), Continue, None (play once and hold). Continue advances normalized animation time beyond Duration; finite text reveals naturally finish while procedural motion keeps advancing. Manual Progress overrides looping. Existing project expressions stay unchanged until Update; legacy checkbox instances migrate to Cycle unless another mode is chosen.
 
-Apply/Generate and Update are compact adjacent buttons at the inspector bottom. Load settings in the Tools Bar follows the active Text FX, YU or FXTools tab. Text Apply / Update refreshes the same preset already on a layer instead of stacking another instance. After loading YU or FXTools settings, use Save changes; Remove restores Apply. Unwanted old duplicate layers are not deleted automatically.
+Apply/Generate and Update are compact adjacent buttons at the inspector bottom. Load settings in the Tools Bar follows the active Text Tools or Text Animate tab. Text Apply / Update refreshes the same preset already on a layer instead of stacking another instance. After loading Text Animate settings, use Save changes; Remove restores Apply. Unwanted old duplicate layers are not deleted automatically.
 
-## FX Tweaker and compact controls
+## Quick Tools and FX settings
 
-New FX use one **MotionAstra Progress** parameter controller. Native effects needed to render the artwork remain in Effect Controls. Use **FX Tweaker → Load selected FX**, search or expand parameter groups, then **Update selected FX**. Updates are bound to the loaded layer; reload if you change selection. Enable Manual Progress to animate the single progress slider.
+New FX use one **MotionAstra Progress** parameter controller. Native effects needed to render the artwork remain in Effect Controls. Use **Quick Tools → FX settings → Load selected FX**, search or expand parameter groups, then **Update selected FX**. Updates are bound to the loaded layer; reload if you change selection. Enable Manual Progress to animate the single progress slider.
 
 Existing instances keep their controls. **Compact old controls** converts an unanimated instance; it refuses animated controls and external expression dependencies to protect existing projects. Settings → control layout → Individual keeps separate controls for advanced keyframing.
 
-## YU Txt Motion · by YUGraphic
+## Text Animate · by YUGraphic
 
-A separate tab offers **120 original YUGraphic text presets** in 12 categories: Clean, Slide, Pop, Bounce, Elastic, Rotate, Blur, Typewriter, Glitch, Split, Wave and Kinetic. Select text layers, choose a preset, Customize, then Apply YU. Options include IN/OUT/BOTH, grouping, duration, stagger, intensity, seed, order, easing and placement. Colors/fonts remain native text properties.
+A separate tab offers **120 original YUGraphic text presets** in 12 categories: Clean, Slide, Pop, Bounce, Elastic, Rotate, Blur, Typewriter, Glitch, Split, Wave and Kinetic. Select text layers, choose a preset, Customize, then Apply animation. Options include IN/OUT/BOTH, grouping, duration, stagger, intensity, seed, order, easing and placement. Colors/fonts remain native text properties.
 
 Load YU settings reads one selected instance; Update loaded YU checks that selection still matches. The mode selector determines whether Load prefers IN or OUT. Apply replaces only its chosen YU phase; Remove YU removes both phases. Parameter changes take effect on Apply/Update, and the YU tab stores them without extra Effect Controls sliders. Current playhead placement is recalculated on each Apply/Update. BOTH always uses layer edges, as in the original engine. These finite IN/OUT animations do not use MotionAstra loop modes or markers.
 
@@ -34,17 +34,13 @@ Only intervals with both endpoints selected are modified. Scalar and 2D/3D prope
 
 Use **Light / Dark** in the header to switch themes. Theme and the last curve persist locally. The orange accent, reserved action footer and existing Text/YU/Background/Tools/Tweaker workflows remain available. Preview artwork keeps its own artistic background colors.
 
-## FXTools · color and light
+## Host font search
 
-**FXTools** is a separate extensible effect collection. Start with **Prism Gradient** (two-color gradients, palettes, linear/radial geometry, rotating animation, organic distortion, whole-source diffusion and glow) and **Bloom Glow** (three scales of native Glow with radius, threshold, intensity, falloff and optional whole-source tint).
+Focus **Search AE fonts** in the Create bar to load After Effects' font list. Search family, style or PostScript name, choose a result, then click **New Text**. The exact native PostScript name is passed to AE. Refresh fonts after installing or activating a font. Missing/substitute fonts are excluded; an unavailable selection is rejected by AE instead of silently choosing a different font. Current AE font keeps the host's default. This picker creates new text; it does not replace fonts on existing layers.
 
-Select existing visual layers, Customize, then Apply FX. Apply again updates the same named native effects; no layer is generated. Both tools can coexist with each other and existing MotionAstra/YU animation. Rendering follows AE's effect-stack order, so apply Prism before Bloom for a gradient followed by bloom.
+## Removed collections
 
-Load selected reads stored panel settings from one layer. Update loaded FX checks that the layer still matches. Remove this FX removes only that tool's native effects; Remove MotionAstra FX also clears FXTools. Native animated parameters block panel updates rather than losing keys or external expressions. Static changes made directly in Effect Controls are not imported into panel metadata; use the panel to update consistently.
-
-These tools are independent native AE approximations inspired by the Cosmic / Deep Glow workflows. They do not reproduce the products' proprietary rendering algorithms, inverse-square light transport, optical focus diffusion, depth fields, GPU engine or quality controls. Prism diffusion blurs the full source and distortion affects its silhouette. Native rendering effects remain in Effect Controls; no parameter-only sliders are added.
-
-To extend the collection, add a schema entry in `fx-tools.json` and its native descriptor adapter in `src/fx-tools-host.js`, then run `python3 tools/build-fxtools.py` and `python3 tools/build-catalog.py`. The UI generates parameter fields from the registry. Keep the new adapter covered by host and native AE smoke tests.
+FXTools is removed from the panel and installation payload. 3D Glass, Liquid Gold, Blueprint CAD and Glassmorphism are removed from the active catalog. Existing layers and expressions are not deleted by upgrading. Removed preset instances are no longer editable through the panel; keep a project backup and use AE's native controls or the prior release if needed. Historical source adapters remain in the development repository for regression coverage.
 
 ## Versioning and releases
 

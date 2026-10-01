@@ -15,7 +15,7 @@
       target: null,
       loadedLayout: null,
       loadedProgress: null,
-      dirty: false
+      dirty: false,
     },
     history = [];
   const store = {
@@ -30,7 +30,7 @@
       try {
         localStorage.setItem(k, String(v));
       } catch (e) {}
-    }
+    },
   };
   let timer,
     pendingRemove = null;
@@ -73,12 +73,11 @@
     });
     document
       .querySelectorAll(
-        "#parameters input,#parameters select,#parameters textarea"
+        "#parameters input,#parameters select,#parameters textarea",
       )
       .forEach((e) => (e.disabled = value));
     if (window.MotionAstraYUUI) window.MotionAstraYUUI.setBusy(value);
     if (window.MotionCurve) window.MotionCurve.setBusy(value);
-    if (window.MotionAstraFXToolsUI) window.MotionAstraFXToolsUI.setBusy(value);
   }
   async function refresh() {
     if (state.busy) return;
@@ -133,18 +132,14 @@
     state.tab = name;
     document.querySelector("#nav .search").hidden = ![
       "Text",
-      "Background"
+      "Background",
     ].includes(name);
     close();
     $("library").hidden = !["Text", "Background"].includes(name);
     $("tools").hidden = name !== "Tools";
     $("settings").hidden = name !== "Settings";
-    $("tweaker").hidden = name !== "Tweaker";
     $("yu").hidden = name !== "YU";
     $("motion-curve").hidden = name !== "Curve";
-    $("fx-tools").hidden = name !== "FXTools";
-    if (window.MotionAstraFXToolsUI)
-      window.MotionAstraFXToolsUI.setVisible(name === "FXTools");
     if (window.MotionCurve) window.MotionCurve.setVisible(name === "Curve");
     if (window.MotionAstraYUUI)
       window.MotionAstraYUUI.setVisible(name === "YU");
@@ -156,12 +151,12 @@
       state.query = "";
       $("search").value = "";
       $("library-kicker").textContent =
-        name === "Text" ? "TEXT FX" : "BACKGROUNDS";
+        name === "Text" ? "TEXT TOOLS" : "SOLIDGEN";
       $("library-title").textContent =
         name === "Text" ? "Text in motion." : "A little atmosphere.";
       $("library-help").textContent =
         name === "Text"
-          ? "10 customizable presets · select a text layer before applying."
+          ? "8 customizable presets · select a text layer before applying."
           : "Choose a style to generate its own background layer.";
       render();
     }
@@ -173,7 +168,7 @@
     const list = data.presets.filter(
       (p) =>
         p.category === state.tab &&
-        `${p.name} ${p.description}`.toLowerCase().includes(state.query)
+        `${p.name} ${p.description}`.toLowerCase().includes(state.query),
     );
     $("count").textContent = list.length;
     list.forEach((p, i) => {
@@ -185,7 +180,7 @@
       view.setAttribute("aria-label", "Customize " + p.name);
       view.append(
         canvas,
-        el("span", "card-number", String(i + 1).padStart(2, "0"))
+        el("span", "card-number", String(i + 1).padStart(2, "0")),
       );
       view.onclick = () => open(p);
       const content = el("div", "card-content");
@@ -193,17 +188,19 @@
         el(
           "span",
           "type",
-          p.category === "Text" ? "TEXT ANIMATION" : "PROCEDURAL BACKGROUND"
+          p.category === "Text" ? "TEXT ANIMATION" : "PROCEDURAL BACKGROUND",
         ),
         el("h2", "", p.name),
-        el("p", "", p.description)
+        el("p", "", p.description),
       );
       const actions = el("div", "card-actions"),
         button = el("button", "customize", "Customize"),
         apply = el(
           "button",
           "primary card-apply",
-          p.category === "Background" ? "Generate Background" : "Apply / Update"
+          p.category === "Background"
+            ? "Generate Background"
+            : "Apply / Update",
         );
       button.onclick = () => open(p);
       apply.dataset.host = "";
@@ -211,7 +208,7 @@
       apply.setAttribute(
         "aria-label",
         (p.category === "Background" ? "Generate Background: " : "Apply FX: ") +
-          p.name
+          p.name,
       );
       apply.onclick = () => {
         if (state.busy || state.draftInvalid[p.id]) return;
@@ -221,14 +218,14 @@
             (values[d.id] =
               state.drafts[p.id] && state.drafts[p.id][d.id] !== undefined
                 ? state.drafts[p.id][d.id]
-                : d.default)
+                : d.default),
         );
         action({
           action: p.category === "Background" ? "generateBackground" : "apply",
           id: p.id,
           params: values,
           smart: true,
-          layout: $("control-layout").value || "compact"
+          layout: $("control-layout").value || "compact",
         });
       };
       actions.append(button, apply);
@@ -292,7 +289,7 @@
             ? "select"
             : d.type === "textarea"
               ? "textarea"
-              : "input"
+              : "input",
         );
       input.id = "param-" + d.id;
       label.htmlFor = input.id;
@@ -393,7 +390,7 @@
     p.parameters.forEach(
       (d) =>
         (state.params[d.id] =
-          values && values[d.id] !== undefined ? values[d.id] : d.default)
+          values && values[d.id] !== undefined ? values[d.id] : d.default),
     );
     state.drafts[p.id] = state.params;
     $("fx-title").textContent = p.name;
@@ -439,7 +436,7 @@
         .concat(data.legacy || [])
         .find((p) => p.id === r.id);
       if (p) {
-        tab("Tweaker");
+        tab("Tools");
         open(p, r.params, r);
       }
     }
@@ -450,7 +447,7 @@
     if (state.dirty) {
       notice(
         "Update or reload your edited settings before compacting.",
-        "warning"
+        "warning",
       );
       return;
     }
@@ -466,7 +463,7 @@
       .querySelectorAll("#parameters .parameter-group")
       .forEach((group) => {
         group.hidden = !Array.from(group.querySelectorAll(".parameter")).some(
-          (row) => !row.hidden
+          (row) => !row.hidden,
         );
         if (q) group.open = true;
       });
@@ -488,7 +485,7 @@
         id: state.preset.id,
         params: state.params,
         smart: true,
-        layout: $("control-layout").value || "compact"
+        layout: $("control-layout").value || "compact",
       });
   };
   $("update").onclick = async () => {
@@ -501,7 +498,7 @@
         editProgress:
           state.target && state.params.progress !== state.loadedProgress,
         smart: true,
-        layout: $("control-layout").value || "compact"
+        layout: $("control-layout").value || "compact",
       });
       if (r && r.changed) {
         state.dirty = false;
@@ -510,8 +507,6 @@
     }
   };
   $("load-fx").onclick = () => {
-    if (state.tab === "FXTools" && window.MotionAstraFXToolsUI)
-      return window.MotionAstraFXToolsUI.load();
     if (state.tab === "YU" && window.MotionAstraYUUI)
       return window.MotionAstraYUUI.load();
     return load();
@@ -524,7 +519,7 @@
             target: state.target,
             layout: state.loadedLayout,
             layerName: $("loaded-layer").textContent,
-            params: { progress: state.loadedProgress }
+            params: { progress: state.loadedProgress },
           }
         : null;
       open(state.preset, {}, current);
@@ -540,7 +535,7 @@
     (b) =>
       (b.onclick = () => {
         if (!state.busy) tab(b.dataset.tab);
-      })
+      }),
   );
   const glyphs = ["↖", "↑", "↗", "←", "·", "→", "↙", "↓", "↘"];
   glyphs.forEach((g, i) => {
@@ -551,7 +546,7 @@
       tool("anchor", {
         x: (i % 3) / 2,
         y: Math.floor(i / 3) / 2,
-        keep: $("anchor-keep").checked
+        keep: $("anchor-keep").checked,
       });
     $("anchor-grid").appendChild(b);
   });
@@ -561,7 +556,7 @@
     tool("anchor", {
       x: Number($("anchor-x").value) / 100,
       y: Number($("anchor-y").value) / 100,
-      keep: $("anchor-keep").checked
+      keep: $("anchor-keep").checked,
     });
   document
     .querySelectorAll("[data-tool]")
@@ -574,50 +569,98 @@
               ? { font: $("new-text-font").value }
               : ["newShape", "newSolid"].includes(b.dataset.tool)
                 ? { color: $("new-layer-color").value }
-                : {}
-          ))
+                : {},
+          )),
     );
   document
     .querySelectorAll("[data-order]")
     .forEach(
-      (b) => (b.onclick = () => tool("arrange", { mode: b.dataset.order }))
+      (b) => (b.onclick = () => tool("arrange", { mode: b.dataset.order })),
     );
   document.querySelectorAll("[data-ease]").forEach(
     (b) =>
       (b.onclick = () =>
         tool("ease", {
           mode: b.dataset.ease,
-          strength: Number($("ease-strength").value)
-        }))
+          strength: Number($("ease-strength").value),
+        })),
   );
-  $("refresh-fonts").onclick = async () => {
-    const r = await action({ action: "fonts" });
-    if (r && r.fonts) {
-      const chosen = $("new-text-font").value;
-      $("new-text-font").textContent = "";
-      const current = el("option", "", "Current AE font");
-      current.value = "";
-      $("new-text-font").appendChild(current);
-      r.fonts.forEach((f) => {
-        const o = el("option", "", f.label);
-        o.value = f.value;
-        $("new-text-font").appendChild(o);
-      });
-      $("new-text-font").value = r.fonts.some((f) => f.value === chosen)
-        ? chosen
-        : "";
+  // Only host FontObjects are offered. Never substitute browser fonts.
+  let hostFonts = [],
+    fontsLoaded = false,
+    fontsLoading = false;
+  function filterFonts() {
+    const query = $("font-search").value.trim().toLocaleLowerCase();
+    const select = $("new-text-font"),
+      chosen = select.value;
+    const matches = hostFonts.filter((f) =>
+      (f.label + " " + f.value).toLocaleLowerCase().includes(query),
+    );
+    select.textContent = "";
+    const current = el("option", "", "Current AE font");
+    current.value = "";
+    select.appendChild(current);
+    // Keep the explicit choice when a new search hides it.
+    const selected = hostFonts.find((f) => f.value === chosen);
+    const visible =
+      selected && !matches.includes(selected)
+        ? [selected, ...matches]
+        : matches;
+    visible.forEach((f) => {
+      const option = el("option", "", f.label);
+      option.value = f.value;
+      select.appendChild(option);
+    });
+    select.value = selected ? chosen : "";
+    $("font-status").textContent = fontsLoaded
+      ? matches.length
+        ? `${matches.length} of ${hostFonts.length} AE fonts`
+        : "No matching AE fonts. Try a family, style or PostScript name."
+      : "Connect to After Effects to load its fonts.";
+  }
+  async function loadFonts() {
+    if (fontsLoading || state.busy) return;
+    if (!bridge.isReady()) {
+      filterFonts();
+      return;
     }
+    fontsLoading = true;
+    $("font-status").textContent = "Loading fonts from After Effects…";
+    try {
+      const r = await action({ action: "fonts" });
+      if (r && Array.isArray(r.fonts)) {
+        hostFonts = r.fonts;
+        fontsLoaded = true;
+        filterFonts();
+        if (!hostFonts.length)
+          $("font-status").textContent =
+            r.message ||
+            "After Effects returned no available fonts. Refresh after activating a font.";
+      } else
+        $("font-status").textContent =
+          "Could not load AE fonts. Use Refresh fonts to retry.";
+    } finally {
+      fontsLoading = false;
+    }
+  }
+  $("refresh-fonts").onclick = loadFonts;
+  $("font-search").oninput = filterFonts;
+  $("font-search").onfocus = () => {
+    if (!fontsLoaded) loadFonts();
+  };
+  $("new-text-font").onfocus = () => {
+    if (!fontsLoaded) loadFonts();
   };
   document
     .querySelectorAll("[data-align]")
     .forEach(
-      (b) => (b.onclick = () => tool("align", { mode: b.dataset.align }))
+      (b) => (b.onclick = () => tool("align", { mode: b.dataset.align })),
     );
   document
     .querySelectorAll("[data-distribute]")
     .forEach(
       (b) =>
-        (b.onclick = () => tool("distribute", { axis: b.dataset.distribute }))
+        (b.onclick = () => tool("distribute", { axis: b.dataset.distribute })),
     );
   $("stagger").onclick = () =>
     tool("stagger", { seconds: Number($("stagger-seconds").value) });
@@ -627,13 +670,13 @@
     tool("offset", {
       x: Number($("offset-x").value),
       y: Number($("offset-y").value),
-      z: Number($("offset-z").value)
+      z: Number($("offset-z").value),
     });
   $("text-style").onclick = () =>
     tool("style", {
       size: Number($("text-size").value),
       color: $("text-color").value,
-      align: $("text-align").value
+      align: $("text-align").value,
     });
   function review(name) {
     pendingRemove = name;
@@ -682,10 +725,10 @@
         panel: details,
         host,
         connection: $("connection").textContent,
-        recentOperations: history.slice(0, 5)
+        recentOperations: history.slice(0, 5),
       },
       null,
-      2
+      2,
     );
     $("diagnostic-report").focus();
     $("diagnostic-report").select();
@@ -712,17 +755,12 @@
       store.set(key, on);
     };
   }
-  if (window.MotionAstraFXToolsUI)
-    window.MotionAstraFXToolsUI.init({
-      action: action,
-      ready: () => bridge.isReady()
-    });
   if (window.MotionCurve)
     window.MotionCurve.init({ action: action, ready: () => bridge.isReady() });
   if (window.MotionAstraYUUI)
     window.MotionAstraYUUI.init({
       action: action,
-      ready: () => bridge.isReady()
+      ready: () => bridge.isReady(),
     });
   disclosure("fold-nav", "nav", "ma2-nav", "Menu");
   disclosure("fold-quick", "quick", "ma252-create", "Create");

@@ -1,11 +1,11 @@
-# MotionAstra 3.0.4 — Alpha
+# MotionAstra v3.0.5 — Alpha
 
-- Adds **Install MotionAstra.exe**: a MotionAstra-branded black/orange graphical Windows setup window.
-- Shows the destination, Install/Update, confirmation of existing copies, stage progress, success and selectable error details.
-- Runs the existing integrity/backup/rollback backend on a worker runspace to keep the UI responsive.
-- Exposes the unsigned-CEP preference as a visible option. No automatic administrator elevation.
-- Verifies the displayed window with actual Install/Done button events and nonblank screenshot capture.
-- Adds Windows-native WPF construction/rendering and asynchronous install/update/cancel/corruption tests; CI builds the executable and bundles it in the ZIP.
-- FX recipes and the macOS installer are unchanged. The optional CMD troubleshooting entry remains available.
+- Simplified navigation: Text Tools (8), SolidGen (8), Text Animate, Motion Curve and Quick Tools.
+- FX settings / Tweaker now live inside Quick Tools.
+- Removed FXTools from the panel and installation payload.
+- Removed Liquid Gold, 3D Glass, Blueprint CAD and Glassmorphism from the catalog. Existing project layers are left intact; removed presets no longer offer panel editing.
+- Search After Effects fonts by family, style or PostScript name; select a native font for New Text. Refresh reloads the host font list.
+- YUGraphic credits and original licensed animations remain intact.
+- Branded Windows graphical installer and macOS installer behavior are unchanged.
 
-Extract the whole ZIP, close AE, and open **Install MotionAstra.exe**. Keep its Installer and MotionAstra-FX folders beside it. This Alpha executable is unsigned; Windows reputation warnings may still appear.
+Automated host/model, browser, package and native installer checks are release gates. Native After Effects rendering is not tested by these checks.

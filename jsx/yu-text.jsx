@@ -572,5 +572,5 @@ return { run: run, clear: clear };
 
 }());
 
-MotionAstraYU.build='3.0.4';
+MotionAstraYU.build='3.0.5';
 if(typeof $!=="undefined"&&$.global){$.global.MotionAstraYU=MotionAstraYU;$.global.MotionAstraModules=$.global.MotionAstraModules||{};$.global.MotionAstraModules.yuText=MotionAstraYU;}

@@ -215,7 +215,7 @@ window.MotionAstraYUUI = (() => {
       button.onclick = () => {
         if (!busy) open(p);
       };
-      const applyButton = node("button", "primary yu-card-apply", "Apply YU");
+      const applyButton = node("button", "primary yu-card-apply", "Apply animation");
       applyButton.dataset.host = "";
       applyButton.disabled = busy || !api.ready();
       applyButton.onclick = () =>

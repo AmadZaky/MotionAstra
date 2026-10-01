@@ -89,7 +89,7 @@ jobs:
           node tests/tweaker-ui.cjs
           node tests/yu-ui.cjs
           node tests/curve-ui.cjs
-          node tests/fxtools-ui.cjs
+          node tests/font-search-ui.cjs
       - name: Download Windows installer
         uses: actions/download-artifact@v4
         with:
