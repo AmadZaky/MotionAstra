@@ -1,4 +1,4 @@
-# MotionAstra FX 3.0.3 — Alpha
+# MotionAstra FX 3.0.4 — Alpha
 
 Offline CEP extension for Adobe After Effects 2025. Minimal black/orange UI, local CSInterface + Lucide, 10 Text FX, 10 procedural Backgrounds, Quick Tools and a dedicated FX Tweaker tab.
 

@@ -1,4 +1,4 @@
-# Windows graphical installer — 3.0.3 Alpha
+# Windows graphical installer — 3.0.4 Alpha
 
 1. Download the release ZIP and choose **Extract All**. Keep all extracted files together.
 2. Close After Effects. Double-click **Install MotionAstra.exe**.

@@ -37,7 +37,10 @@ jobs:
       - name: Verify Windows graphical workflow
         if: runner.os == 'Windows'
         shell: powershell
-        run: powershell.exe -NoProfile -STA -File ./tests/installer-ui-windows.ps1
+        run: |
+          powershell.exe -NoProfile -STA -File ./tests/installer-ui-windows.ps1
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          powershell.exe -NoProfile -STA -File ./tests/installer-window-windows.ps1
       - name: Upload Windows installer
         if: runner.os == 'Windows'
         uses: actions/upload-artifact@v4
