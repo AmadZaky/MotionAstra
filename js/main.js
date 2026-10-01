@@ -130,13 +130,12 @@
     MotionPreview.play($("preview"), false);
   }
   function tab(name) {
+    if (name === "Text") name = "YU";
     state.tab = name;
-    document.querySelector("#nav .search").hidden = ![
-      "Text",
-      "Background",
-    ].includes(name);
     close();
-    $("library").hidden = !["Text", "Background"].includes(name);
+    $("library").hidden = !["YU", "Background"].includes(name);
+    if (name === "YU") $("yu-browser").prepend($("library"));
+    else document.querySelector("main").prepend($("library"));
     $("tools").hidden = name !== "Tools";
     $("create").hidden = name !== "Create";
     if (window.MotionAstraCreate && name === "Create")
@@ -151,16 +150,15 @@
       b.classList.toggle("active", b.dataset.tab === name);
       b.setAttribute("aria-pressed", String(b.dataset.tab === name));
     });
-    if (["Text", "Background"].includes(name)) {
+    if (["YU", "Background"].includes(name)) {
       state.query = "";
-      $("search").value = "";
       $("library-kicker").textContent =
-        name === "Text" ? "TEXT TOOLS" : "SOLIDGEN";
+        name === "YU" ? "TEXT TOOLS FX" : "SOLIDGEN";
       $("library-title").textContent =
-        name === "Text" ? "Text in motion." : "A little atmosphere.";
+        name === "YU" ? "Text Tools FX" : "A little atmosphere.";
       $("library-help").textContent =
-        name === "Text"
-          ? "8 customizable presets · select a text layer before applying."
+        name === "YU"
+          ? "6 customizable presets · select a text layer before applying."
           : "Choose a style to generate its own background layer.";
       render();
     }
@@ -171,16 +169,15 @@
     $("cards").textContent = "";
     const list = data.presets.filter(
       (p) =>
-        p.category === state.tab &&
+        p.category === (state.tab === "YU" ? "Text" : state.tab) &&
         `${p.name} ${p.description}`.toLowerCase().includes(state.query),
     );
-    $("count").textContent = list.length;
     list.forEach((p, i) => {
       const article = el("article", "card"),
         view = el("button", "card-preview"),
         canvas = el("canvas");
       canvas.width = 440;
-      canvas.height = 250;
+      canvas.height = 440;
       view.setAttribute("aria-label", "Customize " + p.name);
       view.append(
         canvas,
@@ -511,7 +508,12 @@
     }
   };
   $("load-fx").onclick = () => {
-    if (state.tab === "YU" && window.MotionAstraYUUI)
+    if (
+      state.tab === "YU" &&
+      !$("yu-editor").hidden &&
+      $("inspector").hidden &&
+      window.MotionAstraYUUI
+    )
       return window.MotionAstraYUUI.load();
     return load();
   };
@@ -531,10 +533,6 @@
     }
   };
   $("replay").onclick = preview;
-  $("search").oninput = (e) => {
-    state.query = e.target.value.trim().toLowerCase();
-    render();
-  };
   document.querySelectorAll("[data-tab]").forEach(
     (b) =>
       (b.onclick = () => {
@@ -689,14 +687,17 @@
       action: action,
       ready: () => bridge.isReady(),
     });
-  if (window.MotionAstraCreate) window.MotionAstraCreate.init({
-    action,
-    ready: () => bridge.isReady(),
-    notice,
-  });
+  if (window.MotionAstraCreate)
+    window.MotionAstraCreate.init({
+      action,
+      ready: () => bridge.isReady(),
+      notice,
+    });
   disclosure("fold-nav", "nav", "ma2-nav", "Menu");
   disclosure("fold-quick", "quick", "ma252-create", "Quick");
-  tab("Text");
+  if (window.MotionAstraSearch)
+    window.MotionAstraSearch.init({ tab, open, busy: () => state.busy });
+  tab("YU");
   busy(false);
   refresh();
   icon();

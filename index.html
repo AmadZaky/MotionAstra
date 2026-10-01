@@ -4,16 +4,24 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <script src="js/theme.js"></script>
-    <title>MotionAstra 3.0.6 Alpha</title>
+    <title>MotionAstra 3.0.7 Alpha</title>
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
     <header>
       <a class="brand" href="index.html"
         ><span class="brand-icon"><i data-lucide="asterisk"></i></span
-        >MotionAstra <b>3.0.6</b></a
+        >MotionAstra <b>3.0.7</b></a
       >
       <div class="header-actions">
+        <button
+          id="toggle-search"
+          aria-label="Search MotionAstra"
+          aria-expanded="false"
+          aria-controls="global-search"
+        >
+          <i data-lucide="search"></i>
+        </button>
         <button
           id="theme-toggle"
           aria-label="Switch to light mode"
@@ -28,22 +36,23 @@
       </div>
     </header>
     <nav id="nav" aria-label="Main navigation">
-      <div class="search">
-        <i data-lucide="search"></i
-        ><input
+      <div id="global-search" hidden>
+        <input
           id="search"
           type="search"
-          placeholder="Search presets…"
-          aria-label="Search presets"
-        /><span id="count">8</span>
+          placeholder="Search MotionAstra…"
+          aria-label="Search all presets and tools"
+          autocomplete="off"
+        />
+        <p id="search-count" role="status"></p>
+        <div id="search-results"></div>
       </div>
       <div class="category-tabs">
-        <button class="active" data-tab="Text">Text Tools <span>8</span></button
-        ><button data-tab="Background">SolidGen <span>8</span></button
-        ><button data-tab="YU">Text Animate</button
-        ><button data-tab="Curve">Motion Curve</button
-        ><button data-tab="Tools">Quick Tools</button
-        ><button data-tab="Create">Create</button>
+        <button class="active" data-tab="YU">Text Animate</button>
+        <button data-tab="Background">SolidGen <span>8</span></button>
+        <button data-tab="Curve">Motion Curve</button>
+        <button data-tab="Tools">Quick Tools</button>
+        <button data-tab="Create">Create</button>
       </div>
     </nav>
     <div id="quick">
@@ -223,7 +232,7 @@ MotionAstra</textarea
           </div>
         </section>
         <section id="library">
-          <div class="eyebrow" id="library-kicker">8 TEXT ESSENTIALS</div>
+          <div class="eyebrow" id="library-kicker">TEXT TOOLS FX</div>
           <h1 id="library-title">Words in motion.</h1>
           <p id="library-help">Select a text layer before applying FX.</p>
           <div id="cards"></div>
@@ -348,20 +357,11 @@ MotionAstra</textarea
               <span class="eyebrow">ANIMATION BY YUGraphic</span>
               <h1>Text Animate</h1>
             </div>
-            <button id="yu-load" data-host>Load animation settings</button>
           </div>
           <div id="yu-browser">
             <p>120 original text presets · by YUGraphic · MIT licensed</p>
             <div class="yu-filters">
-              <input
-                id="yu-search"
-                type="search"
-                placeholder="Search text animations…"
-                aria-label="Search text animations"
-              /><select
-                id="yu-category"
-                aria-label="Animation category"
-              ></select>
+              <select id="yu-category" aria-label="Animation category"></select>
             </div>
             <p id="yu-count"></p>
             <div id="yu-cards"></div>
@@ -374,7 +374,7 @@ MotionAstra</textarea
               <canvas
                 id="yu-preview"
                 width="600"
-                height="240"
+                height="600"
                 aria-label="Text animation preview"
               ></canvas
               ><button id="yu-replay">Replay preview</button>
@@ -667,7 +667,7 @@ MotionAstra</textarea
           </details>
         </section>
         <section id="settings" hidden>
-          <div class="eyebrow">MOTIONASTRA 3.0.6</div>
+          <div class="eyebrow">MOTIONASTRA 3.0.7</div>
           <h1>Your workspace.</h1>
           <details open>
             <summary>Preview & connection</summary>
@@ -699,7 +699,7 @@ MotionAstra</textarea
               and tools require After Effects.
             </p>
             <p>
-              Use Project Settings → Expressions → JavaScript. Includes 16
+              Use Project Settings → Expressions → JavaScript. Includes 14
               MotionAstra presets and 120 Text Animate presets by YUGraphic,
               Existing v2 effects remain loadable through Load selected FX.
               Existing projects are never migrated automatically.
@@ -743,7 +743,7 @@ MotionAstra</textarea
           ><canvas
             id="preview"
             width="600"
-            height="340"
+            height="600"
             aria-label="Effect preview"
           ></canvas>
           <p id="fx-description"></p>
@@ -785,6 +785,7 @@ MotionAstra</textarea
     <script src="js/yu-text.js"></script>
     <script src="js/motion-curve.js"></script>
     <script src="js/create.js"></script>
+    <script src="js/search.js"></script>
     <script src="js/main.js"></script>
   </body>
 </html>

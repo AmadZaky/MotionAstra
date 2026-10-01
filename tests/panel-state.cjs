@@ -6,6 +6,7 @@ function setup(){
   constructor(tag='div'){this.tagName=tag;this.dataset={};this.children=[];this.hidden=false;this.disabled=false;this.value='';this.checked=false;this.attrs={};this.classList={add(){},remove(){},toggle(){},contains(){return false;}};nodes.push(this);}
   set id(v){this._id=v;ids.set(v,this);}get id(){return this._id;}
   set textContent(v){this.text=v;this.children=[];}get textContent(){return this.text||'';}
+  prepend(...v){this.children.unshift(...v);}
   append(...v){this.children.push(...v);}appendChild(v){this.children.push(v);return v;}
   setAttribute(k,v){this.attrs[k]=v;}removeAttribute(k){delete this.attrs[k];}focus(){}scrollIntoView(){}
  }

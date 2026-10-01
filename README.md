@@ -1,12 +1,12 @@
-# MotionAstra FX 3.0.6 — Alpha
+# MotionAstra FX 3.0.7 — Alpha
 
-Offline CEP extension for Adobe After Effects 2025. Minimal black/orange UI, local CSInterface + Lucide, 8 Text Tools, 8 procedural SolidGen presets, Text Animate (120 presets) and Quick Tools with integrated FX settings.
+Offline CEP extension for Adobe After Effects 2025. Minimal black/orange UI, local CSInterface + Lucide, Text Animate (6 highlighted Text Tools FX + 120 animation presets), 8 procedural SolidGen presets and Quick Tools with integrated FX settings.
 
 Download the release ZIP, extract everything, close AE, then double-click **Install MotionAstra.exe** (Windows) or **Install MotionAstra.command** (macOS). Confirm replacement of older versions, restart AE, then open Window → Extensions → MotionAstra FX. The GitHub source archive is for development; use the release asset for the ready-to-install package. The package is unsigned source; no Adobe installation or signing certificate is bundled. No build step or internet connection is needed to use it.
 
 ## Current workflow
 
-Select a text layer for Text FX. Background Generate needs only an active composition; it creates one layer or updates selected matching instances. Deselect backgrounds to deliberately create another. Customize preserves your draft colors; Generate/Update writes them directly into native Gradient Ramp/Tint properties. These colors do not depend on color expressions.
+Select a text layer for Text Tools FX in the Text Animate tab. Background Generate needs only an active composition; it creates one layer or updates selected matching instances. Deselect backgrounds to deliberately create another. Customize preserves your draft colors; Generate/Update writes them directly into native Gradient Ramp/Tint properties. These colors do not depend on color expressions.
 
 Loop mode is a dropdown: Ping-Pong, Cycle (default), Continue, None (play once and hold). Continue advances normalized animation time beyond Duration; finite text reveals naturally finish while procedural motion keeps advancing. Manual Progress overrides looping. Existing project expressions stay unchanged until Update; legacy checkbox instances migrate to Cycle unless another mode is chosen.
 
@@ -20,7 +20,7 @@ Existing instances keep their controls. **Compact old controls** converts an una
 
 ## Text Animate · by YUGraphic
 
-A separate tab offers **120 original YUGraphic text presets** in 12 categories: Clean, Slide, Pop, Bounce, Elastic, Rotate, Blur, Typewriter, Glitch, Split, Wave and Kinetic. Select text layers, choose a preset, Customize, then Apply animation. Options include IN/OUT/BOTH, grouping, duration, stagger, intensity, seed, order, easing and placement. Colors/fonts remain native text properties.
+The Text Animate tab starts with **6 Text Tools FX** (Counter Text, Text Switcher, Kinetic Stretch, Burning Ember, Retro VHS and Matrix Code), then offers **120 original YUGraphic text presets** in 12 categories: Clean, Slide, Pop, Bounce, Elastic, Rotate, Blur, Typewriter, Glitch, Split, Wave and Kinetic. Select text layers, choose a preset, Customize, then Apply animation. Options include IN/OUT/BOTH, grouping, duration, stagger, intensity, seed, order, easing and placement. Colors/fonts remain native text properties.
 
 Load YU settings reads one selected instance; Update loaded YU checks that selection still matches. The mode selector determines whether Load prefers IN or OUT. Apply replaces only its chosen YU phase; Remove YU removes both phases. Parameter changes take effect on Apply/Update, and the YU tab stores them without extra Effect Controls sliders. Current playhead placement is recalculated on each Apply/Update. BOTH always uses layer edges, as in the original engine. These finite IN/OUT animations do not use MotionAstra loop modes or markers.
 
@@ -34,6 +34,10 @@ Only intervals with both endpoints selected are modified. Scalar and 2D/3D prope
 
 Use **Light / Dark** in the header to switch themes. Theme and the last curve persist locally. The orange accent, reserved action footer and existing Text/YU/Background/Tools/Tweaker workflows remain available. Preview artwork keeps its own artistic background colors.
 
+## Global search and previews
+
+Click the magnifying glass beside the theme switch to open search across Text Tools FX, Text Animate, SolidGen, Quick Tools, Motion Curve, Create and Settings. Results open a preset inspector or focus its tool; they do not apply effects or create layers. Escape closes search. Preview cards and inspectors use square 1:1 canvases; animation samples read “MotionAstra”. The separate Load animation settings button is removed. The Quick bar Load settings follows the active editor; outside the animation editor it loads core MotionAstra FX settings.
+
 ## Create tab
 
 Open **Create** alongside the FX and tool tabs. All creation actions need an active composition and create one native, editable layer with one Undo step.
@@ -46,7 +50,7 @@ Shapes and text begin at the playhead. Backgrounds span the entire composition. 
 
 ## Removed collections
 
-FXTools is removed from the panel and installation payload. 3D Glass, Liquid Gold, Blueprint CAD and Glassmorphism are removed from the active catalog. Existing layers and expressions are not deleted by upgrading. Removed preset instances are no longer editable through the panel; keep a project backup and use AE's native controls or the prior release if needed. Historical source adapters remain in the development repository for regression coverage.
+FXTools is removed from the panel and installation payload. Panning Transition and Gold Extrusion are also removed from the active catalog as of 3.0.7. 3D Glass, Liquid Gold, Blueprint CAD and Glassmorphism are removed from the active catalog. Existing layers and expressions are not deleted by upgrading. Removed preset instances are no longer editable through the panel; keep a project backup and use AE's native controls or the prior release if needed. Historical source adapters remain in the development repository for regression coverage.
 
 ## Versioning and releases
 

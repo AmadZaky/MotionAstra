@@ -90,6 +90,7 @@ jobs:
           node tests/yu-ui.cjs
           node tests/curve-ui.cjs
           node tests/font-search-ui.cjs
+          node tests/global-search-ui.cjs
       - name: Download Windows installer
         uses: actions/download-artifact@v4
         with:

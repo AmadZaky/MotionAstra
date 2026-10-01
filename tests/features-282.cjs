@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict'),{create}=require('./host-model.cjs'),data=require('../presets.json');
-assert(!data.presets.some(r=>r.id==='stamp'));assert(data.presets.some(r=>r.id==='pantext'));
+assert(!data.presets.some(r=>r.id==='stamp'));assert(!data.presets.some(r=>r.id==='pantext'));
 for(const r of data.presets.filter(r=>r.category==='Text')){
  const e=create(),l=e.comp.add('text');l.selected=true;assert.equal(e.rpc({action:'apply',id:r.id,params:{tint:'#ff2200'}}).changed,1);
  const native=l.fx.property('MA2 native text color')||l.fx.property('MA2 native matrix tint')||l.fx.property('MA2 native ramp'),index=native&&native.name==='MA2 native ramp'?2:3;assert(native,r.id+' needs stable text color');assert.deepEqual(Array.from(native.property(index).value),[1,34/255,0,1]);
@@ -22,7 +22,7 @@ child.threeDLayer=true;parent.selected=false;const before=JSON.stringify(pos);as
 assert.equal(pe.rpc({action:'tool',name:'distribute',axis:'y'}).ok,false);
 const count=e.comp.numLayers;assert.equal(e.rpc({action:'tool',name:'newText',font:'Missing-Font'}).ok,false);assert.equal(e.comp.numLayers,count);
 console.log('PASS: mirrored/rotated parent alignment, selected hierarchy, 3D skip and missing-font guard.');
-const old=create(),oldText=old.comp.add('text');oldText.selected=true;assert.equal(old.rpc({action:'apply',id:'extrusion',params:{}}).changed,1);
-const oldAnimator=oldText.text.property('ADBE Text Animators').property(1),obsolete=oldAnimator.property('ADBE Text Animator Properties').addProperty('ADBE Text Fill Color');obsolete.expression='// MotionAstra 2 obsolete\n0';oldText.comment=oldText.comment.replace(encodeURIComponent('3.0.6'),'old-build');oldText.fx.property('MA2 native ramp').property(2).expression='// MotionAstra 2 obsolete\n0';
-assert.equal(old.rpc({action:'update',id:'extrusion',params:{tint:'#ff0000'}}).changed,1);assert.equal(oldAnimator.property('ADBE Text Animator Properties').property('ADBE Text Fill Color'),undefined);assert.equal(oldText.fx.property('MA2 native ramp').property(2).expression,'');
+const old=create(),oldText=old.comp.add('text');oldText.selected=true;assert.equal(old.rpc({action:'apply',id:'ember',params:{}}).changed,1);
+const oldAnimator=oldText.text.property('ADBE Text Animators').property(1),obsolete=oldAnimator.property('ADBE Text Animator Properties').addProperty('ADBE Text Fill Color');obsolete.expression='// MotionAstra 2 obsolete\n0';oldText.comment=oldText.comment.replace(encodeURIComponent('3.0.7'),'old-build');oldText.fx.property('MA2 native ramp').property(2).expression='// MotionAstra 2 obsolete\n0';
+assert.equal(old.rpc({action:'update',id:'ember',params:{tint:'#ff0000'}}).changed,1);assert.equal(oldAnimator.property('ADBE Text Animator Properties').property('ADBE Text Fill Color'),undefined);assert.equal(oldText.fx.property('MA2 native ramp').property(2).expression,'');
 console.log('PASS: old Text FX color expressions retire before clock migration.');

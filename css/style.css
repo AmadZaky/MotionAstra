@@ -80,3 +80,11 @@ body{background:var(--bg);color:var(--text)}header{background:var(--panel)}butto
 .create-card h2{display:flex;gap:8px;align-items:center;margin:0 0 4px;font-size:17px}.create-card h2 svg{width:18px;height:18px;color:#ff943f}
 .create-card label{display:flex;flex-direction:column;gap:6px;font-size:11px;min-width:0}.create-card input,.create-card select,.create-card textarea{width:100%;min-width:0;box-sizing:border-box}.create-card textarea{resize:vertical}.create-card input[type=color]{height:34px;padding:3px;cursor:pointer}.create-card input[aria-invalid=true]{border-color:#e76f51}
 .create-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.create-font-status{display:flex;flex-direction:column;gap:4px}.create-font-status button{align-self:start}.create-card>button[type=submit]{margin-top:6px;align-self:stretch}.color-swatches{display:flex;flex-wrap:wrap;gap:8px;min-height:28px}.color-swatches button{width:26px;height:26px;min-width:26px;padding:0;border-radius:6px;border:1px solid #888}.color-swatches button:focus-visible{outline:2px solid #ff943f;outline-offset:3px}
+/* Square preview surfaces and a highlighted essentials collection. */
+.card canvas,.yu-card canvas,#preview,#yu-preview{aspect-ratio:1/1;width:100%;height:auto;max-height:none;display:block}
+#yu-browser #library{border:1px solid #ff943f66;border-radius:16px;padding:14px;margin-bottom:24px;background:linear-gradient(145deg,#ff943f0d,transparent)}
+#yu-browser #library-kicker{display:block;color:var(--accent)}#yu-browser #library h1{font-size:22px}#yu-browser #library-help{margin-bottom:14px}
+#toggle-search{display:flex;align-items:center;justify-content:center}#toggle-search svg{width:15px;height:15px}
+#global-search{padding:4px 0 10px}#search{width:100%}#search-count{font-size:11px;margin:6px 0;color:var(--muted)}#search-results{display:grid;gap:4px;max-height:150px;overflow:auto}#search-results button{text-align:left;font-size:11px;padding:7px}
+.header-actions button{white-space:nowrap}
+@media(max-width:420px){.brand b{display:none}header{gap:6px}.header-actions{gap:2px}.header-actions button{padding:4px;font-size:10px}}

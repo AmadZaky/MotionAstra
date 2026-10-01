@@ -1,11 +1,11 @@
-# MotionAstra v3.0.6 — Alpha
+# MotionAstra v3.0.7 — Alpha
 
-- Dedicated Create tab beside the existing FX and tool tabs.
-- Circle, Square and Polygon shape creation with size, fill and polygon sides.
-- Native AE font family and style dropdowns, font search, text content, font size and color.
-- Full-composition solid backgrounds at the bottom of the layer stack, with synced color picker and HEX input.
-- Eight persistent recent background colors, recorded only after successful creation.
-- Invalid values are rejected before creation; failed native setup removes its new layer.
-- Existing FX, SolidGen recipes and Windows/macOS installer behavior are unchanged.
+- Removed Panning Transition and Gold Extrusion from the catalog; existing project layers remain intact.
+- Combined Text Tools into Text Animate as a highlighted Text Tools FX section above YUGraphic animations. Six text FX remain after the two removals.
+- Text Animate previews now display MotionAstra. Author credit and original animation engine remain intact.
+- Removed the separate Load animation settings button.
+- All active preset-card and inspector previews use a square 1:1 canvas.
+- Added a magnifying-glass search beside the theme toggle. Search covers presets and tool workspaces; selecting a result navigates without applying an effect.
+- Corrected Load settings routing for the combined workspace.
 
-Automated host/model, browser, package and native installer checks are release gates. Native After Effects rendering remains a manual verification step.
+Automated model/host, browser and installer checks are release gates. Native After Effects rendering remains a manual verification step.

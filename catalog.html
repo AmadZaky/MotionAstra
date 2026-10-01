@@ -96,15 +96,31 @@ body{background:var(--bg);color:var(--text)}header{background:var(--panel)}butto
 .create-card h2{display:flex;gap:8px;align-items:center;margin:0 0 4px;font-size:17px}.create-card h2 svg{width:18px;height:18px;color:#ff943f}
 .create-card label{display:flex;flex-direction:column;gap:6px;font-size:11px;min-width:0}.create-card input,.create-card select,.create-card textarea{width:100%;min-width:0;box-sizing:border-box}.create-card textarea{resize:vertical}.create-card input[type=color]{height:34px;padding:3px;cursor:pointer}.create-card input[aria-invalid=true]{border-color:#e76f51}
 .create-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.create-font-status{display:flex;flex-direction:column;gap:4px}.create-font-status button{align-self:start}.create-card>button[type=submit]{margin-top:6px;align-self:stretch}.color-swatches{display:flex;flex-wrap:wrap;gap:8px;min-height:28px}.color-swatches button{width:26px;height:26px;min-width:26px;padding:0;border-radius:6px;border:1px solid #888}.color-swatches button:focus-visible{outline:2px solid #ff943f;outline-offset:3px}
+/* Square preview surfaces and a highlighted essentials collection. */
+.card canvas,.yu-card canvas,#preview,#yu-preview{aspect-ratio:1/1;width:100%;height:auto;max-height:none;display:block}
+#yu-browser #library{border:1px solid #ff943f66;border-radius:16px;padding:14px;margin-bottom:24px;background:linear-gradient(145deg,#ff943f0d,transparent)}
+#yu-browser #library-kicker{display:block;color:var(--accent)}#yu-browser #library h1{font-size:22px}#yu-browser #library-help{margin-bottom:14px}
+#toggle-search{display:flex;align-items:center;justify-content:center}#toggle-search svg{width:15px;height:15px}
+#global-search{padding:4px 0 10px}#search{width:100%}#search-count{font-size:11px;margin:6px 0;color:var(--muted)}#search-results{display:grid;gap:4px;max-height:150px;overflow:auto}#search-results button{text-align:left;font-size:11px;padding:7px}
+.header-actions button{white-space:nowrap}
+@media(max-width:420px){.brand b{display:none}header{gap:6px}.header-actions{gap:2px}.header-actions button{padding:4px;font-size:10px}}
 </style>
   </head>
   <body class="catalog">
     <header>
       <a class="brand" href="index.html"
         ><span class="brand-icon"><i data-lucide="asterisk"></i></span
-        >MotionAstra <b>3.0.6</b></a
+        >MotionAstra <b>3.0.7</b></a
       >
       <div class="header-actions">
+        <button
+          id="toggle-search"
+          aria-label="Search MotionAstra"
+          aria-expanded="false"
+          aria-controls="global-search"
+        >
+          <i data-lucide="search"></i>
+        </button>
         <button
           id="theme-toggle"
           aria-label="Switch to light mode"
@@ -119,22 +135,23 @@ body{background:var(--bg);color:var(--text)}header{background:var(--panel)}butto
       </div>
     </header>
     <nav id="nav" aria-label="Main navigation">
-      <div class="search">
-        <i data-lucide="search"></i
-        ><input
+      <div id="global-search" hidden>
+        <input
           id="search"
           type="search"
-          placeholder="Search presets…"
-          aria-label="Search presets"
-        /><span id="count">8</span>
+          placeholder="Search MotionAstra…"
+          aria-label="Search all presets and tools"
+          autocomplete="off"
+        />
+        <p id="search-count" role="status"></p>
+        <div id="search-results"></div>
       </div>
       <div class="category-tabs">
-        <button class="active" data-tab="Text">Text Tools <span>8</span></button
-        ><button data-tab="Background">SolidGen <span>8</span></button
-        ><button data-tab="YU">Text Animate</button
-        ><button data-tab="Curve">Motion Curve</button
-        ><button data-tab="Tools">Quick Tools</button
-        ><button data-tab="Create">Create</button>
+        <button class="active" data-tab="YU">Text Animate</button>
+        <button data-tab="Background">SolidGen <span>8</span></button>
+        <button data-tab="Curve">Motion Curve</button>
+        <button data-tab="Tools">Quick Tools</button>
+        <button data-tab="Create">Create</button>
       </div>
     </nav>
     <div id="quick">
@@ -314,7 +331,7 @@ MotionAstra</textarea
           </div>
         </section>
         <section id="library">
-          <div class="eyebrow" id="library-kicker">8 TEXT ESSENTIALS</div>
+          <div class="eyebrow" id="library-kicker">TEXT TOOLS FX</div>
           <h1 id="library-title">Words in motion.</h1>
           <p id="library-help">Select a text layer before applying FX.</p>
           <div id="cards"></div>
@@ -439,20 +456,11 @@ MotionAstra</textarea
               <span class="eyebrow">ANIMATION BY YUGraphic</span>
               <h1>Text Animate</h1>
             </div>
-            <button id="yu-load" data-host>Load animation settings</button>
           </div>
           <div id="yu-browser">
             <p>120 original text presets · by YUGraphic · MIT licensed</p>
             <div class="yu-filters">
-              <input
-                id="yu-search"
-                type="search"
-                placeholder="Search text animations…"
-                aria-label="Search text animations"
-              /><select
-                id="yu-category"
-                aria-label="Animation category"
-              ></select>
+              <select id="yu-category" aria-label="Animation category"></select>
             </div>
             <p id="yu-count"></p>
             <div id="yu-cards"></div>
@@ -465,7 +473,7 @@ MotionAstra</textarea
               <canvas
                 id="yu-preview"
                 width="600"
-                height="240"
+                height="600"
                 aria-label="Text animation preview"
               ></canvas
               ><button id="yu-replay">Replay preview</button>
@@ -758,7 +766,7 @@ MotionAstra</textarea
           </details>
         </section>
         <section id="settings" hidden>
-          <div class="eyebrow">MOTIONASTRA 3.0.6</div>
+          <div class="eyebrow">MOTIONASTRA 3.0.7</div>
           <h1>Your workspace.</h1>
           <details open>
             <summary>Preview & connection</summary>
@@ -790,7 +798,7 @@ MotionAstra</textarea
               and tools require After Effects.
             </p>
             <p>
-              Use Project Settings → Expressions → JavaScript. Includes 16
+              Use Project Settings → Expressions → JavaScript. Includes 14
               MotionAstra presets and 120 Text Animate presets by YUGraphic,
               Existing v2 effects remain loadable through Load selected FX.
               Existing projects are never migrated automatically.
@@ -834,7 +842,7 @@ MotionAstra</textarea
           ><canvas
             id="preview"
             width="600"
-            height="340"
+            height="600"
             aria-label="Effect preview"
           ></canvas>
           <p id="fx-description"></p>
@@ -2178,7 +2186,7 @@ lucide.createIcons({icons});\``);if(typeof document>"u")throw new Error("`create
 </script>
     <script>
 window.MA_PRESETS = {
-  "version": "3.0.6",
+  "version": "3.0.7",
   "presets": [
     {
       "id": "counter",
@@ -2898,256 +2906,6 @@ window.MA_PRESETS = {
           "max": 60,
           "step": 1,
           "group": "Appearance"
-        },
-        {
-          "id": "duration",
-          "label": "Duration \u00b7 seconds",
-          "type": "range",
-          "default": 2,
-          "min": 0.1,
-          "max": 120,
-          "step": 0.1,
-          "group": "Timing"
-        },
-        {
-          "id": "ease",
-          "label": "Easing",
-          "type": "select",
-          "default": 2,
-          "options": [
-            {
-              "value": 0,
-              "label": "Linear"
-            },
-            {
-              "value": 1,
-              "label": "Ease in"
-            },
-            {
-              "value": 2,
-              "label": "Ease out"
-            },
-            {
-              "value": 3,
-              "label": "Smooth"
-            }
-          ],
-          "group": "Timing"
-        },
-        {
-          "id": "loopMode",
-          "label": "Loop mode",
-          "type": "select",
-          "group": "Timing",
-          "default": 1,
-          "options": [
-            {
-              "value": 0,
-              "label": "Ping-Pong"
-            },
-            {
-              "value": 1,
-              "label": "Cycle"
-            },
-            {
-              "value": 2,
-              "label": "Continue"
-            },
-            {
-              "value": 3,
-              "label": "None"
-            }
-          ]
-        },
-        {
-          "id": "reverse",
-          "label": "Reverse playback",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
-        },
-        {
-          "id": "manual",
-          "label": "Use progress slider",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
-        },
-        {
-          "id": "progress",
-          "label": "Progress \u00b7 %",
-          "type": "range",
-          "default": 0,
-          "min": 0,
-          "max": 100,
-          "step": 0.1,
-          "group": "Timing"
-        }
-      ]
-    },
-    {
-      "id": "pantext",
-      "name": "Panning Transition",
-      "category": "Text",
-      "description": "Pan selected text into place from left, right, top or bottom.",
-      "parameters": [
-        {
-          "id": "tint",
-          "label": "Text color",
-          "type": "color",
-          "group": "Appearance",
-          "default": "#ffffff"
-        },
-        {
-          "id": "direction",
-          "label": "From",
-          "type": "select",
-          "group": "Motion",
-          "default": 0,
-          "options": [
-            {
-              "value": 0,
-              "label": "Left"
-            },
-            {
-              "value": 1,
-              "label": "Right"
-            },
-            {
-              "value": 2,
-              "label": "Top"
-            },
-            {
-              "value": 3,
-              "label": "Bottom"
-            }
-          ]
-        },
-        {
-          "id": "distance",
-          "label": "Distance (px)",
-          "type": "range",
-          "group": "Motion",
-          "default": 300,
-          "min": 0,
-          "max": 4000,
-          "step": 1
-        },
-        {
-          "id": "fade",
-          "label": "Fade in",
-          "type": "checkbox",
-          "group": "Motion",
-          "default": true
-        },
-        {
-          "id": "duration",
-          "label": "Duration \u00b7 seconds",
-          "type": "range",
-          "default": 2,
-          "min": 0.1,
-          "max": 120,
-          "step": 0.1,
-          "group": "Timing"
-        },
-        {
-          "id": "ease",
-          "label": "Easing",
-          "type": "select",
-          "default": 2,
-          "options": [
-            {
-              "value": 0,
-              "label": "Linear"
-            },
-            {
-              "value": 1,
-              "label": "Ease in"
-            },
-            {
-              "value": 2,
-              "label": "Ease out"
-            },
-            {
-              "value": 3,
-              "label": "Smooth"
-            }
-          ],
-          "group": "Timing"
-        },
-        {
-          "id": "loopMode",
-          "label": "Loop mode",
-          "type": "select",
-          "group": "Timing",
-          "default": 1,
-          "options": [
-            {
-              "value": 0,
-              "label": "Ping-Pong"
-            },
-            {
-              "value": 1,
-              "label": "Cycle"
-            },
-            {
-              "value": 2,
-              "label": "Continue"
-            },
-            {
-              "value": 3,
-              "label": "None"
-            }
-          ]
-        },
-        {
-          "id": "reverse",
-          "label": "Reverse playback",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
-        },
-        {
-          "id": "manual",
-          "label": "Use progress slider",
-          "type": "checkbox",
-          "default": false,
-          "group": "Timing"
-        },
-        {
-          "id": "progress",
-          "label": "Progress \u00b7 %",
-          "type": "range",
-          "default": 0,
-          "min": 0,
-          "max": 100,
-          "step": 0.1,
-          "group": "Timing"
-        }
-      ]
-    },
-    {
-      "id": "extrusion",
-      "name": "Gold Extrusion",
-      "category": "Text",
-      "description": "Gold shading with a native bevel and controllable drop-shadow depth.",
-      "parameters": [
-        {
-          "id": "amount",
-          "label": "Intensity",
-          "type": "range",
-          "default": 60,
-          "min": 0,
-          "max": 100,
-          "step": 1,
-          "group": "Appearance"
-        },
-        {
-          "id": "tint",
-          "label": "Primary color",
-          "type": "color",
-          "default": "#ffd778",
-          "group": "Colors"
         },
         {
           "id": "duration",
@@ -7216,14 +6974,14 @@ document.addEventListener('visibilitychange',run);return {attach,play,clear,rend
 
 </script>
     <script>
-/* MotionAstra CEP transport v3.0.6.
+/* MotionAstra CEP transport v3.0.7.
  * Host files load by absolute path; all replies are tagged and request-correlated.
  * Empty callbacks recover the stored reply, NEVER replay the host mutation.
  */
 (function (root) {
   "use strict";
-  const VERSION = "3.0.6";
-  const BUILD = "3.0.6";
+  const VERSION = "3.0.7";
+  const BUILD = "3.0.7";
   const PREFIX = "MAFX1:";
   const ERROR_PREFIX = "MAFX1E:";
   const available = !!root.__adobe_cep__;
@@ -7751,9 +7509,9 @@ window.MotionAstraYUUI = (() => {
       "elastic",
       "linear",
       "step",
-      "steps"
+      "steps",
     ],
-    placement: ["edges", "playhead"]
+    placement: ["edges", "playhead"],
   };
   const labels = {
     chars: "Characters",
@@ -7763,7 +7521,7 @@ window.MotionAstraYUUI = (() => {
     all: "Whole text",
     edges: "Layer edges",
     playhead: "Playhead",
-    BOTH: "IN + OUT"
+    BOTH: "IN + OUT",
   };
   function node(tag, cls, text) {
     const e = document.createElement(tag);
@@ -7781,7 +7539,7 @@ window.MotionAstraYUUI = (() => {
       group: p.group,
       order: p.order,
       easing: "preset",
-      placement: "edges"
+      placement: "edges",
     };
   }
   function values() {
@@ -7796,18 +7554,18 @@ window.MotionAstraYUUI = (() => {
   }
   function valid() {
     return Array.from($("yu-controls").querySelectorAll("input,select")).every(
-      (e) => e.checkValidity() && e.value !== ""
+      (e) => e.checkValidity() && e.value !== "",
     );
   }
   function sync() {
     $("yu-apply").hidden = !!target;
-    ["yu-apply", "yu-update", "yu-clear", "yu-load"].forEach(
+    ["yu-apply", "yu-update", "yu-clear"].forEach(
       (id) =>
         ($(id).disabled =
           busy ||
           !api.ready() ||
           (id === "yu-update" && !target) ||
-          (["yu-apply", "yu-update"].includes(id) && !valid()))
+          (["yu-apply", "yu-update"].includes(id) && !valid())),
     );
     $("yu-back").disabled = busy;
     $("yu-controls")
@@ -7830,12 +7588,12 @@ window.MotionAstraYUUI = (() => {
     ctx.fillRect(0, 0, w, h);
     const groups =
       o.group === "all"
-        ? ["YU MOTION"]
+        ? ["MotionAstra"]
         : o.group === "words"
-          ? ["YU", "MOTION"]
+          ? ["MotionAstra"]
           : o.group === "lines"
-            ? ["YU", "MOTION"]
-            : Array.from("YU MOTION");
+            ? ["MotionAstra"]
+            : Array.from("MotionAstra");
     const size = o.group === "all" ? 36 : 40;
     ctx.font = "600 " + size + "px Arial";
     const widths = groups.map((s) => ctx.measureText(s).width),
@@ -7862,7 +7620,7 @@ window.MotionAstraYUUI = (() => {
           o.order,
           o.seed,
           phase,
-          null
+          null,
         ),
         v = core.sample(
           p,
@@ -7871,12 +7629,12 @@ window.MotionAstraYUUI = (() => {
           n,
           o.seed,
           o.intensity,
-          o.easing === "preset" ? p.ease : o.easing
+          o.easing === "preset" ? p.ease : o.easing,
         );
       ctx.save();
       ctx.translate(
         o.group === "lines" ? w / 2 : x + widths[i] / 2,
-        o.group === "lines" ? h / 2 - 24 + i * 48 : h / 2
+        o.group === "lines" ? h / 2 - 24 + i * 48 : h / 2,
       );
       ctx.translate(v.x, v.y);
       ctx.rotate((v.rotation * Math.PI) / 180);
@@ -7919,12 +7677,12 @@ window.MotionAstraYUUI = (() => {
   function render() {
     stop();
     $("yu-cards").textContent = "";
-    const q = $("yu-search").value.toLowerCase().trim(),
+    const q = "",
       cat = $("yu-category").value,
       list = core.presets.filter(
         (p) =>
           (cat === "All" || p.category === cat) &&
-          `${p.name} ${p.category}`.toLowerCase().includes(q)
+          `${p.name} ${p.category}`.toLowerCase().includes(q),
       );
     $("yu-count").textContent = list.length + " presets";
     list.forEach((p) => {
@@ -7934,14 +7692,18 @@ window.MotionAstraYUUI = (() => {
         tag = node("span", "eyebrow", p.category),
         button = node("button", "yu-customize", "Customize");
       canvas.width = 440;
-      canvas.height = 220;
+      canvas.height = 440;
       canvas.setAttribute("aria-label", p.name + " preview");
       const o = defaults(p);
       draw(canvas, p, o, o.duration + o.stagger * 10);
       button.onclick = () => {
         if (!busy) open(p);
       };
-      const applyButton = node("button", "primary yu-card-apply", "Apply animation");
+      const applyButton = node(
+        "button",
+        "primary yu-card-apply",
+        "Apply animation",
+      );
       applyButton.dataset.host = "";
       applyButton.disabled = busy || !api.ready();
       applyButton.onclick = () =>
@@ -7949,7 +7711,7 @@ window.MotionAstraYUUI = (() => {
           action: "yuText",
           operation: "apply",
           id: p.id,
-          options: o
+          options: o,
         });
       card.append(canvas, tag, title, button, applyButton);
       card.onmouseenter = () => play(canvas, p, o);
@@ -7988,7 +7750,7 @@ window.MotionAstraYUUI = (() => {
     const r = await api.action({
       action: "yuText",
       operation: "load",
-      phase: $("yu-mode").value === "OUT" ? "OUT" : "IN"
+      phase: $("yu-mode").value === "OUT" ? "OUT" : "IN",
     });
     if (r && r.id) open(core.presets[r.id - 1], r.options, r);
   }
@@ -7999,7 +7761,7 @@ window.MotionAstraYUUI = (() => {
       operation: "apply",
       id: preset.id,
       options: values(),
-      target: update ? target : null
+      target: update ? target : null,
     });
     if (r && r.changed && update) await load();
   }
@@ -8010,25 +7772,23 @@ window.MotionAstraYUUI = (() => {
         const e = node(
           "option",
           "",
-          k === "order" && v === "edges" ? "Edges first" : labels[v] || v
+          k === "order" && v === "edges" ? "Edges first" : labels[v] || v,
         );
         e.value = v;
         $("yu-" + k).appendChild(e);
-      })
+      }),
     );
     ["All", ...new Set(core.presets.map((p) => p.category))].forEach((v) => {
       const e = node("option", "", v);
       e.value = v;
       $("yu-category").appendChild(e);
     });
-    $("yu-search").oninput = render;
     $("yu-category").onchange = render;
     $("yu-back").onclick = () => {
       stop();
       $("yu-editor").hidden = true;
       $("yu-browser").hidden = false;
     };
-    $("yu-load").onclick = load;
     $("yu-apply").onclick = () => apply(false);
     $("yu-update").onclick = () => apply(true);
     $("yu-clear").onclick = async () => {
@@ -8046,7 +7806,7 @@ window.MotionAstraYUUI = (() => {
       if (valid()) play($("yu-preview"), preset, values());
     };
     Object.keys(defaults(preset)).forEach(
-      (k) => ($("yu-" + k).value = defaults(preset)[k])
+      (k) => ($("yu-" + k).value = defaults(preset)[k]),
     );
     render();
     sync();
@@ -8057,15 +7817,23 @@ window.MotionAstraYUUI = (() => {
   return {
     init,
     load,
+    openById(id) {
+      const p = core.presets.find((p) => p.id === id);
+      if (p && !busy) open(p);
+    },
     setVisible(on) {
       visible = on;
       if (!on) stop();
+      else {
+        $("yu-editor").hidden = true;
+        $("yu-browser").hidden = false;
+      }
     },
     setBusy(on) {
       busy = on;
       if (on) stop();
       if (api) sync();
-    }
+    },
   };
 })();
 
@@ -8324,6 +8092,145 @@ window.MotionAstraCreate = (() => {
 
 </script>
     <script>
+/* Cross-panel search navigates to controls; it never runs a host mutation. */
+window.MotionAstraSearch = (() => {
+  const $ = (id) => document.getElementById(id);
+  let api,
+    items = [];
+  function close() {
+    $("global-search").hidden = true;
+    $("toggle-search").setAttribute("aria-expanded", "false");
+  }
+  function render() {
+    const q = $("search").value.trim().toLocaleLowerCase(),
+      box = $("search-results");
+    box.textContent = "";
+    if (!q) {
+      $("search-count").textContent =
+        "Find text FX, animations, SolidGen and tools.";
+      return;
+    }
+    const matches = items.filter((x) =>
+      (x.name + " " + x.group + " " + x.keywords)
+        .toLocaleLowerCase()
+        .includes(q),
+    );
+    $("search-count").textContent = matches.length + " results";
+    matches.forEach((item) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = item.name + " · " + item.group;
+      button.onclick = () => {
+        if (api.busy()) return;
+        close();
+        item.open();
+      };
+      box.appendChild(button);
+    });
+  }
+  function init(adapter) {
+    api = adapter;
+    window.MA_PRESETS.presets.forEach((p) =>
+      items.push({
+        name: p.name,
+        group: p.category === "Text" ? "Text Tools FX" : "SolidGen",
+        keywords: p.description,
+        open() {
+          api.tab(p.category === "Text" ? "YU" : "Background");
+          api.open(p);
+        },
+      }),
+    );
+    window.YTMCore.presets.forEach((p) =>
+      items.push({
+        name: p.name,
+        group: "Text Animate",
+        keywords: p.category,
+        open() {
+          api.tab("YU");
+          window.MotionAstraYUUI.openById(p.id);
+        },
+      }),
+    );
+    [
+      ["tools", "Tools", "Quick Tools"],
+      ["create", "Create", "Create"],
+      ["motion-curve", "Curve", "Motion Curve"],
+      ["settings", "Settings", "Settings"],
+    ].forEach(([id, tab, group]) => {
+      items.push({
+        name: group,
+        group: "Workspace",
+        keywords: "",
+        open() {
+          api.tab(tab);
+        },
+      });
+      document
+        .querySelectorAll("#" + id + " button,#" + id + " label")
+        .forEach((node) => {
+          const name = (node.getAttribute("aria-label") || node.textContent)
+            .trim()
+            .replace(/\s+/g, " ");
+          if (!name || name.length > 100) return;
+          const detail = node.closest("details");
+          items.push({
+            name,
+            group,
+            keywords: detail ? detail.querySelector("summary").textContent : "",
+            open() {
+              api.tab(tab);
+              let parent = node.parentElement;
+              while (parent) {
+                if (parent.tagName === "DETAILS") parent.open = true;
+                parent = parent.parentElement;
+              }
+              node.scrollIntoView({ block: "center" });
+              const control = node.matches("label")
+                ? node.querySelector("input,select,textarea")
+                : node;
+              if (control) control.focus();
+            },
+          });
+        });
+    });
+    $("search").oninput = render;
+    $("toggle-search").onclick = () => {
+      const open = $("global-search").hidden || $("nav").hidden;
+      $("global-search").hidden = !open;
+      $("toggle-search").setAttribute("aria-expanded", String(open));
+      if (open) {
+        $("nav").hidden = false;
+        $("fold-nav").setAttribute("aria-expanded", "true");
+        $("fold-nav").textContent = "Menu ▴";
+        render();
+        $("search").focus();
+      }
+    };
+    $("search").onkeydown = (e) => {
+      if (e.key === "Escape") {
+        e.stopPropagation();
+        close();
+        $("toggle-search").focus();
+      }
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        const first = $("search-results").querySelector("button");
+        if (first) first.focus();
+      }
+    };
+    $("global-search").addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        close();
+        $("toggle-search").focus();
+      }
+    });
+  }
+  return { init };
+})();
+
+</script>
+    <script>
 (() => {
   "use strict";
   const $ = (id) => document.getElementById(id),
@@ -8456,13 +8363,12 @@ window.MotionAstraCreate = (() => {
     MotionPreview.play($("preview"), false);
   }
   function tab(name) {
+    if (name === "Text") name = "YU";
     state.tab = name;
-    document.querySelector("#nav .search").hidden = ![
-      "Text",
-      "Background",
-    ].includes(name);
     close();
-    $("library").hidden = !["Text", "Background"].includes(name);
+    $("library").hidden = !["YU", "Background"].includes(name);
+    if (name === "YU") $("yu-browser").prepend($("library"));
+    else document.querySelector("main").prepend($("library"));
     $("tools").hidden = name !== "Tools";
     $("create").hidden = name !== "Create";
     if (window.MotionAstraCreate && name === "Create")
@@ -8477,16 +8383,15 @@ window.MotionAstraCreate = (() => {
       b.classList.toggle("active", b.dataset.tab === name);
       b.setAttribute("aria-pressed", String(b.dataset.tab === name));
     });
-    if (["Text", "Background"].includes(name)) {
+    if (["YU", "Background"].includes(name)) {
       state.query = "";
-      $("search").value = "";
       $("library-kicker").textContent =
-        name === "Text" ? "TEXT TOOLS" : "SOLIDGEN";
+        name === "YU" ? "TEXT TOOLS FX" : "SOLIDGEN";
       $("library-title").textContent =
-        name === "Text" ? "Text in motion." : "A little atmosphere.";
+        name === "YU" ? "Text Tools FX" : "A little atmosphere.";
       $("library-help").textContent =
-        name === "Text"
-          ? "8 customizable presets · select a text layer before applying."
+        name === "YU"
+          ? "6 customizable presets · select a text layer before applying."
           : "Choose a style to generate its own background layer.";
       render();
     }
@@ -8497,16 +8402,15 @@ window.MotionAstraCreate = (() => {
     $("cards").textContent = "";
     const list = data.presets.filter(
       (p) =>
-        p.category === state.tab &&
+        p.category === (state.tab === "YU" ? "Text" : state.tab) &&
         `${p.name} ${p.description}`.toLowerCase().includes(state.query),
     );
-    $("count").textContent = list.length;
     list.forEach((p, i) => {
       const article = el("article", "card"),
         view = el("button", "card-preview"),
         canvas = el("canvas");
       canvas.width = 440;
-      canvas.height = 250;
+      canvas.height = 440;
       view.setAttribute("aria-label", "Customize " + p.name);
       view.append(
         canvas,
@@ -8837,7 +8741,12 @@ window.MotionAstraCreate = (() => {
     }
   };
   $("load-fx").onclick = () => {
-    if (state.tab === "YU" && window.MotionAstraYUUI)
+    if (
+      state.tab === "YU" &&
+      !$("yu-editor").hidden &&
+      $("inspector").hidden &&
+      window.MotionAstraYUUI
+    )
       return window.MotionAstraYUUI.load();
     return load();
   };
@@ -8857,10 +8766,6 @@ window.MotionAstraCreate = (() => {
     }
   };
   $("replay").onclick = preview;
-  $("search").oninput = (e) => {
-    state.query = e.target.value.trim().toLowerCase();
-    render();
-  };
   document.querySelectorAll("[data-tab]").forEach(
     (b) =>
       (b.onclick = () => {
@@ -9015,14 +8920,17 @@ window.MotionAstraCreate = (() => {
       action: action,
       ready: () => bridge.isReady(),
     });
-  if (window.MotionAstraCreate) window.MotionAstraCreate.init({
-    action,
-    ready: () => bridge.isReady(),
-    notice,
-  });
+  if (window.MotionAstraCreate)
+    window.MotionAstraCreate.init({
+      action,
+      ready: () => bridge.isReady(),
+      notice,
+    });
   disclosure("fold-nav", "nav", "ma2-nav", "Menu");
   disclosure("fold-quick", "quick", "ma252-create", "Quick");
-  tab("Text");
+  if (window.MotionAstraSearch)
+    window.MotionAstraSearch.init({ tab, open, busy: () => state.busy });
+  tab("YU");
   busy(false);
   refresh();
   icon();

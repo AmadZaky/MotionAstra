@@ -25,9 +25,9 @@ window.MotionAstraYUUI = (() => {
       "elastic",
       "linear",
       "step",
-      "steps"
+      "steps",
     ],
-    placement: ["edges", "playhead"]
+    placement: ["edges", "playhead"],
   };
   const labels = {
     chars: "Characters",
@@ -37,7 +37,7 @@ window.MotionAstraYUUI = (() => {
     all: "Whole text",
     edges: "Layer edges",
     playhead: "Playhead",
-    BOTH: "IN + OUT"
+    BOTH: "IN + OUT",
   };
   function node(tag, cls, text) {
     const e = document.createElement(tag);
@@ -55,7 +55,7 @@ window.MotionAstraYUUI = (() => {
       group: p.group,
       order: p.order,
       easing: "preset",
-      placement: "edges"
+      placement: "edges",
     };
   }
   function values() {
@@ -70,18 +70,18 @@ window.MotionAstraYUUI = (() => {
   }
   function valid() {
     return Array.from($("yu-controls").querySelectorAll("input,select")).every(
-      (e) => e.checkValidity() && e.value !== ""
+      (e) => e.checkValidity() && e.value !== "",
     );
   }
   function sync() {
     $("yu-apply").hidden = !!target;
-    ["yu-apply", "yu-update", "yu-clear", "yu-load"].forEach(
+    ["yu-apply", "yu-update", "yu-clear"].forEach(
       (id) =>
         ($(id).disabled =
           busy ||
           !api.ready() ||
           (id === "yu-update" && !target) ||
-          (["yu-apply", "yu-update"].includes(id) && !valid()))
+          (["yu-apply", "yu-update"].includes(id) && !valid())),
     );
     $("yu-back").disabled = busy;
     $("yu-controls")
@@ -104,12 +104,12 @@ window.MotionAstraYUUI = (() => {
     ctx.fillRect(0, 0, w, h);
     const groups =
       o.group === "all"
-        ? ["YU MOTION"]
+        ? ["MotionAstra"]
         : o.group === "words"
-          ? ["YU", "MOTION"]
+          ? ["MotionAstra"]
           : o.group === "lines"
-            ? ["YU", "MOTION"]
-            : Array.from("YU MOTION");
+            ? ["MotionAstra"]
+            : Array.from("MotionAstra");
     const size = o.group === "all" ? 36 : 40;
     ctx.font = "600 " + size + "px Arial";
     const widths = groups.map((s) => ctx.measureText(s).width),
@@ -136,7 +136,7 @@ window.MotionAstraYUUI = (() => {
           o.order,
           o.seed,
           phase,
-          null
+          null,
         ),
         v = core.sample(
           p,
@@ -145,12 +145,12 @@ window.MotionAstraYUUI = (() => {
           n,
           o.seed,
           o.intensity,
-          o.easing === "preset" ? p.ease : o.easing
+          o.easing === "preset" ? p.ease : o.easing,
         );
       ctx.save();
       ctx.translate(
         o.group === "lines" ? w / 2 : x + widths[i] / 2,
-        o.group === "lines" ? h / 2 - 24 + i * 48 : h / 2
+        o.group === "lines" ? h / 2 - 24 + i * 48 : h / 2,
       );
       ctx.translate(v.x, v.y);
       ctx.rotate((v.rotation * Math.PI) / 180);
@@ -193,12 +193,12 @@ window.MotionAstraYUUI = (() => {
   function render() {
     stop();
     $("yu-cards").textContent = "";
-    const q = $("yu-search").value.toLowerCase().trim(),
+    const q = "",
       cat = $("yu-category").value,
       list = core.presets.filter(
         (p) =>
           (cat === "All" || p.category === cat) &&
-          `${p.name} ${p.category}`.toLowerCase().includes(q)
+          `${p.name} ${p.category}`.toLowerCase().includes(q),
       );
     $("yu-count").textContent = list.length + " presets";
     list.forEach((p) => {
@@ -208,14 +208,18 @@ window.MotionAstraYUUI = (() => {
         tag = node("span", "eyebrow", p.category),
         button = node("button", "yu-customize", "Customize");
       canvas.width = 440;
-      canvas.height = 220;
+      canvas.height = 440;
       canvas.setAttribute("aria-label", p.name + " preview");
       const o = defaults(p);
       draw(canvas, p, o, o.duration + o.stagger * 10);
       button.onclick = () => {
         if (!busy) open(p);
       };
-      const applyButton = node("button", "primary yu-card-apply", "Apply animation");
+      const applyButton = node(
+        "button",
+        "primary yu-card-apply",
+        "Apply animation",
+      );
       applyButton.dataset.host = "";
       applyButton.disabled = busy || !api.ready();
       applyButton.onclick = () =>
@@ -223,7 +227,7 @@ window.MotionAstraYUUI = (() => {
           action: "yuText",
           operation: "apply",
           id: p.id,
-          options: o
+          options: o,
         });
       card.append(canvas, tag, title, button, applyButton);
       card.onmouseenter = () => play(canvas, p, o);
@@ -262,7 +266,7 @@ window.MotionAstraYUUI = (() => {
     const r = await api.action({
       action: "yuText",
       operation: "load",
-      phase: $("yu-mode").value === "OUT" ? "OUT" : "IN"
+      phase: $("yu-mode").value === "OUT" ? "OUT" : "IN",
     });
     if (r && r.id) open(core.presets[r.id - 1], r.options, r);
   }
@@ -273,7 +277,7 @@ window.MotionAstraYUUI = (() => {
       operation: "apply",
       id: preset.id,
       options: values(),
-      target: update ? target : null
+      target: update ? target : null,
     });
     if (r && r.changed && update) await load();
   }
@@ -284,25 +288,23 @@ window.MotionAstraYUUI = (() => {
         const e = node(
           "option",
           "",
-          k === "order" && v === "edges" ? "Edges first" : labels[v] || v
+          k === "order" && v === "edges" ? "Edges first" : labels[v] || v,
         );
         e.value = v;
         $("yu-" + k).appendChild(e);
-      })
+      }),
     );
     ["All", ...new Set(core.presets.map((p) => p.category))].forEach((v) => {
       const e = node("option", "", v);
       e.value = v;
       $("yu-category").appendChild(e);
     });
-    $("yu-search").oninput = render;
     $("yu-category").onchange = render;
     $("yu-back").onclick = () => {
       stop();
       $("yu-editor").hidden = true;
       $("yu-browser").hidden = false;
     };
-    $("yu-load").onclick = load;
     $("yu-apply").onclick = () => apply(false);
     $("yu-update").onclick = () => apply(true);
     $("yu-clear").onclick = async () => {
@@ -320,7 +322,7 @@ window.MotionAstraYUUI = (() => {
       if (valid()) play($("yu-preview"), preset, values());
     };
     Object.keys(defaults(preset)).forEach(
-      (k) => ($("yu-" + k).value = defaults(preset)[k])
+      (k) => ($("yu-" + k).value = defaults(preset)[k]),
     );
     render();
     sync();
@@ -331,14 +333,22 @@ window.MotionAstraYUUI = (() => {
   return {
     init,
     load,
+    openById(id) {
+      const p = core.presets.find((p) => p.id === id);
+      if (p && !busy) open(p);
+    },
     setVisible(on) {
       visible = on;
       if (!on) stop();
+      else {
+        $("yu-editor").hidden = true;
+        $("yu-browser").hidden = false;
+      }
     },
     setBusy(on) {
       busy = on;
       if (on) stop();
       if (api) sync();
-    }
+    },
   };
 })();

@@ -4,7 +4,7 @@ const {environment}=require('./bridge-harness.cjs');
   for (const drop of [undefined, '', 'undefined', 'null', 'EvalScript error.']) {
     const env = environment(drop === undefined ? {} : { drop });
     const status = await env.bridge.call({ action: 'status' });
-    assert.equal(status.hostVersion, '3.0.6');
+    assert.equal(status.hostVersion, '3.0.7');
     assert.equal(env.metrics.loads.length, 2, 'Load core data and host only; optional modules are lazy');
     const cleaned = await env.bridge.call({ action: 'tool', name: 'unlock' });
     assert.equal(cleaned.changed,1);
@@ -21,7 +21,7 @@ const {environment}=require('./bridge-harness.cjs');
     [{ malformed: true }, /damaged reply/]
   ]) await assert.rejects(environment(options).bridge.call({ action: 'status' }), expected);
 
-  const oldBuild=environment();oldBuild.host.MotionAstra={version:'3.0.6',build:'previous',dispatch(){throw Error('Stale host reused');}};
+  const oldBuild=environment();oldBuild.host.MotionAstra={version:'3.0.7',build:'previous',dispatch(){throw Error('Stale host reused');}};
   await oldBuild.bridge.call({action:'status'});assert.equal(oldBuild.metrics.loads.length,2,'Same-version hotfix must reload stale host build');
   const noReply = environment({ loseMailbox: true });
   await assert.rejects(noReply.bridge.call({ action: 'tool', name: 'unlock' }), /not retried/);
