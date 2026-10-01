@@ -90,13 +90,19 @@ body{background:var(--bg);color:var(--text)}header{background:var(--panel)}butto
 #font-search { flex: 1 1 100%; min-width: 0; width: 100%; }
 #font-status { margin: 4px 0 8px; font-size: 11px; }
 #tweaker { margin-bottom: 16px; }
+/* Dedicated Create workspace; every form stays in the main scroll region. */
+.create-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:14px;align-items:start}
+.create-card{display:flex;flex-direction:column;gap:12px;padding:18px;border:1px solid var(--line,rgba(255,255,255,.1));border-radius:16px;background:var(--surface,rgba(127,127,127,.05));min-width:0}
+.create-card h2{display:flex;gap:8px;align-items:center;margin:0 0 4px;font-size:17px}.create-card h2 svg{width:18px;height:18px;color:#ff943f}
+.create-card label{display:flex;flex-direction:column;gap:6px;font-size:11px;min-width:0}.create-card input,.create-card select,.create-card textarea{width:100%;min-width:0;box-sizing:border-box}.create-card textarea{resize:vertical}.create-card input[type=color]{height:34px;padding:3px;cursor:pointer}.create-card input[aria-invalid=true]{border-color:#e76f51}
+.create-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.create-font-status{display:flex;flex-direction:column;gap:4px}.create-font-status button{align-self:start}.create-card>button[type=submit]{margin-top:6px;align-self:stretch}.color-swatches{display:flex;flex-wrap:wrap;gap:8px;min-height:28px}.color-swatches button{width:26px;height:26px;min-width:26px;padding:0;border-radius:6px;border:1px solid #888}.color-swatches button:focus-visible{outline:2px solid #ff943f;outline-offset:3px}
 </style>
   </head>
   <body class="catalog">
     <header>
       <a class="brand" href="index.html"
         ><span class="brand-icon"><i data-lucide="asterisk"></i></span
-        >MotionAstra <b>3.0.5</b></a
+        >MotionAstra <b>3.0.6</b></a
       >
       <div class="header-actions">
         <button
@@ -127,40 +133,11 @@ body{background:var(--bg);color:var(--text)}header{background:var(--panel)}butto
         ><button data-tab="Background">SolidGen <span>8</span></button
         ><button data-tab="YU">Text Animate</button
         ><button data-tab="Curve">Motion Curve</button
-        ><button data-tab="Tools">Quick Tools</button>
+        ><button data-tab="Tools">Quick Tools</button
+        ><button data-tab="Create">Create</button>
       </div>
     </nav>
     <div id="quick">
-      <div class="create-row" aria-label="Create layers">
-        <button data-tool="newShape" data-host>
-          <i data-lucide="square"></i>New Shape</button
-        ><button data-tool="newText" data-host>
-          <i data-lucide="type"></i>New Text</button
-        ><button data-tool="newSolid" data-host>
-          <i data-lucide="layers"></i>New Solid</button
-        ><label class="layer-color" title="Shape and solid color"
-          ><input
-            id="new-layer-color"
-            type="color"
-            value="#ff943f"
-            aria-label="New shape and solid color"
-        /></label>
-      </div>
-      <div class="font-row">
-        <label for="new-text-font">After Effects font</label
-        ><input
-          id="font-search"
-          type="search"
-          placeholder="Search AE fonts…"
-          aria-label="Search After Effects fonts"
-          autocomplete="off"
-        /><select id="new-text-font" aria-label="New Text font">
-          <option value="">Current AE font</option></select
-        ><button id="refresh-fonts" title="Refresh fonts from After Effects" aria-label="Refresh fonts" data-host>↻</button>
-      </div>
-      <p id="font-status" class="hint" role="status" aria-live="polite">
-        Focus font search to load fonts from After Effects.
-      </p>
       <div class="utility-row">
         <button id="quick-anchor" data-host>
           <i data-lucide="crosshair"></i>Center anchor</button
@@ -173,6 +150,169 @@ body{background:var(--bg);color:var(--text)}header{background:var(--panel)}butto
     </div>
     <div id="workspace">
       <main>
+        <section id="create" hidden aria-label="Create layers">
+          <div class="eyebrow">START WITH SOMETHING SIMPLE</div>
+          <h1>Create</h1>
+          <p>Native, editable layers in your active composition.</p>
+          <div class="create-grid">
+            <form id="create-shape" class="create-card">
+              <h2><i data-lucide="shapes"></i> Shape</h2>
+              <label
+                >Shape<select id="new-shape-type">
+                  <option value="circle">Circle</option>
+                  <option value="square" selected>Square</option>
+                  <option value="polygon">Polygon</option>
+                </select></label
+              >
+              <div class="create-fields">
+                <label
+                  >Size · px<input
+                    id="new-shape-size"
+                    type="number"
+                    value="320"
+                    min="1"
+                    max="30000"
+                    required
+                /></label>
+                <label id="polygon-field" hidden
+                  >Sides<input
+                    id="new-shape-sides"
+                    type="number"
+                    value="6"
+                    min="3"
+                    max="64"
+                    step="1"
+                    required
+                /></label>
+              </div>
+              <label
+                >Fill color<input
+                  id="new-layer-color"
+                  type="color"
+                  value="#ff943f"
+              /></label>
+              <button
+                type="submit"
+                class="primary"
+                data-create="newShape"
+                data-host
+              >
+                Create shape
+              </button>
+            </form>
+            <form id="create-text" class="create-card">
+              <h2><i data-lucide="type"></i> Text</h2>
+              <label
+                >Content<textarea
+                  id="new-text-content"
+                  rows="2"
+                  maxlength="10000"
+                  required
+                >
+MotionAstra</textarea
+                >
+              </label>
+              <label
+                >Search AE fonts<input
+                  id="font-search"
+                  type="search"
+                  placeholder="Family, style or PostScript name…"
+                  autocomplete="off"
+              /></label>
+              <label
+                >Font family<select id="new-text-font">
+                  <option value="">Current AE font</option>
+                </select></label
+              >
+              <div class="create-fields">
+                <label
+                  >Style<select id="new-text-style">
+                    <option value="">Current style</option>
+                  </select></label
+                >
+                <label
+                  >Size · px<input
+                    id="new-text-size"
+                    type="number"
+                    value="80"
+                    min="1"
+                    max="1296"
+                    step="0.1"
+                    required
+                /></label>
+              </div>
+              <label
+                >Font color<input
+                  id="new-text-color"
+                  type="color"
+                  value="#ffffff"
+              /></label>
+              <div class="create-font-status">
+                <p
+                  id="font-status"
+                  class="hint"
+                  role="status"
+                  aria-live="polite"
+                >
+                  Load font families and styles from After Effects.
+                </p>
+                <button id="refresh-fonts" type="button" data-host>
+                  Refresh fonts
+                </button>
+              </div>
+              <button
+                type="submit"
+                class="primary"
+                data-create="newText"
+                data-host
+              >
+                Create text
+              </button>
+            </form>
+            <form id="create-background" class="create-card">
+              <h2><i data-lucide="layers"></i> Background</h2>
+              <p class="hint">
+                One full-size solid, placed at the bottom for the whole
+                composition.
+              </p>
+              <div class="create-fields background-color">
+                <label
+                  >Color<input
+                    id="new-background-color"
+                    type="color"
+                    value="#161616"
+                /></label>
+                <label
+                  >HEX<input
+                    id="background-hex"
+                    type="text"
+                    value="#161616"
+                    placeholder="#RRGGBB"
+                    pattern="#?[0-9a-fA-F]{6}"
+                    maxlength="7"
+                    spellcheck="false"
+                    required
+                    aria-describedby="background-color-error"
+                /></label>
+              </div>
+              <p id="background-color-error" class="hint" role="status"></p>
+              <span class="hint">Recently used</span>
+              <div
+                id="recent-colors"
+                class="color-swatches"
+                aria-label="Recent background colors"
+              ></div>
+              <button
+                type="submit"
+                class="primary"
+                data-create="newSolid"
+                data-host
+              >
+                Create background
+              </button>
+            </form>
+          </div>
+        </section>
         <section id="library">
           <div class="eyebrow" id="library-kicker">8 TEXT ESSENTIALS</div>
           <h1 id="library-title">Words in motion.</h1>
@@ -618,7 +758,7 @@ body{background:var(--bg);color:var(--text)}header{background:var(--panel)}butto
           </details>
         </section>
         <section id="settings" hidden>
-          <div class="eyebrow">MOTIONASTRA 3.0.5</div>
+          <div class="eyebrow">MOTIONASTRA 3.0.6</div>
           <h1>Your workspace.</h1>
           <details open>
             <summary>Preview & connection</summary>
@@ -2038,7 +2178,7 @@ lucide.createIcons({icons});\``);if(typeof document>"u")throw new Error("`create
 </script>
     <script>
 window.MA_PRESETS = {
-  "version": "3.0.5",
+  "version": "3.0.6",
   "presets": [
     {
       "id": "counter",
@@ -7076,14 +7216,14 @@ document.addEventListener('visibilitychange',run);return {attach,play,clear,rend
 
 </script>
     <script>
-/* MotionAstra CEP transport v3.0.5.
+/* MotionAstra CEP transport v3.0.6.
  * Host files load by absolute path; all replies are tagged and request-correlated.
  * Empty callbacks recover the stored reply, NEVER replay the host mutation.
  */
 (function (root) {
   "use strict";
-  const VERSION = "3.0.5";
-  const BUILD = "3.0.5";
+  const VERSION = "3.0.6";
+  const BUILD = "3.0.6";
   const PREFIX = "MAFX1:";
   const ERROR_PREFIX = "MAFX1E:";
   const available = !!root.__adobe_cep__;
@@ -7966,6 +8106,224 @@ return {init,setBusy(on){busy=on;if(on)stop();sync();},setVisible(on){visible=on
 
 </script>
     <script>
+/* Native layer creation: host fonts, editable shape geometry and recent colors. */
+window.MotionAstraCreate = (() => {
+  const $ = (id) => document.getElementById(id);
+  const hex = (value) => {
+    const text = value.trim().replace(/^#/, "");
+    return /^[0-9a-f]{6}$/i.test(text) ? "#" + text.toUpperCase() : null;
+  };
+  let api,
+    fonts = [],
+    loaded = false,
+    loading = false,
+    busy = false,
+    recent = [];
+  function option(select, value, label) {
+    const node = document.createElement("option");
+    node.value = value;
+    node.textContent = label;
+    select.appendChild(node);
+  }
+  function styles(previous) {
+    const select = $("new-text-style"),
+      family = $("new-text-font").value;
+    select.textContent = "";
+    const faces = fonts.filter((f) => f.family === family);
+    if (!faces.length) option(select, "", "Current style");
+    else faces.forEach((f) => option(select, f.value, f.style));
+    const regular = faces.find((f) =>
+      /^(regular|normal|roman|book)$/i.test(f.style),
+    );
+    if (faces.some((f) => f.value === previous)) select.value = previous;
+    else if (regular) select.value = regular.value;
+  }
+  function filterFonts() {
+    const select = $("new-text-font"),
+      chosen = select.value,
+      style = $("new-text-style").value;
+    const query = $("font-search").value.trim().toLocaleLowerCase();
+    const families = [
+      ...new Set(
+        fonts
+          .filter((f) =>
+            (f.family + " " + f.style + " " + f.value)
+              .toLocaleLowerCase()
+              .includes(query),
+          )
+          .map((f) => f.family),
+      ),
+    ];
+    const visible =
+      chosen &&
+      fonts.some((f) => f.family === chosen) &&
+      !families.includes(chosen)
+        ? [chosen, ...families]
+        : families;
+    select.textContent = "";
+    option(select, "", "Current AE font");
+    visible.forEach((f) => option(select, f, f));
+    if (visible.includes(chosen)) select.value = chosen;
+    styles(style);
+    $("font-status").textContent = loaded
+      ? families.length
+        ? `${families.length} matching families · styles from AE`
+        : "No matching font families. Try another search."
+      : "Connect to After Effects to load its fonts.";
+  }
+  async function loadFonts() {
+    if (loading || busy || !api.ready()) return;
+    loading = true;
+    $("font-status").textContent = "Loading fonts from After Effects…";
+    try {
+      const result = await api.action({ action: "fonts" });
+      if (result && Array.isArray(result.fonts)) {
+        fonts = result.fonts.filter((f) => f.family && f.style && f.value);
+        loaded = true;
+        filterFonts();
+        if (!fonts.length)
+          $("font-status").textContent =
+            result.message ||
+            "No fonts available. Activate a font in AE, then refresh.";
+      } else
+        $("font-status").textContent =
+          "Could not load AE fonts. Refresh to retry.";
+    } finally {
+      loading = false;
+    }
+  }
+  function updateHex(value) {
+    const color = hex(value);
+    $("background-hex").setCustomValidity(
+      color ? "" : "Use six hexadecimal digits, for example #FF943F.",
+    );
+    $("background-hex").setAttribute("aria-invalid", String(!color));
+    $("background-color-error").textContent = color
+      ? ""
+      : "Enter six hex digits, such as #FF943F.";
+    if (color) $("new-background-color").value = color;
+    return color;
+  }
+  function renderColors() {
+    const box = $("recent-colors");
+    box.textContent = "";
+    if (!recent.length) {
+      const hint = document.createElement("span");
+      hint.className = "hint";
+      hint.textContent = "Your next background color will appear here.";
+      box.appendChild(hint);
+    }
+    recent.forEach((color) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.style.backgroundColor = color;
+      b.title = color;
+      b.setAttribute("aria-label", "Use " + color);
+      b.onclick = () => {
+        $("background-hex").value = color;
+        updateHex(color);
+      };
+      box.appendChild(b);
+    });
+  }
+  function remember(color) {
+    recent = [color, ...recent.filter((c) => c !== color)].slice(0, 8);
+    try {
+      localStorage.setItem("ma-create-colors", JSON.stringify(recent));
+    } catch (ignore) {}
+    renderColors();
+  }
+  async function submit(event, kind) {
+    event.preventDefault();
+    if (busy || !api.ready()) return;
+    const form = event.currentTarget;
+    if (kind === "newSolid") updateHex($("background-hex").value);
+    if (!form.reportValidity()) return;
+    let payload = { action: "tool", name: kind };
+    if (kind === "newShape")
+      Object.assign(payload, {
+        shape: $("new-shape-type").value,
+        size: Number($("new-shape-size").value),
+        sides: Number($("new-shape-sides").value),
+        color: $("new-layer-color").value,
+      });
+    if (kind === "newText")
+      Object.assign(payload, {
+        text: $("new-text-content").value,
+        font: $("new-text-style").value,
+        size: Number($("new-text-size").value),
+        color: $("new-text-color").value,
+      });
+    if (kind === "newSolid")
+      Object.assign(payload, {
+        color: hex($("background-hex").value),
+        background: true,
+      });
+    const result = await api.action(payload);
+    if (kind === "newSolid" && result && result.changed)
+      remember(payload.color);
+  }
+  function setBusy(value) {
+    busy = value;
+    if (!api) return;
+    document
+      .querySelectorAll(
+        "#create input,#create select,#create textarea,#create button",
+      )
+      .forEach((e) => {
+        e.disabled = value || (e.hasAttribute("data-host") && !api.ready());
+      });
+    $("new-shape-sides").disabled =
+      value || $("new-shape-type").value !== "polygon";
+  }
+  function activate() {
+    if (api && !loaded) loadFonts();
+  }
+  function init(options) {
+    api = options;
+    try {
+      const saved = JSON.parse(
+        localStorage.getItem("ma-create-colors") || "[]",
+      );
+      if (Array.isArray(saved))
+        recent = [
+          ...new Set(
+            saved.filter((c) => typeof c === "string" && hex(c)).map(hex),
+          ),
+        ].slice(0, 8);
+    } catch (ignore) {}
+    renderColors();
+    $("new-shape-type").onchange = () => {
+      $("polygon-field").hidden = $("new-shape-type").value !== "polygon";
+      setBusy(busy);
+    };
+    $("new-shape-type").onchange();
+    $("font-search").oninput = filterFonts;
+    $("font-search").onfocus = activate;
+    $("new-text-font").onchange = () => styles();
+    $("refresh-fonts").onclick = loadFonts;
+    $("background-hex").oninput = () => updateHex($("background-hex").value);
+    $("background-hex").onblur = () => {
+      const color = updateHex($("background-hex").value);
+      if (color) $("background-hex").value = color;
+    };
+    $("new-background-color").oninput = () => {
+      $("background-hex").value = $("new-background-color").value.toUpperCase();
+      updateHex($("background-hex").value);
+    };
+    [
+      ["create-shape", "newShape"],
+      ["create-text", "newText"],
+      ["create-background", "newSolid"],
+    ].forEach(([id, kind]) => {
+      $(id).onsubmit = (e) => submit(e, kind);
+    });
+  }
+  return { init, activate, setBusy };
+})();
+
+</script>
+    <script>
 (() => {
   "use strict";
   const $ = (id) => document.getElementById(id),
@@ -8046,6 +8404,7 @@ return {init,setBusy(on){busy=on;if(on)stop();sync();},setVisible(on){visible=on
       .forEach((e) => (e.disabled = value));
     if (window.MotionAstraYUUI) window.MotionAstraYUUI.setBusy(value);
     if (window.MotionCurve) window.MotionCurve.setBusy(value);
+    if (window.MotionAstraCreate) window.MotionAstraCreate.setBusy(value);
   }
   async function refresh() {
     if (state.busy) return;
@@ -8105,6 +8464,9 @@ return {init,setBusy(on){busy=on;if(on)stop();sync();},setVisible(on){visible=on
     close();
     $("library").hidden = !["Text", "Background"].includes(name);
     $("tools").hidden = name !== "Tools";
+    $("create").hidden = name !== "Create";
+    if (window.MotionAstraCreate && name === "Create")
+      window.MotionAstraCreate.activate();
     $("settings").hidden = name !== "Settings";
     $("yu").hidden = name !== "YU";
     $("motion-curve").hidden = name !== "Curve";
@@ -8526,20 +8888,9 @@ return {init,setBusy(on){busy=on;if(on)stop();sync();},setVisible(on){visible=on
       y: Number($("anchor-y").value) / 100,
       keep: $("anchor-keep").checked,
     });
-  document
-    .querySelectorAll("[data-tool]")
-    .forEach(
-      (b) =>
-        (b.onclick = () =>
-          tool(
-            b.dataset.tool,
-            b.dataset.tool === "newText"
-              ? { font: $("new-text-font").value }
-              : ["newShape", "newSolid"].includes(b.dataset.tool)
-                ? { color: $("new-layer-color").value }
-                : {},
-          )),
-    );
+  document.querySelectorAll("[data-tool]").forEach((b) => {
+    b.onclick = () => tool(b.dataset.tool);
+  });
   document
     .querySelectorAll("[data-order]")
     .forEach(
@@ -8553,72 +8904,6 @@ return {init,setBusy(on){busy=on;if(on)stop();sync();},setVisible(on){visible=on
           strength: Number($("ease-strength").value),
         })),
   );
-  // Only host FontObjects are offered. Never substitute browser fonts.
-  let hostFonts = [],
-    fontsLoaded = false,
-    fontsLoading = false;
-  function filterFonts() {
-    const query = $("font-search").value.trim().toLocaleLowerCase();
-    const select = $("new-text-font"),
-      chosen = select.value;
-    const matches = hostFonts.filter((f) =>
-      (f.label + " " + f.value).toLocaleLowerCase().includes(query),
-    );
-    select.textContent = "";
-    const current = el("option", "", "Current AE font");
-    current.value = "";
-    select.appendChild(current);
-    // Keep the explicit choice when a new search hides it.
-    const selected = hostFonts.find((f) => f.value === chosen);
-    const visible =
-      selected && !matches.includes(selected)
-        ? [selected, ...matches]
-        : matches;
-    visible.forEach((f) => {
-      const option = el("option", "", f.label);
-      option.value = f.value;
-      select.appendChild(option);
-    });
-    select.value = selected ? chosen : "";
-    $("font-status").textContent = fontsLoaded
-      ? matches.length
-        ? `${matches.length} of ${hostFonts.length} AE fonts`
-        : "No matching AE fonts. Try a family, style or PostScript name."
-      : "Connect to After Effects to load its fonts.";
-  }
-  async function loadFonts() {
-    if (fontsLoading || state.busy) return;
-    if (!bridge.isReady()) {
-      filterFonts();
-      return;
-    }
-    fontsLoading = true;
-    $("font-status").textContent = "Loading fonts from After Effects…";
-    try {
-      const r = await action({ action: "fonts" });
-      if (r && Array.isArray(r.fonts)) {
-        hostFonts = r.fonts;
-        fontsLoaded = true;
-        filterFonts();
-        if (!hostFonts.length)
-          $("font-status").textContent =
-            r.message ||
-            "After Effects returned no available fonts. Refresh after activating a font.";
-      } else
-        $("font-status").textContent =
-          "Could not load AE fonts. Use Refresh fonts to retry.";
-    } finally {
-      fontsLoading = false;
-    }
-  }
-  $("refresh-fonts").onclick = loadFonts;
-  $("font-search").oninput = filterFonts;
-  $("font-search").onfocus = () => {
-    if (!fontsLoaded) loadFonts();
-  };
-  $("new-text-font").onfocus = () => {
-    if (!fontsLoaded) loadFonts();
-  };
   document
     .querySelectorAll("[data-align]")
     .forEach(
@@ -8730,8 +9015,13 @@ return {init,setBusy(on){busy=on;if(on)stop();sync();},setVisible(on){visible=on
       action: action,
       ready: () => bridge.isReady(),
     });
+  if (window.MotionAstraCreate) window.MotionAstraCreate.init({
+    action,
+    ready: () => bridge.isReady(),
+    notice,
+  });
   disclosure("fold-nav", "nav", "ma2-nav", "Menu");
-  disclosure("fold-quick", "quick", "ma252-create", "Create");
+  disclosure("fold-quick", "quick", "ma252-create", "Quick");
   tab("Text");
   busy(false);
   refresh();

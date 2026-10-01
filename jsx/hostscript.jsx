@@ -1,6 +1,6 @@
-/* MotionAstra 3.0.5 — ES3 host. No third-party AE effects required. */
+/* MotionAstra 3.0.6 — ES3 host. No third-party AE effects required. */
 var MotionAstra = (function () {
-  var BUILD = "3.0.5",
+  var BUILD = "3.0.6",
     recipes = {},
     serial = 0;
   for (var ri = 0; ri < MA_PRESET_DATA.presets.length; ri++)
@@ -1393,7 +1393,9 @@ var MotionAstra = (function () {
             seen["$" + f.postScriptName] = true;
             out.push({
               value: f.postScriptName,
-              label: f.familyName + " — " + f.styleName
+              label: f.familyName + " — " + f.styleName,
+              family: f.familyName,
+              style: f.styleName
             });
           }
         } catch (ignore) {}
@@ -1539,33 +1541,59 @@ var MotionAstra = (function () {
     }
     return report(lines, count);
   }
-  function newText(c, font) {
+  function creationNumber(value, fallback, min, max, label) {
+    var n = fallback;
+    if (value !== undefined) {
+      if (value === "" || value === null || typeof value === "boolean") fail("Enter a valid " + label + ".");
+      n = Number(value);
+    }
+    if (!isFinite(n) || n < min || n > max) fail(label + " must be between " + min + " and " + max + ".");
+    return n;
+  }
+  function newText(c, a) {
+    var font = a.font || "", size = creationNumber(a.size, 80, 1, 1296, "font size"),
+      hex = a.color || "#ffffff", content = "MotionAstra";
+    if (a.text !== undefined) content = String(a.text);
+    if (!content.replace(/\s/g, "").length || content.length > 10000) fail("Enter text between 1 and 10000 characters.");
+    if (!/^#[0-9a-f]{6}$/i.test(hex)) fail("Choose a valid text color.");
     if (font) {
-      var fonts = fontList().fonts,
-        found = false;
-      for (var fi = 0; fi < fonts.length; fi++)
-        if (fonts[fi].value === font) found = true;
+      var fonts = fontList().fonts, found = false;
+      for (var fi = 0; fi < fonts.length; fi++) if (fonts[fi].value === font) found = true;
       if (!found) fail("Selected font is unavailable. Refresh the font list.");
     }
-    var l = c.layers.addText("MotionAstra");
-    l.name = "MotionAstra Text";
-    if (font) {
-      try {
-        var document = source(l).value;
-        document.font = font;
-        source(l).setValue(document);
-      } catch (e) {
-        l.remove();
-        throw e;
-      }
+    var l = null;
+    try {
+      l = c.layers.addText(content);
+      l.name = "MotionAstra Text";
+      var document = source(l).value;
+      if (font) document.font = font;
+      document.fontSize = size;
+      document.applyFill = true;
+      document.fillColor = color(hex).slice(0, 3);
+      // Native font faces supply their own style; do not inherit synthetic styling.
+      document.fauxBold = false;
+      document.fauxItalic = false;
+      source(l).setValue(document);
+      prop(l, "ADBE Position").setValue([c.width / 2, c.height / 2]);
+      l.inPoint = Math.max(0, Math.min(c.time, c.duration - c.frameDuration));
+      l.outPoint = c.duration;
+      return l;
+    } catch (e) {
+      if (l) try { l.remove(); } catch (ignore) {}
+      throw e;
     }
-    prop(l, "ADBE Position").setValue([c.width / 2, c.height / 2]);
-    l.inPoint = Math.min(c.time, c.duration - c.frameDuration);
-    l.outPoint = c.duration;
-    return l;
   }
   // Create editable native layers; no MotionAstra ownership tags or expressions are added.
-  function newVisual(c, kind, hexColor) {
+  function newVisual(c, kind, hexColor, a) {
+    a = a || {};
+    var form = a.shape || "square", size = 0, sides = 0;
+    if (kind === "newShape") {
+      if (form !== "circle" && form !== "square" && form !== "polygon") fail("Choose Circle, Square or Polygon.");
+      size = creationNumber(a.size, Math.min(320, c.width * 0.4, c.height * 0.4), 1, 30000, "shape size");
+      sides = 6;
+      if (form === "polygon") sides = creationNumber(a.sides, 6, 3, 64, "polygon sides");
+      if (sides !== Math.floor(sides)) fail("Polygon sides must be a whole number.");
+    }
     if (!/^#[0-9a-f]{6}$/i.test(hexColor)) fail("Choose a valid layer color.");
     var l = null,
       src = null;
@@ -1582,33 +1610,37 @@ var MotionAstra = (function () {
         src = l.source;
       } else {
         l = c.layers.addShape();
-        l.name = "Shape";
+        l.name = form.charAt(0).toUpperCase() + form.slice(1);
         var root = l.property("ADBE Root Vectors Group"),
           g = root.addProperty("ADBE Vector Group");
-        g.name = "Rectangle";
+        g.name = l.name;
         var contents = g.property("ADBE Vectors Group"),
           pathGroup = contents.addProperty("ADBE Vector Shape - Group"),
           shape = new Shape();
-        var w = Math.min(320, c.width * 0.4) / 2,
-          h = Math.min(320, c.height * 0.4) / 2;
-        shape.vertices = [
-          [-w, -h],
-          [w, -h],
-          [w, h],
-          [-w, h]
-        ];
-        shape.inTangents = [
-          [0, 0],
-          [0, 0],
-          [0, 0],
-          [0, 0]
-        ];
-        shape.outTangents = [
-          [0, 0],
-          [0, 0],
-          [0, 0],
-          [0, 0]
-        ];
+        var r = size / 2, k = r * 0.5522847498307936, vi, angle, vertices, inTangents, outTangents;
+        vertices = [];
+        inTangents = [];
+        outTangents = [];
+        if (form === "circle") {
+          vertices = [[0,-r],[r,0],[0,r],[-r,0]];
+          inTangents = [[-k,0],[0,-k],[k,0],[0,k]];
+          outTangents = [[k,0],[0,k],[-k,0],[0,-k]];
+        } else {
+          if (form === "square") vertices = [[-r,-r],[r,-r],[r,r],[-r,r]];
+          else {
+            for (vi = 0; vi < sides; vi++) {
+              angle = -Math.PI / 2 + vi * 2 * Math.PI / sides;
+              vertices.push([r * Math.cos(angle), r * Math.sin(angle)]);
+            }
+          }
+          for (vi = 0; vi < vertices.length; vi++) {
+            inTangents.push([0,0]);
+            outTangents.push([0,0]);
+          }
+        }
+        shape.vertices = vertices;
+        shape.inTangents = inTangents;
+        shape.outTangents = outTangents;
         shape.closed = true;
         pathGroup.property("ADBE Vector Shape").setValue(shape);
         var fill = contents.addProperty("ADBE Vector Graphic - Fill");
@@ -1617,6 +1649,11 @@ var MotionAstra = (function () {
       }
       l.inPoint = Math.max(0, Math.min(c.time, c.duration - c.frameDuration));
       l.outPoint = c.duration;
+      if (kind === "newSolid" && a.background === true) {
+        l.inPoint = 0;
+        l.moveToEnd();
+        l.name = "Background " + hexColor.toUpperCase();
+      }
       return l;
     } catch (e) {
       if (l)
@@ -2556,8 +2593,8 @@ var MotionAstra = (function () {
     ) {
       l =
         a.name === "newText"
-          ? newText(c, a.font || "")
-          : newVisual(c, a.name, a.color || "#ff943f");
+          ? newText(c, a)
+          : newVisual(c, a.name, a.color || "#ff943f", a);
       for (i = 1; i <= c.numLayers; i++) c.layer(i).selected = false;
       l.selected = true;
       return {
@@ -2864,6 +2901,6 @@ var MotionAstra = (function () {
     throw Error(
       "MotionAstra JSON transport self-check failed. Restart AE and install the full package."
     );
-  return { dispatch: dispatch, version: "3.0.5", build: BUILD };
+  return { dispatch: dispatch, version: "3.0.6", build: BUILD };
 })();
 if (typeof $ !== "undefined" && $.global) $.global.MotionAstra = MotionAstra;

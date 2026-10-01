@@ -78,6 +78,7 @@
       .forEach((e) => (e.disabled = value));
     if (window.MotionAstraYUUI) window.MotionAstraYUUI.setBusy(value);
     if (window.MotionCurve) window.MotionCurve.setBusy(value);
+    if (window.MotionAstraCreate) window.MotionAstraCreate.setBusy(value);
   }
   async function refresh() {
     if (state.busy) return;
@@ -137,6 +138,9 @@
     close();
     $("library").hidden = !["Text", "Background"].includes(name);
     $("tools").hidden = name !== "Tools";
+    $("create").hidden = name !== "Create";
+    if (window.MotionAstraCreate && name === "Create")
+      window.MotionAstraCreate.activate();
     $("settings").hidden = name !== "Settings";
     $("yu").hidden = name !== "YU";
     $("motion-curve").hidden = name !== "Curve";
@@ -558,20 +562,9 @@
       y: Number($("anchor-y").value) / 100,
       keep: $("anchor-keep").checked,
     });
-  document
-    .querySelectorAll("[data-tool]")
-    .forEach(
-      (b) =>
-        (b.onclick = () =>
-          tool(
-            b.dataset.tool,
-            b.dataset.tool === "newText"
-              ? { font: $("new-text-font").value }
-              : ["newShape", "newSolid"].includes(b.dataset.tool)
-                ? { color: $("new-layer-color").value }
-                : {},
-          )),
-    );
+  document.querySelectorAll("[data-tool]").forEach((b) => {
+    b.onclick = () => tool(b.dataset.tool);
+  });
   document
     .querySelectorAll("[data-order]")
     .forEach(
@@ -585,72 +578,6 @@
           strength: Number($("ease-strength").value),
         })),
   );
-  // Only host FontObjects are offered. Never substitute browser fonts.
-  let hostFonts = [],
-    fontsLoaded = false,
-    fontsLoading = false;
-  function filterFonts() {
-    const query = $("font-search").value.trim().toLocaleLowerCase();
-    const select = $("new-text-font"),
-      chosen = select.value;
-    const matches = hostFonts.filter((f) =>
-      (f.label + " " + f.value).toLocaleLowerCase().includes(query),
-    );
-    select.textContent = "";
-    const current = el("option", "", "Current AE font");
-    current.value = "";
-    select.appendChild(current);
-    // Keep the explicit choice when a new search hides it.
-    const selected = hostFonts.find((f) => f.value === chosen);
-    const visible =
-      selected && !matches.includes(selected)
-        ? [selected, ...matches]
-        : matches;
-    visible.forEach((f) => {
-      const option = el("option", "", f.label);
-      option.value = f.value;
-      select.appendChild(option);
-    });
-    select.value = selected ? chosen : "";
-    $("font-status").textContent = fontsLoaded
-      ? matches.length
-        ? `${matches.length} of ${hostFonts.length} AE fonts`
-        : "No matching AE fonts. Try a family, style or PostScript name."
-      : "Connect to After Effects to load its fonts.";
-  }
-  async function loadFonts() {
-    if (fontsLoading || state.busy) return;
-    if (!bridge.isReady()) {
-      filterFonts();
-      return;
-    }
-    fontsLoading = true;
-    $("font-status").textContent = "Loading fonts from After Effects…";
-    try {
-      const r = await action({ action: "fonts" });
-      if (r && Array.isArray(r.fonts)) {
-        hostFonts = r.fonts;
-        fontsLoaded = true;
-        filterFonts();
-        if (!hostFonts.length)
-          $("font-status").textContent =
-            r.message ||
-            "After Effects returned no available fonts. Refresh after activating a font.";
-      } else
-        $("font-status").textContent =
-          "Could not load AE fonts. Use Refresh fonts to retry.";
-    } finally {
-      fontsLoading = false;
-    }
-  }
-  $("refresh-fonts").onclick = loadFonts;
-  $("font-search").oninput = filterFonts;
-  $("font-search").onfocus = () => {
-    if (!fontsLoaded) loadFonts();
-  };
-  $("new-text-font").onfocus = () => {
-    if (!fontsLoaded) loadFonts();
-  };
   document
     .querySelectorAll("[data-align]")
     .forEach(
@@ -762,8 +689,13 @@
       action: action,
       ready: () => bridge.isReady(),
     });
+  if (window.MotionAstraCreate) window.MotionAstraCreate.init({
+    action,
+    ready: () => bridge.isReady(),
+    notice,
+  });
   disclosure("fold-nav", "nav", "ma2-nav", "Menu");
-  disclosure("fold-quick", "quick", "ma252-create", "Create");
+  disclosure("fold-quick", "quick", "ma252-create", "Quick");
   tab("Text");
   busy(false);
   refresh();

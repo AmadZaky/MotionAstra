@@ -77,7 +77,7 @@ jobs:
           python3 tests/package.py
       - name: Verify host tests
         run: |
-          for test in static engine expressions bridge tools checkboxes parser-boundary update-target background-create fx-target panel-state background-stability preview-idle loop-modes background-colors loop-migration features-282 compact-controls yu-text motion-curve fx-tools module-isolation smart-apply bridge-lifecycle glass-surface fxtools-native-contract; do
+          for test in static engine expressions bridge tools create-tools checkboxes parser-boundary update-target background-create fx-target panel-state background-stability preview-idle loop-modes background-colors loop-migration features-282 compact-controls yu-text motion-curve fx-tools module-isolation smart-apply bridge-lifecycle glass-surface fxtools-native-contract; do
             node "tests/$test.cjs"
           done
       - name: Verify browser workflow

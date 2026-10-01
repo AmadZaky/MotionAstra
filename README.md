@@ -1,4 +1,4 @@
-# MotionAstra FX 3.0.5 — Alpha
+# MotionAstra FX 3.0.6 — Alpha
 
 Offline CEP extension for Adobe After Effects 2025. Minimal black/orange UI, local CSInterface + Lucide, 8 Text Tools, 8 procedural SolidGen presets, Text Animate (120 presets) and Quick Tools with integrated FX settings.
 
@@ -34,9 +34,15 @@ Only intervals with both endpoints selected are modified. Scalar and 2D/3D prope
 
 Use **Light / Dark** in the header to switch themes. Theme and the last curve persist locally. The orange accent, reserved action footer and existing Text/YU/Background/Tools/Tweaker workflows remain available. Preview artwork keeps its own artistic background colors.
 
-## Host font search
+## Create tab
 
-Focus **Search AE fonts** in the Create bar to load After Effects' font list. Search family, style or PostScript name, choose a result, then click **New Text**. The exact native PostScript name is passed to AE. Refresh fonts after installing or activating a font. Missing/substitute fonts are excluded; an unavailable selection is rejected by AE instead of silently choosing a different font. Current AE font keeps the host's default. This picker creates new text; it does not replace fonts on existing layers.
+Open **Create** alongside the FX and tool tabs. All creation actions need an active composition and create one native, editable layer with one Undo step.
+
+- **Shape:** choose Circle, Square or Polygon; set size and fill color. Polygon exposes a sides field (3–64). Shape paths remain editable in AE.
+- **Text:** enter content, search the AE font list, choose **Font family** and **Style** separately, then set font size and color. Italic, Medium, Semibold and Bold are offered when those faces are installed for the selected family; no artificial styles are substituted. The exact native PostScript face is sent to AE. Use Refresh fonts after activating fonts. Current AE font keeps the default family.
+- **Background:** use the color picker or enter six-digit HEX with or without `#`. Create background makes one full-composition solid at the bottom of the stack. Up to eight recently used colors persist locally and can be selected again; only successful creations enter history.
+
+Shapes and text begin at the playhead. Backgrounds span the entire composition. These controls create new layers; they do not restyle existing layers or change SolidGen's procedural recipes. The compact Quick bar keeps Center anchor and Load settings accessible elsewhere.
 
 ## Removed collections
 

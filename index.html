@@ -4,14 +4,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <script src="js/theme.js"></script>
-    <title>MotionAstra 3.0.5 Alpha</title>
+    <title>MotionAstra 3.0.6 Alpha</title>
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
     <header>
       <a class="brand" href="index.html"
         ><span class="brand-icon"><i data-lucide="asterisk"></i></span
-        >MotionAstra <b>3.0.5</b></a
+        >MotionAstra <b>3.0.6</b></a
       >
       <div class="header-actions">
         <button
@@ -42,40 +42,11 @@
         ><button data-tab="Background">SolidGen <span>8</span></button
         ><button data-tab="YU">Text Animate</button
         ><button data-tab="Curve">Motion Curve</button
-        ><button data-tab="Tools">Quick Tools</button>
+        ><button data-tab="Tools">Quick Tools</button
+        ><button data-tab="Create">Create</button>
       </div>
     </nav>
     <div id="quick">
-      <div class="create-row" aria-label="Create layers">
-        <button data-tool="newShape" data-host>
-          <i data-lucide="square"></i>New Shape</button
-        ><button data-tool="newText" data-host>
-          <i data-lucide="type"></i>New Text</button
-        ><button data-tool="newSolid" data-host>
-          <i data-lucide="layers"></i>New Solid</button
-        ><label class="layer-color" title="Shape and solid color"
-          ><input
-            id="new-layer-color"
-            type="color"
-            value="#ff943f"
-            aria-label="New shape and solid color"
-        /></label>
-      </div>
-      <div class="font-row">
-        <label for="new-text-font">After Effects font</label
-        ><input
-          id="font-search"
-          type="search"
-          placeholder="Search AE fonts…"
-          aria-label="Search After Effects fonts"
-          autocomplete="off"
-        /><select id="new-text-font" aria-label="New Text font">
-          <option value="">Current AE font</option></select
-        ><button id="refresh-fonts" title="Refresh fonts from After Effects" aria-label="Refresh fonts" data-host>↻</button>
-      </div>
-      <p id="font-status" class="hint" role="status" aria-live="polite">
-        Focus font search to load fonts from After Effects.
-      </p>
       <div class="utility-row">
         <button id="quick-anchor" data-host>
           <i data-lucide="crosshair"></i>Center anchor</button
@@ -88,6 +59,169 @@
     </div>
     <div id="workspace">
       <main>
+        <section id="create" hidden aria-label="Create layers">
+          <div class="eyebrow">START WITH SOMETHING SIMPLE</div>
+          <h1>Create</h1>
+          <p>Native, editable layers in your active composition.</p>
+          <div class="create-grid">
+            <form id="create-shape" class="create-card">
+              <h2><i data-lucide="shapes"></i> Shape</h2>
+              <label
+                >Shape<select id="new-shape-type">
+                  <option value="circle">Circle</option>
+                  <option value="square" selected>Square</option>
+                  <option value="polygon">Polygon</option>
+                </select></label
+              >
+              <div class="create-fields">
+                <label
+                  >Size · px<input
+                    id="new-shape-size"
+                    type="number"
+                    value="320"
+                    min="1"
+                    max="30000"
+                    required
+                /></label>
+                <label id="polygon-field" hidden
+                  >Sides<input
+                    id="new-shape-sides"
+                    type="number"
+                    value="6"
+                    min="3"
+                    max="64"
+                    step="1"
+                    required
+                /></label>
+              </div>
+              <label
+                >Fill color<input
+                  id="new-layer-color"
+                  type="color"
+                  value="#ff943f"
+              /></label>
+              <button
+                type="submit"
+                class="primary"
+                data-create="newShape"
+                data-host
+              >
+                Create shape
+              </button>
+            </form>
+            <form id="create-text" class="create-card">
+              <h2><i data-lucide="type"></i> Text</h2>
+              <label
+                >Content<textarea
+                  id="new-text-content"
+                  rows="2"
+                  maxlength="10000"
+                  required
+                >
+MotionAstra</textarea
+                >
+              </label>
+              <label
+                >Search AE fonts<input
+                  id="font-search"
+                  type="search"
+                  placeholder="Family, style or PostScript name…"
+                  autocomplete="off"
+              /></label>
+              <label
+                >Font family<select id="new-text-font">
+                  <option value="">Current AE font</option>
+                </select></label
+              >
+              <div class="create-fields">
+                <label
+                  >Style<select id="new-text-style">
+                    <option value="">Current style</option>
+                  </select></label
+                >
+                <label
+                  >Size · px<input
+                    id="new-text-size"
+                    type="number"
+                    value="80"
+                    min="1"
+                    max="1296"
+                    step="0.1"
+                    required
+                /></label>
+              </div>
+              <label
+                >Font color<input
+                  id="new-text-color"
+                  type="color"
+                  value="#ffffff"
+              /></label>
+              <div class="create-font-status">
+                <p
+                  id="font-status"
+                  class="hint"
+                  role="status"
+                  aria-live="polite"
+                >
+                  Load font families and styles from After Effects.
+                </p>
+                <button id="refresh-fonts" type="button" data-host>
+                  Refresh fonts
+                </button>
+              </div>
+              <button
+                type="submit"
+                class="primary"
+                data-create="newText"
+                data-host
+              >
+                Create text
+              </button>
+            </form>
+            <form id="create-background" class="create-card">
+              <h2><i data-lucide="layers"></i> Background</h2>
+              <p class="hint">
+                One full-size solid, placed at the bottom for the whole
+                composition.
+              </p>
+              <div class="create-fields background-color">
+                <label
+                  >Color<input
+                    id="new-background-color"
+                    type="color"
+                    value="#161616"
+                /></label>
+                <label
+                  >HEX<input
+                    id="background-hex"
+                    type="text"
+                    value="#161616"
+                    placeholder="#RRGGBB"
+                    pattern="#?[0-9a-fA-F]{6}"
+                    maxlength="7"
+                    spellcheck="false"
+                    required
+                    aria-describedby="background-color-error"
+                /></label>
+              </div>
+              <p id="background-color-error" class="hint" role="status"></p>
+              <span class="hint">Recently used</span>
+              <div
+                id="recent-colors"
+                class="color-swatches"
+                aria-label="Recent background colors"
+              ></div>
+              <button
+                type="submit"
+                class="primary"
+                data-create="newSolid"
+                data-host
+              >
+                Create background
+              </button>
+            </form>
+          </div>
+        </section>
         <section id="library">
           <div class="eyebrow" id="library-kicker">8 TEXT ESSENTIALS</div>
           <h1 id="library-title">Words in motion.</h1>
@@ -533,7 +667,7 @@
           </details>
         </section>
         <section id="settings" hidden>
-          <div class="eyebrow">MOTIONASTRA 3.0.5</div>
+          <div class="eyebrow">MOTIONASTRA 3.0.6</div>
           <h1>Your workspace.</h1>
           <details open>
             <summary>Preview & connection</summary>
@@ -650,6 +784,7 @@
     <script src="vendor/yu-text-motion/core.js"></script>
     <script src="js/yu-text.js"></script>
     <script src="js/motion-curve.js"></script>
+    <script src="js/create.js"></script>
     <script src="js/main.js"></script>
   </body>
 </html>

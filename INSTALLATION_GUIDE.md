@@ -249,3 +249,7 @@ Replace the full extension folder, restart AE, and confirm 2.8.2 in Settings. Fo
 Close After Effects before replacing the extension. Install the complete release ZIP, restart AE, and check that Settings reports MotionAstra 3.0.0. If Apply or Generate fails, choose **Settings → Show connection report**, then copy the selected report. It includes the actual extension path, host version, native effect availability and recent error messages. The report does not read project source text or footage contents; layer/comp names may appear.
 
 Glass Surface processes the selected layer's own pixels; it does not sample the composition behind it. Native rendering must be checked in AE.
+
+## v3.0.6 — Create workspace
+
+After updating and restarting AE, open the **Create** tab beside Quick Tools. Choose Circle/Square/Polygon under Shape. For text, choose a font family and its installed style separately, set size/color, and click Create text. Refresh fonts reloads AE's native font list. For a flat background, choose a color or type six-digit HEX, then Create background. The new solid spans the composition at the bottom of the stack. Click a recent-color swatch to reuse it. The previous creation bar has moved into this tab; Center anchor and Load settings remain in the Quick bar.
