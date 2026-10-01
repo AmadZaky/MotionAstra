@@ -30,6 +30,23 @@ jobs:
         if: runner.os == 'Windows'
         shell: powershell
         run: ./tests/installers-windows.ps1
+      - name: Build Windows graphical installer
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: ./tools/build-windows-installer.ps1
+      - name: Verify Windows graphical workflow
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: powershell.exe -NoProfile -STA -File ./tests/installer-ui-windows.ps1
+      - name: Upload Windows installer
+        if: runner.os == 'Windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-installer
+          path: |
+            dist/Install MotionAstra.exe
+            dist/installer-preview.png
+          if-no-files-found: error
       - name: Verify macOS installer
         if: runner.os == 'macOS'
         run: |
@@ -70,8 +87,13 @@ jobs:
           node tests/yu-ui.cjs
           node tests/curve-ui.cjs
           node tests/fxtools-ui.cjs
+      - name: Download Windows installer
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-installer
+          path: dist
       - name: Package extension
-        run: python3 tools/package-release.py
+        run: python3 tools/package-release.py --windows-launcher "dist/Install MotionAstra.exe"
       - name: Publish prerelease
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -71,3 +71,9 @@ Prism descriptors live in `src/fx-tools/prism-gradient.js`; Bloom descriptors li
 Initialization validates the live global dispatcher before each serialized command, rather than trusting a panel-only ready flag. Only absent/incompatible hosts reload. Optional YU/FXTools engines remain lazy and independent. Settings diagnostics are a read-only host action outside Undo groups.
 
 `src/fx-tools/glass-surface.js` contains the new surface descriptor; `fx-tools.json` owns its inputs. The shared adapter continues to validate, snapshot and roll back native effect writes. It intentionally has no source replacement or scene duplication. Build with `tools/build-fxtools.py` and `tools/build-catalog.py`. Release version is numeric 3.0.0 with an `-alpha` asset/tag suffix; subsequent pushes increment its patch.
+
+## Windows setup UI
+
+`installer/windows/Launcher.cs` compiles to a windowed .NET Framework executable. It launches `Installer/WindowsUI.ps1` using local Windows PowerShell 5.1 with no console window. The WPF view is `Window.xaml`. All UI control access stays on the STA dispatcher. File work runs on a separate PowerShell runspace; a synchronized state object carries progress and confirmation requests.
+
+The existing backend accepts optional confirmation/progress callbacks, retaining its CLI defaults. Replacement is confirmed before any old installation moves. The transaction retains its checksum verification, backups and rollback. Windows CI builds the executable and renders the WPF window before release packaging.

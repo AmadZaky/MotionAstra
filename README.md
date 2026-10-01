@@ -1,8 +1,8 @@
-# MotionAstra FX 3.0.2 — Alpha
+# MotionAstra FX 3.0.3 — Alpha
 
 Offline CEP extension for Adobe After Effects 2025. Minimal black/orange UI, local CSInterface + Lucide, 10 Text FX, 10 procedural Backgrounds, Quick Tools and a dedicated FX Tweaker tab.
 
-Download the release ZIP, extract everything, close AE, then double-click **Install MotionAstra.cmd** (Windows) or **Install MotionAstra.command** (macOS). Confirm replacement of older versions, restart AE, then open Window → Extensions → MotionAstra FX. The GitHub source archive is for development; use the release asset for the ready-to-install package. The package is unsigned source; no Adobe installation or signing certificate is bundled. No build step or internet connection is needed to use it.
+Download the release ZIP, extract everything, close AE, then double-click **Install MotionAstra.exe** (Windows) or **Install MotionAstra.command** (macOS). Confirm replacement of older versions, restart AE, then open Window → Extensions → MotionAstra FX. The GitHub source archive is for development; use the release asset for the ready-to-install package. The package is unsigned source; no Adobe installation or signing certificate is bundled. No build step or internet connection is needed to use it.
 
 ## Current workflow
 
@@ -173,3 +173,11 @@ Replaces nested true-branch ternaries rejected by ExtendScript at v3.0.0 host li
 ## 3.0.2 FXTools native parameter hotfix
 
 Fixes Fill Color match-name addressing, shifts Glow threshold/radius/intensity to their actual parameter identifiers, and converts panel percentages using the native parameter bounds. Existing FXTools values remain expressed as percentages in the panel and saved metadata. No panel or preset redesign.
+
+## Windows graphical setup (3.0.3)
+
+Extract the release ZIP, close After Effects, and open **Install MotionAstra.exe**. The black/orange MotionAstra window shows your per-user CEP destination, Install/Update, progress and completion instructions. Existing copies require confirmation and are backed up. Cancel is available before installation or when declining an update; closing is blocked during the file transaction.
+
+Keep the `Installer` support folder and `MotionAstra-FX` together with the executable. Windows PowerShell 5.1 and WPF are used locally; no downloads or administrator elevation are requested. The optional CMD launcher remains available for troubleshooting. The executable is unsigned; branding does not provide a code-signing certificate or remove Windows reputation warnings.
+
+Development: build with `powershell.exe -File tools/build-windows-installer.ps1`, then package with `python tools/package-release.py --windows-launcher "dist/Install MotionAstra.exe"`. CI builds on Windows and tests the WPF window and asynchronous installer.

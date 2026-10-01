@@ -1,4 +1,4 @@
-# Called by Install MotionAstra.cmd. Requires Windows PowerShell 5.1 or newer.
+# Shared installer backend; also supports the optional command-line launcher. Requires Windows PowerShell 5.1 or newer.
 $ErrorActionPreference = 'Stop'
 function Test-MotionAstraOwned([string]$Folder) {
     $manifest = Join-Path $Folder 'CSXS\manifest.xml'
@@ -22,11 +22,13 @@ function Assert-MotionAstraPayload([string]$Folder) {
         if ((Get-FileHash -LiteralPath $file -Algorithm SHA256).Hash -ne $expected) { throw "Package checksum failed: $relative. Download and extract the release again." }
     }
 }
-function Install-MotionAstra([string]$Payload, [string]$ExtensionRoot, [string]$BackupRoot, [string[]]$OtherRoots = @()) {
+function Install-MotionAstra([string]$Payload, [string]$ExtensionRoot, [string]$BackupRoot, [string[]]$OtherRoots = @(), [scriptblock]$ConfirmReplacement = $null, [scriptblock]$Progress = $null) {
+    if ($Progress) { & $Progress 5 "Checking package integrity..." | Out-Null }
     Assert-MotionAstraPayload $Payload
     $Payload = (Resolve-Path -LiteralPath $Payload).Path
     New-Item -ItemType Directory -Force -Path $ExtensionRoot,$BackupRoot | Out-Null
     $destination = Join-Path $ExtensionRoot 'MotionAstra-FX'
+    if ($Progress) { & $Progress 20 "Looking for previous installations..." | Out-Null }
     $old = @()
     foreach ($root in (@($ExtensionRoot) + $OtherRoots | Select-Object -Unique)) {
         if (-not (Test-Path -LiteralPath $root)) { continue }
@@ -45,23 +47,28 @@ function Install-MotionAstra([string]$Payload, [string]$ExtensionRoot, [string]$
     if ($old.Count -gt 0) {
         Write-Host "`nExisting MotionAstra installation(s):"
         $old | ForEach-Object { Write-Host "  $_" }
-        $answer = Read-Host 'Remove these active copies and install the new version? Backups will be kept. [y/N]'
-        if ($answer -notmatch '^(y|yes)$') { Write-Host 'Cancelled. Existing installations unchanged.'; return $false }
+        if ($ConfirmReplacement) { $approved = [bool](& $ConfirmReplacement $old) }
+        else { $answer = Read-Host 'Remove these active copies and install the new version? Backups will be kept. [y/N]'; $approved = $answer -match '^(y|yes)$' }
+        if (-not $approved) { Write-Host 'Cancelled. Existing installations unchanged.'; return $false }
     }
     $transaction = Join-Path $BackupRoot ('install-' + [Guid]::NewGuid().ToString('N'))
     New-Item -ItemType Directory -Path $transaction | Out-Null
     $stage = Join-Path $transaction 'new'; $moved = @(); $installed = $false
     try {
+        if ($Progress) { & $Progress 35 "Preparing the new version..." | Out-Null }
         Copy-Item -LiteralPath $Payload -Destination $stage -Recurse
         Assert-MotionAstraPayload $stage
+        if ($Progress) { & $Progress 55 "Backing up previous installations..." | Out-Null }
         foreach ($path in $old) {
             $backup = Join-Path $transaction ('previous-' + $moved.Count)
             Move-Item -LiteralPath $path -Destination $backup
             $moved += @{Original=$path; Backup=$backup}
             Add-Content -LiteralPath (Join-Path $transaction 'RESTORE.txt') -Value "$backup -> $path"
         }
+        if ($Progress) { & $Progress 75 "Installing MotionAstra..." | Out-Null }
         Move-Item -LiteralPath $stage -Destination $destination
         $installed = $true
+        if ($Progress) { & $Progress 90 "Verifying installed files..." | Out-Null }
         Assert-MotionAstraPayload $destination
     } catch {
         $problem = $_
@@ -75,8 +82,16 @@ function Install-MotionAstra([string]$Payload, [string]$ExtensionRoot, [string]$
         if (Test-Path -LiteralPath $stage) { Remove-Item -LiteralPath $stage -Recurse -Force }
     }
     if ($moved.Count -eq 0) { Remove-Item -LiteralPath $transaction } else { Write-Host "Previous versions backed up to: $transaction" }
+    if ($Progress) { & $Progress 95 "Files installed successfully." | Out-Null }
     Write-Host "Installed MotionAstra $version."
     return $true
+}
+function Enable-MotionAstraCEP {
+    foreach ($runtime in @('11','12')) {
+        $key = "HKCU:\Software\Adobe\CSXS.$runtime"
+        New-Item -Path $key -Force | Out-Null
+        New-ItemProperty -Path $key -Name PlayerDebugMode -Value '1' -PropertyType String -Force | Out-Null
+    }
 }
 function Start-MotionAstraInstaller {
     if (Get-Process AfterFX -ErrorAction SilentlyContinue) { throw 'Close After Effects before installing.' }
@@ -88,11 +103,7 @@ function Start-MotionAstraInstaller {
         if ($common) { $otherRoots += Join-Path $common 'Adobe\CEP\extensions' }
     }
     if (-not (Install-MotionAstra $payload $extensionRoot $backupRoot $otherRoots)) { return }
-    foreach ($runtime in @('11','12')) {
-        $key = "HKCU:\Software\Adobe\CSXS.$runtime"
-        New-Item -Path $key -Force | Out-Null
-        New-ItemProperty -Path $key -Name PlayerDebugMode -Value '1' -PropertyType String -Force | Out-Null
-    }
+    Enable-MotionAstraCEP
     Write-Host 'Enabled unsigned CEP panels for this user (PlayerDebugMode 11/12).'
     Write-Host 'Restart AE. Open Window > Extensions > MotionAstra FX.'
 }

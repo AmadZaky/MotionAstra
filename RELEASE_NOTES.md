@@ -1,9 +1,10 @@
-# MotionAstra 3.0.2 — Alpha
+# MotionAstra 3.0.3 — Alpha
 
-- Bloom Glow: writes RGBA to Fill Color (`ADBE Fill-0002`), not Horizontal Feather.
-- Shared Glow: sets Glow Based On to Color Channels, and writes threshold/radius/intensity to `ADBE Glo2-0002` / `0003` / `0004`.
-- Prism and Glass: convert Blend With Original from UI percentages to the range reported by the native Gradient Ramp property. Glow threshold uses the same percentage conversion.
-- Adds strict contract tests reproducing the reported scalar/color and out-of-range errors. Covers both 0–1 and 0–100 percentage ranges, plus updates and correct Glow routing.
-- Native write errors now identify the exact owned effect and parameter match name. Existing rollback remains enabled.
+- Adds **Install MotionAstra.exe**: a MotionAstra-branded black/orange graphical Windows setup window.
+- Shows the destination, Install/Update, confirmation of existing copies, stage progress, success and selectable error details.
+- Runs the existing integrity/backup/rollback backend on a worker runspace to keep the UI responsive.
+- Exposes the unsigned-CEP preference as a visible option. No automatic administrator elevation.
+- Adds Windows-native WPF construction/rendering and asynchronous install/update/cancel/corruption tests; CI builds the executable and bundles it in the ZIP.
+- FX recipes and the macOS installer are unchanged. The optional CMD troubleshooting entry remains available.
 
-Close AE, install the complete ZIP and restart. Settings should show 3.0.2. Failed applications in prior versions were rolled back; select your visual layer and Apply again. Native AE rendering is not available in the automated test environment.
+Extract the whole ZIP, close AE, and open **Install MotionAstra.exe**. Keep its Installer and MotionAstra-FX folders beside it. This Alpha executable is unsigned; Windows reputation warnings may still appear.

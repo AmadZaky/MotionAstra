@@ -1,0 +1,56 @@
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ Title="MotionAstra Setup" Width="640" Height="650" MinWidth="520" MinHeight="540" WindowStartupLocation="CenterScreen"
+ Background="#101012" Foreground="#F4F4F5" FontFamily="Segoe UI" FontSize="14">
+ <Window.Resources>
+  <Style TargetType="Button">
+   <Setter Property="Background" Value="#26262C"/><Setter Property="Foreground" Value="#F4F4F5"/>
+   <Setter Property="Padding" Value="22,12"/><Setter Property="Margin" Value="8,0,0,0"/>
+   <Setter Property="Cursor" Value="Hand"/>
+   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button">
+    <Border x:Name="Surface" Background="{TemplateBinding Background}" CornerRadius="9" Padding="{TemplateBinding Padding}">
+     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    </Border><ControlTemplate.Triggers>
+     <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Surface" Property="Opacity" Value="0.85"/></Trigger>
+     <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Surface" Property="BorderBrush" Value="#FFFFFF"/><Setter TargetName="Surface" Property="BorderThickness" Value="2"/></Trigger>
+     <Trigger Property="IsEnabled" Value="False"><Setter TargetName="Surface" Property="Opacity" Value="0.4"/></Trigger>
+    </ControlTemplate.Triggers>
+   </ControlTemplate></Setter.Value></Setter>
+  </Style>
+ </Window.Resources>
+ <Grid Margin="32">
+  <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+  <StackPanel>
+   <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
+    <Border Background="#FF943F" CornerRadius="12" Width="48" Height="48">
+     <TextBlock Text="✳" Foreground="#111111" FontSize="35" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    </Border>
+    <StackPanel Margin="14,0,0,0" VerticalAlignment="Center"><TextBlock Text="MotionAstra" FontSize="24" FontWeight="SemiBold"/><TextBlock x:Name="VersionLabel" Text="SETUP · WINDOWS" Foreground="#A1A1AA" FontSize="11"/></StackPanel>
+   </StackPanel>
+   <TextBlock x:Name="Heading" Text="Your next motion starts here." FontSize="27" FontWeight="SemiBold" TextWrapping="Wrap"/>
+   <TextBlock Text="Install MotionAstra FX for Adobe After Effects." Margin="0,10,0,20" Foreground="#A1A1AA" TextWrapping="Wrap"/>
+  </StackPanel>
+  <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,20">
+   <StackPanel>
+    <Border Background="#1C1C21" BorderBrush="#303038" BorderThickness="1" CornerRadius="12" Padding="18">
+     <StackPanel>
+      <TextBlock Text="INSTALL LOCATION" Foreground="#A1A1AA" FontSize="11" Margin="0,0,0,8"/>
+      <TextBox x:Name="Destination" IsReadOnly="True" TextWrapping="Wrap" BorderThickness="0" Background="Transparent" Foreground="#F4F4F5" Padding="0"/>
+      <TextBlock Text="For your Windows account. No administrator access normally required." Foreground="#A1A1AA" FontSize="12" TextWrapping="Wrap" Margin="0,10,0,0"/>
+     </StackPanel>
+    </Border>
+    <TextBlock Text="Close After Effects before continuing. Existing MotionAstra versions will be backed up before replacement." Margin="0,18,0,12" TextWrapping="Wrap" Foreground="#BDBDC6"/>
+    <CheckBox x:Name="DebugConsent" IsChecked="True" Foreground="#BDBDC6" Margin="0,0,0,18">
+     <TextBlock Text="Enable unsigned CEP panels for my account (required for this Alpha)." TextWrapping="Wrap" MaxWidth="380"/>
+    </CheckBox>
+    <TextBlock x:Name="Status" Text="Ready to install" FontWeight="SemiBold" Margin="0,0,0,10" TextWrapping="Wrap"/>
+    <ProgressBar x:Name="Progress" Height="6" Minimum="0" Maximum="100" Value="0" Foreground="#FF943F" Background="#26262C" BorderThickness="0"/>
+    <TextBox x:Name="Details" Margin="0,12,0,0" IsReadOnly="True" TextWrapping="Wrap" BorderThickness="0" Background="Transparent" Foreground="#A1A1AA" MinHeight="44"/>
+   </StackPanel>
+  </ScrollViewer>
+  <Grid Grid.Row="2"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+   <TextBlock Text="MotionAstra FX" Foreground="#71717A" FontSize="12" VerticalAlignment="Center"/>
+   <Button x:Name="Cancel" Grid.Column="1" Content="Cancel"/>
+   <Button x:Name="Install" Grid.Column="2" Content="Install" Background="#FF943F" Foreground="#16120F" FontWeight="SemiBold" IsDefault="True"/>
+  </Grid>
+ </Grid>
+</Window>

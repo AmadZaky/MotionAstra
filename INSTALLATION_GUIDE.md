@@ -1,3 +1,19 @@
+# Windows graphical installer — 3.0.3 Alpha
+
+1. Download the release ZIP and choose **Extract All**. Keep all extracted files together.
+2. Close After Effects. Double-click **Install MotionAstra.exe**.
+3. Check the displayed install location, then choose **Install** or **Update**.
+4. If old MotionAstra copies are found, review their paths and confirm replacement. Backups are retained in `%APPDATA%\MotionAstra Backups`.
+5. Wait for **Ready. Set. Create.**, choose **Done**, restart AE, and open **Window → Extensions → MotionAstra FX**.
+
+The unsigned-CEP checkbox is enabled by default and explicitly controls PlayerDebugMode for CSXS 11/12 in your user registry. If you uncheck it, configure those preferences manually as described below. The installer itself is not digitally signed. Windows may show an unknown-publisher or reputation prompt; the new graphical interface does not remove that limitation. Respect your organization's security policies.
+
+Installation errors appear in selectable text inside the window. Protected system-wide old copies may require an administrator to move them out of CEP/extensions before retrying. The installer does not automatically request elevation. Cancel is disabled while files are being installed so that backup/rollback can finish safely.
+
+For command-line troubleshooting only, **Install MotionAstra.cmd** remains available. The macOS installation flow below is unchanged.
+
+---
+
 # MotionAstra FX 2.8.4 — Installation & workflow
 
 MotionAstra is an offline CEP panel for **After Effects 2025 (25.x)**. All JavaScript, icons, styles and previews are bundled. No CDN, npm, server, account, downloaded preset pack or third-party AE plug-in is needed to use the panel. After Effects itself is required; this is not an independent desktop renderer, a UXP plug-in, or a ScriptUI .jsx panel.

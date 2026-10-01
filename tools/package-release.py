@@ -5,7 +5,9 @@ import zipfile
 root=Path(__file__).resolve().parent.parent
 version=(root/'VERSION').read_text().strip()
 parser=argparse.ArgumentParser();parser.add_argument('--output',default=str(root/('MotionAstra_FX_v'+version+'-alpha.zip')))
+parser.add_argument('--windows-launcher',type=Path,help='Compiled Windows GUI launcher for release builds')
 args=parser.parse_args();payload={}
+if args.windows_launcher and args.windows_launcher.read_bytes()[:2] != b'MZ': raise ValueError('Windows launcher must be a PE executable')
 for folder in ['CSXS','css','js','jsx','vendor']:
  for p in sorted((root/folder).rglob('*')):
   if p.is_symlink(): raise ValueError('No payload symlinks: '+str(p))
@@ -18,6 +20,9 @@ with zipfile.ZipFile(args.output,'w',zipfile.ZIP_DEFLATED) as z:
  def put(name,data,mode=0o644):
   info=zipfile.ZipInfo(name);info.create_system=3;info.external_attr=(0o100000|mode)<<16;info.compress_type=zipfile.ZIP_DEFLATED;z.writestr(info,data)
  for name,data in sorted(payload.items()):put('MotionAstra-FX/'+name,data)
+ if args.windows_launcher: put('Install MotionAstra.exe',args.windows_launcher.read_bytes())
+ for source,destination in [('installer/windows/WindowsUI.ps1','Installer/WindowsUI.ps1'),('installer/windows/Window.xaml','Installer/Window.xaml'),('install-windows.ps1','Installer/Backend.ps1')]:
+  put(destination,(root/source).read_bytes())
  for source,destination,mode in [('Install MotionAstra.cmd','Install MotionAstra.cmd',0o644),('install-windows.ps1','Install MotionAstra.ps1',0o644),('install-macos.command','Install MotionAstra.command',0o755),('INSTALLATION_GUIDE.md','INSTALLATION_GUIDE.md',0o644)]:
   data=(root/source).read_bytes()
   if destination.endswith('.cmd'):data=data.decode().replace('\r\n','\n').replace('\n','\r\n').encode()

@@ -6,7 +6,7 @@ with tempfile.TemporaryDirectory() as t:
  subprocess.run([sys.executable,str(root/'tools/package-release.py'),'--output',str(out)],check=True)
  with zipfile.ZipFile(out) as z:
   names=z.namelist()
-  for name in ['Install MotionAstra.cmd','Install MotionAstra.ps1','Install MotionAstra.command','INSTALLATION_GUIDE.md','MotionAstra-FX/CSXS/manifest.xml','MotionAstra-FX/jsx/hostscript.jsx']:
+  for name in ['Install MotionAstra.cmd','Install MotionAstra.ps1','Install MotionAstra.command','INSTALLATION_GUIDE.md','MotionAstra-FX/CSXS/manifest.xml','MotionAstra-FX/jsx/hostscript.jsx','Installer/WindowsUI.ps1','Installer/Window.xaml','Installer/Backend.ps1']:
    assert name in names,name
   assert z.getinfo('Install MotionAstra.command').external_attr>>16 & 0o111
   sums=z.read('MotionAstra-FX/SHA256SUMS').decode().splitlines()
