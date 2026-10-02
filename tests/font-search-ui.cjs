@@ -3,7 +3,7 @@ const assert=require('node:assert/strict'),path=require('node:path'),{create}=re
 (async()=>{
  const env=create(),calls=[],errors=[];let failBackground=false;
  env.context.app.fonts={allFonts:[[
-  {postScriptName:'Inter-Regular',familyName:'Inter',styleName:'Regular'},
+  {postScriptName:'Inter-Regular',familyName:'Inter',styleName:'Regular',location:'C:/Users/artist/AppData/Local/Microsoft/Windows/Fonts/Inter.ttf'},
   {postScriptName:'Inter-Bold',familyName:'Inter',styleName:'Bold'},
   {postScriptName:'Inter-Italic',familyName:'Inter',styleName:'Italic'},
   {postScriptName:'Inter-Medium',familyName:'Inter',styleName:'Medium'},
@@ -21,6 +21,13 @@ const assert=require('node:assert/strict'),path=require('node:path'),{create}=re
  await page.locator('[data-tab="Create"]').click();
  await page.waitForFunction(()=>document.querySelector('#new-text-font').options.length===3);
  assert.equal(calls.filter(p=>p.action==='fonts').length,1);
+ await page.locator('#font-source').selectOption('user');
+ assert.deepEqual(await page.locator('#new-text-font option').evaluateAll(a=>a.map(x=>x.value)),['','Inter']);
+ await page.locator('#font-source').selectOption('adobe');assert.equal(await page.locator('#new-text-font option').count(),1);
+ await page.locator('#font-source').selectOption('all');
+ assert(await page.locator('#font-preview-sample').evaluate(e=>e.getBoundingClientRect().height<50));
+ assert(await page.evaluate(()=>document.querySelector('#font-preview-sample').compareDocumentPosition(document.querySelector('#new-text-font')) & Node.DOCUMENT_POSITION_FOLLOWING));
+
  assert.deepEqual(await page.locator('.create-grid h2').allTextContents(),[' Text',' Shape',' Solid Color']);
  for(const [shape,count] of [['circle',4],['square',4],['polygon',7]]){
   await page.locator('#new-shape-type').selectOption(shape);
@@ -40,8 +47,8 @@ const assert=require('node:assert/strict'),path=require('node:path'),{create}=re
  await page.locator('#new-text-size').fill('96.5');
  await page.locator('#new-text-color').fill('#12abef');
  await page.locator('#new-text-content').fill('Native typography');
- assert.equal(await page.locator('#font-preview-sample').textContent(),'Native typography');
- assert.equal(await page.locator('#font-preview-sample').evaluate(e=>e.style.fontSize),'40px');
+ assert.equal(await page.locator('#font-preview-sample').textContent(),'M.astra');
+ assert.equal(await page.locator('#font-preview-sample').evaluate(e=>e.style.fontSize),'24px');
  assert.equal(await page.locator('#font-preview-sample').evaluate(e=>e.style.color),'rgb(18, 171, 239)');
  await page.waitForFunction(()=>document.querySelector('#font-preview-status').textContent.includes('Fallback shown'));
  await page.locator('[data-create="newText"]').click();

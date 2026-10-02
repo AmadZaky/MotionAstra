@@ -39,6 +39,13 @@ try {
     $encoder.Frames.Add([Windows.Media.Imaging.BitmapFrame]::Create($bitmap))
     $stream=[IO.File]::Create($script:testOutput)
     try { $encoder.Save($stream) } finally { $stream.Dispose() }
+    # An online install cannot start without explicit consent; no worker means no network.
+    $savedVersion=$script:onlineVersion;$script:onlineVersion='0.0.0'
+    $script:controls.DownloadConsent.IsChecked=$false
+    $script:controls.Install.RaiseEvent((New-Object Windows.RoutedEventArgs([Windows.Controls.Button]::ClickEvent)))
+    if ($script:job) { throw 'Download started before consent' }
+    if ($script:controls.Details.Text -notmatch 'consent') { throw 'Missing consent guidance' }
+    $script:onlineVersion=$savedVersion
     $script:controls.DebugConsent.IsChecked=$false
     $script:testPhase=1
     $script:controls.Install.RaiseEvent((New-Object Windows.RoutedEventArgs([Windows.Controls.Button]::ClickEvent)))

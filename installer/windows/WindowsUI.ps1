@@ -8,14 +8,22 @@ function New-MotionAstraWindow {
     try { return [Windows.Markup.XamlReader]::Load($reader) } finally { $reader.Close() }
 }
 function Start-MotionAstraJob {
-    param([string]$Backend,[string]$Payload,[string]$ExtensionRoot,[string]$BackupRoot,[string[]]$OtherRoots,[hashtable]$State,[bool]$EnableDebug)
+    param([string]$Backend,[string]$Payload,[string]$ExtensionRoot,[string]$BackupRoot,[string[]]$OtherRoots,[hashtable]$State,[bool]$EnableDebug,[string]$OnlineVersion="")
     $worker = [PowerShell]::Create()
     [void]$worker.AddScript({
-        param($backend,$payload,$extensionRoot,$backupRoot,$otherRoots,$state,$enableDebug)
+        param($backend,$payload,$extensionRoot,$backupRoot,$otherRoots,$state,$enableDebug,$onlineVersion)
         $ErrorActionPreference = 'Stop'
+        $downloadRoot=$null
         try {
             . $backend
             if (Get-Process AfterFX -ErrorAction SilentlyContinue) { throw 'Close After Effects, then try again.' }
+            if ($onlineVersion) {
+                . (Join-Path (Split-Path $backend) 'Download.ps1')
+                $downloadRoot=Join-Path ([IO.Path]::GetTempPath()) ('MotionAstra-Download-'+[Guid]::NewGuid().ToString('N'))
+                New-Item -ItemType Directory -Path $downloadRoot | Out-Null
+                $state.Downloading=$true
+                try { $payload=Get-MotionAstraOnlinePayload $onlineVersion $downloadRoot $state } finally { $state.Downloading=$false }
+            }
             $confirm = {
                 param([string[]]$paths)
                 $state.Answer = $null
@@ -23,7 +31,7 @@ function Start-MotionAstraJob {
                 while ($null -eq $state.Answer) { Start-Sleep -Milliseconds 100 }
                 return [bool]$state.Answer
             }
-            $progress = { param($value,$message); $state.Percent=$value; $state.Message=$message }
+            $progress = { param($value,$message); $state.Percent=20+$value*0.8; $state.Message=$message }
             $installed = Install-MotionAstra $payload $extensionRoot $backupRoot $otherRoots $confirm $progress
             if (-not $installed) { $state.Cancelled=$true; $state.Message='Update cancelled. Existing files are unchanged.'; return }
             $state.Installed=$true
@@ -34,19 +42,20 @@ function Start-MotionAstraJob {
         } catch {
             $state.Error=$_.Exception.Message
             if ($state.Installed) { $state.Error='Files installed, but CEP preference setup failed. Enable PlayerDebugMode manually using the guide. ' + $state.Error }
-        } finally { $state.Done=$true }
+        } finally { if ($downloadRoot -and (Test-Path -LiteralPath $downloadRoot)) { Remove-Item -LiteralPath $downloadRoot -Recurse -Force -ErrorAction SilentlyContinue }; $state.Done=$true }
     }.ToString())
     foreach ($arg in @($Backend,$Payload,$ExtensionRoot,$BackupRoot)) { [void]$worker.AddArgument($arg) }
     [void]$worker.AddArgument($OtherRoots)
     [void]$worker.AddArgument($State)
     [void]$worker.AddArgument($EnableDebug)
+    [void]$worker.AddArgument($OnlineVersion)
     $handle=$worker.BeginInvoke()
     return @{ Worker=$worker; Handle=$handle; State=$State }
 }
 function Show-MotionAstraInstaller {
     $script:window=New-MotionAstraWindow
     $script:controls=@{}
-    foreach ($name in @('VersionLabel','Heading','Destination','DebugConsent','Status','Progress','Details','Cancel','Install')) {
+    foreach ($name in @('DownloadConsent','VersionLabel','Heading','Destination','DebugConsent','Status','Progress','Details','Cancel','Install')) {
         $script:controls[$name]=$script:window.FindName($name)
     }
     $script:packageRoot=Split-Path $script:InstallerUiRoot
@@ -60,8 +69,13 @@ function Show-MotionAstraInstaller {
     $script:controls.Destination.Text=Join-Path $script:extensionRoot 'MotionAstra-FX'
     $script:job=$null
     $script:completed=$false
+    $script:onlineVersion=''
+    $onlineFile=Join-Path $script:InstallerUiRoot 'SetupVersion.txt'
+    if (Test-Path -LiteralPath $onlineFile) { $script:onlineVersion=(Get-Content -LiteralPath $onlineFile -Raw).Trim() }
+    $script:controls.DownloadConsent.Visibility='Collapsed'
+    if ($script:onlineVersion) { $script:controls.DownloadConsent.Visibility='Visible' }
     try {
-        $version=(Get-Content -LiteralPath (Join-Path $script:payload 'VERSION') -Raw).Trim()
+        if ($script:onlineVersion) { $version=$script:onlineVersion } else { $version=(Get-Content -LiteralPath (Join-Path $script:payload 'VERSION') -Raw).Trim() }
         $script:controls.VersionLabel.Text="VERSION $version  /  WINDOWS SETUP"
         . (Join-Path $script:InstallerUiRoot 'Backend.ps1')
         foreach ($root in (@($script:extensionRoot)+$script:otherRoots)) {
@@ -77,6 +91,7 @@ function Show-MotionAstraInstaller {
     $script:timer.Add_Tick({
         if (-not $script:job) { return }
         $s=$script:job.State
+        $script:controls.Progress.IsIndeterminate=[bool]$s.Downloading
         $script:controls.Progress.Value=$s.Percent
         $script:controls.Status.Text=$s.Message
         if ($null -ne $s.Pending) {
@@ -112,10 +127,11 @@ function Show-MotionAstraInstaller {
     })
     $script:controls.Install.Add_Click({
         if ($script:completed) { $script:window.Close(); return }
+        if ($script:onlineVersion -and -not $script:controls.DownloadConsent.IsChecked) { $script:controls.Details.Text='Please consent to downloading and installing MotionAstra before continuing.'; return }
         $script:controls.Install.IsEnabled=$false; $script:controls.Cancel.IsEnabled=$false; $script:controls.DebugConsent.IsEnabled=$false
         $script:controls.Details.Text='Please keep this window open while setup finishes.'
         $state=[hashtable]::Synchronized(@{Percent=0;Message='Preparing setup...';Pending=$null;Answer=$null;Done=$false;Success=$false;Cancelled=$false;Installed=$false;Error=$null})
-        $script:job=Start-MotionAstraJob -Backend (Join-Path $script:InstallerUiRoot 'Backend.ps1') -Payload $script:payload -ExtensionRoot $script:extensionRoot -BackupRoot $script:backupRoot -OtherRoots $script:otherRoots -State $state -EnableDebug ([bool]$script:controls.DebugConsent.IsChecked)
+        $script:job=Start-MotionAstraJob -Backend (Join-Path $script:InstallerUiRoot 'Backend.ps1') -Payload $script:payload -ExtensionRoot $script:extensionRoot -BackupRoot $script:backupRoot -OtherRoots $script:otherRoots -State $state -EnableDebug ([bool]$script:controls.DebugConsent.IsChecked) -OnlineVersion $script:onlineVersion
         $script:timer.Start()
     })
     $script:controls.Cancel.Add_Click({ $script:window.Close() })

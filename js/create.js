@@ -20,9 +20,8 @@ window.MotionAstraCreate = (() => {
   let previewFace = null, previewRequest = 0;
   function previewContent() {
     const sample = $("font-preview-sample"), color = $("new-text-color").value;
-    sample.textContent = $("new-text-content").value || "MotionAstra";
-    const size = Number($("new-text-size").value);
-    sample.style.fontSize = Math.max(12, Math.min(40, Number.isFinite(size) ? size : 32)) + "px";
+    sample.textContent = "M.astra";
+    sample.style.fontSize = "24px";
     sample.style.color = color;
     const rgb = color.match(/[a-f0-9]{2}/gi).map(v => parseInt(v,16));
     sample.style.backgroundColor = rgb[0]*.2126 + rgb[1]*.7152 + rgb[2]*.0722 > 128 ? "#151517" : "#eeeeef";
@@ -33,7 +32,7 @@ window.MotionAstraCreate = (() => {
     if (previewFace && document.fonts) document.fonts.delete(previewFace);
     previewFace = null; sample.style.fontFamily = "sans-serif";
     const face = fonts.find(f => f.value === $("new-text-style").value);
-    if (!face) { status.textContent = "Choose a font family and style to preview. Sample size is scaled to fit."; return; }
+    if (!face) { status.textContent = "Choose a font family and style to preview. "; return; }
     if (!window.FontFace || !document.fonts) { status.textContent = "Font preview is unavailable in this panel. AE will use " + face.label + "."; return; }
     status.textContent = "Loading " + face.label + "…";
     try {
@@ -42,7 +41,7 @@ window.MotionAstraCreate = (() => {
       if (request !== previewRequest) return;
       document.fonts.add(local); previewFace = local;
       sample.style.fontFamily = '"' + local.family + '", sans-serif';
-      status.textContent = face.label + " · Preview size scaled to fit";
+      status.textContent = face.label + "";
     } catch (error) {
       if (request === previewRequest) status.textContent = "Panel cannot preview " + face.label + ". Fallback shown; AE still uses the selected font.";
     }
@@ -51,7 +50,7 @@ window.MotionAstraCreate = (() => {
     const select = $("new-text-style"),
       family = $("new-text-font").value;
     select.textContent = "";
-    const faces = fonts.filter((f) => f.family === family);
+    const faces = fonts.filter((f) => f.family === family && matchesSource(f));
     if (!faces.length) option(select, "", "Current style");
     else faces.forEach((f) => option(select, f.value, f.style));
     const regular = faces.find((f) =>
@@ -61,6 +60,14 @@ window.MotionAstraCreate = (() => {
     else if (regular) select.value = regular.value;
     previewFont();
   }
+  // Family list is only a convenience classification, not installation history.
+  const windowsFamilies = new Set("Arial|Arial Black|Bahnschrift|Calibri|Cambria|Cambria Math|Candara|Cascadia Code|Cascadia Mono|Comic Sans MS|Consolas|Constantia|Corbel|Courier New|Ebrima|Franklin Gothic Medium|Gabriola|Gadugi|Georgia|Impact|Ink Free|Javanese Text|Leelawadee UI|Lucida Console|Lucida Sans Unicode|Malgun Gothic|Marlett|Microsoft Sans Serif|Nirmala UI|Palatino Linotype|Segoe UI|Segoe UI Variable|Segoe UI Symbol|Segoe UI Emoji|Segoe Print|Segoe Script|Segoe Fluent Icons|Segoe MDL2 Assets|Tahoma|Times New Roman|Trebuchet MS|Verdana|Webdings|Wingdings|Yu Gothic|Yu Gothic UI".toLowerCase().split("|"));
+  function sourceOf(f) {
+    if (f.source === "user" || f.source === "adobe") return f.source;
+    if (f.source === "system" && windowsFamilies.has(f.family.toLowerCase())) return "windows";
+    return "unknown";
+  }
+  function matchesSource(f) { const source = $("font-source").value; return source === "all" || sourceOf(f) === source; }
   function filterFonts() {
     const select = $("new-text-font"),
       chosen = select.value,
@@ -68,7 +75,7 @@ window.MotionAstraCreate = (() => {
     const query = $("font-search").value.trim().toLocaleLowerCase();
     const families = [
       ...new Set(
-        fonts
+        fonts.filter(matchesSource)
           .filter((f) =>
             (f.family + " " + f.style + " " + f.value)
               .toLocaleLowerCase()
@@ -79,7 +86,7 @@ window.MotionAstraCreate = (() => {
     ];
     const visible =
       chosen &&
-      fonts.some((f) => f.family === chosen) &&
+      fonts.some((f) => f.family === chosen && matchesSource(f)) &&
       !families.includes(chosen)
         ? [chosen, ...families]
         : families;
@@ -90,7 +97,7 @@ window.MotionAstraCreate = (() => {
     styles(style);
     $("font-status").textContent = loaded
       ? families.length
-        ? `${families.length} matching families · styles from AE`
+        ? `${families.length} matching families · Origin uses AE file metadata; unknown fonts stay separate.`
         : "No matching font families. Try another search."
       : "Connect to After Effects to load its fonts.";
   }
@@ -222,6 +229,7 @@ window.MotionAstraCreate = (() => {
     };
     $("new-shape-type").onchange();
     $("font-search").oninput = filterFonts;
+    $("font-source").onchange = filterFonts;
     $("font-search").onfocus = activate;
     $("new-text-font").onchange = () => styles();
     $("new-text-style").onchange = previewFont;

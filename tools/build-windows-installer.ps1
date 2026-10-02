@@ -14,6 +14,13 @@ $graphics.DrawString('*',$font,[Drawing.Brushes]::Black,8,0)
 $icon=[Drawing.Icon]::FromHandle($bitmap.GetHicon())
 $stream=[IO.File]::Create($iconPath)
 try { $icon.Save($stream) } finally { $stream.Dispose(); $icon.Dispose(); $font.Dispose(); $graphics.Dispose(); $bitmap.Dispose() }
-& $compiler /nologo /win32icon:$iconPath /target:winexe /platform:anycpu /reference:System.Windows.Forms.dll /out:$Output (Join-Path $root 'installer\windows\Launcher.cs')
+$resources=@(
+ '/resource:'+(Join-Path $root 'installer\windows\WindowsUI.ps1')+',WindowsUI.ps1'
+ '/resource:'+(Join-Path $root 'installer\windows\Window.xaml')+',Window.xaml'
+ '/resource:'+(Join-Path $root 'install-windows.ps1')+',Backend.ps1'
+ '/resource:'+(Join-Path $root 'installer\windows\Download.ps1')+',Download.ps1'
+ '/resource:'+(Join-Path $root 'VERSION')+',SetupVersion.txt'
+)
+& $compiler @resources /nologo /win32icon:$iconPath /target:winexe /platform:anycpu /reference:System.Windows.Forms.dll /out:$Output (Join-Path $root 'installer\windows\Launcher.cs')
 if ($LASTEXITCODE -ne 0) { throw 'Windows launcher compilation failed.' }
 Write-Host "Built $Output"

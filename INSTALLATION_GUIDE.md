@@ -1,15 +1,17 @@
-# MotionAstra v3.0.10 Alpha — Windows only
+# MotionAstra v3.0.11 Alpha — Windows only
 
 This build targets After Effects 2025 on Windows. macOS is not supported, no Mac installer is included, and the panel refuses host commands on macOS. Do not install this package on a Mac. The standalone browser catalog remains a preview only.
 
 ## Install or update
 
-1. Download the release ZIP from https://github.com/AmadZaky/MotionAstra/releases and select **Extract All**. Use the release asset, not GitHub's source archive.
-2. Close After Effects. Keep the extracted `MotionAstra-FX` folder, `Installer` folder and launcher together.
-3. Double-click **Install MotionAstra.exe**. Review the visible destination, then choose **Install** or **Update**.
-4. If existing copies are detected, review their locations and confirm replacement. Cancel before installation if you do not want to replace them.
-5. Wait for **Ready. Set. Create.**, select **Done**, and restart AE.
-6. Open **Window → Extensions → MotionAstra FX**. Confirm Settings shows **3.0.10**.
+1. Download **Install MotionAstra.exe** from the release assets at https://github.com/AmadZaky/MotionAstra/releases. This single file contains the setup UI; no ZIP extraction is needed.
+2. Close After Effects and open the EXE. Review the installation destination.
+3. Check the download/install consent box and choose **Install** or **Update**. No network request starts before this consent.
+4. Keep an internet connection while setup downloads its matching version from GitHub. It checks the archive's SHA-256 against GitHub release metadata, then verifies package files before changing any installed copy.
+5. If old copies are detected, review their paths and confirm replacement. Backups and rollback remain enabled.
+6. Select **Done**, restart AE and open **Window → Extensions → MotionAstra FX**. Settings should show **3.0.11**.
+
+If the download fails, your current installation remains untouched. Retry after restoring connectivity. Missing release assets or missing digests are refused. The panel itself works offline after installation. The release ZIP remains available for manual/offline installation; its CMD launcher uses the local package, while the EXE always uses online setup.
 
 The correct per-user destination is `%APPDATA%\Adobe\CEP\extensions\MotionAstra-FX`. This is a CEP extension, not a file for After Effects' Plug-ins or ScriptUI Panels directories. No Node, Python, internet connection or administrator access is needed for the normal per-user installation.
 

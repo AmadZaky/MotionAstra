@@ -1,6 +1,6 @@
-/* MotionAstra 3.0.10 — ES3 host. No third-party AE effects required. */
+/* MotionAstra 3.0.11 — ES3 host. No third-party AE effects required. */
 var MotionAstra = (function () {
-  var BUILD = "3.0.10",
+  var BUILD = "3.0.11",
     recipes = {},
     serial = 0;
   for (var ri = 0; ri < MA_PRESET_DATA.presets.length; ri++)
@@ -1380,6 +1380,14 @@ var MotionAstra = (function () {
     )
       throw Error("Native Gaussian Blur unavailable.");
   }
+  function fontSource(f) {
+    var location = "";
+    try { if (f.isFromAdobeFonts === true) return "adobe"; } catch (ignoreAdobe) {}
+    try { location = String(f.location || "").replace(/\\/g, "/").toLowerCase(); } catch (ignoreLocation) {}
+    if (/\/appdata\/local\/microsoft\/windows\/fonts\//.test(location)) return "user";
+    if (/\/windows\/fonts\//.test(location)) return "system";
+    return "unknown";
+  }
   function fontList() {
     var out = [],
       seen = {},
@@ -1409,7 +1417,8 @@ var MotionAstra = (function () {
               value: f.postScriptName,
               label: f.familyName + " — " + f.styleName,
               family: f.familyName,
-              style: f.styleName
+              style: f.styleName,
+              source: fontSource(f)
             });
           }
         } catch (ignore) {}
@@ -2916,6 +2925,6 @@ var MotionAstra = (function () {
     throw Error(
       "MotionAstra JSON transport self-check failed. Restart AE and install the full package."
     );
-  return { dispatch: dispatch, version: "3.0.10", build: BUILD };
+  return { dispatch: dispatch, version: "3.0.11", build: BUILD };
 })();
 if (typeof $ !== "undefined" && $.global) $.global.MotionAstra = MotionAstra;

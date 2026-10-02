@@ -39,6 +39,9 @@ jobs:
           powershell.exe -NoProfile -STA -File ./tests/installer-ui-windows.ps1
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           powershell.exe -NoProfile -STA -File ./tests/installer-window-windows.ps1
+      - name: Verify online setup
+        shell: powershell
+        run: ./tests/online-installer-windows.ps1
       - name: Upload Windows installer
         uses: actions/upload-artifact@v4
         with:
@@ -69,7 +72,7 @@ jobs:
           python tests/package.py
       - name: Verify host tests
         run: |
-          for test in static engine expressions bridge tools create-tools checkboxes parser-boundary update-target background-create fx-target panel-state background-stability preview-idle loop-modes background-colors loop-migration features-282 compact-controls switcher-choice yu-text motion-curve fx-tools module-isolation smart-apply bridge-lifecycle glass-surface fxtools-native-contract; do
+          for test in static engine expressions bridge tools create-tools font-sources checkboxes parser-boundary update-target background-create fx-target panel-state background-stability preview-idle loop-modes background-colors loop-migration features-282 compact-controls switcher-choice yu-text motion-curve fx-tools module-isolation smart-apply bridge-lifecycle glass-surface fxtools-native-contract; do
             node "tests/$test.cjs"
           done
       - name: Verify browser workflow
@@ -103,8 +106,8 @@ jobs:
           if gh release view "$tag" >/dev/null 2>&1; then
             existing="$(gh api "repos/$GH_REPO/git/ref/tags/$tag" --jq '.object.sha')"
             test "$existing" = "$SOURCE_SHA"
-            gh release upload "$tag" "$asset" --clobber
+            gh release upload "$tag" "$asset" "dist/Install MotionAstra.exe" --clobber
           else
-            gh release create "$tag" "$asset" --target "$SOURCE_SHA" \
+            gh release create "$tag" "$asset" "dist/Install MotionAstra.exe" --target "$SOURCE_SHA" \
               --title "MotionAstra v${version} — Alpha" --prerelease --notes-file RELEASE_NOTES.md
           fi

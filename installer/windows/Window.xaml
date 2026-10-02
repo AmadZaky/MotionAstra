@@ -39,6 +39,9 @@
      </StackPanel>
     </Border>
     <TextBlock Text="Close After Effects before continuing. Existing MotionAstra versions will be backed up before replacement." Margin="0,18,0,12" TextWrapping="Wrap" Foreground="#BDBDC6"/>
+    <CheckBox x:Name="DownloadConsent" IsChecked="False" Foreground="#BDBDC6" Margin="0,0,0,12">
+     <TextBlock Text="I agree to download MotionAstra from GitHub and install it for use in After Effects. Internet is required for setup; the panel works offline." TextWrapping="Wrap" MaxWidth="440"/>
+    </CheckBox>
     <CheckBox x:Name="DebugConsent" IsChecked="True" Foreground="#BDBDC6" Margin="0,0,0,18">
      <TextBlock Text="Enable unsigned CEP panels for my account (required for this Alpha)." TextWrapping="Wrap" MaxWidth="380"/>
     </CheckBox>
