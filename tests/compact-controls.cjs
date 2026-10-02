@@ -4,7 +4,7 @@ function metadata(l){return JSON.parse(decodeURIComponent(l.comment.split('[Moti
 for(const r of data.presets){
  const e=create();if(r.category==='Text')e.comp.add('text').selected=true;
  assert.equal(e.rpc({action:'apply',id:r.id,params:{}}).changed,1,r.id);
- const l=e.comp.selectedLayers[0];assert.equal(l.fx.items.filter(x=>x.name.startsWith('MA2 ')&&!x.name.startsWith('MA2 native ')).length,1,r.id+' must have only one user controller');
+ const l=e.comp.selectedLayers[0];assert.equal(l.fx.items.filter(x=>x.name.startsWith('MA2 ')&&!x.name.startsWith('MA2 native ')).length,r.id==='switcher'?2:1,r.id+' compact controller count');
  assert(l.fx.property(controller));assert.equal(metadata(l).layout,'compact');
  const loaded=e.rpc({action:'load'});assert.equal(loaded.layout,'compact');assert(loaded.target);
  const before=l.fx.items.slice();assert.equal(e.rpc({action:'update',id:r.id,target:loaded.target,params:{...loaded.params,duration:3,tint:'#ee3355',color2:'#33ee55'}}).changed,1);

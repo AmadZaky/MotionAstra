@@ -110,7 +110,7 @@ body{background:var(--bg);color:var(--text)}header{background:var(--panel)}butto
     <header>
       <a class="brand" href="index.html"
         ><span class="brand-icon"><i data-lucide="asterisk"></i></span
-        >MotionAstra <b>3.0.7</b></a
+        >MotionAstra <b>3.0.8</b></a
       >
       <div class="header-actions">
         <button
@@ -766,7 +766,7 @@ MotionAstra</textarea
           </details>
         </section>
         <section id="settings" hidden>
-          <div class="eyebrow">MOTIONASTRA 3.0.7</div>
+          <div class="eyebrow">MOTIONASTRA 3.0.8</div>
           <h1>Your workspace.</h1>
           <details open>
             <summary>Preview & connection</summary>
@@ -2186,7 +2186,7 @@ lucide.createIcons({icons});\``);if(typeof document>"u")throw new Error("`create
 </script>
     <script>
 window.MA_PRESETS = {
-  "version": "3.0.7",
+  "version": "3.0.8",
   "presets": [
     {
       "id": "counter",
@@ -2377,7 +2377,7 @@ window.MA_PRESETS = {
       "id": "switcher",
       "name": "Text Switcher",
       "category": "Text",
-      "description": "One line per phrase. Scrub the Choice slider, or let the timeline switch phrases.",
+      "description": "One line per phrase. Animate MA2 choice in AE Effect Controls, or use Automatic mode. Panel edits take effect on Update.",
       "parameters": [
         {
           "id": "tint",
@@ -6974,14 +6974,14 @@ document.addEventListener('visibilitychange',run);return {attach,play,clear,rend
 
 </script>
     <script>
-/* MotionAstra CEP transport v3.0.7.
+/* MotionAstra CEP transport v3.0.8.
  * Host files load by absolute path; all replies are tagged and request-correlated.
  * Empty callbacks recover the stored reply, NEVER replay the host mutation.
  */
 (function (root) {
   "use strict";
-  const VERSION = "3.0.7";
-  const BUILD = "3.0.7";
+  const VERSION = "3.0.8";
+  const BUILD = "3.0.8";
   const PREFIX = "MAFX1:";
   const ERROR_PREFIX = "MAFX1E:";
   const available = !!root.__adobe_cep__;
@@ -8248,6 +8248,7 @@ window.MotionAstraSearch = (() => {
       target: null,
       loadedLayout: null,
       loadedProgress: null,
+      loadedChoice: null,
       dirty: false,
     },
     history = [];
@@ -8619,6 +8620,7 @@ window.MotionAstraSearch = (() => {
     state.target = loaded ? loaded.target : null;
     state.loadedLayout = loaded ? loaded.layout : null;
     state.loadedProgress = loaded ? loaded.params.progress : null;
+    state.loadedChoice = loaded ? loaded.params.choice : null;
     state.dirty = false;
     state.params = {};
     p.parameters.forEach(
@@ -8657,6 +8659,9 @@ window.MotionAstraSearch = (() => {
     $("parameter-help").textContent =
       (p.category === "Background"
         ? "Generate updates a matching selected background; otherwise it creates one. Deselect backgrounds to create another copy. "
+        : "") +
+      (p.id === "switcher"
+        ? "Choice slider mode: animate MA2 choice in AE Effect Controls (1 = first phrase). Panel changes take effect on Update. Automatic mode ignores Choice. "
         : "") +
       "Animation starts at the layer in-point. Drag [FX End] to retime; Loop mode: None, Ping-Pong, Cycle or Continue. Static backgrounds freeze at the start. Use FX Tweaker for settings. Compact mode keeps one Progress controller; enable manual Progress to animate it. Changes apply on Update. Count rebuilds artwork.";
     document.querySelector(".inspector-scroll").scrollTop = 0;
@@ -8729,6 +8734,10 @@ window.MotionAstraSearch = (() => {
         id: state.preset.id,
         params: state.params,
         target: state.target,
+        editChoice:
+          state.preset.id === "switcher" &&
+          state.target &&
+          state.params.choice !== state.loadedChoice,
         editProgress:
           state.target && state.params.progress !== state.loadedProgress,
         smart: true,
@@ -8737,6 +8746,7 @@ window.MotionAstraSearch = (() => {
       if (r && r.changed) {
         state.dirty = false;
         state.loadedProgress = state.params.progress;
+        state.loadedChoice = state.params.choice;
       }
     }
   };

@@ -1,11 +1,9 @@
-# MotionAstra v3.0.7 — Alpha
+# MotionAstra v3.0.8 — Alpha
 
-- Removed Panning Transition and Gold Extrusion from the catalog; existing project layers remain intact.
-- Combined Text Tools into Text Animate as a highlighted Text Tools FX section above YUGraphic animations. Six text FX remain after the two removals.
-- Text Animate previews now display MotionAstra. Author credit and original animation engine remain intact.
-- Removed the separate Load animation settings button.
-- All active preset-card and inspector previews use a square 1:1 canvas.
-- Added a magnifying-glass search beside the theme toggle. Search covers presets and tool workspaces; selecting a result navigates without applying an effect.
-- Corrected Load settings routing for the combined workspace.
+- Fixed Text Switcher Choice in Compact layout: the source-text expression now reads a native MA2 choice slider, enabling timeline keyframes and direct changes in AE.
+- Load settings reads the actual native Choice value.
+- Unrelated updates preserve Choice keys and expressions. Explicit panel Choice edits write at the current time for keyed controls.
+- Existing compact instances gain the controller on Update without recreating the layer.
+- Added guidance distinguishing Choice slider mode from Automatic mode.
 
-Automated model/host, browser and installer checks are release gates. Native After Effects rendering remains a manual verification step.
+Upgrade: restart AE, select the existing Switcher layer, Quick Tools → Load selected FX → Update. Animate MA2 choice in Effect Controls. Native AE rendering remains a manual verification step.

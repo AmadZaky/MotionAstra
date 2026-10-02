@@ -1,5 +1,5 @@
 var MA_PRESET_DATA = {
-  "version": "3.0.7",
+  "version": "3.0.8",
   "presets": [
     {
       "id": "counter",
@@ -190,7 +190,7 @@ var MA_PRESET_DATA = {
       "id": "switcher",
       "name": "Text Switcher",
       "category": "Text",
-      "description": "One line per phrase. Scrub the Choice slider, or let the timeline switch phrases.",
+      "description": "One line per phrase. Animate MA2 choice in AE Effect Controls, or use Automatic mode. Panel edits take effect on Update.",
       "parameters": [
         {
           "id": "tint",

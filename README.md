@@ -1,4 +1,4 @@
-# MotionAstra FX 3.0.7 — Alpha
+# MotionAstra FX 3.0.8 — Alpha
 
 Offline CEP extension for Adobe After Effects 2025. Minimal black/orange UI, local CSInterface + Lucide, Text Animate (6 highlighted Text Tools FX + 120 animation presets), 8 procedural SolidGen presets and Quick Tools with integrated FX settings.
 
@@ -33,6 +33,12 @@ Open **Motion Curve**, choose one of eight easing shapes or drag the two Bézier
 Only intervals with both endpoints selected are modified. Scalar and 2D/3D properties are supported. Active expressions, roving keys and non-numeric properties are skipped with a message. Curved spatial paths support zero endpoint speed (Out progress 0, In progress 1); for custom nonzero endpoint speed use separate Position dimensions. Per-property rollback protects existing easing if a native write fails. Temporal auto/continuous modes are disabled for edited keys so the requested handles remain independent.
 
 Use **Light / Dark** in the header to switch themes. Theme and the last curve persist locally. The orange accent, reserved action footer and existing Text/YU/Background/Tools/Tweaker workflows remain available. Preview artwork keeps its own artistic background colors.
+
+## Text Switcher — animated Choice
+
+Choose **Switch mode → Choice slider**, then Apply or Update. In AE Effect Controls, animate **MA2 choice**: 1 selects the first phrase, 2 the second, and so on. This native slider is available even in Compact mode; Switcher keeps Progress plus Choice, while other compact FX keep their existing controllers. Automatic mode deliberately ignores Choice.
+
+For existing instances, select the text layer, open **Quick Tools → Load selected FX**, then click Update once to add the new control and refresh its expression. After changing Choice inside the panel, click Update. If Choice already has keys, an explicit panel edit writes a key at the current time; unrelated updates preserve its animation. Refresh loaded settings after manually editing the native slider.
 
 ## Global search and previews
 

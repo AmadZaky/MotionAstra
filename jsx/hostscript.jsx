@@ -1,6 +1,6 @@
-/* MotionAstra 3.0.7 — ES3 host. No third-party AE effects required. */
+/* MotionAstra 3.0.8 — ES3 host. No third-party AE effects required. */
 var MotionAstra = (function () {
-  var BUILD = "3.0.7",
+  var BUILD = "3.0.8",
     recipes = {},
     serial = 0;
   for (var ri = 0; ri < MA_PRESET_DATA.presets.length; ri++)
@@ -343,7 +343,7 @@ var MotionAstra = (function () {
     return l.property("ADBE Effect Parade").property("MA2 " + id);
   }
   var MASTER = "MA2 MotionAstra Progress";
-  function setControls(l, r, p, m, editProgress) {
+  function setControls(l, r, p, m, editProgress, editChoice) {
     var i, d, e;
     if (m && m.layout === "compact") {
       e = l.property("ADBE Effect Parade").property(MASTER);
@@ -355,6 +355,18 @@ var MotionAstra = (function () {
         (!e.property(1).numKeys && !e.property(1).expression)
       )
         set(e.property(1), p.progress || 0, l.containingComp.time);
+      // Choice is intentionally a live native control, even with compact layout.
+      // Preserve authored keys/expressions unless the panel explicitly edits Choice.
+      if (r.id === "switcher") {
+        e = fx(l, "choice");
+        if (!e) {
+          e = effect(l, "ADBE Slider Control", "MA2 choice");
+          e.property(1).setValue(p.choice);
+        } else if (editChoice || (!e.property(1).numKeys && !e.property(1).expression)) {
+          if (editChoice && e.property(1).expression) fail("Choice has an expression. Edit that expression in AE before changing Choice from the panel.");
+          set(e.property(1), p.choice, l.containingComp.time);
+        }
+      }
       return;
     }
     for (i = 0; i < r.parameters.length; i++) {
@@ -380,6 +392,7 @@ var MotionAstra = (function () {
         controlValue = 0;
         if (p[d.id]) controlValue = 1;
       }
+      if (r.id === "switcher" && d.id === "choice" && !editChoice && (e.property(1).numKeys || e.property(1).expression)) continue;
       set(e.property(1), controlValue, l.containingComp.time);
     }
   }
@@ -392,6 +405,7 @@ var MotionAstra = (function () {
       p = params(r, m.values);
       e = l.property("ADBE Effect Parade").property(MASTER);
       p.progress = Number(e.property(1).value);
+      if (r.id === "switcher" && fx(l, "choice")) p.choice = Number(fx(l, "choice").property(1).value);
       var compactEnd = markerTime(l, m.token, "end");
       if (compactEnd !== null)
         p.duration = Math.max(0.1, compactEnd - l.inPoint);
@@ -531,7 +545,7 @@ var MotionAstra = (function () {
         encode(values) +
         ';\nfunction P(k,d){if(k==="progress")return effect(' +
         quote(MASTER) +
-        ")(1).value;return MA_VALUES[k]===undefined?d:MA_VALUES[k];}\nfunction C(k,d){return P(k,d);}\n";
+        ")(1).value;if(k===\"choice\"){try{return effect(\"MA2 choice\")(1).value;}catch(ignore){}}return MA_VALUES[k]===undefined?d:MA_VALUES[k];}\nfunction C(k,d){return P(k,d);}\n";
     } else
       prefix +=
         'function P(k,d){try{var p=effect("MA2 "+k)(1);return p.value;}catch(e){return d;}}\n' +
@@ -1961,6 +1975,7 @@ var MotionAstra = (function () {
         }
         preflight(l, r, true);
         controlCheck(l, r);
+        if (r.id === "switcher" && a.editChoice === true && fx(l, "choice") && fx(l, "choice").property(1).expression) fail("Choice has an expression. Edit it in AE before changing Choice from the panel.");
         markerTime(l, m.token, "end");
         oldDuration =
           m.layout === "compact"
@@ -1968,7 +1983,7 @@ var MotionAstra = (function () {
             : fx(l, "duration").property(1).value;
         oldCount = m.values ? m.values.count : null;
         started = true;
-        setControls(l, r, p, m, a.editProgress === true);
+        setControls(l, r, p, m, a.editProgress === true, a.editChoice === true);
         m.values = p;
         markers(
           l,
@@ -2901,6 +2916,6 @@ var MotionAstra = (function () {
     throw Error(
       "MotionAstra JSON transport self-check failed. Restart AE and install the full package."
     );
-  return { dispatch: dispatch, version: "3.0.7", build: BUILD };
+  return { dispatch: dispatch, version: "3.0.8", build: BUILD };
 })();
 if (typeof $ !== "undefined" && $.global) $.global.MotionAstra = MotionAstra;

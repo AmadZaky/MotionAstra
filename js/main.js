@@ -15,6 +15,7 @@
       target: null,
       loadedLayout: null,
       loadedProgress: null,
+      loadedChoice: null,
       dirty: false,
     },
     history = [];
@@ -386,6 +387,7 @@
     state.target = loaded ? loaded.target : null;
     state.loadedLayout = loaded ? loaded.layout : null;
     state.loadedProgress = loaded ? loaded.params.progress : null;
+    state.loadedChoice = loaded ? loaded.params.choice : null;
     state.dirty = false;
     state.params = {};
     p.parameters.forEach(
@@ -424,6 +426,9 @@
     $("parameter-help").textContent =
       (p.category === "Background"
         ? "Generate updates a matching selected background; otherwise it creates one. Deselect backgrounds to create another copy. "
+        : "") +
+      (p.id === "switcher"
+        ? "Choice slider mode: animate MA2 choice in AE Effect Controls (1 = first phrase). Panel changes take effect on Update. Automatic mode ignores Choice. "
         : "") +
       "Animation starts at the layer in-point. Drag [FX End] to retime; Loop mode: None, Ping-Pong, Cycle or Continue. Static backgrounds freeze at the start. Use FX Tweaker for settings. Compact mode keeps one Progress controller; enable manual Progress to animate it. Changes apply on Update. Count rebuilds artwork.";
     document.querySelector(".inspector-scroll").scrollTop = 0;
@@ -496,6 +501,10 @@
         id: state.preset.id,
         params: state.params,
         target: state.target,
+        editChoice:
+          state.preset.id === "switcher" &&
+          state.target &&
+          state.params.choice !== state.loadedChoice,
         editProgress:
           state.target && state.params.progress !== state.loadedProgress,
         smart: true,
@@ -504,6 +513,7 @@
       if (r && r.changed) {
         state.dirty = false;
         state.loadedProgress = state.params.progress;
+        state.loadedChoice = state.params.choice;
       }
     }
   };

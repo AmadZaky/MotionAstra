@@ -511,5 +511,5 @@ return { run: run, clearAll: clearAll };
 
 }());
 
-MotionAstraFXTools.build='3.0.7';
+MotionAstraFXTools.build='3.0.8';
 if(typeof $!=="undefined"&&$.global){$.global.MotionAstraFXTools=MotionAstraFXTools;$.global.MotionAstraModules=$.global.MotionAstraModules||{};$.global.MotionAstraModules.fxTools=MotionAstraFXTools;}
