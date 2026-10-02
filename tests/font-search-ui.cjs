@@ -21,6 +21,7 @@ const assert=require('node:assert/strict'),path=require('node:path'),{create}=re
  await page.locator('[data-tab="Create"]').click();
  await page.waitForFunction(()=>document.querySelector('#new-text-font').options.length===3);
  assert.equal(calls.filter(p=>p.action==='fonts').length,1);
+ assert.deepEqual(await page.locator('.create-grid h2').allTextContents(),[' Text',' Shape',' Solid Color']);
  for(const [shape,count] of [['circle',4],['square',4],['polygon',7]]){
   await page.locator('#new-shape-type').selectOption(shape);
   if(shape==='polygon')await page.locator('#new-shape-sides').fill('7');
@@ -39,6 +40,10 @@ const assert=require('node:assert/strict'),path=require('node:path'),{create}=re
  await page.locator('#new-text-size').fill('96.5');
  await page.locator('#new-text-color').fill('#12abef');
  await page.locator('#new-text-content').fill('Native typography');
+ assert.equal(await page.locator('#font-preview-sample').textContent(),'Native typography');
+ assert.equal(await page.locator('#font-preview-sample').evaluate(e=>e.style.fontSize),'40px');
+ assert.equal(await page.locator('#font-preview-sample').evaluate(e=>e.style.color),'rgb(18, 171, 239)');
+ await page.waitForFunction(()=>document.querySelector('#font-preview-status').textContent.includes('Fallback shown'));
  await page.locator('[data-create="newText"]').click();
  await page.waitForFunction(()=>!document.querySelector('[data-create="newText"]').disabled);
  const doc=env.comp.selectedLayers[0].text.property('ADBE Text Document').value;

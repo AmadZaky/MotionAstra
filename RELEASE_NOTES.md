@@ -1,9 +1,8 @@
-# MotionAstra v3.0.8 — Alpha
+# MotionAstra v3.0.9 — Alpha
 
-- Fixed Text Switcher Choice in Compact layout: the source-text expression now reads a native MA2 choice slider, enabling timeline keyframes and direct changes in AE.
-- Load settings reads the actual native Choice value.
-- Unrelated updates preserve Choice keys and expressions. Explicit panel Choice edits write at the current time for keyed controls.
-- Existing compact instances gain the controller on Update without recreating the layer.
-- Added guidance distinguishing Choice slider mode from Automatic mode.
+- Create now shows Text, Shape, then Solid Color.
+- Added a live font preview following content, selected native font face/style, color and size (scaled for the panel). Fonts unavailable to CEP show an explicit fallback notice; AE still receives the exact selected font.
+- Text Tools FX can be collapsed within Text Animate. The choice persists between sessions and does not hide SolidGen.
+- Each Motion Curve preset now displays its actual cubic curve with an active-preset highlight.
 
-Upgrade: restart AE, select the existing Switcher layer, Quick Tools → Load selected FX → Update. Animate MA2 choice in Effect Controls. Native AE rendering remains a manual verification step.
+No FX engine or installer behavior changes. Browser regression checks cover the new preview, collapsible section and curve thumbnails. Rendering inside native After Effects remains a manual verification step.

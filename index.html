@@ -4,14 +4,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <script src="js/theme.js"></script>
-    <title>MotionAstra 3.0.8 Alpha</title>
+    <title>MotionAstra 3.0.9 Alpha</title>
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
     <header>
       <a class="brand" href="index.html"
         ><span class="brand-icon"><i data-lucide="asterisk"></i></span
-        >MotionAstra <b>3.0.8</b></a
+        >MotionAstra <b>3.0.9</b></a
       >
       <div class="header-actions">
         <button
@@ -73,51 +73,6 @@
           <h1>Create</h1>
           <p>Native, editable layers in your active composition.</p>
           <div class="create-grid">
-            <form id="create-shape" class="create-card">
-              <h2><i data-lucide="shapes"></i> Shape</h2>
-              <label
-                >Shape<select id="new-shape-type">
-                  <option value="circle">Circle</option>
-                  <option value="square" selected>Square</option>
-                  <option value="polygon">Polygon</option>
-                </select></label
-              >
-              <div class="create-fields">
-                <label
-                  >Size · px<input
-                    id="new-shape-size"
-                    type="number"
-                    value="320"
-                    min="1"
-                    max="30000"
-                    required
-                /></label>
-                <label id="polygon-field" hidden
-                  >Sides<input
-                    id="new-shape-sides"
-                    type="number"
-                    value="6"
-                    min="3"
-                    max="64"
-                    step="1"
-                    required
-                /></label>
-              </div>
-              <label
-                >Fill color<input
-                  id="new-layer-color"
-                  type="color"
-                  value="#ff943f"
-              /></label>
-              <button
-                type="submit"
-                class="primary"
-                data-create="newShape"
-                data-host
-              >
-                Create shape
-              </button>
-            </form>
             <form id="create-text" class="create-card">
               <h2><i data-lucide="type"></i> Text</h2>
               <label
@@ -165,6 +120,10 @@ MotionAstra</textarea
                   type="color"
                   value="#ffffff"
               /></label>
+              <div class="font-preview-box" aria-label="Selected font preview">
+                <div id="font-preview-sample">MotionAstra</div>
+                <p id="font-preview-status" class="hint" role="status">Choose an AE font family and style.</p>
+              </div>
               <div class="create-font-status">
                 <p
                   id="font-status"
@@ -187,8 +146,53 @@ MotionAstra</textarea
                 Create text
               </button>
             </form>
+            <form id="create-shape" class="create-card">
+              <h2><i data-lucide="shapes"></i> Shape</h2>
+              <label
+                >Shape<select id="new-shape-type">
+                  <option value="circle">Circle</option>
+                  <option value="square" selected>Square</option>
+                  <option value="polygon">Polygon</option>
+                </select></label
+              >
+              <div class="create-fields">
+                <label
+                  >Size · px<input
+                    id="new-shape-size"
+                    type="number"
+                    value="320"
+                    min="1"
+                    max="30000"
+                    required
+                /></label>
+                <label id="polygon-field" hidden
+                  >Sides<input
+                    id="new-shape-sides"
+                    type="number"
+                    value="6"
+                    min="3"
+                    max="64"
+                    step="1"
+                    required
+                /></label>
+              </div>
+              <label
+                >Fill color<input
+                  id="new-layer-color"
+                  type="color"
+                  value="#ff943f"
+              /></label>
+              <button
+                type="submit"
+                class="primary"
+                data-create="newShape"
+                data-host
+              >
+                Create shape
+              </button>
+            </form>
             <form id="create-background" class="create-card">
-              <h2><i data-lucide="layers"></i> Background</h2>
+              <h2><i data-lucide="layers"></i> Solid Color</h2>
               <p class="hint">
                 One full-size solid, placed at the bottom for the whole
                 composition.
@@ -359,6 +363,7 @@ MotionAstra</textarea
             </div>
           </div>
           <div id="yu-browser">
+            <details id="text-tools-group" open><summary>Text Tools FX <span>6 presets</span></summary></details>
             <p>120 original text presets · by YUGraphic · MIT licensed</p>
             <div class="yu-filters">
               <select id="yu-category" aria-label="Animation category"></select>
@@ -667,7 +672,7 @@ MotionAstra</textarea
           </details>
         </section>
         <section id="settings" hidden>
-          <div class="eyebrow">MOTIONASTRA 3.0.8</div>
+          <div class="eyebrow">MOTIONASTRA 3.0.9</div>
           <h1>Your workspace.</h1>
           <details open>
             <summary>Preview & connection</summary>

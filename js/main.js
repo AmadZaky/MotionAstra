@@ -135,7 +135,7 @@
     state.tab = name;
     close();
     $("library").hidden = !["YU", "Background"].includes(name);
-    if (name === "YU") $("yu-browser").prepend($("library"));
+    if (name === "YU") $("text-tools-group").appendChild($("library"));
     else document.querySelector("main").prepend($("library"));
     $("tools").hidden = name !== "Tools";
     $("create").hidden = name !== "Create";
@@ -707,6 +707,10 @@
   disclosure("fold-quick", "quick", "ma252-create", "Quick");
   if (window.MotionAstraSearch)
     window.MotionAstraSearch.init({ tab, open, busy: () => state.busy });
+  $("text-tools-group").open = store.get("ma-text-tools-folded") !== "true";
+  $("text-tools-group").ontoggle = () => {
+    store.set("ma-text-tools-folded", !$("text-tools-group").open);
+  };
   tab("YU");
   busy(false);
   refresh();

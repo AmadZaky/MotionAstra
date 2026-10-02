@@ -17,6 +17,36 @@ window.MotionAstraCreate = (() => {
     node.textContent = label;
     select.appendChild(node);
   }
+  let previewFace = null, previewRequest = 0;
+  function previewContent() {
+    const sample = $("font-preview-sample"), color = $("new-text-color").value;
+    sample.textContent = $("new-text-content").value || "MotionAstra";
+    const size = Number($("new-text-size").value);
+    sample.style.fontSize = Math.max(12, Math.min(40, Number.isFinite(size) ? size : 32)) + "px";
+    sample.style.color = color;
+    const rgb = color.match(/[a-f0-9]{2}/gi).map(v => parseInt(v,16));
+    sample.style.backgroundColor = rgb[0]*.2126 + rgb[1]*.7152 + rgb[2]*.0722 > 128 ? "#151517" : "#eeeeef";
+  }
+  async function previewFont() {
+    const request = ++previewRequest, sample = $("font-preview-sample"), status = $("font-preview-status");
+    previewContent();
+    if (previewFace && document.fonts) document.fonts.delete(previewFace);
+    previewFace = null; sample.style.fontFamily = "sans-serif";
+    const face = fonts.find(f => f.value === $("new-text-style").value);
+    if (!face) { status.textContent = "Choose a font family and style to preview. Sample size is scaled to fit."; return; }
+    if (!window.FontFace || !document.fonts) { status.textContent = "Font preview is unavailable in this panel. AE will use " + face.label + "."; return; }
+    status.textContent = "Loading " + face.label + "…";
+    try {
+      const local = new FontFace("MAFontPreview" + request, "local(" + JSON.stringify(face.value) + ")");
+      await local.load();
+      if (request !== previewRequest) return;
+      document.fonts.add(local); previewFace = local;
+      sample.style.fontFamily = '"' + local.family + '", sans-serif';
+      status.textContent = face.label + " · Preview size scaled to fit";
+    } catch (error) {
+      if (request === previewRequest) status.textContent = "Panel cannot preview " + face.label + ". Fallback shown; AE still uses the selected font.";
+    }
+  }
   function styles(previous) {
     const select = $("new-text-style"),
       family = $("new-text-font").value;
@@ -29,6 +59,7 @@ window.MotionAstraCreate = (() => {
     );
     if (faces.some((f) => f.value === previous)) select.value = previous;
     else if (regular) select.value = regular.value;
+    previewFont();
   }
   function filterFonts() {
     const select = $("new-text-font"),
@@ -193,6 +224,9 @@ window.MotionAstraCreate = (() => {
     $("font-search").oninput = filterFonts;
     $("font-search").onfocus = activate;
     $("new-text-font").onchange = () => styles();
+    $("new-text-style").onchange = previewFont;
+    ["new-text-content", "new-text-size", "new-text-color"].forEach(id => { $(id).oninput = previewContent; });
+    previewFont();
     $("refresh-fonts").onclick = loadFonts;
     $("background-hex").oninput = () => updateHex($("background-hex").value);
     $("background-hex").onblur = () => {

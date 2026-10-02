@@ -5,6 +5,13 @@ assert.equal(await page.locator('[data-tab="Text"],#yu-load,#yu-search').count()
 assert.equal(await page.locator('#yu-browser #library .card').count(),6);assert.equal(await page.locator('.yu-card').count(),120);
 assert.match(await page.locator('#library-title').textContent(),/Text Tools FX/);
 for(const width of [300,380,1200]){await page.setViewportSize({width,height:850});for(const sel of ['.card canvas','.yu-card canvas']){const box=await page.locator(sel).first().boundingBox();assert(Math.abs(box.width-box.height)<2,sel+' must be square at '+width);}assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));}
+await page.locator('#text-tools-group > summary').click();
+assert(await page.locator('#library').isHidden());assert(await page.locator('.yu-card').first().isVisible());
+await page.waitForFunction(()=>localStorage.getItem('ma-text-tools-folded')==='true');
+await page.reload();assert.equal(await page.locator('#text-tools-group').evaluate(e=>e.open),false);
+await page.locator('[data-tab="Background"]').click();assert(await page.locator('#library').isVisible());
+await page.locator('[data-tab="YU"]').click();assert(await page.locator('#library').isHidden());
+await page.locator('#text-tools-group > summary').click();assert(await page.locator('#library').isVisible());
 async function search(q){if(await page.locator('#global-search').isHidden())await page.locator('#toggle-search').click();await page.locator('#search').fill(q);}
 await search('Panning Transition');assert.equal(await page.locator('#search-results button').count(),0);
 await search('Gold Extrusion');assert.equal(await page.locator('#search-results button').count(),0);

@@ -20,7 +20,7 @@ Existing instances keep their controls. **Compact old controls** converts an una
 
 ## Text Animate · by YUGraphic
 
-The Text Animate tab starts with **6 Text Tools FX** (Counter Text, Text Switcher, Kinetic Stretch, Burning Ember, Retro VHS and Matrix Code), then offers **120 original YUGraphic text presets** in 12 categories: Clean, Slide, Pop, Bounce, Elastic, Rotate, Blur, Typewriter, Glitch, Split, Wave and Kinetic. Select text layers, choose a preset, Customize, then Apply animation. Options include IN/OUT/BOTH, grouping, duration, stagger, intensity, seed, order, easing and placement. Colors/fonts remain native text properties.
+The Text Animate tab starts with a collapsible **Text Tools FX** section (its open/closed state is remembered), containing **6 Text Tools FX** (Counter Text, Text Switcher, Kinetic Stretch, Burning Ember, Retro VHS and Matrix Code), then offers **120 original YUGraphic text presets** in 12 categories: Clean, Slide, Pop, Bounce, Elastic, Rotate, Blur, Typewriter, Glitch, Split, Wave and Kinetic. Select text layers, choose a preset, Customize, then Apply animation. Options include IN/OUT/BOTH, grouping, duration, stagger, intensity, seed, order, easing and placement. Colors/fonts remain native text properties.
 
 Load YU settings reads one selected instance; Update loaded YU checks that selection still matches. The mode selector determines whether Load prefers IN or OUT. Apply replaces only its chosen YU phase; Remove YU removes both phases. Parameter changes take effect on Apply/Update, and the YU tab stores them without extra Effect Controls sliders. Current playhead placement is recalculated on each Apply/Update. BOTH always uses layer edges, as in the original engine. These finite IN/OUT animations do not use MotionAstra loop modes or markers.
 
@@ -46,11 +46,11 @@ Click the magnifying glass beside the theme switch to open search across Text To
 
 ## Create tab
 
-Open **Create** alongside the FX and tool tabs. All creation actions need an active composition and create one native, editable layer with one Undo step.
+Open **Create** alongside the FX and tool tabs. Cards appear in the order **Text → Shape → Solid Color**. All creation actions need an active composition and create one native, editable layer with one Undo step.
 
 - **Shape:** choose Circle, Square or Polygon; set size and fill color. Polygon exposes a sides field (3–64). Shape paths remain editable in AE.
-- **Text:** enter content, search the AE font list, choose **Font family** and **Style** separately, then set font size and color. Italic, Medium, Semibold and Bold are offered when those faces are installed for the selected family; no artificial styles are substituted. The exact native PostScript face is sent to AE. Use Refresh fonts after activating fonts. Current AE font keeps the default family.
-- **Background:** use the color picker or enter six-digit HEX with or without `#`. Create background makes one full-composition solid at the bottom of the stack. Up to eight recently used colors persist locally and can be selected again; only successful creations enter history.
+- **Text:** enter content, search the AE font list, choose **Font family** and **Style** separately, then set font size and color. Italic, Medium, Semibold and Bold are offered when those faces are installed for the selected family; no artificial styles are substituted. A live preview follows your text, selected face/style, color and size (scaled to fit the panel). If CEP cannot load that font, the preview explicitly labels the fallback; the exact native PostScript face is still sent to AE. Use Refresh fonts after activating fonts. Current AE font keeps the default family.
+- **Solid Color:** use the color picker or enter six-digit HEX with or without `#`. Create background makes one full-composition solid at the bottom of the stack. Up to eight recently used colors persist locally and can be selected again; only successful creations enter history.
 
 Shapes and text begin at the playhead. Backgrounds span the entire composition. These controls create new layers; they do not restyle existing layers or change SolidGen's procedural recipes. The compact Quick bar keeps Center anchor and Load settings accessible elsewhere.
 
@@ -193,3 +193,5 @@ Extract the release ZIP, close After Effects, and open **Install MotionAstra.exe
 Keep the `Installer` support folder and `MotionAstra-FX` together with the executable. Windows PowerShell 5.1 and WPF are used locally; no downloads or administrator elevation are requested. The optional CMD launcher remains available for troubleshooting. The executable is unsigned; branding does not provide a code-signing certificate or remove Windows reputation warnings.
 
 Development: build with `powershell.exe -File tools/build-windows-installer.ps1`, then package with `python tools/package-release.py --windows-launcher "dist/Install MotionAstra.exe"`. CI builds on Windows and tests the WPF window and asynchronous installer.
+
+Motion Curve preset buttons show miniature graphs calculated from each preset’s exact cubic control points. The matching preset is highlighted while editing.
