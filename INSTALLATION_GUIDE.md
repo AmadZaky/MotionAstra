@@ -1,255 +1,51 @@
-# Windows graphical installer — 3.0.4 Alpha
+# MotionAstra v3.0.10 Alpha — Windows only
 
-1. Download the release ZIP and choose **Extract All**. Keep all extracted files together.
-2. Close After Effects. Double-click **Install MotionAstra.exe**.
-3. Check the displayed install location, then choose **Install** or **Update**.
-4. If old MotionAstra copies are found, review their paths and confirm replacement. Backups are retained in `%APPDATA%\MotionAstra Backups`.
-5. Wait for **Ready. Set. Create.**, choose **Done**, restart AE, and open **Window → Extensions → MotionAstra FX**.
+This build targets After Effects 2025 on Windows. macOS is not supported, no Mac installer is included, and the panel refuses host commands on macOS. Do not install this package on a Mac. The standalone browser catalog remains a preview only.
 
-The unsigned-CEP checkbox is enabled by default and explicitly controls PlayerDebugMode for CSXS 11/12 in your user registry. If you uncheck it, configure those preferences manually as described below. The installer itself is not digitally signed. Windows may show an unknown-publisher or reputation prompt; the new graphical interface does not remove that limitation. Respect your organization's security policies.
+## Install or update
 
-Installation errors appear in selectable text inside the window. Protected system-wide old copies may require an administrator to move them out of CEP/extensions before retrying. The installer does not automatically request elevation. Cancel is disabled while files are being installed so that backup/rollback can finish safely.
+1. Download the release ZIP from https://github.com/AmadZaky/MotionAstra/releases and select **Extract All**. Use the release asset, not GitHub's source archive.
+2. Close After Effects. Keep the extracted `MotionAstra-FX` folder, `Installer` folder and launcher together.
+3. Double-click **Install MotionAstra.exe**. Review the visible destination, then choose **Install** or **Update**.
+4. If existing copies are detected, review their locations and confirm replacement. Cancel before installation if you do not want to replace them.
+5. Wait for **Ready. Set. Create.**, select **Done**, and restart AE.
+6. Open **Window → Extensions → MotionAstra FX**. Confirm Settings shows **3.0.10**.
 
-For command-line troubleshooting only, **Install MotionAstra.cmd** remains available. The macOS installation flow below is unchanged.
+The correct per-user destination is `%APPDATA%\Adobe\CEP\extensions\MotionAstra-FX`. This is a CEP extension, not a file for After Effects' Plug-ins or ScriptUI Panels directories. No Node, Python, internet connection or administrator access is needed for the normal per-user installation.
 
----
+The installer verifies package checksums before changes, detects existing copies by manifest identity, requests confirmation, and retains backups outside CEP in `%APPDATA%\MotionAstra Backups`. It attempts rollback on failure and reports recovery paths if needed. Cancel is disabled during file replacement so rollback can complete safely. Protected system-wide copies may need to be moved by an administrator before retrying; the installer does not silently elevate.
 
-# MotionAstra FX 2.8.4 — Installation & workflow
+The installer and extension are unsigned. A graphical interface does not provide code signing; Windows may display an unknown-publisher prompt. Follow your organization's security policies. For troubleshooting, `Install MotionAstra.cmd` and `Install MotionAstra.ps1` are supplied as fallback entry points.
 
-MotionAstra is an offline CEP panel for **After Effects 2025 (25.x)**. All JavaScript, icons, styles and previews are bundled. No CDN, npm, server, account, downloaded preset pack or third-party AE plug-in is needed to use the panel. After Effects itself is required; this is not an independent desktop renderer, a UXP plug-in, or a ScriptUI .jsx panel.
+## AE setup
 
-This source release is unsigned. Browser and modeled-host checks are included; actual AE rendering still requires the supplied smoke test. Do not treat the declared host range as certification for every AE build.
+- **Edit → Preferences → Scripting & Expressions:** enable **Allow Scripts to Write Files and Access Network**.
+- **File → Project Settings → Expressions:** select **JavaScript**, not Legacy ExtendScript. The host automation itself still uses ExtendScript.
+- Open a composition before using Create or SolidGen. Select text layers before applying text animation. Select keyframes for Motion Curve.
 
-## Click-to-install (recommended)
+## Manual installation and unsigned CEP settings
 
-1. Download **MotionAstra_FX_v2.8.4-pre-alpha.zip** from the GitHub release assets and **extract all files** to Downloads. Do not run a launcher inside ZIP preview or inside your installed CEP folder.
-2. Close After Effects completely.
-3. Windows: double-click **Install MotionAstra.cmd**. Keep **Install MotionAstra.ps1** beside it; it is the helper, not a second install step. The launcher uses a process-only PowerShell execution policy and does not change the machine policy.
-4. macOS: double-click **Install MotionAstra.command**. The ZIP preserves executable permissions. If macOS blocks this unsigned script, use Finder's **Open** action or follow the OS security prompt for this specific file. If executable permissions were lost during extraction, Terminal can run `bash ` followed by dragging this file into the Terminal window, then Return. The installer does not remove quarantine attributes or disable Gatekeeper.
-5. Review the displayed old-install paths. Type **y** then Return to remove the active copies and install the new version; any other answer cancels. Old files are moved to backups outside CEP instead of permanently erased. No files are merged into the new panel.
-6. Wait for **Installed MotionAstra 2.8.4**, then restart AE and open **Window > Extensions > MotionAstra FX**. Settings must show **2.8.4**.
+Close AE. Back up old copies outside all CEP directories, then copy the full `MotionAstra-FX` folder to `%APPDATA%\Adobe\CEP\extensions\`. The final path must contain `MotionAstra-FX\CSXS\manifest.xml`. Do not merge old and new files.
 
-The ZIP contains a **MotionAstra-FX** folder and the three launcher/helper files above, plus this guide. No Node, Python, npm or network access is needed by the installer.
+The system-wide alternative is `C:\Program Files (x86)\Common Files\Adobe\CEP\extensions\`, which may require administrator access. Keep only one active copy of the `com.motionastra.fx` bundle.
 
-MotionAstra is a CEP panel, so its correct destination is the user's **Adobe/CEP/extensions** folder, not the After Effects **Plug-ins** or **ScriptUI Panels** folders. The installer chooses the user folder automatically and enables unsigned CEP panels through **PlayerDebugMode = 1** for **CSXS.11** and **CSXS.12**. These settings apply to unsigned CEP panels for your user account. Adobe's extension-folder and debug-mode documentation: https://github.com/Adobe-CEP/CEP-Resources/blob/master/CEP_11.x/Documentation/CEP%2011.1%20HTML%20Extension%20Cookbook.md
+The GUI's unsigned-CEP checkbox sets **PlayerDebugMode** for **CSXS.11** and **CSXS.12** in the current-user registry. If doing this manually, create a **String Value (REG_SZ)** named `PlayerDebugMode`, value `1`, under both:
 
-Existing versions are detected by `com.motionastra.fx` in their manifest, even if their folder was renamed. Standard user and system CEP folders are checked. Copies stored elsewhere or with damaged manifests need manual inspection. An unrecognized folder named MotionAstra-FX is never overwritten automatically. If a system-wide copy is protected, move that displayed folder out of CEP using administrator approval and retry; the installer does not silently elevate privileges.
+- `HKEY_CURRENT_USER\Software\Adobe\CSXS.11`
+- `HKEY_CURRENT_USER\Software\Adobe\CSXS.12`
 
-Backups and a RESTORE.txt path map are stored in **%APPDATA%\MotionAstra Backups** (Windows) or **~/Library/Application Support/MotionAstra Backups** (macOS). If installation fails after moving old copies, the installer attempts to restore them and reports any manual recovery paths. Keep backups outside CEP to prevent duplicate loading. Once the new version works, you can delete its backup folder manually.
+Restart Adobe applications afterward. Set those values to `0` or remove them to restore unsigned-panel restrictions.
 
-If checksum verification fails, download and extract the full release again. If AE is still running, close it and rerun the launcher. If your organization's security policy blocks scripts, use the manual installation below. AE's **Allow Scripts to Write Files and Access Network** preference is still configured inside AE as described later in this guide.
+## Troubleshooting
 
-## 1. Upgrade or manual installation
+- **Panel missing:** check nesting, bundle duplicates, PlayerDebugMode, and restart AE. AEFT `[18.0,25.9]` is the declared range; AE 2025 is the target. This does not advertise AE 2026 compatibility.
+- **Blank panel:** reinstall the entire release. Assets are bundled offline. The included `.debug` file configures CEP DevTools at port 8098; inspect the panel console through `http://localhost:8098` while AE runs, if that host exposes remote debugging. Check `.debug` for the exact configured port. Enable CEP logs with a current-user string `LogLevel=6` under the appropriate CSXS key when diagnosing startup.
+- **Checksum error:** download and extract the complete release again. Do not mix files across versions.
+- **Installation error:** copy the selectable error from the installer. Check permissions, close AE, and inspect the reported backup/restore paths before retrying.
+- **Apply/Generate failure:** use **Settings → Show connection report**. The report includes extension path, host version and recent errors. Check the timeline before retrying an operation whose completion is uncertain.
+- **Font preview fallback:** CEP may not load every font available to AE. The preview explicitly labels fallback; Create still passes the exact selected native font face to AE.
+- **Updating Text Switcher:** select the existing instance, Quick Tools → Load settings → Update. Animate `MA2 choice` in Choice slider mode; Automatic mode follows time.
 
-1. Close After Effects.
-2. Extract **MotionAstra_FX_v2.8.4-pre-alpha.zip**.
-3. Back up the old MotionAstra-FX folder **outside** all CEP extension directories. Keep only one installed `com.motionastra.fx` bundle. Do not merge individual v2.0.1 and v2.5 files.
-4. Copy the complete **MotionAstra-FX** folder to one location below:
+## Verification limits
 
-| OS | Recommended per-user path | System-wide alternative |
-|---|---|---|
-| Windows | `%APPDATA%\Adobe\CEP\extensions\` | `C:\Program Files (x86)\Common Files\Adobe\CEP\extensions\` |
-| macOS | `~/Library/Application Support/Adobe/CEP/extensions/` | `/Library/Application Support/Adobe/CEP/extensions/` |
-
-The final path must end in `MotionAstra-FX/CSXS/manifest.xml`, with `index.html` alongside CSXS. Do not put it in ScriptUI Panels. Per-user installation does not need administrator privileges.
-
-The release installers are beside the MotionAstra-FX folder, not inside it. The GitHub Source code ZIP is not the ready-to-install release asset; developers can create that package with `python3 tools/package-release.py`. Manual installation remains supported.
-
-## 2. Allow this unsigned development panel
-
-Close all Adobe applications first. Windows **Registry Editor**: create `HKEY_CURRENT_USER\Software\Adobe\CSXS.12` and `CSXS.11`. In each key, create a **String Value (REG_SZ)** named `PlayerDebugMode`, value `1`. It is not a DWORD. Equivalent Command Prompt commands:
-
-```bat
-reg add "HKCU\Software\Adobe\CSXS.12" /v PlayerDebugMode /t REG_SZ /d 1 /f
-reg add "HKCU\Software\Adobe\CSXS.11" /v PlayerDebugMode /t REG_SZ /d 1 /f
-```
-
-macOS Terminal:
-
-```sh
-defaults write com.adobe.CSXS.12 PlayerDebugMode -string "1"
-defaults write com.adobe.CSXS.11 PlayerDebugMode -string "1"
-defaults read com.adobe.CSXS.12 PlayerDebugMode
-```
-
-CEP 12 stores its preference in `~/Library/Preferences/com.adobe.CSXS.12.plist`. Use `defaults` instead of editing a cached binary plist. Restart Adobe apps; log out/in if macOS keeps stale preferences. To restore normal unsigned-panel restrictions, remove these values or set them to `0`.
-
-## 3. AE 2025 preferences and first launch
-
-1. Windows: **Edit → Preferences → Scripting & Expressions**. macOS: **After Effects → Settings/Preferences → Scripting & Expressions**.
-2. Enable **Allow Scripts to Write Files and Access Network**. No online service is used; the smoke test uses file access to save its report.
-3. **File → Project Settings → Expressions → JavaScript**. Do not use Legacy ExtendScript for generated property expressions. The host automation is still ExtendScript, which is separate from the project expression engine.
-4. Restart AE. Open **Window → Extensions → MotionAstra FX**.
-5. Open a composition. The footer shows the composition and selected-layer count. Settings shows version **2.5.4**.
-
-The manifest uses **AEFT `[18.0,25.9]`**, CSXS minimum 11.0, minimum panel width 300px and preferred width 380px. `PHXS` is Photoshop, not After Effects, and is deliberately not advertised: this engine uses AE-only APIs. The requested range excludes AE 2026/26.x. CEP 11 and 12 host loading is intended; AE 2025 is the target for native validation.
-
-## New in 2.5.4: Create bar
-
-The refreshed UI uses black surfaces, orange accents and minimal preview cards. The main tabs remain Text FX, Backgrounds and Quick Tools. Expand **Create** in the header to show layer shortcuts:
-
-- **New Shape:** creates a centered, filled, editable rectangle. Width/height are capped at 320px and 40% of composition dimensions.
-- **New Text:** creates an editable text layer with “MotionAstra” as its text.
-- **New Solid:** creates a full-comp solid using the swatch beside the buttons.
-
-The color swatch applies to newly created shapes and solids, not existing layers or text. Creation works without a selection, selects only the new layer, starts at the playhead and ends at the composition end. Each action is undoable. The original layers stay intact. Near the final frame, the start is capped to leave one visible frame. These are regular AE layers, not preset-owned artwork.
-
-The standalone catalog shows the same Create bar with AE actions disabled. Canvas previews are illustrative, not native AE renders.
-
-## 4. Browse, Apply and Customize
-
-- Search filters the active category immediately. Text FX and Backgrounds contain 10 cards each. The third tab opens Quick Tools.
-- Hover or focus a card to play an illustrative canvas preview. These are motion studies, not native AE renders. Native appearance depends on text, frame size and underlying footage.
-- **Apply** on a card uses defaults. **Customize** opens duration, appearance, colors and other relevant controls before Apply.
-- Select an applied layer and click **Load selected FX** to read its native controls into the inspector. **Update selected FX** changes matching selected instances. A mixed selection reports skipped layers.
-- Numeric values, color pickers and checkboxes become native `MA2 …` Effect Controls. Do not rename those controls. Strings such as phrases/prefixes need Update; background Count changes rebuild generated masks on Update.
-- One MotionAstra instance per layer. Remove before changing that layer to a different recipe. Existing v2.0.1 recipes remain loadable through Load selected FX, even though their old cards are absent from the new 30-card catalog.
-- Menu and Create can collapse independently. Quick Tools is the third top tab; Settings remains in the Create shortcuts row. Main content scrolls; inspector controls scroll separately. At very short heights, scroll the entire inspector to reach Apply. Notifications occupy a reserved footer area and fade after 3.5 seconds; History retains details.
-
-## 5. Text FX
-
-Select unlocked Text layers. With no selection, Apply creates a Text layer at the CTI. With an incompatible selection, it reports the mismatch instead of creating an unrelated layer. Animation starts at each layer's in-point.
-
-Counter Text and Text Switcher retain the v2 workflow: exact start/end numbers, decimals, formatting and prefix/suffix; or up to 12 phrases with a Choice slider/automatic switching. Matrix Code, Counter and Switcher protect existing Source Text keyframes/expressions. Use a clean text layer for those recipes.
-
-Other presets create native Text Animators and, where appropriate, native Gradient Ramp, Turbulent Displace, Gaussian Blur, Bevel Alpha or Drop Shadow. **3D Glass and Gold Extrusion are 2D material/depth simulations**, not renderer-level 3D geometry. See EFFECTS_REFERENCE.md for precise implementations.
-
-Loop is **OFF** by default. Motion holds at its final generated state. Existing footage, user keyframes and unrelated effects keep their own motion. Reverse changes progress direction. Enable **Use progress slider** to drive progress manually. For direct progress mapping choose Linear easing.
-
-## 6. Backgrounds
-
-Select one or more unlocked **Solid layers** to apply. With no selection, a new composition-sized solid is created at the bottom for the composition duration. Precomp/video/text selections are skipped; to generate a background for the active comp, deselect layers first.
-
-Space Nebula and Dark Smoke use native Fractal Noise and Tint. Liquid Gradient uses Gradient Ramp and Turbulent Displace. Other backgrounds use native effects and expression-generated solid masks for grids, rays, rings and soft particles. This is deterministic procedural artwork, not a particle-physics simulator.
-
-Geometric fields and the Glassmorphism card have transparent gaps: place a colored solid beneath them if you need a fully opaque background plate. Nebula, Smoke and Liquid Gradient fill the frame. Use a clean solid for predictable results; your existing masks/effects are preserved and can change the composite.
-
-Changing Count rebuilds only masks named `MA2 artwork …`. Other native sliders respond live. Text/background clocks start at inPoint and use `[FX End]` for duration. Drag End to retime. Update preserves a dragged End unless Duration also changes. Looping is explicit, never forced by a preset name.
-
-## 7. Navigation update in 2.5.4
-
-Top navigation is **Text FX (10) | Backgrounds (10) | Quick Tools**. Quick Tools directly opens the anchor grid, layer arrangement, parenting, easing, appearance and removal controls. It is no longer hidden in the Create shortcuts row. Search is hidden while viewing tools/settings.
-
-All 10 transition presets and their creation/update engine have been removed. Existing transition layers already saved in projects are not automatically deleted or changed. To remove their MotionAstra effects deliberately, select those layers and use Quick Tools → Remove MotionAstra FX; this disables their coverage layers. Old transition instances can no longer be loaded/updated by the inspector.
-
-## 8. Tools and removal
-
-Tools retain the v2 anchor grid/custom percentages, parenting, X/Y/Z offset, six arrangement modes, stagger, rename, unlock, selected-key easing and text appearance.
-
-Anchor supports Text, Shape, Solid, Footage, Precomp and Null layers, with keyed/separated Position, parenting and 3D. Cameras/lights have no Anchor Point. Locked layers are skipped. **Keep artwork at the playhead** preserves that frame using AE's coordinate conversion; changing the pivot can alter other frames when scale/rotation animate. Existing keys and expressions are offset, not deleted.
-
-**Remove MotionAstra FX** removes generated controls, expressions, text animators, masks and tagged markers from selected unlocked layers, preserving unrelated effects. **Erase ALL effects** also removes the entire native/third-party Effects stack on those layers; unrelated expressions and non-MotionAstra text animators remain. Both require an inline confirmation. They never delete unselected layers.
-
-Removing a transition disables its layer so the white coverage source cannot accidentally obscure footage. Its generated project source is retained; remove unused sources manually if desired. Removing a procedural background leaves its original solid. Original user comments and non-MotionAstra markers are retained. Undo is available; multi-layer operations report successful and skipped layers.
-
-## 9. Troubleshooting
-
-**Panel missing:** check exact nesting, only one installed bundle, host version range, correct REG_SZ debug values and restart. AE 26.x is intentionally outside this manifest. The runtime-specific debug preference must match the CEP runtime installed with your AE.
-
-**Blank/white panel:** all files must be copied, including `js/`, `jsx/`, `vendor/` and `presets.json`. Open the panel, then inspect `http://localhost:8098/` with a Chromium browser. `.debug` sets port 8098 for AEFT. Change that port if occupied. Console/Network identifies missing assets. There is no CDN to unblock.
-
-Temporary diagnostic logs:
-
-```bat
-reg add "HKCU\Software\Adobe\CSXS.12" /v LogLevel /t REG_SZ /d 6 /f
-```
-
-```sh
-defaults write com.adobe.CSXS.12 LogLevel -string "6"
-```
-
-Inspect `%TEMP%` on Windows or `~/Library/Logs/CSXS/` on macOS; restore LogLevel to 1 afterward. If logs explicitly show a GPU failure, temporarily test `--disable-gpu` in a manifest CEFCommandLine parameter, then remove it after diagnosis.
-
-**Unexpected end of JSON / invalid checkbox:** replace the entire extension rather than mixing versions. The bridge validates replies and recovers a lost response without repeating the mutation. Boolean controls accept true/false and canonical 0/1 values; the string `false` is not treated as ON.
-
-**Native effect/schema error:** native match names and explicit property mappings are isolated in hostscript.jsx. Run the AE smoke test and inspect the report for your AE build. The modeled-host tests cannot establish Adobe's actual schemas. Failed fresh applications remove their own partial effects; an Update can partially change a layer, in which case use one Undo before retrying.
-
-**Native controls disappeared:** do not rename/delete `MA2` controls or encoded layer-comment metadata. Undo the edit or Remove/reapply deliberately. Legacy v1 instances are not editable in this inspector; remove them before applying a v2.5 recipe. Existing v1 projects are not automatically changed.
-
-
-
-## 10. Native validation before production work
-
-In a disposable AE project run **File → Scripts → Run Script File → tests/AE_SMOKE_TEST.jsx**. It creates 20 effect fixtures, checks generated expressions, exercises anchors/tools and offers a report. Inspect failures and RAM-preview every fixture over meaningful footage. Browser previews do not prove AE rendering or native effect parameter compatibility.
-
-Developer tests require Node; the UI test additionally needs Playwright and Chromium. None of those are panel runtime dependencies. See VALIDATION.md.
-
-## Official references
-
-- CEP resources, host IDs, manifest and runtime: https://github.com/Adobe-CEP/CEP-Resources
-- AE layer properties / adjustment behavior: https://helpx.adobe.com/after-effects/desktop/work-with-layers/layer-properties/layer-properties.html
-- Distortion effects: https://helpx.adobe.com/after-effects/using/distort-effects.html
-- Noise and grain: https://helpx.adobe.com/after-effects/using/noise-grain-effects.html
-
-MotionAstra uses an original UI and procedural recipes. It includes no proprietary Mister Horse or Motion Bro assets/code.
-
-## 2.5.3 checkbox hotfix
-
-Fixes overly narrow checkbox normalization. Loop, Reverse and Manual Progress accept booleans, 0/1, explicit on/off/checked/unchecked text, numeric strings such as 0.0/1.0, and single-value containers. Native boxed primitives are unwrapped. Native expression-driven values within 0–1 use the same >0.5 threshold as the generated animation clock. Unknown values are still rejected instead of guessed.
-
-The inspector no longer uses string truthiness, so the string false stays OFF. An invalid loaded value blocks Apply/Update until you explicitly choose its checkbox state. Errors identify panel vs native-control input and show the rejected checkbox value.
-
-Quit AE completely, replace the entire extension folder, restart, and confirm Settings shows 2.5.4. Load the affected layer, set Loop OFF, then Update. If the failure happened before applying an instance, reset the preset and Apply. No project-wide changes are made by installing the patch. If it still fails, copy the full new message from History, including the received value.
-
-The exact value that caused the reported error was not available. Compatibility cases were reproduced in a host model and checked in Chromium; this is not confirmation of the user's particular native AE runtime.
-
-## 2.5.4 JSON transport hotfix
-
-The reported Keep artwork error contains number NaN even though the panel sends a boolean. The host parser now reads true, false and null directly, independently of numeric conversion or regex capture identity. A startup self-check verifies those values before any operation. Invalid numeric values remain errors; NaN is never silently interpreted as OFF.
-
-A regression reproduces the exact error with simulated string-like regex captures and passes after this change. This identifies a fragile parser boundary, but does not establish that Adobe uses those capture types in the affected installation. Native AE verification is still required.
-
-Quit After Effects completely, replace the entire MotionAstra-FX folder, restart and confirm Settings shows 2.5.4. Select a visual layer, enable Keep artwork and retry the anchor tool. If the new transport self-check fails, copy its full message.
-
-## 2.5.5 — clearer Update and bottom Apply
-
-Update on a selected layer without the chosen preset now gives Apply/Load guidance without an error prefix or unnecessary Undo advice. It never applies a new preset implicitly. Apply appears full-width below Customize on every card, and last in the inspector footer. Host regression tests reproduce the original Soft Bokeh message and verify no mutation on mismatched layers. Native AE and browser rendering of this revision remain unverified.
-
-## 2.5.6 — automatic background layers
-
-Background Apply always creates a dedicated layer at the bottom of the active composition and selects it. Background Update edits matching selected instances; if none match (including no selection), it creates one new background using the inspector parameters. Unrelated selected layers remain unchanged. Text Update keeps its existing validation. This supersedes earlier instructions requiring a selected solid or deselecting layers.
-
-All ten backgrounds are covered by modeled-host creation/update regressions. Native AE rendering and the revised browser UI still require manual verification.
-
-## v2.8 — Pre-alpha
-
-Text FX require a selected text layer and never create one implicitly. Use New Text if needed. Background cards offer Customize and Generate Background. Generation needs only an active composition and creates its own layer; selected layers are untouched. Background Update retains the v2.5.6 update-or-generate behavior. The background UI uses a dedicated generateBackground host action. CEP uses numeric version 2.8.0; the GitHub prerelease tag is v2.8-pre-alpha. Native AE rendering and browser layout remain unverified; this is a pre-alpha release.
-
-### Stability build 2.8.0-stability.1 (same v2.8 Pre-alpha release)
-
-- A late status response cannot release the in-flight mutation lock.
-- Customize values, including colors, remain in per-preset drafts for this panel session and are used by card buttons. Reset explicitly restores defaults.
-- Generate updates matching selected background instances. Deselect all backgrounds to intentionally generate a new copy. Existing duplicate layers are not deleted automatically.
-- Color/slider updates preserve background masks and native effects. Count changes rebuild geometry; older builds rebuild once to migrate expressions.
-- Preview rendering pauses during host operations, is capped at 30 fps, and stops after one-shot animations.
-- Build checks reload an older host implementation even though the public version remains 2.8.0. Settings displays the build identifier.
-
-Thirteen host/state/preview suites pass locally, including reproductions of the late-status race, discarded card colors, repeat generation and idle preview. The release workflow also gates publication on real Chromium UI/checkbox tests. This does not measure native AE render performance or certify native effect behavior. Replace the full extension folder and restart AE. Old duplicated layers must be inspected and removed manually if unwanted.
-
-## 2.8.1 current behavior (supersedes earlier Loop OFF guidance)
-
-The loop checkbox is replaced by Ping-Pong, Cycle (default), and Continue. Continue advances time beyond the duration; bounded text reveals finish naturally. Manual Progress overrides the mode. Old instances keep their stored expressions until Update, which migrates them to the selected mode. Generate writes colors directly into native Ramp/Tint values. Background color changes apply on Generate/Update. Only one layer is created; selected matching backgrounds are updated instead. Apply/Generate and Update are adjacent compact bottom buttons; Load FX Settings is in the Tools Bar.
-
-Use the ZIP attached to the v2.8.1-pre-alpha release. Future code pushes must increment the patch via tools/bump-version.py; CI verifies the increment before publishing. Native rendering is still not certified.
-
-## MotionAstra 2.8.2 — Pre-alpha
-
-- All ten Text FX expose a color picker; Apply/Update writes native RGBA colors. Gold/Glass keep their shaded gradients.
-- Panning Transition replaces Film Stamp in the Text FX catalog, with direction, distance and fade controls. Existing Film Stamp instances remain loadable.
-- Loop mode now includes None (play once, then hold). Static Background freezes the generated design at its start, overriding reverse/manual progress.
-- Background duration is a writable numeric field in seconds.
-- Quick Tools now align 2D visual layers to composition edges/center and distribute their centers horizontally or vertically. Supports 2D parents; 3D layers/parents are skipped.
-- The Create bar adds an installed-font selector: Load fonts, choose a font, then New Text. Current AE font remains the default.
-- Preserves single-layer background generation, direct background colors and compact bottom Apply/Update actions.
-
-Replace the full extension folder, restart AE, and confirm 2.8.2 in Settings. For existing Text FX, Load FX Settings, choose a color, then Update to migrate its color binding. Native AE rendering still requires verification; modeled-host and Chromium tests are release gates.
-
-## 3.0 Alpha connection troubleshooting
-
-Close After Effects before replacing the extension. Install the complete release ZIP, restart AE, and check that Settings reports MotionAstra 3.0.0. If Apply or Generate fails, choose **Settings → Show connection report**, then copy the selected report. It includes the actual extension path, host version, native effect availability and recent error messages. The report does not read project source text or footage contents; layer/comp names may appear.
-
-Glass Surface processes the selected layer's own pixels; it does not sample the composition behind it. Native rendering must be checked in AE.
-
-## v3.0.6 — Create workspace
-
-After updating and restarting AE, open the **Create** tab beside Quick Tools. Choose Circle/Square/Polygon under Shape. For text, choose a font family and its installed style separately, set size/color, and click Create text. Refresh fonts reloads AE's native font list. For a flat background, choose a color or type six-digit HEX, then Create background. The new solid spans the composition at the bottom of the stack. Click a recent-color swatch to reuse it. The previous creation bar has moved into this tab; Center anchor and Load settings remain in the Quick bar.
+Release CI runs installer, rollback/integrity, WPF UI, ES3 parsing, modeled-host and Chromium UI tests on Windows. These do not render a real After Effects project. Run the bundled `tests/AE_SMOKE_TEST.jsx` and `tests/AE_YU_SMOKE_TEST.jsx` on a disposable project for native verification; check fonts, expressions, colors, keyframes and Undo before production use.

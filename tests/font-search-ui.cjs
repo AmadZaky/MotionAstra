@@ -16,7 +16,7 @@ const assert=require('node:assert/strict'),path=require('node:path'),{create}=re
  page.on('pageerror',e=>errors.push(e.message));
  await page.exposeFunction('hostRpc',p=>{calls.push(p);if(failBackground&&p.name==='newSolid')return {ok:false,message:'Test failure'};return env.rpc(p);});
  await page.addInitScript(()=>{const bridge={isAvailable:()=>true,isReady:()=>true,call:async p=>{const r=await window.hostRpc(p);if(!r.ok)throw Error(r.message);return r;}};Object.defineProperty(window,'MotionAstraBridge',{get:()=>bridge,set(){}});});
- await page.goto('file://'+path.resolve(__dirname,'../index.html'));
+ await page.goto(require('node:url').pathToFileURL(path.resolve(__dirname,'../index.html')).href);
  assert.equal(await page.locator('#quick [data-create]').count(),0);
  await page.locator('[data-tab="Create"]').click();
  await page.waitForFunction(()=>document.querySelector('#new-text-font').options.length===3);
@@ -66,7 +66,7 @@ const assert=require('node:assert/strict'),path=require('node:path'),{create}=re
  for(const width of [300,380,1200]){await page.setViewportSize({width,height:650});assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));}
  await page.locator('main').evaluate(e=>e.scrollTop=0);
  await page.screenshot({path:'/tmp/motionastra-create.png',fullPage:true});
- const offline=await browser.newPage();await offline.goto('file://'+path.resolve(__dirname,'../catalog.html'));await offline.locator('[data-tab="Create"]').click();assert(await offline.locator('[data-create="newText"]').isDisabled());
+ const offline=await browser.newPage();await offline.goto(require('node:url').pathToFileURL(path.resolve(__dirname,'../catalog.html')).href);await offline.locator('[data-tab="Create"]').click();assert(await offline.locator('[data-create="newText"]').isDisabled());
  assert.deepEqual(errors,[]);await browser.close();
  console.log('PASS: Create tab, shape geometry, family/style font selection, text size/color, HEX validation, picker sync, recent-color persistence and failure guard, responsive/offline UI.');
 })().catch(e=>{console.error(e);process.exit(1);});

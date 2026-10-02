@@ -6,9 +6,9 @@ with tempfile.TemporaryDirectory() as t:
  subprocess.run([sys.executable,str(root/'tools/package-release.py'),'--output',str(out)],check=True)
  with zipfile.ZipFile(out) as z:
   names=z.namelist()
-  for name in ['Install MotionAstra.cmd','Install MotionAstra.ps1','Install MotionAstra.command','INSTALLATION_GUIDE.md','MotionAstra-FX/CSXS/manifest.xml','MotionAstra-FX/jsx/hostscript.jsx','Installer/WindowsUI.ps1','Installer/Window.xaml','Installer/Backend.ps1']:
+  for name in ['Install MotionAstra.cmd','Install MotionAstra.ps1','INSTALLATION_GUIDE.md','MotionAstra-FX/CSXS/manifest.xml','MotionAstra-FX/jsx/hostscript.jsx','Installer/WindowsUI.ps1','Installer/Window.xaml','Installer/Backend.ps1']:
    assert name in names,name
-  assert z.getinfo('Install MotionAstra.command').external_attr>>16 & 0o111
+  assert not any(n.endswith('.command') for n in names), 'Windows-only package must not ship macOS launchers'
   assert not any(n.endswith(('fx-tools.js','fx-tools-data.js','fx-tools.jsx','fx-tools.json')) for n in names)
   sums=z.read('MotionAstra-FX/SHA256SUMS').decode().splitlines()
   checked=set()
@@ -17,4 +17,4 @@ with tempfile.TemporaryDirectory() as t:
    assert hashlib.sha256(z.read(key)).hexdigest()==expected;checked.add(key)
   assert checked=={n for n in names if n.startswith('MotionAstra-FX/') and not n.endswith('/SHA256SUMS')}
   assert not any('/node_modules/' in n or '/.github/' in n for n in names)
- print('PASS: ZIP includes panel, clickable launchers, executable macOS permissions and complete checksums.')
+ print('PASS: ZIP includes panel, Windows launchers only and complete checksums.')

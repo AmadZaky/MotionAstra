@@ -1,11 +1,11 @@
-/* MotionAstra CEP transport v3.0.9.
+/* MotionAstra CEP transport v3.0.10.
  * Host files load by absolute path; all replies are tagged and request-correlated.
  * Empty callbacks recover the stored reply, NEVER replay the host mutation.
  */
 (function (root) {
   "use strict";
-  const VERSION = "3.0.9";
-  const BUILD = "3.0.9";
+  const VERSION = "3.0.10";
+  const BUILD = "3.0.10";
   const PREFIX = "MAFX1:";
   const ERROR_PREFIX = "MAFX1E:";
   const available = !!root.__adobe_cep__;
@@ -106,6 +106,8 @@
   async function initialize() {
     // Verify the actual AE runtime on each queued request. CEP can outlive it.
     ready = false;
+    if (root.navigator && /Mac/i.test(root.navigator.platform || ""))
+      throw error("This build supports Windows only. macOS support is unavailable.");
     if (!available)
       throw error(
         "Browser preview only. Open this panel inside After Effects."

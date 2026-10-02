@@ -24,7 +24,7 @@ with zipfile.ZipFile(args.output,'w',zipfile.ZIP_DEFLATED) as z:
  if args.windows_launcher: put('Install MotionAstra.exe',args.windows_launcher.read_bytes())
  for source,destination in [('installer/windows/WindowsUI.ps1','Installer/WindowsUI.ps1'),('installer/windows/Window.xaml','Installer/Window.xaml'),('install-windows.ps1','Installer/Backend.ps1')]:
   put(destination,(root/source).read_bytes())
- for source,destination,mode in [('Install MotionAstra.cmd','Install MotionAstra.cmd',0o644),('install-windows.ps1','Install MotionAstra.ps1',0o644),('install-macos.command','Install MotionAstra.command',0o755),('INSTALLATION_GUIDE.md','INSTALLATION_GUIDE.md',0o644)]:
+ for source,destination,mode in [('Install MotionAstra.cmd','Install MotionAstra.cmd',0o644),('install-windows.ps1','Install MotionAstra.ps1',0o644),('INSTALLATION_GUIDE.md','INSTALLATION_GUIDE.md',0o644)]:
   data=(root/source).read_bytes()
   if destination.endswith('.cmd'):data=data.decode().replace('\r\n','\n').replace('\n','\r\n').encode()
   put(destination,data,mode)

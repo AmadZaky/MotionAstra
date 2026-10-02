@@ -1,10 +1,15 @@
 const assert=require('node:assert/strict');
 const {environment}=require('./bridge-harness.cjs');
 (async () => {
+  const mac = environment({platform:'MacIntel'});
+  await assert.rejects(mac.bridge.call({action:'tool',name:'unlock'}), /Windows only/);
+  assert.equal(mac.metrics.evaluations,0,'Unsupported OS must never evaluate host scripts');
+  assert.equal(mac.metrics.writes,0);
+
   for (const drop of [undefined, '', 'undefined', 'null', 'EvalScript error.']) {
     const env = environment(drop === undefined ? {} : { drop });
     const status = await env.bridge.call({ action: 'status' });
-    assert.equal(status.hostVersion, '3.0.9');
+    assert.equal(status.hostVersion, '3.0.10');
     assert.equal(env.metrics.loads.length, 2, 'Load core data and host only; optional modules are lazy');
     const cleaned = await env.bridge.call({ action: 'tool', name: 'unlock' });
     assert.equal(cleaned.changed,1);
@@ -21,7 +26,7 @@ const {environment}=require('./bridge-harness.cjs');
     [{ malformed: true }, /damaged reply/]
   ]) await assert.rejects(environment(options).bridge.call({ action: 'status' }), expected);
 
-  const oldBuild=environment();oldBuild.host.MotionAstra={version:'3.0.9',build:'previous',dispatch(){throw Error('Stale host reused');}};
+  const oldBuild=environment();oldBuild.host.MotionAstra={version:'3.0.10',build:'previous',dispatch(){throw Error('Stale host reused');}};
   await oldBuild.bridge.call({action:'status'});assert.equal(oldBuild.metrics.loads.length,2,'Same-version hotfix must reload stale host build');
   const noReply = environment({ loseMailbox: true });
   await assert.rejects(noReply.bridge.call({ action: 'tool', name: 'unlock' }), /not retried/);

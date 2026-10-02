@@ -1,6 +1,6 @@
 const {chromium}=require(process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES?process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES+'/playwright':'playwright'),assert=require('node:assert/strict'),path=require('node:path');
 (async()=>{const browser=await chromium.launch({headless:true,executablePath:process.env.CHROMIUM_PATH,args:['--no-sandbox']});const page=await browser.newPage({viewport:{width:380,height:850}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
-await page.goto('file://'+path.resolve(__dirname,'../index.html'));
+await page.goto(require('node:url').pathToFileURL(path.resolve(__dirname,'../index.html')).href);
 assert.equal(await page.locator('[data-tab="Text"],#yu-load,#yu-search').count(),0);
 assert.equal(await page.locator('#yu-browser #library .card').count(),6);assert.equal(await page.locator('.yu-card').count(),120);
 assert.match(await page.locator('#library-title').textContent(),/Text Tools FX/);

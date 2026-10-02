@@ -1,8 +1,9 @@
-# MotionAstra v3.0.9 — Alpha
+# MotionAstra v3.0.10 — Alpha (Windows only)
 
-- Create now shows Text, Shape, then Solid Color.
-- Added a live font preview following content, selected native font face/style, color and size (scaled for the panel). Fonts unavailable to CEP show an explicit fallback notice; AE still receives the exact selected font.
-- Text Tools FX can be collapsed within Text Animate. The choice persists between sessions and does not hide SolidGen.
-- Each Motion Curve preset now displays its actual cubic curve with an active-preset highlight.
+- Withdraws macOS support for this build; removes its installer from the repository and release package.
+- Blocks host commands on macOS before loading or executing ExtendScript.
+- Runs installer, graphical UI, host regression and browser release checks on Windows; no macOS runner is required.
+- Updates browser test file URLs for Windows paths and documents the Windows-only installation flow.
+- Retains v3.0.9 font previews, collapsible Text Tools FX, curve thumbnails and Windows backup/rollback/integrity behavior.
 
-No FX engine or installer behavior changes. Browser regression checks cover the new preview, collapsible section and curve thumbnails. Rendering inside native After Effects remains a manual verification step.
+Close AE, extract the full ZIP, then launch Install MotionAstra.exe. Check Settings for 3.0.10. The package is unsigned. Automated Windows tests do not replace native After Effects rendering verification.

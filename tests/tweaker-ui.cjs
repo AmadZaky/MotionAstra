@@ -4,7 +4,7 @@ const {chromium}=require(process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES?process.
  const browser=await chromium.launch({headless:true,executablePath:process.env.CHROMIUM_PATH,args:['--no-sandbox']}),page=await browser.newPage({viewport:{width:380,height:850}}),errors=[];
  page.on('pageerror',x=>errors.push(x.message));await page.exposeFunction('hostRpc',a=>e.rpc(a));
  await page.addInitScript(()=>{const bridge={isAvailable:()=>true,isReady:()=>true,call:async a=>{const r=await window.hostRpc(a);if(a.action!=='status')window.lastReply=r;if(!r.ok)throw Error(r.message);return r;}};Object.defineProperty(window,'MotionAstraBridge',{get:()=>bridge,set(){}});});
- await page.goto('file://'+path.resolve(__dirname,'../index.html'));assert.equal(await page.locator('#control-layout').inputValue(),'compact');
+ await page.goto(require('node:url').pathToFileURL(path.resolve(__dirname,'../index.html')).href);assert.equal(await page.locator('#control-layout').inputValue(),'compact');
  await page.locator('[data-tab="Tools"]').click();await page.locator('#tweaker-load').click();await page.waitForFunction(()=>document.querySelector('#loaded-layout').textContent==='Individual');
  assert(await page.locator('#apply').isHidden());assert(await page.locator('#compact-fx').isVisible());
  await page.locator('#compact-fx').click();await page.waitForFunction(()=>document.querySelector('#loaded-layout').textContent==='Compact');assert.equal(l.fx.items.filter(x=>x.name.startsWith('MA2 ')&&!x.name.startsWith('MA2 native ')).length,1);

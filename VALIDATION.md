@@ -1,3 +1,7 @@
+# Current build: Windows only
+
+As of v3.0.10, release CI runs on Windows. macOS support and its installer are removed; earlier entries below are historical and do not describe current platform support. Native AE rendering remains a separate manual check.
+
 # Validation — MotionAstra 2.5.4
 
 ## Automated coverage and run status

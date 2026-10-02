@@ -26,7 +26,7 @@ function environment(options = {}) {
     vm.runInContext(fs.readFileSync(local, 'utf8'), host, { filename: local });
   }};
   const extension = 'C:\\CEP\\User "Åstra"\\MotionAstra-FX';
-  const window = { __adobe_cep__: {}, SystemPath: { EXTENSION: 'extension' }, CSInterface: function () {
+  const window = { navigator: { platform: options.platform || 'Win32' }, __adobe_cep__: {}, SystemPath: { EXTENSION: 'extension' }, CSInterface: function () {
     this.getSystemPath = () => extension;
     this.evalScript = (source, callback) => {
       metrics.evaluations++;

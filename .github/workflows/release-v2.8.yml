@@ -6,15 +6,16 @@ on:
 concurrency:
   group: motionastra-release
   cancel-in-progress: false
+env:
+  PYTHONUTF8: "1"
 permissions:
   contents: write
+defaults:
+  run:
+    shell: bash
 jobs:
   installer-tests:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [windows-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: windows-latest
     steps:
       - name: Get exact source revision
         shell: bash
@@ -27,22 +28,18 @@ jobs:
           git fetch --depth=1 origin "$SOURCE_SHA"
           git checkout --detach FETCH_HEAD
       - name: Verify Windows installer
-        if: runner.os == 'Windows'
         shell: powershell
         run: ./tests/installers-windows.ps1
       - name: Build Windows graphical installer
-        if: runner.os == 'Windows'
         shell: powershell
         run: ./tools/build-windows-installer.ps1
       - name: Verify Windows graphical workflow
-        if: runner.os == 'Windows'
         shell: powershell
         run: |
           powershell.exe -NoProfile -STA -File ./tests/installer-ui-windows.ps1
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           powershell.exe -NoProfile -STA -File ./tests/installer-window-windows.ps1
       - name: Upload Windows installer
-        if: runner.os == 'Windows'
         uses: actions/upload-artifact@v4
         with:
           name: windows-installer
@@ -50,14 +47,9 @@ jobs:
             dist/Install MotionAstra.exe
             dist/installer-preview.png
           if-no-files-found: error
-      - name: Verify macOS installer
-        if: runner.os == 'macOS'
-        run: |
-          bash -n install-macos.command
-          python3 tests/installers.py
   release:
     needs: installer-tests
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: Get exact source revision
         env:
@@ -69,12 +61,12 @@ jobs:
           git fetch --depth=2 origin "$SOURCE_SHA"
           git checkout --detach FETCH_HEAD
       - name: Verify patch version
-        run: python3 tools/check-version.py
+        run: python tools/check-version.py
       - name: Verify ExtendScript compatibility and packaging
         run: |
           npm install --no-save --package-lock=false acorn@8.15.0
           node tests/es3.cjs
-          python3 tests/package.py
+          python tests/package.py
       - name: Verify host tests
         run: |
           for test in static engine expressions bridge tools create-tools checkboxes parser-boundary update-target background-create fx-target panel-state background-stability preview-idle loop-modes background-colors loop-migration features-282 compact-controls switcher-choice yu-text motion-curve fx-tools module-isolation smart-apply bridge-lifecycle glass-surface fxtools-native-contract; do
@@ -83,7 +75,7 @@ jobs:
       - name: Verify browser workflow
         run: |
           npm install --no-save --package-lock=false playwright@1.56.1
-          npx playwright install --with-deps chromium
+          npx playwright install chromium
           node tests/ui.cjs
           node tests/checkbox-ui.cjs
           node tests/tweaker-ui.cjs
@@ -98,7 +90,7 @@ jobs:
           name: windows-installer
           path: dist
       - name: Package extension
-        run: python3 tools/package-release.py --windows-launcher "dist/Install MotionAstra.exe"
+        run: python tools/package-release.py --windows-launcher "dist/Install MotionAstra.exe"
       - name: Publish prerelease
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
