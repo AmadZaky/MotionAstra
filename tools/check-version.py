@@ -16,5 +16,5 @@ except subprocess.CalledProcessError:
  text=subprocess.check_output(['git','show','HEAD^:CSXS/manifest.xml'],cwd=root,text=True)
  previous=ET.fromstring(text).attrib['ExtensionBundleVersion']
 old=tuple(map(int,previous.split('.')));new=tuple(map(int,version.split('.')))
-assert new == (old[0],old[1],old[2]+1) or (previous=='2.8.9' and version=='3.0.0'), f'Expected next patch or approved 3.0.0 alpha migration after {previous}, got {version}'
+assert new == (old[0],old[1],old[2]+1) or (previous=='2.8.9' and version=='3.0.0') or (previous=='3.0.11' and version=='3.5.0'), f'Expected next patch or approved 3.0.0 alpha migration after {previous}, got {version}'
 print('PASS: patch increment and runtime version parity:',version)

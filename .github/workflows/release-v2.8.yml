@@ -109,5 +109,5 @@ jobs:
             gh release upload "$tag" "$asset" "dist/Install MotionAstra.exe" --clobber
           else
             gh release create "$tag" "$asset" "dist/Install MotionAstra.exe" --target "$SOURCE_SHA" \
-              --title "MotionAstra v${version} — Alpha" --prerelease --notes-file RELEASE_NOTES.md
+              --title "MotionAstra v${version} — Pre-release" --prerelease --notes-file RELEASE_NOTES.md
           fi

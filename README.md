@@ -198,8 +198,12 @@ Development: build with `powershell.exe -File tools/build-windows-installer.ps1`
 
 Motion Curve preset buttons show miniature graphs calculated from each preset’s exact cubic control points. The matching preset is highlighted while editing.
 
-## Font source filters and compact specimen (3.0.11)
+## Font source filters and compact specimen (3.5.0)
 
 Create displays a 24px **M.astra** specimen above Font family. It follows the selected face/style and color, independently of the actual text content and size. Sources: **All**, **User-installed** (AE reports a file in the per-user Windows Fonts folder), **Windows fonts** (system font location plus a known common Windows family), **Adobe Fonts**, and **Other/unknown**. Metadata unavailable in some AE/font combinations stays unknown. Fonts installed for all users or by applications cannot reliably be attributed to the user; they are not guessed as user-installed. Windows family reference: https://learn.microsoft.com/en-us/typography/fonts/windows_11_font_list . The list is a convenience grouping, not an audit of which files Windows originally installed.
 
 The single-file EXE embeds the installer UI and backend. It makes no network request before consent. It downloads only its pinned version from AmadZaky/MotionAstra, requires GitHub's SHA-256 asset digest, rejects unsafe archive paths and verifies payload checksums before backup/replacement. No project, font list or telemetry is uploaded; GitHub receives normal download requests. The EXE is still unsigned.
+
+## Compact navigation — v3.5.0 pre-release
+
+The main menu stays in one row: **Text · Solid · Tools · Curve · Create**, including the supported 300px minimum panel width. Hover a tab for its full workspace name. This release prepares for a later UI redesign; that larger rework is not included. The GitHub release remains marked prerelease and keeps the existing `-alpha` asset/tag suffix for installer compatibility.
