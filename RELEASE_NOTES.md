@@ -1,10 +1,11 @@
-# ZxT-Motions v3.5.1 — Pre-release (Windows only)
+# ZxT-Motions v3.5.2 — Studio Pre-release (Windows only)
 
-MotionAstra is now ZxT-Motions. Repository: https://github.com/AmadZaky/ZxT-Motions
+- Implements the approved Studio layout: matte surfaces, compact five-tab navigation, square preview cards and quieter card actions.
+- Adds Settings → Appearance with Orange, Lime Green, Light Blue, Burgundy and Plain White accents, persisted alongside dark/light mode. Interface accents never change preset artwork or host color values.
+- Adds responsive Library/Customize views for both the core presets and Text Animate: split view at 920 px+, Library back navigation below that width.
+- Keeps one editor active at a time and stops hidden animation previews.
+- Separates collapsible Text Tools FX and Text Animate collections. Moves animation category selection above the collections and adds a header Settings shortcut.
+- Keeps compact Apply/Update actions separate from status messages, existing Quick Tools, font creation and FX workflows.
+- Bundles Studio styling into the offline preview catalog; adds browser regression coverage for accents, readable button contrast and editor navigation.
 
-- Updates panel/menu branding and the Windows installer.
-- New EXE downloads verified packages from the renamed repository.
-- Retains the existing CEP bundle ID, install folder, backup location and AE control identifiers so upgrades still detect MotionAstra and existing projects remain compatible.
-- Preserves the compact five-tab navigation. The Spectrum-inspired UI redesign is a separate upcoming change.
-
-Download the new Install ZxT-Motions.exe. Older MotionAstra online EXEs validate the old repository URL and may reject the renamed release URL. Already installed panels continue to work offline. This package remains unsigned; native AE rendering requires manual verification.
+The FX engines, project control identifiers, Windows-only policy and online installer verification/rollback behavior are unchanged. Package and installer remain unsigned. Automated browser/model and Windows CI checks do not replace manual rendering checks in After Effects.

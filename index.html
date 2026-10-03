@@ -4,16 +4,18 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <script src="js/theme.js"></script>
-    <title>ZxT-Motions 3.5.1 Alpha</title>
+    <title>ZxT-Motions 3.5.2 Alpha</title>
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/studio.css" />
   </head>
   <body>
     <header>
       <a class="brand" href="index.html"
         ><span class="brand-icon"><i data-lucide="asterisk"></i></span
-        >ZxT-Motions <b>3.5.1</b></a
+        >ZxT-Motions <b>3.5.2</b></a
       >
       <div class="header-actions">
+        <button data-tab="Settings" aria-label="Settings" title="Appearance and settings"><i data-lucide="settings"></i></button>
         <button
           id="toggle-search"
           aria-label="Search ZxT-Motions"
@@ -60,10 +62,7 @@
         <button id="quick-anchor" data-host>
           <i data-lucide="crosshair"></i>Center anchor</button
         ><button id="load-fx" data-host>
-          <i data-lucide="sliders-horizontal"></i>Load settings</button
-        ><button data-tab="Settings" aria-label="Settings">
-          <i data-lucide="settings"></i>
-        </button>
+          <i data-lucide="sliders-horizontal"></i>Load settings</button>
       </div>
     </div>
     <div id="workspace">
@@ -364,17 +363,20 @@ ZxT-Motions</textarea
             </div>
           </div>
           <div id="yu-browser">
-            <details id="text-tools-group" open><summary>Text Tools FX <span>6 presets</span></summary></details>
-            <p>120 original text presets · by YUGraphic · MIT licensed</p>
             <div class="yu-filters">
+              <label for="yu-category">Animation category</label>
               <select id="yu-category" aria-label="Animation category"></select>
             </div>
-            <p id="yu-count"></p>
-            <div id="yu-cards"></div>
+            <details id="text-tools-group" open><summary>Text Tools FX <span>6 presets</span></summary></details>
+            <details id="text-animate-group" open><summary>Text Animate <span>120 presets</span></summary>
+              <p class="hint">Original text animations by YUGraphic · MIT licensed</p>
+              <p id="yu-count"></p>
+              <div id="yu-cards"></div>
+            </details>
           </div>
           <div id="yu-editor" hidden>
             <div class="yu-edit-scroll">
-              <button id="yu-back">← All text animations</button>
+              <button id="yu-back">← Library</button>
               <h2 id="yu-title"></h2>
               <p id="yu-target"></p>
               <canvas
@@ -673,8 +675,19 @@ ZxT-Motions</textarea
           </details>
         </section>
         <section id="settings" hidden>
-          <div class="eyebrow">MOTIONASTRA 3.5.1</div>
+          <div class="eyebrow">ZxT-Motions · STUDIO</div>
           <h1>Your workspace.</h1>
+          <details open class="appearance-settings"><summary>Appearance</summary>
+            <p>Choose an accent for the interface. Artwork colors stay unchanged.</p>
+            <div id="accent-options" role="group" aria-label="Interface accent">
+              <button data-accent="orange" style="--swatch:#ff943f" aria-pressed="false">Orange</button>
+              <button data-accent="lime" style="--swatch:#c5ef69" aria-pressed="false">Lime Green</button>
+              <button data-accent="blue" style="--swatch:#85caff" aria-pressed="false">Light Blue</button>
+              <button data-accent="burgundy" style="--swatch:#802b46" aria-pressed="false">Burgundy</button>
+              <button data-accent="white" style="--swatch:#f4f4f5" aria-pressed="false">Plain White</button>
+            </div>
+            <p class="hint">Your theme and accent are remembered on this computer.</p>
+          </details>
           <details open>
             <summary>Preview & connection</summary>
             <label for="control-layout">New FX controls</label
@@ -726,7 +739,7 @@ ZxT-Motions</textarea
             <span class="eyebrow" id="inspector-mode">CUSTOMIZE PRESET</span>
             <h2 id="fx-title"></h2>
           </div>
-          <button id="close" aria-label="Close effect settings">✕</button>
+          <button id="close" aria-label="Close effect settings">← Library</button>
         </div>
         <div class="inspector-scroll">
           <div id="tweaker-context" hidden>

@@ -124,6 +124,7 @@
     if (text !== undefined) e.textContent = text;
     return e;
   }
+  document.addEventListener("zxt-open-animation", () => close());
   function close() {
     if (state.busy) return;
     $("inspector").hidden = true;
@@ -382,6 +383,7 @@
   }
   function open(p, values, loaded) {
     if (state.busy) return;
+    if (window.MotionAstraYUUI) window.MotionAstraYUUI.setVisible(state.tab === "YU");
     values = values || state.drafts[p.id];
     state.preset = p;
     state.target = loaded ? loaded.target : null;

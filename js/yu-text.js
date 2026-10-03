@@ -245,11 +245,13 @@ window.MotionAstraYUUI = (() => {
   }
   function open(p, o, loaded) {
     stop();
+    document.dispatchEvent(new Event("zxt-open-animation"));
+    $("yu").classList.add("yu-inspecting");
     preset = p;
     target = loaded ? loaded.target : null;
     $("yu-apply").hidden = !!loaded;
     $("yu-update").textContent = loaded ? "Save changes" : "Update loaded FX";
-    $("yu-browser").hidden = true;
+    $("yu-browser").hidden = false;
     $("yu-editor").hidden = false;
     $("yu-title").textContent = p.name;
     $("yu-target").textContent = loaded
@@ -299,9 +301,10 @@ window.MotionAstraYUUI = (() => {
       e.value = v;
       $("yu-category").appendChild(e);
     });
-    $("yu-category").onchange = render;
+    $("yu-category").onchange = () => { $("text-animate-group").open = true; render(); };
     $("yu-back").onclick = () => {
       stop();
+      $("yu").classList.remove("yu-inspecting");
       $("yu-editor").hidden = true;
       $("yu-browser").hidden = false;
     };
@@ -339,8 +342,9 @@ window.MotionAstraYUUI = (() => {
     },
     setVisible(on) {
       visible = on;
-      if (!on) stop();
-      else {
+      stop();
+      if (on) {
+        $("yu").classList.remove("yu-inspecting");
         $("yu-editor").hidden = true;
         $("yu-browser").hidden = false;
       }

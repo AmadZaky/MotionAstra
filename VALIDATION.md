@@ -1,3 +1,11 @@
+## Studio UI — v3.5.2
+
+- Chromium: responsive 300/380/768/1200 px Library/Customize views for both engines; editor exclusivity, collection collapse and pinned actions.
+- Five accent choices persist in dark/light themes; primary button foreground/background contrast is at least 4.5:1; invalid stored accents fall back to Orange; source preset colors do not mutate.
+- Existing browser regressions for Apply/Update, font creation, Tweaker, checkbox coercion, Choice slider, global search and motion curve pass.
+- ExtendScript ES3 grammar, host/model regressions and offline package integrity pass. Version matches 3.5.2 and increments the verified 3.5.1 baseline once.
+- Native After Effects rendering has not been exercised in this Linux environment. Windows installer checks run in release CI.
+
 # Current build: Windows only
 
 As of v3.0.10, release CI runs on Windows. macOS support and its installer are removed; earlier entries below are historical and do not describe current platform support. Native AE rendering remains a separate manual check.

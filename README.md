@@ -1,12 +1,18 @@
-# ZxT-Motions 3.5.1 — Pre-release
+# ZxT-Motions 3.5.2 — Pre-release
 
 Formerly MotionAstra. Use the new installer after the repository rename.
 
 **Platform: Windows only. macOS support is withdrawn for this build.**
 
-Offline CEP extension for Adobe After Effects 2025. Minimal black/orange UI, local CSInterface + Lucide, Text Animate (6 highlighted Text Tools FX + 120 animation presets), 8 procedural SolidGen presets and Quick Tools with integrated FX settings.
+Offline CEP extension for Adobe After Effects 2025. Studio UI with dark/light themes and five accent colors, local CSInterface + Lucide, Text Animate (6 highlighted Text Tools FX + 120 animation presets), 8 procedural SolidGen presets and Quick Tools with integrated FX settings.
 
-Download only **Install ZxT-Motions.exe** from the release assets. Close AE, open it and consent to downloading and installing MotionAstra. Setup fetches its matching release from GitHub over HTTPS, verifies the digest and installs the panel. Confirm replacement of older versions, restart AE, then open Window → Extensions → ZxT-Motions. The GitHub source archive is for development; use the release asset for the ready-to-install package. The package is unsigned source; no Adobe installation or signing certificate is bundled. Internet is required by the EXE installer. The installed panel works offline. The ZIP remains an advanced/manual fallback.
+Download only **Install ZxT-Motions.exe** from the release assets. Close AE, open it and consent to downloading and installing ZxT-Motions. Setup fetches its matching release from GitHub over HTTPS, verifies the digest and installs the panel. Confirm replacement of older versions, restart AE, then open Window → Extensions → ZxT-Motions. The GitHub source archive is for development; use the release asset for the ready-to-install package. The package is unsigned source; no Adobe installation or signing certificate is bundled. Internet is required by the EXE installer. The installed panel works offline. The ZIP remains an advanced/manual fallback.
+
+## Studio workspace
+
+Studio keeps Text, Solid, Tools, Curve and Create in one row. At widths below 920 px, Customize opens a separate view; choose **Library** to return. Wider panels keep the library beside the selected preset. Text Tools FX and Text Animate collections can collapse independently. Apply/Update stay above the status area.
+
+Choose the gear button → **Appearance** to select Orange, Lime Green, Light Blue, Burgundy or Plain White. Use the sun/moon button for dark/light mode. Both choices persist locally and affect only the interface, never preset artwork or AE color values. Search and Quick/Menu collapse controls remain in the header.
 
 ## Current workflow
 
@@ -200,13 +206,13 @@ Development: build with `powershell.exe -File tools/build-windows-installer.ps1`
 
 Motion Curve preset buttons show miniature graphs calculated from each preset’s exact cubic control points. The matching preset is highlighted while editing.
 
-## Font source filters and compact specimen (3.5.1)
+## Font source filters and compact specimen (3.5.2)
 
 Create displays a 24px **M.astra** specimen above Font family. It follows the selected face/style and color, independently of the actual text content and size. Sources: **All**, **User-installed** (AE reports a file in the per-user Windows Fonts folder), **Windows fonts** (system font location plus a known common Windows family), **Adobe Fonts**, and **Other/unknown**. Metadata unavailable in some AE/font combinations stays unknown. Fonts installed for all users or by applications cannot reliably be attributed to the user; they are not guessed as user-installed. Windows family reference: https://learn.microsoft.com/en-us/typography/fonts/windows_11_font_list . The list is a convenience grouping, not an audit of which files Windows originally installed.
 
 The single-file EXE embeds the installer UI and backend. It makes no network request before consent. It downloads only its pinned version from AmadZaky/ZxT-Motions, requires GitHub's SHA-256 asset digest, rejects unsafe archive paths and verifies payload checksums before backup/replacement. No project, font list or telemetry is uploaded; GitHub receives normal download requests. The EXE is still unsigned.
 
-## Compact navigation — v3.5.1 pre-release
+## Compact navigation — v3.5.2 pre-release
 
 The main menu stays in one row: **Text · Solid · Tools · Curve · Create**, including the supported 300px minimum panel width. Hover a tab for its full workspace name. This release prepares for a later UI redesign; that larger rework is not included. The GitHub release remains marked prerelease and keeps the existing `-alpha` asset/tag suffix for installer compatibility.
 

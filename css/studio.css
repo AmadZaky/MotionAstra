@@ -1,0 +1,55 @@
+/* Studio shell: dense library, quiet surfaces and a responsive Customize dock. */
+:root{--bg:#1b1b1d;--surface:#242426;--panel:#202022;--input:#18181a;--line:#ffffff14;--muted:#a4a4ab}
+:root[data-theme=light]{--bg:#efeff1;--surface:#ffffff;--panel:#f7f7f8;--input:#fff;--line:#20212724;--muted:#606068}
+header{padding:9px 12px;gap:6px;backdrop-filter:none}
+.brand{font-size:12px;letter-spacing:-.2px;white-space:nowrap}.brand-icon,.brand-icon svg{width:20px;height:20px}
+.header-actions{gap:1px}.header-actions button{min-width:24px;min-height:28px;padding:3px;font-size:9px}
+nav{padding:7px 12px}.category-tabs{border:0;background:transparent;padding:0;gap:4px;border-radius:0}
+.category-tabs button{border-radius:5px;min-height:30px}.category-tabs button.active{background:var(--orange-soft);color:var(--accent);box-shadow:inset 0 -2px var(--accent)}
+#quick{padding:5px 12px 7px}.utility-row{margin-top:0}
+main{padding:16px 12px 20px}h1{font-size:21px;letter-spacing:-.5px;margin:4px 0 8px}.eyebrow{font-size:9px;letter-spacing:1px}
+#cards,#yu-cards{grid-template-columns:repeat(auto-fill,minmax(126px,1fr));gap:10px}
+.card,.yu-card{border-radius:7px;background:var(--surface);box-shadow:none;overflow:hidden}
+.card:hover,.yu-card:hover{border-color:var(--accent-border);box-shadow:none}
+.card canvas,.yu-card canvas{aspect-ratio:1;max-height:none}.card-content{padding:9px}.card h2{font-size:11px;margin-bottom:8px}
+.card-actions{gap:4px}.card-actions button,.yu-card button{border-radius:5px;font-size:10px;padding:5px 6px}
+button,input,select,textarea{border-radius:5px}button.primary{background:var(--accent-fill);border-color:var(--accent-border);color:var(--on-accent)}button.primary:hover{background:var(--accent-fill);border-color:var(--accent);filter:brightness(1.08)}
+details{border-radius:7px;padding:12px;background:var(--surface)}#text-tools-group{border-color:var(--accent-border);padding:10px;margin-bottom:16px}#text-tools-group>summary{font-size:12px}
+#library-help{margin-bottom:14px}#preview,#yu-preview{border-radius:7px;max-width:220px;margin:0 auto;display:block}
+.inspector-head{padding:12px}.inspector-scroll{padding:12px}.inspector-actions,.yu-actions{padding:10px 12px;background:var(--panel);border-top:1px solid var(--line)}
+#inspector{background:var(--panel)}.inspector-head button{font-size:10px;white-space:nowrap}
+#yu.yu-inspecting #yu-browser{display:none}#yu.yu-inspecting .yu-heading{display:none}
+.yu-edit-scroll{padding:10px 0}.yu-actions button{font-size:10px}.parameter-group{margin-top:16px}
+#accent-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:7px;margin:12px 0}
+#accent-options button{display:flex;align-items:center;gap:8px;text-align:left;min-height:36px;padding:7px;font-size:11px}
+#accent-options button::before{content:'';width:14px;height:14px;flex:0 0 14px;border-radius:50%;background:var(--swatch);border:1px solid #8888}
+#accent-options button[aria-pressed=true]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);background:var(--orange-soft)}
+#review{border-color:var(--accent-border)}#yu-browser #library{border-color:var(--accent-border);background:var(--orange-soft)}
+@media(min-width:920px){
+ #workspace.inspecting main{display:block}#inspector{flex:0 0 320px}
+ #yu.yu-inspecting{display:grid;grid-template-columns:minmax(0,1fr) 320px;grid-template-rows:auto minmax(0,1fr);column-gap:16px}
+ #yu.yu-inspecting .yu-heading{display:block;grid-column:1;grid-row:1}
+ #yu.yu-inspecting #yu-browser{display:block;grid-column:1;grid-row:2}
+ #yu.yu-inspecting #yu-editor{grid-column:2;grid-row:1/3;border-left:1px solid var(--line);padding-left:12px}
+}
+@media(max-width:420px){.brand b{display:none}.brand{font-size:11px}.header-actions button{font-size:9px}header{padding:8px}.brand-icon{width:17px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;scroll-behavior:auto!important}}
+
+.utility-row button:last-child{flex:1}
+
+/* Match Studio's compact library: artwork first, controls quiet until selected. */
+nav,#quick{background:var(--panel)}
+#yu .yu-heading{display:none!important}
+#yu.yu-inspecting{grid-template-rows:minmax(0,1fr)}
+#yu.yu-inspecting #yu-browser{grid-row:1}
+#yu.yu-inspecting #yu-editor{grid-row:1}
+.yu-filters{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px}
+.yu-filters label{font-size:11px;color:var(--muted)}.yu-filters select{flex:1;max-width:190px}
+#text-animate-group{margin:0;padding:10px;border-color:var(--line);background:transparent}
+#text-animate-group>summary{font-size:12px;font-weight:600}#text-animate-group>summary span{font-size:11px;color:var(--muted);font-weight:400;margin-left:8px}
+#text-animate-group>.hint{margin:8px 0}#yu-count{font-size:10px;margin:8px 0}
+.card-actions{flex-direction:column}.card-actions button{font-size:10px}
+.card-actions button.primary,.yu-card button.primary{background:var(--surface);color:var(--text);border-color:var(--line);font-weight:500}
+.card-actions button.primary:hover,.yu-card button.primary:hover{background:var(--orange-soft);border-color:var(--accent-border);color:var(--accent)}
+#text-tools-group{background:transparent;border-color:var(--line)}
+.create-card h2 svg{color:var(--accent)}
