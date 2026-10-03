@@ -1,6 +1,6 @@
-/* MotionAstra 3.5.2 — ES3 host. No third-party AE effects required. */
+/* MotionAstra 3.6.0 — ES3 host. No third-party AE effects required. */
 var MotionAstra = (function () {
-  var BUILD = "3.5.2",
+  var BUILD = "3.6.0",
     recipes = {},
     serial = 0;
   for (var ri = 0; ri < MA_PRESET_DATA.presets.length; ri++)
@@ -343,7 +343,7 @@ var MotionAstra = (function () {
     return l.property("ADBE Effect Parade").property("MA2 " + id);
   }
   var MASTER = "MA2 MotionAstra Progress";
-  function setControls(l, r, p, m, editProgress, editChoice) {
+  function setControls(l, r, p, m, editProgress, editChoice, edits) {
     var i, d, e;
     if (m && m.layout === "compact") {
       e = l.property("ADBE Effect Parade").property(MASTER);
@@ -392,7 +392,11 @@ var MotionAstra = (function () {
         controlValue = 0;
         if (p[d.id]) controlValue = 1;
       }
-      if (r.id === "switcher" && d.id === "choice" && !editChoice && (e.property(1).numKeys || e.property(1).expression)) continue;
+      if (e.property(1).numKeys || e.property(1).expression) {
+        if (d.id === "progress" && !editProgress) continue;
+        if (d.id === "choice" && !editChoice) continue;
+        if (d.id !== "progress" && d.id !== "choice" && !parameterEdited(d.id, p, m && m.values, edits)) continue;
+      }
       set(e.property(1), controlValue, l.containingComp.time);
     }
   }
@@ -1174,7 +1178,65 @@ var MotionAstra = (function () {
       else if (p.numProperties) removeOwnedExpressions(p);
     }
   }
-  function syncTextColors(l, r, p) {
+  // Explicit edit intent avoids writing a sampled animated value back as a new key.
+  function parameterEdited(id, p, previous, edits) {
+    if (!previous) return true;
+    if (Object.prototype.toString.call(edits) === "[object Array]") {
+      for (var i = 0; i < edits.length; i++) if (edits[i] === id) return true;
+      return false;
+    }
+    return encode(p[id]) !== encode(previous[id]);
+  }
+  function colorBinding(l, property, value) {
+    if (property.expression && !owned(property.expression)) fail("This color has a custom expression. Edit it in AE before changing the color in the panel.");
+    if (property.expression) property.expression = "";
+    set(property, value, l.containingComp.time);
+  }
+  function nativeColorTargets(l, r) {
+    var e = l.property("ADBE Effect Parade"), result = [], ramp;
+    if (r.category === "Background") {
+      if (r.legacy) return result;
+      var cloud = r.id === "nebula" || r.id === "smoke";
+      ramp = e.property("MA2 native " + (cloud ? "cloud colors" : "ramp"));
+      if (ramp) {
+        result.push({id: cloud ? "color1" : "color2", p: nativeParam(ramp, cloud ? 1 : 2)});
+        result.push({id: cloud ? "color2" : "color3", p: nativeParam(ramp, cloud ? 2 : 4)});
+      }
+    } else {
+      ramp = e.property("MA2 native ramp");
+      if (ramp) { result.push({id: "tint", p: ramp.property(2)}); result.push({id: "tint", p: ramp.property(4)}); }
+      else { ramp = e.property("MA2 native text color") || e.property("MA2 native matrix tint"); if (ramp) result.push({id: "tint", p: ramp.property(3)}); }
+    }
+    return result;
+  }
+  function checkAnimationEdits(l, r, p, m, a) {
+    var i, d, e, prop, explicit, targets = nativeColorTargets(l, r);
+    for (i = 0; i < r.parameters.length; i++) {
+      d = r.parameters[i];
+      e = d.id === "progress" && m.layout === "compact" ? l.property("ADBE Effect Parade").property(MASTER) : fx(l, d.id);
+      explicit = parameterEdited(d.id, p, m.values, a.editedParameters);
+      if (d.id === "progress") explicit = a.editProgress === true;
+      if (d.id === "choice") explicit = a.editChoice === true;
+      if (e && explicit && e.property(1).expression) fail(d.label + " has an expression. Edit it in AE before changing it in the panel.");
+    }
+    for (i = 0; i < targets.length; i++) {
+      prop = targets[i].p;
+      if (parameterEdited(targets[i].id, p, m.values, a.editedParameters) && prop.expression && !owned(prop.expression)) fail("This color has a custom expression. Edit it in AE before changing the color in the panel.");
+    }
+  }
+  function hasCustomAnimation(g) {
+    if (!g) return false;
+    if (g.numKeys || (g.canSetExpression && g.expression && !owned(g.expression))) return true;
+    for (var i = 1; i <= (g.numProperties || 0); i++) if (hasCustomAnimation(g.property(i))) return true;
+    return false;
+  }
+  function checkArtworkRebuild(l) {
+    var e = l.property("ADBE Effect Parade"), i, p, g = l.property("ADBE Root Vectors Group"), masks = l.property("ADBE Mask Parade");
+    for (i = 1; i <= e.numProperties; i++) { p = e.property(i); if (p.name.indexOf("MA2 native ") === 0 && hasCustomAnimation(p)) fail("Count would rebuild animated artwork. Generate a new background to use a different Count."); }
+    if (g && hasCustomAnimation(g.property("MA2 artwork"))) fail("Count would rebuild animated artwork. Generate a new background to use a different Count.");
+    if (masks) for (i = 1; i <= masks.numProperties; i++) { p = masks.property(i); if (p.name.indexOf("MA2 artwork ") === 0 && hasCustomAnimation(p)) fail("Count would rebuild animated masks. Generate a new background to use a different Count."); }
+  }
+  function syncTextColors(l, r, p, previous, edits) {
     if (!p.tint) return;
     var effects = l.property("ADBE Effect Parade"),
       ramp = effects.property("MA2 native ramp"),
@@ -1195,28 +1257,22 @@ var MotionAstra = (function () {
         .property("ADBE Text Fill Color");
       if (c && owned(c.expression)) c.remove();
     }
+    if (!parameterEdited("tint", p, previous, edits)) return;
     if (ramp) {
       nativeProperty = ramp.property(2);
-      nativeProperty.expression = "";
-      set(nativeProperty, col, l.containingComp.time);
+      colorBinding(l, nativeProperty, col);
       nativeProperty = ramp.property(4);
-      nativeProperty.expression = "";
-      set(
-        nativeProperty,
-        [col[0] * 0.22, col[1] * 0.22, col[2] * 0.22, 1],
-        l.containingComp.time
-      );
+      colorBinding(l, nativeProperty, [col[0] * 0.22, col[1] * 0.22, col[2] * 0.22, 1]);
     } else {
       nativeProperty =
         effects.property("MA2 native text color") ||
         effects.property("MA2 native matrix tint");
       if (!nativeProperty)
         nativeProperty = nativeFx(l, "ADBE Fill", "text color");
-      nativeProperty.property(3).expression = "";
-      set(nativeProperty.property(3), col, l.containingComp.time);
+      colorBinding(l, nativeProperty.property(3), col);
     }
   }
-  function syncBackgroundColors(l, r, p) {
+  function syncBackgroundColors(l, r, p, previous, edits) {
     if (r.legacy) return;
     var cloud = r.id === "nebula" || r.id === "smoke",
       e = l
@@ -1228,10 +1284,8 @@ var MotionAstra = (function () {
       );
     var a = nativeParam(e, cloud ? 1 : 2),
       b = nativeParam(e, cloud ? 2 : 4);
-    a.expression = "";
-    b.expression = "";
-    set(a, color(cloud ? p.color1 : p.color2), l.containingComp.time);
-    set(b, color(cloud ? p.color2 : p.color3), l.containingComp.time);
+    if (parameterEdited(cloud ? "color1" : "color2", p, previous, edits)) colorBinding(l, a, color(cloud ? p.color1 : p.color2));
+    if (parameterEdited(cloud ? "color2" : "color3", p, previous, edits)) colorBinding(l, b, color(cloud ? p.color2 : p.color3));
   }
   function refreshOwnedClocks(g, m) {
     var i,
@@ -1826,6 +1880,47 @@ var MotionAstra = (function () {
     )
       fail("Selection changed. Load selected FX again before updating.");
   }
+  // Read-only, bounded inspector data. Never return raw layer comments or expressions.
+  function selectionContext(c) {
+    var out = { compId: null, total: 0, layers: [], truncated: false }, i, j, l, row, g, m, yu, match, phase;
+    if (!(c instanceof CompItem)) return out;
+    out.compId = c.id === undefined ? c.name : c.id;
+    var ls = c.selectedLayers;
+    out.total = ls.length;
+    out.truncated = ls.length > 50;
+    for (i = 0; i < ls.length && i < 50; i++) {
+      l = ls[i];
+      row = { id: l.id === undefined ? l.index : l.id, name: l.name, type: "Layer", locked: !!l.locked, core: null, animations: [], effects: [], effectCount: 0 };
+      if (l instanceof TextLayer) row.type = "Text";
+      else if (l instanceof ShapeLayer) row.type = "Shape";
+      else if (l.nullLayer) row.type = "Null";
+      else if (typeof CameraLayer !== "undefined" && l instanceof CameraLayer) row.type = "Camera";
+      else if (typeof LightLayer !== "undefined" && l instanceof LightLayer) row.type = "Light";
+      else if (l.source instanceof CompItem) row.type = "Precomp";
+      else if (l.source && l.source.mainSource instanceof SolidSource) row.type = "Solid";
+      else if (l instanceof AVLayer) row.type = l.hasVideo ? "Footage" : "Audio";
+      try {
+        m = meta(l);
+        if (m) row.core = { id: m.id, name: recipes[m.id] ? recipes[m.id].name : m.id, layout: m.layout === "compact" ? "compact" : "legacy", target: identity(c, l, m) };
+      } catch (error) { row.warning = "FX metadata needs attention. Reload or restore this layer before updating."; }
+      try {
+        match = String(l.comment || "").match(/\[MA_YU\]([^\r\n]*)\[\/MA_YU\]/);
+        yu = match ? parse(match[1]) : null;
+        if (yu) for (j = 0; j < 2; j++) {
+          phase = j ? "OUT" : "IN";
+          if (yu[phase]) row.animations.push({ id: yu[phase].id, phase: phase, target: identity(c, l, yu) });
+        }
+      } catch (yuError) { row.warning = "Text animation metadata needs attention."; }
+      g = l.property("ADBE Effect Parade");
+      if (g) {
+        row.effectCount = g.numProperties;
+        for (j = 1; j <= g.numProperties && j <= 20; j++) row.effects.push(g.property(j).name);
+      }
+      out.layers.push(row);
+    }
+    return out;
+  }
+
   function load(a) {
     var c = comp(),
       ls = selection(c);
@@ -1985,14 +2080,17 @@ var MotionAstra = (function () {
         preflight(l, r, true);
         controlCheck(l, r);
         if (r.id === "switcher" && a.editChoice === true && fx(l, "choice") && fx(l, "choice").property(1).expression) fail("Choice has an expression. Edit it in AE before changing Choice from the panel.");
+        checkAnimationEdits(l, r, p, m, a);
+        var previousValues = m.values;
         markerTime(l, m.token, "end");
         oldDuration =
           m.layout === "compact"
             ? m.values.duration
             : fx(l, "duration").property(1).value;
         oldCount = m.values ? m.values.count : null;
+        if (r.category === "Background" && oldCount !== p.count) checkArtworkRebuild(l);
         started = true;
-        setControls(l, r, p, m, a.editProgress === true, a.editChoice === true);
+        setControls(l, r, p, m, a.editProgress === true, a.editChoice === true, a.editedParameters);
         m.values = p;
         markers(
           l,
@@ -2003,7 +2101,7 @@ var MotionAstra = (function () {
         );
         if (
           r.category === "Background" &&
-          (m.build !== BUILD || oldCount !== p.count)
+          oldCount !== p.count
         ) {
           clearArtwork(l);
           background(l, r, p, m);
@@ -2016,8 +2114,8 @@ var MotionAstra = (function () {
           r.id === "matrix"
         )
           assign(source(l), clock(m, sourceBody(r, p)));
-        if (r.category === "Background") syncBackgroundColors(l, r, p);
-        else syncTextColors(l, r, p);
+        if (r.category === "Background") syncBackgroundColors(l, r, p, previousValues, a.editedParameters);
+        else syncTextColors(l, r, p, previousValues, a.editedParameters);
         if (m.layout === "compact" || m.build !== BUILD)
           refreshOwnedClocks(l, m);
         var oldLoop = fx(l, "loop");
@@ -2785,7 +2883,8 @@ var MotionAstra = (function () {
           build: BUILD,
           version: app.version,
           composition: c instanceof CompItem ? c.name : null,
-          selected: c instanceof CompItem ? c.selectedLayers.length : 0
+          selected: c instanceof CompItem ? c.selectedLayers.length : 0,
+          selection: selectionContext(c)
         };
       } else if (a.action === "diagnostics") {
         var active = app.project ? app.project.activeItem : null;
@@ -2925,6 +3024,6 @@ var MotionAstra = (function () {
     throw Error(
       "MotionAstra JSON transport self-check failed. Restart AE and install the full package."
     );
-  return { dispatch: dispatch, version: "3.5.2", build: BUILD };
+  return { dispatch: dispatch, version: "3.6.0", build: BUILD };
 })();
 if (typeof $ !== "undefined" && $.global) $.global.MotionAstra = MotionAstra;

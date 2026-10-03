@@ -1,4 +1,4 @@
-# ZxT-Motions v3.5.2 Pre-release — Windows only
+# ZxT-Motions v3.6.0 Pre-release — Windows only
 
 This build targets After Effects 2025 on Windows. macOS is not supported, no Mac installer is included, and the panel refuses host commands on macOS. Do not install this package on a Mac. The standalone browser catalog remains a preview only.
 
@@ -9,7 +9,7 @@ This build targets After Effects 2025 on Windows. macOS is not supported, no Mac
 3. Check the download/install consent box and choose **Install** or **Update**. No network request starts before this consent.
 4. Keep an internet connection while setup downloads its matching version from GitHub. It checks the archive's SHA-256 against GitHub release metadata, then verifies package files before changing any installed copy.
 5. If old copies are detected, review their paths and confirm replacement. Backups and rollback remain enabled.
-6. Select **Done**, restart AE and open **Window → Extensions → ZxT-Motions**. Settings should show **3.5.2**.
+6. Select **Done**, restart AE and open **Window → Extensions → ZxT-Motions**. Settings should show **3.6.0**.
 
 If the download fails, your current installation remains untouched. Retry after restoring connectivity. Missing release assets or missing digests are refused. The panel itself works offline after installation. The release ZIP remains available for manual/offline installation; its CMD launcher uses the local package, while the EXE always uses online setup.
 
@@ -56,8 +56,16 @@ Release CI runs installer, rollback/integrity, WPF UI, ES3 parsing, modeled-host
 
 Download the new ZxT-Motions installer. Old online EXEs may reject release URLs after the repository rename. The folder `MotionAstra-FX`, bundle identity and backup paths intentionally retain their legacy names so existing installations are upgraded in place; saved project controls remain compatible.
 
-## Studio appearance (v3.5.2)
+## Studio appearance (v3.6.0)
 
 Open the header gear → Appearance and choose an accent: Orange, Lime Green, Light Blue, Burgundy or Plain White. The sun/moon button switches dark/light mode. Preferences are saved locally; reinstalling normally preserves them. These settings do not change FX or text colors in your project.
 
 Customize opens beside the library at 920 px or wider, or on its own at smaller widths. Choose Library to return. Both Text Tools FX and Text Animate headers collapse their collections. The standalone catalog includes the same Studio interface and works without a CDN.
+
+## v3.6 workflow check
+
+1. Open Quick and expand the selected-layer summary. Refresh selection if you just switched layers. Load FX or an IN/OUT animation from the inspector.
+2. Star a Text Animate or SolidGen card; check Favorites, then apply a preset and check Recent. Both lists persist locally after restart.
+3. For keyed Progress/Choice, enable the corresponding manual/Choice mode and animate the native AE slider. Changing another panel setting must leave those keys unchanged. Editing that slider in the panel updates its value at the current playhead.
+4. Native color keyframes survive unrelated updates. Custom expressions and custom Text Animate phase keys are protected; edit those in AE or explicitly remove the animation before replacing it.
+5. Test on a duplicate project first. These automated tests model AE behavior; they cannot verify real AE rendering or every installed font/plugin.

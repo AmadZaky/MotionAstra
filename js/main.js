@@ -10,6 +10,7 @@
       busy: false,
       query: "",
       drafts: {},
+      draftEdits: {},
       draftInvalid: {},
       invalid: new Set(),
       target: null,
@@ -17,6 +18,7 @@
       loadedProgress: null,
       loadedChoice: null,
       dirty: false,
+      editedParameters: new Set(),
     },
     history = [];
   const store = {
@@ -77,6 +79,23 @@
         "#parameters input,#parameters select,#parameters textarea",
       )
       .forEach((e) => (e.disabled = value));
+    if (window.ZxTSelection) {
+      const gate = (b, category, id, operation, target) => {
+        const result = ZxTSelection.eligibility(category, id, operation, target);
+        b.disabled = b.disabled || !result.allowed;
+        b.title = result.reason;
+        return result;
+      };
+      if (state.preset) {
+        const info = gate($("apply"), state.preset.category, state.preset.id, "apply", null);
+        const updateInfo = gate($("update"), state.preset.category, state.preset.id, "update", state.target);
+        $("target-guidance").textContent = state.target ? updateInfo.reason : info.reason;
+      }
+      document.querySelectorAll(".card-apply").forEach(b => {
+        const p = data.presets.find(p => p.id === b.dataset.preset);
+        if (p) gate(b, p.category, p.id, "apply", null);
+      });
+    }
     if (window.MotionAstraYUUI) window.MotionAstraYUUI.setBusy(value);
     if (window.MotionCurve) window.MotionCurve.setBusy(value);
     if (window.MotionAstraCreate) window.MotionAstraCreate.setBusy(value);
@@ -87,17 +106,20 @@
       $("status").textContent = "Browser preview · install in AE to apply";
       $("connection").textContent =
         "Preview mode. No After Effects connection.";
+      if (window.ZxTSelection) ZxTSelection.update(null, false);
       busy(false);
       return;
     }
     try {
       const r = await bridge.call({ action: "status" });
+      if (window.ZxTSelection) ZxTSelection.update(r, true);
       $("status").textContent = r.composition
         ? `${r.composition} · ${r.selected} selected`
         : "AE connected · open a composition";
       $("connection").textContent =
         `After Effects ${r.version} · ZxT-Motions ${r.hostVersion} · ${r.build || "older build"}`;
     } catch (e) {
+      if (window.ZxTSelection) ZxTSelection.update(null, false);
       $("status").textContent = e.message;
       $("connection").textContent = e.message;
     }
@@ -108,6 +130,19 @@
     busy(true);
     try {
       const r = await bridge.call(JSON.parse(JSON.stringify(payload)));
+      if (r.changed > 0 && ["apply", "update", "generateBackground"].includes(payload.action)) {
+        if (state.draftEdits[payload.id]) state.draftEdits[payload.id].clear();
+        if (state.preset && state.preset.id === payload.id) {
+          state.editedParameters.clear();
+          state.loadedProgress = state.params.progress;
+          state.loadedChoice = state.params.choice;
+          state.dirty = false;
+        }
+      }
+      if (window.ZxTCollections && r.changed > 0) {
+        if (["apply", "update", "generateBackground"].includes(payload.action)) ZxTCollections.record("core:" + payload.id);
+        if (payload.action === "yuText" && payload.operation === "apply") ZxTCollections.record("yu:" + payload.id);
+      }
       if (r.message) notice(r.message, r.severity || "success");
       return r;
     } catch (e) {
@@ -134,6 +169,7 @@
   function tab(name) {
     if (name === "Text") name = "YU";
     state.tab = name;
+    $("collection-filters").hidden = !["YU", "Background"].includes(name);
     close();
     $("library").hidden = !["YU", "Background"].includes(name);
     if (name === "YU") $("text-tools-group").appendChild($("library"));
@@ -169,11 +205,11 @@
   function render() {
     MotionPreview.clear();
     $("cards").textContent = "";
-    const list = data.presets.filter(
+    const list = ZxTCollections.filter(data.presets.filter(
       (p) =>
         p.category === (state.tab === "YU" ? "Text" : state.tab) &&
         `${p.name} ${p.description}`.toLowerCase().includes(state.query),
-    );
+    ), p => "core:" + p.id);
     list.forEach((p, i) => {
       const article = el("article", "card"),
         view = el("button", "card-preview"),
@@ -227,13 +263,16 @@
           action: p.category === "Background" ? "generateBackground" : "apply",
           id: p.id,
           params: values,
+          editedParameters: state.draftEdits[p.id] ? Array.from(state.draftEdits[p.id]) : undefined,
+          editProgress: !!(state.draftEdits[p.id] && state.draftEdits[p.id].has("progress")),
+          editChoice: !!(state.draftEdits[p.id] && state.draftEdits[p.id].has("choice")),
           smart: true,
           layout: $("control-layout").value || "compact",
         });
       };
       actions.append(button, apply);
       content.appendChild(actions);
-      article.append(view, content);
+      article.append(view, content, ZxTCollections.button("core:" + p.id, p.name));
       $("cards").appendChild(article);
       MotionPreview.attach(canvas, p);
       article.onmouseenter = () => MotionPreview.play(canvas, true);
@@ -242,7 +281,7 @@
       article.onfocusout = () => MotionPreview.play(canvas, false);
     });
     if (!list.length)
-      $("cards").appendChild(el("p", "empty", "No matching effects."));
+      $("cards").appendChild(el("p", "empty", ZxTCollections.empty()));
     busy(state.busy);
   }
   function preview() {
@@ -296,11 +335,15 @@
         );
       input.id = "param-" + d.id;
       label.htmlFor = input.id;
+      const live = d.id === "progress" || d.id === "choice";
+      label.appendChild(el("small", "control-kind", live ? "AE keyframes" : "Panel setting"));
+      if (live) label.title = d.id === "choice" ? "Enable Choice slider mode. Animate MA2 choice in AE; explicit panel edits add a key at the playhead when already animated." : "Enable manual Progress. Animate the native Progress slider in AE; explicit panel edits add a key at the playhead when already animated.";
       row.dataset.search = (d.label + " " + d.group).toLowerCase();
       row.appendChild(label);
       const change = (v) => {
         state.params[d.id] = v;
         state.dirty = true;
+        state.editedParameters.add(d.id);
         state.invalid.delete(d.id);
         input.removeAttribute("aria-invalid");
         preview();
@@ -391,6 +434,8 @@
     state.loadedProgress = loaded ? loaded.params.progress : null;
     state.loadedChoice = loaded ? loaded.params.choice : null;
     state.dirty = false;
+    state.editedParameters = loaded ? new Set() : (state.draftEdits[p.id] || new Set());
+    state.draftEdits[p.id] = state.editedParameters;
     state.params = {};
     p.parameters.forEach(
       (d) =>
@@ -432,7 +477,7 @@
       (p.id === "switcher"
         ? "Choice slider mode: animate MA2 choice in AE Effect Controls (1 = first phrase). Panel changes take effect on Update. Automatic mode ignores Choice. "
         : "") +
-      "Animation starts at the layer in-point. Drag [FX End] to retime; Loop mode: None, Ping-Pong, Cycle or Continue. Static backgrounds freeze at the start. Use FX Tweaker for settings. Compact mode keeps one Progress controller; enable manual Progress to animate it. Changes apply on Update. Count rebuilds artwork.";
+      "Animation starts at the layer in-point. Drag [FX End] to retime; Loop mode: None, Ping-Pong, Cycle or Continue. Static backgrounds freeze at the start. Use FX Tweaker for settings. Compact mode keeps one Progress controller; enable manual Progress to animate it. Panel settings apply on Update. Unchanged animated colors and sliders are preserved. Editing an animated value adds a key at the playhead. Count rebuilds artwork only when it has no custom animation.";
     document.querySelector(".inspector-scroll").scrollTop = 0;
     $("inspector").scrollTop = 0;
     $("close").focus();
@@ -492,6 +537,9 @@
             : "apply",
         id: state.preset.id,
         params: state.params,
+        editedParameters: Array.from(state.editedParameters),
+        editProgress: state.editedParameters.has("progress"),
+        editChoice: state.editedParameters.has("choice"),
         smart: true,
         layout: $("control-layout").value || "compact",
       });
@@ -500,20 +548,18 @@
     if (state.preset && !state.invalid.size) {
       const r = await action({
         action: "update",
+        editedParameters: Array.from(state.editedParameters),
         id: state.preset.id,
         params: state.params,
         target: state.target,
-        editChoice:
-          state.preset.id === "switcher" &&
-          state.target &&
-          state.params.choice !== state.loadedChoice,
-        editProgress:
-          state.target && state.params.progress !== state.loadedProgress,
+        editChoice: state.editedParameters.has("choice"),
+        editProgress: state.editedParameters.has("progress"),
         smart: true,
         layout: $("control-layout").value || "compact",
       });
       if (r && r.changed) {
         state.dirty = false;
+        state.editedParameters.clear();
         state.loadedProgress = state.params.progress;
         state.loadedChoice = state.params.choice;
       }
@@ -537,10 +583,11 @@
             target: state.target,
             layout: state.loadedLayout,
             layerName: $("loaded-layer").textContent,
-            params: { progress: state.loadedProgress },
+            params: { progress: state.loadedProgress, choice: state.loadedChoice },
           }
         : null;
       open(state.preset, {}, current);
+      state.preset.parameters.forEach(d => state.editedParameters.add(d.id));
       state.dirty = true;
     }
   };
@@ -713,6 +760,19 @@
   $("text-tools-group").ontoggle = () => {
     store.set("ma-text-tools-folded", !$("text-tools-group").open);
   };
+  if (window.ZxTSelection) ZxTSelection.init({
+    refresh, busy: () => state.busy, loadCore: load,
+    loadAnimation: phase => { tab("YU"); return window.MotionAstraYUUI.load(phase); }
+  });
+  if (window.ZxTCollections) {
+    document.querySelectorAll("[data-collection]").forEach(b => b.onclick = () => ZxTCollections.setMode(b.dataset.collection));
+    ZxTCollections.subscribe(() => {
+      document.querySelectorAll("[data-collection]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.collection === ZxTCollections.mode)));
+      if (["YU", "Background"].includes(state.tab)) render();
+      if (window.MotionAstraYUUI) window.MotionAstraYUUI.refreshCollection();
+      busy(state.busy);
+    });
+  }
   tab("YU");
   busy(false);
   refresh();

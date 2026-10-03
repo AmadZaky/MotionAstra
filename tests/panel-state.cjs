@@ -17,6 +17,9 @@ function setup(){
  const calls=[],bridge={isReady:()=>true,isAvailable:()=>true,call(payload){return new Promise(resolve=>calls.push({payload,resolve}));}};
  const presets=JSON.parse(fs.readFileSync(__dirname+'/../presets.json','utf8'));
  const ctx={document:doc,window:{MA_PRESETS:presets,MotionAstraBridge:bridge,addEventListener(){}},localStorage:{getItem(){return null;},setItem(){}},MotionPreview:{clear(){},attach(){},play(){},suspend(){}},setTimeout(){return 1;},clearTimeout(){},setInterval(){},console};
+ ctx.window.YTMCore={presets:[]};
+ vm.runInNewContext(fs.readFileSync(__dirname+'/../js/collections.js','utf8'),ctx);
+ ctx.ZxTCollections=ctx.window.ZxTCollections;
  vm.runInNewContext(fs.readFileSync(__dirname+'/../js/main.js','utf8'),ctx);
  return {get,nodes,calls,tabs,card:()=>get('cards').children[0],ctx};
 }

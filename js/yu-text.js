@@ -83,6 +83,17 @@ window.MotionAstraYUUI = (() => {
           (id === "yu-update" && !target) ||
           (["yu-apply", "yu-update"].includes(id) && !valid())),
     );
+    if (window.ZxTSelection) {
+      ["yu-apply", "yu-update"].forEach(id => {
+        const info = ZxTSelection.eligibility("YU", preset.id, "apply", id === "yu-update" ? target : null);
+        $(id).disabled = $(id).disabled || !info.allowed;
+        $(id).title = info.reason;
+        if (id === (target ? "yu-update" : "yu-apply")) $("yu-selection-guidance").textContent = info.reason;
+      });
+      document.querySelectorAll(".yu-card-apply").forEach(b => {
+        b.disabled = busy || !api.ready() || !ZxTSelection.eligibility("YU", b.dataset.preset, "apply", null).allowed;
+      });
+    }
     $("yu-back").disabled = busy;
     $("yu-controls")
       .querySelectorAll("input,select")
@@ -104,12 +115,12 @@ window.MotionAstraYUUI = (() => {
     ctx.fillRect(0, 0, w, h);
     const groups =
       o.group === "all"
-        ? ["ZxT-Motions"]
+        ? ["Motion"]
         : o.group === "words"
-          ? ["ZxT-Motions"]
+          ? ["Motion"]
           : o.group === "lines"
-            ? ["ZxT-Motions"]
-            : Array.from("ZxT-Motions");
+            ? ["Motion"]
+            : Array.from("Motion");
     const size = o.group === "all" ? 36 : 40;
     ctx.font = "600 " + size + "px Arial";
     const widths = groups.map((s) => ctx.measureText(s).width),
@@ -170,7 +181,7 @@ window.MotionAstraYUUI = (() => {
     stop();
     activeCanvas = canvas;
     const started = performance.now(),
-      length = o.duration + o.stagger * core.rankSpan(9, o.order),
+      length = o.duration + o.stagger * core.rankSpan(["all", "words", "lines"].includes(o.group) ? 1 : 6, o.order),
       end = o.mode === "BOTH" ? length * 2 + 1.2 : length + 0.6;
     function tick(now) {
       if (
@@ -195,11 +206,11 @@ window.MotionAstraYUUI = (() => {
     $("yu-cards").textContent = "";
     const q = "",
       cat = $("yu-category").value,
-      list = core.presets.filter(
+      list = ZxTCollections.filter(core.presets.filter(
         (p) =>
           (cat === "All" || p.category === cat) &&
           `${p.name} ${p.category}`.toLowerCase().includes(q),
-      );
+      ), p => "yu:" + p.id);
     $("yu-count").textContent = list.length + " presets";
     list.forEach((p) => {
       const card = node("article", "yu-card"),
@@ -221,6 +232,7 @@ window.MotionAstraYUUI = (() => {
         "Apply animation",
       );
       applyButton.dataset.host = "";
+      applyButton.dataset.preset = p.id;
       applyButton.disabled = busy || !api.ready();
       applyButton.onclick = () =>
         api.action({
@@ -229,7 +241,7 @@ window.MotionAstraYUUI = (() => {
           id: p.id,
           options: o,
         });
-      card.append(canvas, tag, title, button, applyButton);
+      card.append(canvas, tag, title, button, applyButton, ZxTCollections.button("yu:" + p.id, p.name));
       card.onmouseenter = () => play(canvas, p, o);
       card.onmouseleave = () => {
         if (activeCanvas === canvas) {
@@ -241,7 +253,7 @@ window.MotionAstraYUUI = (() => {
       $("yu-cards").appendChild(card);
     });
     if (!list.length)
-      $("yu-cards").appendChild(node("p", "", "No matching presets."));
+      $("yu-cards").appendChild(node("p", "", ZxTCollections.empty()));
   }
   function open(p, o, loaded) {
     stop();
@@ -264,11 +276,11 @@ window.MotionAstraYUUI = (() => {
     sync();
     play($("yu-preview"), p, values());
   }
-  async function load() {
+  async function load(phase) {
     const r = await api.action({
       action: "yuText",
       operation: "load",
-      phase: $("yu-mode").value === "OUT" ? "OUT" : "IN",
+      phase: phase || ($("yu-mode").value === "OUT" ? "OUT" : "IN"),
     });
     if (r && r.id) open(core.presets[r.id - 1], r.options, r);
   }
@@ -336,6 +348,7 @@ window.MotionAstraYUUI = (() => {
   return {
     init,
     load,
+    refreshCollection() { render(); sync(); },
     openById(id) {
       const p = core.presets.find((p) => p.id === id);
       if (p && !busy) open(p);

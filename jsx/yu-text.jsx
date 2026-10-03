@@ -463,6 +463,29 @@ function clear(layer) {
   YTMHost.clear(layer);
   layer.comment = String(layer.comment || "").replace(recordPattern, "");
 }
+// Replacing a phase must not silently discard animation authored in AE.
+function protectPhase(layer, metadata, mode) {
+  var groups = [layer.property("ADBE Text Properties").property("ADBE Text Animators"), layer.property("ADBE Effect Parade")], i, j, g, parts, phase, entry, expected, oldOptions, key;
+  function custom(prop, allowed) {
+    if (prop.numKeys) return true;
+    if (prop.canSetExpression && prop.expression && prop.expression !== allowed) return true;
+    for (var n = 1; n <= (prop.numProperties || 0); n++) if (custom(prop.property(n), allowed)) return true;
+    return false;
+  }
+  for (i = 0; i < groups.length; i++) for (j = 1; j <= groups[i].numProperties; j++) {
+    g = groups[i].property(j); parts = g.name.split(" | ");
+    phase = parts[0] === "YTM IN" ? "IN" : parts[0] === "YTM OUT" ? "OUT" : null;
+    if (!phase || (mode !== "BOTH" && mode !== phase)) continue;
+    entry = metadata && metadata[phase]; expected = "";
+    if (entry && parts.length === 3 && YTMCore.presets[entry.id - 1]) {
+      oldOptions = {}; for (key in entry.options) if (entry.options.hasOwnProperty(key)) oldOptions[key] = entry.options[key];
+      oldOptions.prefix = "YTM "; currentOptions = oldOptions;
+      try { expected = YTMCore.expression(YTMCore.presets[entry.id - 1], parts[2], phase, oldOptions); }
+      finally { currentOptions = null; }
+    }
+    if (custom(g, expected)) throw Error("This " + phase + " animation has custom keyframes or expressions. Edit it in AE, or explicitly remove the animation before replacing it.");
+  }
+}
 function run(a, codec) {
   var c = app.project.activeItem;
   if (!(c instanceof CompItem))
@@ -536,6 +559,7 @@ function run(a, codec) {
         continue;
       }
       m = read(l, codec) || { token: "yu_" + new Date().getTime() + "_" + i };
+      protectPhase(l, m, opt.mode);
       currentOptions = opt;
       YTMHost.apply(l, p, opt);
       currentOptions = null;
@@ -572,5 +596,5 @@ return { run: run, clear: clear };
 
 }());
 
-MotionAstraYU.build='3.5.2';
+MotionAstraYU.build='3.6.0';
 if(typeof $!=="undefined"&&$.global){$.global.MotionAstraYU=MotionAstraYU;$.global.MotionAstraModules=$.global.MotionAstraModules||{};$.global.MotionAstraModules.yuText=MotionAstraYU;}

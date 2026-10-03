@@ -7,12 +7,13 @@ const base = path.resolve(__dirname, '..');
 
 function environment(options = {}) {
   const metrics = { begins: 0, ends: 0, writes: 0, loads: [], evaluations: 0 };
-  function CompItem() { this.name='Test comp';this.selectedLayers=[{name:'Layer',get locked(){return true;},set locked(v){metrics.writes++;}}]; }
+  function CompItem() { this.name='Test comp';this.selectedLayers=[{name:'Layer',property(){return null;},get locked(){return true;},set locked(v){metrics.writes++;}}]; }
   const unused = new CompItem();
   unused.name = 'Unused'; unused.id = 12; unused.usedIn = [];
   unused.remove = () => { metrics.writes++; };
   const project = { activeItem: new CompItem(), numItems: 1, item: () => unused };
   const host = vm.createContext({
+    TextLayer:function(){}, ShapeLayer:function(){}, AVLayer:function(){}, SolidSource:function(){},
     CompItem, app: { project, version: 'mock-AE',
       beginUndoGroup() { metrics.begins++; },
       endUndoGroup() { metrics.ends++; if (options.failUndo) throw Error('undo close failed'); }

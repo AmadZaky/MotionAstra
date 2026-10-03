@@ -1,11 +1,13 @@
-# ZxT-Motions v3.5.2 — Studio Pre-release (Windows only)
+# ZxT-Motions v3.6.0 — Control & Reliability Pre-release (Windows only)
 
-- Implements the approved Studio layout: matte surfaces, compact five-tab navigation, square preview cards and quieter card actions.
-- Adds Settings → Appearance with Orange, Lime Green, Light Blue, Burgundy and Plain White accents, persisted alongside dark/light mode. Interface accents never change preset artwork or host color values.
-- Adds responsive Library/Customize views for both the core presets and Text Animate: split view at 920 px+, Library back navigation below that width.
-- Keeps one editor active at a time and stops hidden animation previews.
-- Separates collapsible Text Tools FX and Text Animate collections. Moves animation category selection above the collections and adds a header Settings shortcut.
-- Keeps compact Apply/Update actions separate from status messages, existing Quick Tools, font creation and FX workflows.
-- Bundles Studio styling into the offline preview catalog; adds browser regression coverage for accents, readable button contrast and editor navigation.
+- Adds a compact, read-only Layer Inspector with names, types, locks, core FX, Text Animate phases, native effects and contextual Load settings actions.
+- Makes Apply/Update selection-aware, with actionable guidance for missing compositions, wrong types, locked layers and stale loaded targets. Existing host validation remains authoritative.
+- Labels AE-keyframeable Progress/Choice controls separately from panel settings. Explicit slider edits write at the playhead; unrelated updates preserve animated controls in compact and individual layouts.
+- Preserves native color keyframes and expressions during unrelated edits. Blocks explicit edits that would override custom expressions, and blocks Count rebuilds that would remove custom artwork animation.
+- Refreshes existing background expressions across builds without recreating artwork solely because the version changed.
+- Protects manually animated Text Animate phases against silent replacement, while retaining explicit Remove and independent IN/OUT editing.
+- Adds local Favorites and Recent filters across core presets and Text Animate. Recent contains the last 20 successfully applied/updated presets.
+- Changes Text Animate preview copy to **Motion**. Keeps square previews, Studio layout, five accents, dark/light mode and existing tools.
+- Adds selection, storage, keyframe-preservation and browser regression tests; packages the same features in the offline catalog.
 
-The FX engines, project control identifiers, Windows-only policy and online installer verification/rollback behavior are unchanged. Package and installer remain unsigned. Automated browser/model and Windows CI checks do not replace manual rendering checks in After Effects.
+Windows-only online setup, integrity checks and rollback remain unchanged. Package and installer are unsigned. Browser/model and Windows CI tests do not replace manual rendering and timeline checks in After Effects 2025.

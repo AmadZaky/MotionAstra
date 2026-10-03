@@ -1,4 +1,4 @@
-# ZxT-Motions 3.5.2 — Pre-release
+# ZxT-Motions 3.6.0 — Pre-release
 
 Formerly MotionAstra. Use the new installer after the repository rename.
 
@@ -7,6 +7,15 @@ Formerly MotionAstra. Use the new installer after the repository rename.
 Offline CEP extension for Adobe After Effects 2025. Studio UI with dark/light themes and five accent colors, local CSInterface + Lucide, Text Animate (6 highlighted Text Tools FX + 120 animation presets), 8 procedural SolidGen presets and Quick Tools with integrated FX settings.
 
 Download only **Install ZxT-Motions.exe** from the release assets. Close AE, open it and consent to downloading and installing ZxT-Motions. Setup fetches its matching release from GitHub over HTTPS, verifies the digest and installs the panel. Confirm replacement of older versions, restart AE, then open Window → Extensions → ZxT-Motions. The GitHub source archive is for development; use the release asset for the ready-to-install package. The package is unsigned source; no Adobe installation or signing certificate is bundled. Internet is required by the EXE installer. The installed panel works offline. The ZIP remains an advanced/manual fallback.
+
+## Control & reliability (v3.6)
+
+- **Layer Inspector:** expand the selection summary in Quick to see layer names/types, locks, detected core FX, IN/OUT Text Animate phases and native effect names. Load the matching settings from there. Selection is polled every four seconds and on focus; Refresh selection requests it immediately. Host validation always checks the real selection at execution time.
+- **Target-aware actions:** text FX require unlocked text layers; SolidGen only needs an open composition. Update on a loaded instance is disabled after selection changes. Load the new target to continue. Mixed selections apply to valid text layers and report skipped layers.
+- **Animation controls:** parameter badges distinguish **AE keyframes** (Progress and Choice) from **Panel setting**. Enable Manual Progress before animating the native Progress slider. Text Switcher needs Choice slider mode before animating `MA2 choice`. Explicit panel edits to keyed controls add/update a key at the playhead; unrelated updates leave their keys alone. A custom expression must be edited in AE first.
+- **Colors and artwork:** unchanged native colors retain keys/expressions. An explicit color edit adds a key at the playhead if already keyed. Version upgrades refresh owned expressions without rebuilding background artwork. Count changes are blocked when rebuilding would erase custom artwork animation. Generate another background to use a different count.
+- **Text Animate:** previews say **Motion**. Apply/Save settings replace the selected IN/OUT phase; custom keys or edited expressions on that phase block replacement. Edit those in AE, or use the explicit Remove animation action first. Other phases and unrelated animators remain intact.
+- **Favorites & Recent:** use ☆ on any core or Text Animate card. All/Favorites/Recent filters apply within the current library/category. The most recent 20 successfully applied/updated presets are saved; failed operations are excluded. Collections stay on this computer and work offline. They are separate from project files.
 
 ## Studio workspace
 
@@ -206,13 +215,13 @@ Development: build with `powershell.exe -File tools/build-windows-installer.ps1`
 
 Motion Curve preset buttons show miniature graphs calculated from each preset’s exact cubic control points. The matching preset is highlighted while editing.
 
-## Font source filters and compact specimen (3.5.2)
+## Font source filters and compact specimen (3.6.0)
 
 Create displays a 24px **M.astra** specimen above Font family. It follows the selected face/style and color, independently of the actual text content and size. Sources: **All**, **User-installed** (AE reports a file in the per-user Windows Fonts folder), **Windows fonts** (system font location plus a known common Windows family), **Adobe Fonts**, and **Other/unknown**. Metadata unavailable in some AE/font combinations stays unknown. Fonts installed for all users or by applications cannot reliably be attributed to the user; they are not guessed as user-installed. Windows family reference: https://learn.microsoft.com/en-us/typography/fonts/windows_11_font_list . The list is a convenience grouping, not an audit of which files Windows originally installed.
 
 The single-file EXE embeds the installer UI and backend. It makes no network request before consent. It downloads only its pinned version from AmadZaky/ZxT-Motions, requires GitHub's SHA-256 asset digest, rejects unsafe archive paths and verifies payload checksums before backup/replacement. No project, font list or telemetry is uploaded; GitHub receives normal download requests. The EXE is still unsigned.
 
-## Compact navigation — v3.5.2 pre-release
+## Compact navigation — v3.6.0 pre-release
 
 The main menu stays in one row: **Text · Solid · Tools · Curve · Create**, including the supported 300px minimum panel width. Hover a tab for its full workspace name. This release prepares for a later UI redesign; that larger rework is not included. The GitHub release remains marked prerelease and keeps the existing `-alpha` asset/tag suffix for installer compatibility.
 

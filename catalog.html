@@ -214,13 +214,34 @@ nav,#quick{background:var(--panel)}
 .card-actions button.primary:hover,.yu-card button.primary:hover{background:var(--orange-soft);border-color:var(--accent-border);color:var(--accent)}
 #text-tools-group{background:transparent;border-color:var(--line)}
 .create-card h2 svg{color:var(--accent)}
+/* v3.6 context and collections occupy layout space; never cover controls. */
+#collection-filters{display:flex;gap:4px;padding:4px 10px}
+#collection-filters button{font-size:11px;padding:4px 10px;min-height:26px}
+#collection-filters [aria-pressed=true]{background:var(--accent-fill);color:var(--on-accent)}
+#selected-layer-inspector{margin:2px 10px 6px;font-size:11px;min-width:0}
+#selected-layer-inspector>summary{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;padding:5px 0;color:var(--muted)}
+#selection-content{max-height:140px;overflow:auto;overflow-wrap:anywhere}
+.selection-layer{padding:8px 0;border-top:1px solid var(--line)}
+.selection-layer p{font-size:11px;margin:4px 0}
+.selection-layer button,#selection-refresh{font-size:11px;padding:4px 8px;margin:3px 3px 3px 0}
+.selection-warning{color:var(--accent)}
+.card,.yu-card{position:relative}
+.favorite-toggle{position:absolute;right:6px;top:6px;z-index:1;width:28px;height:28px;padding:0;border-radius:8px;background:var(--panel);font-size:20px;line-height:1;color:var(--text)}
+.favorite-toggle[aria-pressed=true]{color:var(--accent)}
+.control-kind{display:block;font-size:10px;font-weight:400;color:var(--muted);margin-top:2px}
+.inspector-actions .target-guidance{grid-column:1/-1;font-size:10px;color:var(--muted);margin:0;line-height:1.4}
+.target-guidance:empty{display:none}
+
+#yu-selection-guidance,.animation-settings-guide{font-size:11px;color:var(--muted);line-height:1.5}
+#selected-layer-inspector{padding:0;background:transparent}
+.yu-card .favorite-toggle{width:28px;height:28px;padding:0;font-size:20px}
 </style>
   </head>
   <body class="catalog">
     <header>
       <a class="brand" href="index.html"
         ><span class="brand-icon"><i data-lucide="asterisk"></i></span
-        >ZxT-Motions <b>3.5.2</b></a
+        >ZxT-Motions <b>3.6.0</b></a
       >
       <div class="header-actions">
         <button data-tab="Settings" aria-label="Settings" title="Appearance and settings"><i data-lucide="settings"></i></button>
@@ -272,6 +293,8 @@ nav,#quick{background:var(--panel)}
         ><button id="load-fx" data-host>
           <i data-lucide="sliders-horizontal"></i>Load settings</button>
       </div>
+      <div id="collection-filters" role="group" aria-label="Preset collection"><button data-collection="all" aria-pressed="true">All</button><button data-collection="favorites" aria-pressed="false">Favorites</button><button data-collection="recent" aria-pressed="false">Recent</button></div>
+      <details id="selected-layer-inspector"><summary id="selection-summary">Layer Inspector</summary><div id="selection-content"></div><button id="selection-refresh" data-host>Refresh selection</button></details>
     </div>
     <div id="workspace">
       <main>
@@ -586,7 +609,7 @@ ZxT-Motions</textarea
             <div class="yu-edit-scroll">
               <button id="yu-back">← Library</button>
               <h2 id="yu-title"></h2>
-              <p id="yu-target"></p>
+              <p id="yu-target"></p><p id="yu-selection-guidance" class="target-guidance" role="status"></p><p class="animation-settings-guide">Panel settings apply on Apply/Save. Animate in AE with native text animators. A phase with custom keyframes or expressions is protected from replacement.</p>
               <canvas
                 id="yu-preview"
                 width="600"
@@ -988,7 +1011,7 @@ ZxT-Motions</textarea
             Load selected FX → Update to rebuild.
           </p>
         </div>
-        <div class="inspector-actions">
+        <div class="inspector-actions"><p id="target-guidance" class="target-guidance" role="status"></p>
           <button id="apply" class="primary" data-host>Apply / Update</button
           ><button id="update" data-host>Update</button>
         </div>
@@ -2314,7 +2337,7 @@ lucide.createIcons({icons});\``);if(typeof document>"u")throw new Error("`create
 </script>
     <script>
 window.MA_PRESETS = {
-  "version": "3.5.2",
+  "version": "3.6.0",
   "presets": [
     {
       "id": "counter",
@@ -7102,14 +7125,14 @@ document.addEventListener('visibilitychange',run);return {attach,play,clear,rend
 
 </script>
     <script>
-/* MotionAstra CEP transport v3.5.2.
+/* MotionAstra CEP transport v3.6.0.
  * Host files load by absolute path; all replies are tagged and request-correlated.
  * Empty callbacks recover the stored reply, NEVER replay the host mutation.
  */
 (function (root) {
   "use strict";
-  const VERSION = "3.5.2";
-  const BUILD = "3.5.2";
+  const VERSION = "3.6.0";
+  const BUILD = "3.6.0";
   const PREFIX = "MAFX1:";
   const ERROR_PREFIX = "MAFX1E:";
   const available = !!root.__adobe_cep__;
@@ -7697,6 +7720,17 @@ window.MotionAstraYUUI = (() => {
           (id === "yu-update" && !target) ||
           (["yu-apply", "yu-update"].includes(id) && !valid())),
     );
+    if (window.ZxTSelection) {
+      ["yu-apply", "yu-update"].forEach(id => {
+        const info = ZxTSelection.eligibility("YU", preset.id, "apply", id === "yu-update" ? target : null);
+        $(id).disabled = $(id).disabled || !info.allowed;
+        $(id).title = info.reason;
+        if (id === (target ? "yu-update" : "yu-apply")) $("yu-selection-guidance").textContent = info.reason;
+      });
+      document.querySelectorAll(".yu-card-apply").forEach(b => {
+        b.disabled = busy || !api.ready() || !ZxTSelection.eligibility("YU", b.dataset.preset, "apply", null).allowed;
+      });
+    }
     $("yu-back").disabled = busy;
     $("yu-controls")
       .querySelectorAll("input,select")
@@ -7718,12 +7752,12 @@ window.MotionAstraYUUI = (() => {
     ctx.fillRect(0, 0, w, h);
     const groups =
       o.group === "all"
-        ? ["ZxT-Motions"]
+        ? ["Motion"]
         : o.group === "words"
-          ? ["ZxT-Motions"]
+          ? ["Motion"]
           : o.group === "lines"
-            ? ["ZxT-Motions"]
-            : Array.from("ZxT-Motions");
+            ? ["Motion"]
+            : Array.from("Motion");
     const size = o.group === "all" ? 36 : 40;
     ctx.font = "600 " + size + "px Arial";
     const widths = groups.map((s) => ctx.measureText(s).width),
@@ -7784,7 +7818,7 @@ window.MotionAstraYUUI = (() => {
     stop();
     activeCanvas = canvas;
     const started = performance.now(),
-      length = o.duration + o.stagger * core.rankSpan(9, o.order),
+      length = o.duration + o.stagger * core.rankSpan(["all", "words", "lines"].includes(o.group) ? 1 : 6, o.order),
       end = o.mode === "BOTH" ? length * 2 + 1.2 : length + 0.6;
     function tick(now) {
       if (
@@ -7809,11 +7843,11 @@ window.MotionAstraYUUI = (() => {
     $("yu-cards").textContent = "";
     const q = "",
       cat = $("yu-category").value,
-      list = core.presets.filter(
+      list = ZxTCollections.filter(core.presets.filter(
         (p) =>
           (cat === "All" || p.category === cat) &&
           `${p.name} ${p.category}`.toLowerCase().includes(q),
-      );
+      ), p => "yu:" + p.id);
     $("yu-count").textContent = list.length + " presets";
     list.forEach((p) => {
       const card = node("article", "yu-card"),
@@ -7835,6 +7869,7 @@ window.MotionAstraYUUI = (() => {
         "Apply animation",
       );
       applyButton.dataset.host = "";
+      applyButton.dataset.preset = p.id;
       applyButton.disabled = busy || !api.ready();
       applyButton.onclick = () =>
         api.action({
@@ -7843,7 +7878,7 @@ window.MotionAstraYUUI = (() => {
           id: p.id,
           options: o,
         });
-      card.append(canvas, tag, title, button, applyButton);
+      card.append(canvas, tag, title, button, applyButton, ZxTCollections.button("yu:" + p.id, p.name));
       card.onmouseenter = () => play(canvas, p, o);
       card.onmouseleave = () => {
         if (activeCanvas === canvas) {
@@ -7855,7 +7890,7 @@ window.MotionAstraYUUI = (() => {
       $("yu-cards").appendChild(card);
     });
     if (!list.length)
-      $("yu-cards").appendChild(node("p", "", "No matching presets."));
+      $("yu-cards").appendChild(node("p", "", ZxTCollections.empty()));
   }
   function open(p, o, loaded) {
     stop();
@@ -7878,11 +7913,11 @@ window.MotionAstraYUUI = (() => {
     sync();
     play($("yu-preview"), p, values());
   }
-  async function load() {
+  async function load(phase) {
     const r = await api.action({
       action: "yuText",
       operation: "load",
-      phase: $("yu-mode").value === "OUT" ? "OUT" : "IN",
+      phase: phase || ($("yu-mode").value === "OUT" ? "OUT" : "IN"),
     });
     if (r && r.id) open(core.presets[r.id - 1], r.options, r);
   }
@@ -7950,6 +7985,7 @@ window.MotionAstraYUUI = (() => {
   return {
     init,
     load,
+    refreshCollection() { render(); sync(); },
     openById(id) {
       const p = core.presets.find((p) => p.id === id);
       if (p && !busy) open(p);
@@ -8414,6 +8450,106 @@ window.MotionAstraSearch = (() => {
 
 </script>
     <script>
+/* Selected-layer context is advisory; host target validation remains authoritative. */
+window.ZxTSelection = (() => {
+  'use strict';
+  let current = null, adapter, signature = '', connected = false;
+  const $ = id => document.getElementById(id);
+  function match(a,b){return !!a&&!!b&&a.comp===b.comp&&a.layer===b.layer&&a.token===b.token;}
+  function eligibility(category,id,operation,target){
+    if(!connected)return {allowed:false,reason:'Connect to After Effects first.'};
+    if(!current)return {allowed:true,reason:''}; // Older hosts without inspector metadata.
+    if(current.compId===null)return {allowed:false,reason:'Open a composition in After Effects.'};
+    const layers=current.layers||[],count=current.total;
+    if(target){
+      const row=count===1&&layers[0],actual=row&&(category==='YU'?row.animations.map(a=>a.target):[row.core&&row.core.target]);
+      if(!row||!actual.some(t=>match(t,target)))return {allowed:false,reason:'Selection changed. Load this layer’s settings again.'};
+      if(row.locked)return {allowed:false,reason:'Unlock the selected layer first.'};
+      return {allowed:true,reason:'Updates the loaded layer. Existing keyframes are preserved unless explicitly edited.'};
+    }
+    if(category==='Background'){
+      const matching=layers.filter(l=>l.core&&l.core.id===id);
+      if(matching.length&&!matching.some(l=>!l.locked))return {allowed:false,reason:'Unlock the matching background before updating it.'};
+      return {allowed:true,reason:matching.length?'Updates matching selected backgrounds.':'Generates one new background in the active composition.'};
+    }
+    if(!count)return {allowed:false,reason:'Select a text layer in After Effects.'};
+    const text=layers.filter(l=>l.type==='Text'&&!l.locked);
+    if(!text.length&&!current.truncated)return {allowed:false,reason:'Select an unlocked text layer.'};
+    if(operation==='update'&&category!=='YU'&&!layers.some(l=>!l.locked&&l.core&&l.core.id===id)&&!current.truncated)return {allowed:false,reason:'Apply this preset first, or load an existing instance.'};
+    return {allowed:true,reason:text.length<count?'Applies to unlocked text layers; other selected layer types are skipped.':'Ready for the selected text layer'+(count===1?'':'s')+'.'};
+  }
+  function render(){
+    if(!adapter)return;
+    const box=$('selection-content'),summary=$('selection-summary');box.textContent='';
+    if(!connected){summary.textContent='Layer Inspector · Preview mode';return;}
+    if(!current){summary.textContent='Layer Inspector · Refresh to inspect selection';return;}
+    if(current.compId===null){summary.textContent='Layer Inspector · Open a composition';return;}
+    if(!current.total){summary.textContent='Layer Inspector · No layers selected';box.textContent='Select a layer to inspect its FX. SolidGen can generate without a selection.';return;}
+    summary.textContent=current.total===1?current.layers[0].name+' · '+current.layers[0].type+(current.layers[0].locked?' · Locked':''):current.total+' layers selected';
+    current.layers.forEach(row=>{
+      const item=document.createElement('div');item.className='selection-layer';
+      const heading=document.createElement('strong');heading.textContent=row.name+' · '+row.type+(row.locked?' · Locked':'');item.appendChild(heading);
+      const names=[];if(row.core)names.push(row.core.name);
+      row.animations.forEach(a=>{const p=window.YTMCore&&YTMCore.presets.find(p=>p.id===a.id);names.push((p?p.name:'Text animation '+a.id)+' · '+a.phase);});
+      const text=document.createElement('p');text.textContent=names.length?names.join(' / '):'No ZxT-Motions preset detected.';item.appendChild(text);
+      if(current.total===1){
+        const add=(label,fn)=>{const b=document.createElement('button');b.textContent=label;b.dataset.host='';b.onclick=fn;b.disabled=adapter.busy();item.appendChild(b);};
+        if(row.core)add('Load FX settings',()=>adapter.loadCore());
+        row.animations.forEach(a=>add('Load '+a.phase+' animation',()=>adapter.loadAnimation(a.phase)));
+      }
+      if(row.effectCount){const d=document.createElement('details'),s=document.createElement('summary'),p=document.createElement('p');s.textContent=row.effectCount+' native effects';p.textContent=row.effects.join(' · ')+(row.effectCount>row.effects.length?' · …':'');d.append(s,p);item.appendChild(d);}
+      if(row.warning){const warning=document.createElement('p');warning.textContent=row.warning;warning.className='selection-warning';item.appendChild(warning);}
+      box.appendChild(item);
+    });
+    if(current.truncated){const p=document.createElement('p');p.textContent='Showing the first 50 selected layers.';box.appendChild(p);}
+  }
+  function update(response,ready){connected=ready;current=response&&response.selection||null;const next=JSON.stringify([connected,current]);if(next!==signature){signature=next;render();}}
+  return {init(a){adapter=a;$('selection-refresh').onclick=a.refresh;render();},update,eligibility};
+})();
+
+</script>
+    <script>
+/* Local-only collections. Failed operations never enter Recent. */
+window.ZxTCollections = (() => {
+  'use strict';
+  const key = 'zxt-collections-v1', known = new Set([
+    ...window.MA_PRESETS.presets.map(p => 'core:' + p.id),
+    ...window.YTMCore.presets.map(p => 'yu:' + p.id)
+  ]), listeners = [];
+  let mode = 'all', saved = {};
+  try { saved = JSON.parse(localStorage.getItem(key)) || {}; } catch (_) {}
+  const clean = (a, limit) => Array.isArray(a) ? [...new Set(a.filter(k => known.has(k)))].slice(0, limit) : [];
+  let favorites = clean(saved.favorites, known.size), recent = clean(saved.recent, 20);
+  function emit(save) {
+    if (save) try { localStorage.setItem(key, JSON.stringify({favorites, recent})); } catch (_) {}
+    listeners.forEach(fn => fn());
+  }
+  return {
+    get mode() { return mode; },
+    isFavorite(k) { return favorites.includes(k); },
+    toggle(k) { if (!known.has(k)) return; favorites = favorites.includes(k) ? favorites.filter(v => v !== k) : [...favorites, k]; emit(true); },
+    record(k) { if (!known.has(k)) return; recent = [k, ...recent.filter(v => v !== k)].slice(0, 20); emit(true); },
+    setMode(value) { if (!['all','favorites','recent'].includes(value)) return; mode = value; emit(false); },
+    subscribe(fn) { listeners.push(fn); },
+    filter(items, id) {
+      if (mode === 'all') return items;
+      const keys = mode === 'favorites' ? favorites : recent;
+      const result = items.filter(p => keys.includes(id(p)));
+      return mode === 'recent' ? result.sort((a,b) => keys.indexOf(id(a)) - keys.indexOf(id(b))) : result;
+    },
+    button(k, name) {
+      const b = document.createElement('button'); b.className = 'favorite-toggle';
+      b.textContent = favorites.includes(k) ? '★' : '☆';
+      b.setAttribute('aria-pressed', String(favorites.includes(k)));
+      b.setAttribute('aria-label', 'Favorite ' + name); b.title = 'Favorite ' + name;
+      b.onclick = () => this.toggle(k); return b;
+    },
+    empty() { return mode === 'favorites' ? 'No favorites here yet. Use ☆ on a preset to save it.' : mode === 'recent' ? 'No recently applied presets in this category.' : 'No matching presets.'; }
+  };
+})();
+
+</script>
+    <script>
 (() => {
   "use strict";
   const $ = (id) => document.getElementById(id),
@@ -8426,6 +8562,7 @@ window.MotionAstraSearch = (() => {
       busy: false,
       query: "",
       drafts: {},
+      draftEdits: {},
       draftInvalid: {},
       invalid: new Set(),
       target: null,
@@ -8433,6 +8570,7 @@ window.MotionAstraSearch = (() => {
       loadedProgress: null,
       loadedChoice: null,
       dirty: false,
+      editedParameters: new Set(),
     },
     history = [];
   const store = {
@@ -8493,6 +8631,23 @@ window.MotionAstraSearch = (() => {
         "#parameters input,#parameters select,#parameters textarea",
       )
       .forEach((e) => (e.disabled = value));
+    if (window.ZxTSelection) {
+      const gate = (b, category, id, operation, target) => {
+        const result = ZxTSelection.eligibility(category, id, operation, target);
+        b.disabled = b.disabled || !result.allowed;
+        b.title = result.reason;
+        return result;
+      };
+      if (state.preset) {
+        const info = gate($("apply"), state.preset.category, state.preset.id, "apply", null);
+        const updateInfo = gate($("update"), state.preset.category, state.preset.id, "update", state.target);
+        $("target-guidance").textContent = state.target ? updateInfo.reason : info.reason;
+      }
+      document.querySelectorAll(".card-apply").forEach(b => {
+        const p = data.presets.find(p => p.id === b.dataset.preset);
+        if (p) gate(b, p.category, p.id, "apply", null);
+      });
+    }
     if (window.MotionAstraYUUI) window.MotionAstraYUUI.setBusy(value);
     if (window.MotionCurve) window.MotionCurve.setBusy(value);
     if (window.MotionAstraCreate) window.MotionAstraCreate.setBusy(value);
@@ -8503,17 +8658,20 @@ window.MotionAstraSearch = (() => {
       $("status").textContent = "Browser preview · install in AE to apply";
       $("connection").textContent =
         "Preview mode. No After Effects connection.";
+      if (window.ZxTSelection) ZxTSelection.update(null, false);
       busy(false);
       return;
     }
     try {
       const r = await bridge.call({ action: "status" });
+      if (window.ZxTSelection) ZxTSelection.update(r, true);
       $("status").textContent = r.composition
         ? `${r.composition} · ${r.selected} selected`
         : "AE connected · open a composition";
       $("connection").textContent =
         `After Effects ${r.version} · ZxT-Motions ${r.hostVersion} · ${r.build || "older build"}`;
     } catch (e) {
+      if (window.ZxTSelection) ZxTSelection.update(null, false);
       $("status").textContent = e.message;
       $("connection").textContent = e.message;
     }
@@ -8524,6 +8682,19 @@ window.MotionAstraSearch = (() => {
     busy(true);
     try {
       const r = await bridge.call(JSON.parse(JSON.stringify(payload)));
+      if (r.changed > 0 && ["apply", "update", "generateBackground"].includes(payload.action)) {
+        if (state.draftEdits[payload.id]) state.draftEdits[payload.id].clear();
+        if (state.preset && state.preset.id === payload.id) {
+          state.editedParameters.clear();
+          state.loadedProgress = state.params.progress;
+          state.loadedChoice = state.params.choice;
+          state.dirty = false;
+        }
+      }
+      if (window.ZxTCollections && r.changed > 0) {
+        if (["apply", "update", "generateBackground"].includes(payload.action)) ZxTCollections.record("core:" + payload.id);
+        if (payload.action === "yuText" && payload.operation === "apply") ZxTCollections.record("yu:" + payload.id);
+      }
       if (r.message) notice(r.message, r.severity || "success");
       return r;
     } catch (e) {
@@ -8550,6 +8721,7 @@ window.MotionAstraSearch = (() => {
   function tab(name) {
     if (name === "Text") name = "YU";
     state.tab = name;
+    $("collection-filters").hidden = !["YU", "Background"].includes(name);
     close();
     $("library").hidden = !["YU", "Background"].includes(name);
     if (name === "YU") $("text-tools-group").appendChild($("library"));
@@ -8585,11 +8757,11 @@ window.MotionAstraSearch = (() => {
   function render() {
     MotionPreview.clear();
     $("cards").textContent = "";
-    const list = data.presets.filter(
+    const list = ZxTCollections.filter(data.presets.filter(
       (p) =>
         p.category === (state.tab === "YU" ? "Text" : state.tab) &&
         `${p.name} ${p.description}`.toLowerCase().includes(state.query),
-    );
+    ), p => "core:" + p.id);
     list.forEach((p, i) => {
       const article = el("article", "card"),
         view = el("button", "card-preview"),
@@ -8643,13 +8815,16 @@ window.MotionAstraSearch = (() => {
           action: p.category === "Background" ? "generateBackground" : "apply",
           id: p.id,
           params: values,
+          editedParameters: state.draftEdits[p.id] ? Array.from(state.draftEdits[p.id]) : undefined,
+          editProgress: !!(state.draftEdits[p.id] && state.draftEdits[p.id].has("progress")),
+          editChoice: !!(state.draftEdits[p.id] && state.draftEdits[p.id].has("choice")),
           smart: true,
           layout: $("control-layout").value || "compact",
         });
       };
       actions.append(button, apply);
       content.appendChild(actions);
-      article.append(view, content);
+      article.append(view, content, ZxTCollections.button("core:" + p.id, p.name));
       $("cards").appendChild(article);
       MotionPreview.attach(canvas, p);
       article.onmouseenter = () => MotionPreview.play(canvas, true);
@@ -8658,7 +8833,7 @@ window.MotionAstraSearch = (() => {
       article.onfocusout = () => MotionPreview.play(canvas, false);
     });
     if (!list.length)
-      $("cards").appendChild(el("p", "empty", "No matching effects."));
+      $("cards").appendChild(el("p", "empty", ZxTCollections.empty()));
     busy(state.busy);
   }
   function preview() {
@@ -8712,11 +8887,15 @@ window.MotionAstraSearch = (() => {
         );
       input.id = "param-" + d.id;
       label.htmlFor = input.id;
+      const live = d.id === "progress" || d.id === "choice";
+      label.appendChild(el("small", "control-kind", live ? "AE keyframes" : "Panel setting"));
+      if (live) label.title = d.id === "choice" ? "Enable Choice slider mode. Animate MA2 choice in AE; explicit panel edits add a key at the playhead when already animated." : "Enable manual Progress. Animate the native Progress slider in AE; explicit panel edits add a key at the playhead when already animated.";
       row.dataset.search = (d.label + " " + d.group).toLowerCase();
       row.appendChild(label);
       const change = (v) => {
         state.params[d.id] = v;
         state.dirty = true;
+        state.editedParameters.add(d.id);
         state.invalid.delete(d.id);
         input.removeAttribute("aria-invalid");
         preview();
@@ -8807,6 +8986,8 @@ window.MotionAstraSearch = (() => {
     state.loadedProgress = loaded ? loaded.params.progress : null;
     state.loadedChoice = loaded ? loaded.params.choice : null;
     state.dirty = false;
+    state.editedParameters = loaded ? new Set() : (state.draftEdits[p.id] || new Set());
+    state.draftEdits[p.id] = state.editedParameters;
     state.params = {};
     p.parameters.forEach(
       (d) =>
@@ -8848,7 +9029,7 @@ window.MotionAstraSearch = (() => {
       (p.id === "switcher"
         ? "Choice slider mode: animate MA2 choice in AE Effect Controls (1 = first phrase). Panel changes take effect on Update. Automatic mode ignores Choice. "
         : "") +
-      "Animation starts at the layer in-point. Drag [FX End] to retime; Loop mode: None, Ping-Pong, Cycle or Continue. Static backgrounds freeze at the start. Use FX Tweaker for settings. Compact mode keeps one Progress controller; enable manual Progress to animate it. Changes apply on Update. Count rebuilds artwork.";
+      "Animation starts at the layer in-point. Drag [FX End] to retime; Loop mode: None, Ping-Pong, Cycle or Continue. Static backgrounds freeze at the start. Use FX Tweaker for settings. Compact mode keeps one Progress controller; enable manual Progress to animate it. Panel settings apply on Update. Unchanged animated colors and sliders are preserved. Editing an animated value adds a key at the playhead. Count rebuilds artwork only when it has no custom animation.";
     document.querySelector(".inspector-scroll").scrollTop = 0;
     $("inspector").scrollTop = 0;
     $("close").focus();
@@ -8908,6 +9089,9 @@ window.MotionAstraSearch = (() => {
             : "apply",
         id: state.preset.id,
         params: state.params,
+        editedParameters: Array.from(state.editedParameters),
+        editProgress: state.editedParameters.has("progress"),
+        editChoice: state.editedParameters.has("choice"),
         smart: true,
         layout: $("control-layout").value || "compact",
       });
@@ -8916,20 +9100,18 @@ window.MotionAstraSearch = (() => {
     if (state.preset && !state.invalid.size) {
       const r = await action({
         action: "update",
+        editedParameters: Array.from(state.editedParameters),
         id: state.preset.id,
         params: state.params,
         target: state.target,
-        editChoice:
-          state.preset.id === "switcher" &&
-          state.target &&
-          state.params.choice !== state.loadedChoice,
-        editProgress:
-          state.target && state.params.progress !== state.loadedProgress,
+        editChoice: state.editedParameters.has("choice"),
+        editProgress: state.editedParameters.has("progress"),
         smart: true,
         layout: $("control-layout").value || "compact",
       });
       if (r && r.changed) {
         state.dirty = false;
+        state.editedParameters.clear();
         state.loadedProgress = state.params.progress;
         state.loadedChoice = state.params.choice;
       }
@@ -8953,10 +9135,11 @@ window.MotionAstraSearch = (() => {
             target: state.target,
             layout: state.loadedLayout,
             layerName: $("loaded-layer").textContent,
-            params: { progress: state.loadedProgress },
+            params: { progress: state.loadedProgress, choice: state.loadedChoice },
           }
         : null;
       open(state.preset, {}, current);
+      state.preset.parameters.forEach(d => state.editedParameters.add(d.id));
       state.dirty = true;
     }
   };
@@ -9129,6 +9312,19 @@ window.MotionAstraSearch = (() => {
   $("text-tools-group").ontoggle = () => {
     store.set("ma-text-tools-folded", !$("text-tools-group").open);
   };
+  if (window.ZxTSelection) ZxTSelection.init({
+    refresh, busy: () => state.busy, loadCore: load,
+    loadAnimation: phase => { tab("YU"); return window.MotionAstraYUUI.load(phase); }
+  });
+  if (window.ZxTCollections) {
+    document.querySelectorAll("[data-collection]").forEach(b => b.onclick = () => ZxTCollections.setMode(b.dataset.collection));
+    ZxTCollections.subscribe(() => {
+      document.querySelectorAll("[data-collection]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.collection === ZxTCollections.mode)));
+      if (["YU", "Background"].includes(state.tab)) render();
+      if (window.MotionAstraYUUI) window.MotionAstraYUUI.refreshCollection();
+      busy(state.busy);
+    });
+  }
   tab("YU");
   busy(false);
   refresh();

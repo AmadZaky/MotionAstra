@@ -1,0 +1,8 @@
+const assert=require('node:assert/strict'),vm=require('node:vm'),fs=require('node:fs');
+const source=fs.readFileSync('js/collections.js','utf8'),presets=JSON.parse(fs.readFileSync('presets.json','utf8')).presets;
+function make(raw,blocked){let saved=raw;const ctx={window:{MA_PRESETS:{presets},YTMCore:{presets:Array.from({length:120},(_,i)=>({id:i+1}))}},localStorage:{getItem(){if(blocked)throw Error('disabled');return saved;},setItem(k,v){if(blocked)throw Error('disabled');saved=v;}}};vm.runInNewContext(source,ctx);return {api:ctx.window.ZxTCollections,read:()=>saved};}
+for(const raw of [null,'broken','null','[]','{}']){const {api}=make(raw);api.toggle('core:counter');api.setMode('favorites');assert.equal(api.filter(presets,p=>'core:'+p.id)[0].id,'counter');api.toggle('core:counter');assert.equal(api.filter(presets,p=>'core:'+p.id).length,0);}
+const e=make(JSON.stringify({favorites:['invalid','core:counter','core:counter'],recent:['yu:1','bad']}));assert(e.api.isFavorite('core:counter'));e.api.record('core:counter');e.api.record('yu:1');e.api.record('core:counter');assert.deepEqual(JSON.parse(e.read()).recent,['core:counter','yu:1']);
+for(let i=1;i<=30;i++)e.api.record('yu:'+i);assert.equal(JSON.parse(e.read()).recent.length,20);assert.equal(JSON.parse(e.read()).recent[0],'yu:30');assert(make(e.read()).api.isFavorite('core:counter'));
+const blocked=make(null,true);blocked.api.toggle('core:counter');assert(blocked.api.isFavorite('core:counter'));
+console.log('PASS: collections persistence, invalid storage, blocked storage, namespaced IDs, deduplication and 20-item recent bound.');

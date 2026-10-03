@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <script src="js/theme.js"></script>
-    <title>ZxT-Motions 3.5.2 Alpha</title>
+    <title>ZxT-Motions 3.6.0 Alpha</title>
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/studio.css" />
   </head>
@@ -12,7 +12,7 @@
     <header>
       <a class="brand" href="index.html"
         ><span class="brand-icon"><i data-lucide="asterisk"></i></span
-        >ZxT-Motions <b>3.5.2</b></a
+        >ZxT-Motions <b>3.6.0</b></a
       >
       <div class="header-actions">
         <button data-tab="Settings" aria-label="Settings" title="Appearance and settings"><i data-lucide="settings"></i></button>
@@ -64,6 +64,8 @@
         ><button id="load-fx" data-host>
           <i data-lucide="sliders-horizontal"></i>Load settings</button>
       </div>
+      <div id="collection-filters" role="group" aria-label="Preset collection"><button data-collection="all" aria-pressed="true">All</button><button data-collection="favorites" aria-pressed="false">Favorites</button><button data-collection="recent" aria-pressed="false">Recent</button></div>
+      <details id="selected-layer-inspector"><summary id="selection-summary">Layer Inspector</summary><div id="selection-content"></div><button id="selection-refresh" data-host>Refresh selection</button></details>
     </div>
     <div id="workspace">
       <main>
@@ -378,7 +380,7 @@ ZxT-Motions</textarea
             <div class="yu-edit-scroll">
               <button id="yu-back">← Library</button>
               <h2 id="yu-title"></h2>
-              <p id="yu-target"></p>
+              <p id="yu-target"></p><p id="yu-selection-guidance" class="target-guidance" role="status"></p><p class="animation-settings-guide">Panel settings apply on Apply/Save. Animate in AE with native text animators. A phase with custom keyframes or expressions is protected from replacement.</p>
               <canvas
                 id="yu-preview"
                 width="600"
@@ -780,7 +782,7 @@ ZxT-Motions</textarea
             Load selected FX → Update to rebuild.
           </p>
         </div>
-        <div class="inspector-actions">
+        <div class="inspector-actions"><p id="target-guidance" class="target-guidance" role="status"></p>
           <button id="apply" class="primary" data-host>Apply / Update</button
           ><button id="update" data-host>Update</button>
         </div>
@@ -805,6 +807,8 @@ ZxT-Motions</textarea
     <script src="js/motion-curve.js"></script>
     <script src="js/create.js"></script>
     <script src="js/search.js"></script>
+    <script src="js/selection.js"></script>
+    <script src="js/collections.js"></script>
     <script src="js/main.js"></script>
   </body>
 </html>

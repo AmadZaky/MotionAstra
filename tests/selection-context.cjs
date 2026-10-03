@@ -1,0 +1,10 @@
+const assert=require('node:assert/strict'),{create}=require('./host-model.cjs');
+const e=create();assert.deepEqual(Array.from(e.rpc({action:'status'}).selection.layers),[]);
+const text=e.comp.add('text'),shape=e.comp.add('shape'),solid=e.comp.add('solid');text.selected=true;text.name='Headline';
+e.rpc({action:'apply',id:'counter',params:{}});const saved=text.comment,count=text.fx.numProperties;
+let s=e.rpc({action:'status'}).selection;assert.equal(s.layers[0].type,'Text');assert.equal(s.layers[0].core.id,'counter');assert.equal(s.layers[0].core.name,'Counter Text');assert.equal(s.layers[0].name,'Headline');assert.equal(text.comment,saved);assert.equal(text.fx.numProperties,count);
+shape.selected=true;solid.selected=true;shape.locked=true;s=e.rpc({action:'status'}).selection;assert.equal(s.layers.length,3);assert.equal(s.layers[1].type,'Shape');assert.equal(s.layers[1].locked,true);assert.equal(s.layers[2].type,'Solid');
+shape.comment='\n[MotionAstra2:broken]';s=e.rpc({action:'status'}).selection;assert(s.layers[1].warning);assert(s.layers[0].core);
+shape.selected=false;solid.selected=false;e.rpc({action:'yuText',operation:'apply',id:1,options:{mode:'IN',duration:1,stagger:.05,intensity:100,seed:1,group:'chars',order:'forward',easing:'preset',placement:'edges'}});s=e.rpc({action:'status'}).selection;assert.equal(s.layers[0].animations[0].phase,'IN');assert.equal(s.layers[0].animations[0].id,1);
+e.context.app.project.activeItem=null;s=e.rpc({action:'status'});assert.equal(s.selection.compId,null);assert.equal(s.selection.layers.length,0);
+console.log('PASS: read-only selection context, core/YU identification, types, locks, malformed metadata isolation and missing composition.');
