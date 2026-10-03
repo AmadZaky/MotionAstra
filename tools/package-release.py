@@ -4,7 +4,7 @@ from pathlib import Path
 import zipfile
 root=Path(__file__).resolve().parent.parent
 version=(root/'VERSION').read_text().strip()
-parser=argparse.ArgumentParser();parser.add_argument('--output',default=str(root/('MotionAstra_FX_v'+version+'-alpha.zip')))
+parser=argparse.ArgumentParser();parser.add_argument('--output',default=str(root/('ZxT-Motions_v'+version+'-alpha.zip')))
 parser.add_argument('--windows-launcher',type=Path,help='Compiled Windows GUI launcher for release builds')
 args=parser.parse_args();payload={}
 if args.windows_launcher and args.windows_launcher.read_bytes()[:2] != b'MZ': raise ValueError('Windows launcher must be a PE executable')
@@ -21,7 +21,7 @@ with zipfile.ZipFile(args.output,'w',zipfile.ZIP_DEFLATED) as z:
  def put(name,data,mode=0o644):
   info=zipfile.ZipInfo(name);info.create_system=3;info.external_attr=(0o100000|mode)<<16;info.compress_type=zipfile.ZIP_DEFLATED;z.writestr(info,data)
  for name,data in sorted(payload.items()):put('MotionAstra-FX/'+name,data)
- if args.windows_launcher: put('Install MotionAstra.exe',args.windows_launcher.read_bytes())
+ if args.windows_launcher: put('Install ZxT-Motions.exe',args.windows_launcher.read_bytes())
  for source,destination in [('installer/windows/WindowsUI.ps1','Installer/WindowsUI.ps1'),('installer/windows/Window.xaml','Installer/Window.xaml'),('install-windows.ps1','Installer/Backend.ps1')]:
   put(destination,(root/source).read_bytes())
  for source,destination,mode in [('Install MotionAstra.cmd','Install MotionAstra.cmd',0o644),('install-windows.ps1','Install MotionAstra.ps1',0o644),('INSTALLATION_GUIDE.md','INSTALLATION_GUIDE.md',0o644)]:

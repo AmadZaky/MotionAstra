@@ -104,12 +104,12 @@ window.MotionAstraYUUI = (() => {
     ctx.fillRect(0, 0, w, h);
     const groups =
       o.group === "all"
-        ? ["MotionAstra"]
+        ? ["ZxT-Motions"]
         : o.group === "words"
-          ? ["MotionAstra"]
+          ? ["ZxT-Motions"]
           : o.group === "lines"
-            ? ["MotionAstra"]
-            : Array.from("MotionAstra");
+            ? ["ZxT-Motions"]
+            : Array.from("ZxT-Motions");
     const size = o.group === "all" ? 36 : 40;
     ctx.font = "600 " + size + "px Arial";
     const widths = groups.map((s) => ctx.measureText(s).width),

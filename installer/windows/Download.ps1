@@ -1,12 +1,12 @@
 # Online setup downloads only the version embedded in the EXE, after UI consent.
 function Assert-MotionAstraReleaseAsset($Release,[string]$Version) {
     $tag='v'+$Version+'-alpha'
-    $name='MotionAstra_FX_v'+$Version+'-alpha.zip'
+    $name='ZxT-Motions_v'+$Version+'-alpha.zip'
     if ($Release.tag_name -cne $tag -or $Release.draft) { throw 'Unexpected GitHub release.' }
     $assets=@($Release.assets | Where-Object { $_.name -ceq $name })
     if ($assets.Count -ne 1) { throw 'Release package is not available. Retry later.' }
     $asset=$assets[0]
-    $expected='https://github.com/AmadZaky/MotionAstra/releases/download/'+$tag+'/'+$name
+    $expected='https://github.com/AmadZaky/ZxT-Motions/releases/download/'+$tag+'/'+$name
     if ($asset.browser_download_url -cne $expected -or $asset.digest -notmatch '^sha256:[a-fA-F0-9]{64}$' -or $asset.size -le 0 -or $asset.size -gt 536870912) { throw 'Invalid release URL, checksum or size. Download refused.' }
     return $asset
 }
@@ -42,9 +42,9 @@ function Get-MotionAstraOnlinePayload([string]$Version,[string]$Workspace,[hasht
     if ($Version -notmatch '^\d+\.\d+\.\d+$') { throw 'Invalid embedded setup version.' }
     [Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12
     $State.Message='Connecting to GitHub...';$State.Percent=2
-    $release=Invoke-RestMethod -Uri ('https://api.github.com/repos/AmadZaky/MotionAstra/releases/tags/v'+$Version+'-alpha') -Headers @{'User-Agent'='MotionAstra-Setup';'Accept'='application/vnd.github+json'} -TimeoutSec 30
+    $release=Invoke-RestMethod -Uri ('https://api.github.com/repos/AmadZaky/ZxT-Motions/releases/tags/v'+$Version+'-alpha') -Headers @{'User-Agent'='ZxT-Motions-Setup';'Accept'='application/vnd.github+json'} -TimeoutSec 30
     $asset=Assert-MotionAstraReleaseAsset $release $Version
-    $State.Message='Downloading MotionAstra from GitHub...';$State.Percent=5
+    $State.Message='Downloading ZxT-Motions from GitHub...';$State.Percent=5
     $zip=Join-Path $Workspace 'package.zip'
     Invoke-WebRequest -UseBasicParsing -Uri $asset.browser_download_url -OutFile $zip -TimeoutSec 180 | Out-Null
     $State.Message='Verifying download...';$State.Percent=15

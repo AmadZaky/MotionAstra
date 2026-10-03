@@ -4,16 +4,16 @@ using System.IO;
 using System.Windows.Forms;
 using System.Reflection;
 using System.Threading;
-[assembly: AssemblyTitle("MotionAstra Installer")]
-[assembly: AssemblyProduct("MotionAstra FX")]
-[assembly: AssemblyCompany("MotionAstra")]
+[assembly: AssemblyTitle("ZxT-Motions Installer")]
+[assembly: AssemblyProduct("ZxT-Motions")]
+[assembly: AssemblyCompany("ZxT-Motions")]
 internal static class Launcher {
     [STAThread]
     private static int Main() {
         Application.EnableVisualStyles();
         bool first;
         using (var gate = new Mutex(true, @"Local\MotionAstra.Setup", out first)) {
-        if (!first) { MessageBox.Show("MotionAstra Setup is already open.", "MotionAstra"); return 0; }
+        if (!first) { MessageBox.Show("ZxT-Motions Setup is already open.", "ZxT-Motions"); return 0; }
         string root = Path.Combine(Path.GetTempPath(), "MotionAstra-Setup-" + Guid.NewGuid().ToString("N"));
         string script = Path.Combine(root, "WindowsUI.ps1");
         try {
@@ -33,11 +33,11 @@ internal static class Launcher {
             start.WindowStyle = ProcessWindowStyle.Hidden;
             using (var process = Process.Start(start)) {
                 process.WaitForExit();
-                if (process.ExitCode != 0) MessageBox.Show("MotionAstra Setup did not finish. Check your internet connection and Windows PowerShell policy, then retry.", "MotionAstra", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (process.ExitCode != 0) MessageBox.Show("ZxT-Motions Setup did not finish. Check your internet connection and Windows PowerShell policy, then retry.", "ZxT-Motions", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return process.ExitCode;
             }
         } catch (Exception error) {
-            MessageBox.Show("Unable to start MotionAstra Setup.\n\n" + error.Message, "MotionAstra", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show("Unable to start ZxT-Motions Setup.\n\n" + error.Message, "ZxT-Motions", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return 1;
         } finally {
             try { if (Directory.Exists(root)) Directory.Delete(root, true); } catch { }

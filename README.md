@@ -1,10 +1,12 @@
-# MotionAstra FX 3.0.8 — Alpha
+# ZxT-Motions 3.5.1 — Pre-release
+
+Formerly MotionAstra. Use the new installer after the repository rename.
 
 **Platform: Windows only. macOS support is withdrawn for this build.**
 
 Offline CEP extension for Adobe After Effects 2025. Minimal black/orange UI, local CSInterface + Lucide, Text Animate (6 highlighted Text Tools FX + 120 animation presets), 8 procedural SolidGen presets and Quick Tools with integrated FX settings.
 
-Download only **Install MotionAstra.exe** from the release assets. Close AE, open it and consent to downloading and installing MotionAstra. Setup fetches its matching release from GitHub over HTTPS, verifies the digest and installs the panel. Confirm replacement of older versions, restart AE, then open Window → Extensions → MotionAstra FX. The GitHub source archive is for development; use the release asset for the ready-to-install package. The package is unsigned source; no Adobe installation or signing certificate is bundled. Internet is required by the EXE installer. The installed panel works offline. The ZIP remains an advanced/manual fallback.
+Download only **Install ZxT-Motions.exe** from the release assets. Close AE, open it and consent to downloading and installing MotionAstra. Setup fetches its matching release from GitHub over HTTPS, verifies the digest and installs the panel. Confirm replacement of older versions, restart AE, then open Window → Extensions → ZxT-Motions. The GitHub source archive is for development; use the release asset for the ready-to-install package. The package is unsigned source; no Adobe installation or signing certificate is bundled. Internet is required by the EXE installer. The installed panel works offline. The ZIP remains an advanced/manual fallback.
 
 ## Current workflow
 
@@ -190,20 +192,22 @@ Fixes Fill Color match-name addressing, shifts Glow threshold/radius/intensity t
 
 ## Windows graphical setup (3.0.3)
 
-Extract the release ZIP, close After Effects, and open **Install MotionAstra.exe**. The black/orange MotionAstra window shows your per-user CEP destination, Install/Update, progress and completion instructions. Existing copies require confirmation and are backed up. Cancel is available before installation or when declining an update; closing is blocked during the file transaction.
+Extract the release ZIP, close After Effects, and open **Install ZxT-Motions.exe**. The black/orange MotionAstra window shows your per-user CEP destination, Install/Update, progress and completion instructions. Existing copies require confirmation and are backed up. Cancel is available before installation or when declining an update; closing is blocked during the file transaction.
 
 Keep the `Installer` support folder and `MotionAstra-FX` together with the executable. Windows PowerShell 5.1 and WPF are used locally; no downloads or administrator elevation are requested. The optional CMD launcher remains available for troubleshooting. The executable is unsigned; branding does not provide a code-signing certificate or remove Windows reputation warnings.
 
-Development: build with `powershell.exe -File tools/build-windows-installer.ps1`, then package with `python tools/package-release.py --windows-launcher "dist/Install MotionAstra.exe"`. CI builds on Windows and tests the WPF window and asynchronous installer.
+Development: build with `powershell.exe -File tools/build-windows-installer.ps1`, then package with `python tools/package-release.py --windows-launcher "dist/Install ZxT-Motions.exe"`. CI builds on Windows and tests the WPF window and asynchronous installer.
 
 Motion Curve preset buttons show miniature graphs calculated from each preset’s exact cubic control points. The matching preset is highlighted while editing.
 
-## Font source filters and compact specimen (3.5.0)
+## Font source filters and compact specimen (3.5.1)
 
 Create displays a 24px **M.astra** specimen above Font family. It follows the selected face/style and color, independently of the actual text content and size. Sources: **All**, **User-installed** (AE reports a file in the per-user Windows Fonts folder), **Windows fonts** (system font location plus a known common Windows family), **Adobe Fonts**, and **Other/unknown**. Metadata unavailable in some AE/font combinations stays unknown. Fonts installed for all users or by applications cannot reliably be attributed to the user; they are not guessed as user-installed. Windows family reference: https://learn.microsoft.com/en-us/typography/fonts/windows_11_font_list . The list is a convenience grouping, not an audit of which files Windows originally installed.
 
-The single-file EXE embeds the installer UI and backend. It makes no network request before consent. It downloads only its pinned version from AmadZaky/MotionAstra, requires GitHub's SHA-256 asset digest, rejects unsafe archive paths and verifies payload checksums before backup/replacement. No project, font list or telemetry is uploaded; GitHub receives normal download requests. The EXE is still unsigned.
+The single-file EXE embeds the installer UI and backend. It makes no network request before consent. It downloads only its pinned version from AmadZaky/ZxT-Motions, requires GitHub's SHA-256 asset digest, rejects unsafe archive paths and verifies payload checksums before backup/replacement. No project, font list or telemetry is uploaded; GitHub receives normal download requests. The EXE is still unsigned.
 
-## Compact navigation — v3.5.0 pre-release
+## Compact navigation — v3.5.1 pre-release
 
 The main menu stays in one row: **Text · Solid · Tools · Curve · Create**, including the supported 300px minimum panel width. Hover a tab for its full workspace name. This release prepares for a later UI redesign; that larger rework is not included. The GitHub release remains marked prerelease and keeps the existing `-alpha` asset/tag suffix for installer compatibility.
+
+Compatibility: `com.motionastra.fx`, the `MotionAstra-FX` install folder, backup folder and existing AE control names remain unchanged for upgrades and saved projects. Historical notes below older headings use the original product name. New online installers target `AmadZaky/ZxT-Motions`; download the new EXE because previously downloaded EXEs enforce the old repository URL.

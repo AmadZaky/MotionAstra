@@ -5,7 +5,7 @@ $root=Split-Path $PSScriptRoot
 function Assert($value,$message) { if (-not $value) { throw $message } }
 $window=New-MotionAstraWindow
 foreach ($id in @('Install','Cancel','Destination','Progress','Status','Details','DebugConsent')) { Assert ($null -ne $window.FindName($id)) "Missing WPF control: $id" }
-Assert ($window.Title -eq 'MotionAstra Setup') 'Incorrect branding'
+Assert ($window.Title -eq 'ZxT-Motions Setup') 'Incorrect branding'
 $window.Measure((New-Object Windows.Size(640,650)))
 $window.Arrange((New-Object Windows.Rect(0,0,640,650)))
 $window.UpdateLayout()

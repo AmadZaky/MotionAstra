@@ -20,7 +20,7 @@ window.MotionAstraCreate = (() => {
   let previewFace = null, previewRequest = 0;
   function previewContent() {
     const sample = $("font-preview-sample"), color = $("new-text-color").value;
-    sample.textContent = "M.astra";
+    sample.textContent = "ZxT";
     sample.style.fontSize = "24px";
     sample.style.color = color;
     const rgb = color.match(/[a-f0-9]{2}/gi).map(v => parseInt(v,16));

@@ -12,11 +12,11 @@ try {
  if ($LASTEXITCODE -ne 0) { throw 'Fixture packaging failed' }
  $digest='sha256:'+(Get-FileHash $zip -Algorithm SHA256).Hash.ToLower()
  $size=(Get-Item $zip).Length
- $asset=@{name="MotionAstra_FX_v$version-alpha.zip";browser_download_url="https://github.com/AmadZaky/MotionAstra/releases/download/v$version-alpha/MotionAstra_FX_v$version-alpha.zip";digest=$digest;size=$size}
+ $asset=@{name="ZxT-Motions_v$version-alpha.zip";browser_download_url="https://github.com/AmadZaky/ZxT-Motions/releases/download/v$version-alpha/ZxT-Motions_v$version-alpha.zip";digest=$digest;size=$size}
  $release=@{tag_name="v$version-alpha";draft=$false;assets=@($asset)}
  Assert ((Assert-MotionAstraReleaseAsset $release $version).digest -eq $digest) 'Correct metadata rejected'
  $asset.browser_download_url='https://example.com/payload.zip';Reject { Assert-MotionAstraReleaseAsset $release $version }
- $asset.browser_download_url="https://github.com/AmadZaky/MotionAstra/releases/download/v$version-alpha/MotionAstra_FX_v$version-alpha.zip"
+ $asset.browser_download_url="https://github.com/AmadZaky/ZxT-Motions/releases/download/v$version-alpha/ZxT-Motions_v$version-alpha.zip"
  Reject { Expand-MotionAstraDownload $zip (Join-Path $temp 'bad') ('sha256:'+('0'*64)) $size }
  $payload=Expand-MotionAstraDownload $zip (Join-Path $temp 'good') $digest $size
  . (Join-Path $root 'install-windows.ps1');Assert-MotionAstraPayload $payload
@@ -32,7 +32,7 @@ try {
  $evil=Join-Path $temp 'evil.zip';$archive=[IO.Compression.ZipFile]::Open($evil,[IO.Compression.ZipArchiveMode]::Create)
  try { [void]$archive.CreateEntry('MotionAstra-FX/../../escape.txt') } finally { $archive.Dispose() }
  Reject { Expand-MotionAstraDownload $evil (Join-Path $temp 'evil') ('sha256:'+(Get-FileHash $evil).Hash) (Get-Item $evil).Length }
- $assembly=[Reflection.Assembly]::LoadFile((Join-Path $root 'dist\Install MotionAstra.exe'))
+ $assembly=[Reflection.Assembly]::LoadFile((Join-Path $root 'dist\Install ZxT-Motions.exe'))
  foreach ($name in @('WindowsUI.ps1','Window.xaml','Backend.ps1','Download.ps1','SetupVersion.txt')) { Assert ($assembly.GetManifestResourceNames() -contains $name) ('EXE missing '+$name) }
  Write-Host 'PASS: standalone EXE resources, pinned release metadata, download flow, digest checks, package integrity and traversal rejection.'
 } finally { Remove-Item -LiteralPath $temp -Recurse -Force -ErrorAction SilentlyContinue }

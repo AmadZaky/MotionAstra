@@ -1,15 +1,15 @@
-# MotionAstra v3.5.0 Pre-release — Windows only
+# ZxT-Motions v3.5.1 Pre-release — Windows only
 
 This build targets After Effects 2025 on Windows. macOS is not supported, no Mac installer is included, and the panel refuses host commands on macOS. Do not install this package on a Mac. The standalone browser catalog remains a preview only.
 
 ## Install or update
 
-1. Download **Install MotionAstra.exe** from the release assets at https://github.com/AmadZaky/MotionAstra/releases. This single file contains the setup UI; no ZIP extraction is needed.
+1. Download **Install ZxT-Motions.exe** from the release assets at https://github.com/AmadZaky/ZxT-Motions/releases. This single file contains the setup UI; no ZIP extraction is needed.
 2. Close After Effects and open the EXE. Review the installation destination.
 3. Check the download/install consent box and choose **Install** or **Update**. No network request starts before this consent.
 4. Keep an internet connection while setup downloads its matching version from GitHub. It checks the archive's SHA-256 against GitHub release metadata, then verifies package files before changing any installed copy.
 5. If old copies are detected, review their paths and confirm replacement. Backups and rollback remain enabled.
-6. Select **Done**, restart AE and open **Window → Extensions → MotionAstra FX**. Settings should show **3.5.0**.
+6. Select **Done**, restart AE and open **Window → Extensions → ZxT-Motions**. Settings should show **3.5.1**.
 
 If the download fails, your current installation remains untouched. Retry after restoring connectivity. Missing release assets or missing digests are refused. The panel itself works offline after installation. The release ZIP remains available for manual/offline installation; its CMD launcher uses the local package, while the EXE always uses online setup.
 
@@ -51,3 +51,7 @@ Restart Adobe applications afterward. Set those values to `0` or remove them to 
 ## Verification limits
 
 Release CI runs installer, rollback/integrity, WPF UI, ES3 parsing, modeled-host and Chromium UI tests on Windows. These do not render a real After Effects project. Run the bundled `tests/AE_SMOKE_TEST.jsx` and `tests/AE_YU_SMOKE_TEST.jsx` on a disposable project for native verification; check fonts, expressions, colors, keyframes and Undo before production use.
+
+## Rename compatibility
+
+Download the new ZxT-Motions installer. Old online EXEs may reject release URLs after the repository rename. The folder `MotionAstra-FX`, bundle identity and backup paths intentionally retain their legacy names so existing installations are upgraded in place; saved project controls remain compatible.

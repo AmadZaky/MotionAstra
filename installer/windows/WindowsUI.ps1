@@ -38,7 +38,7 @@ function Start-MotionAstraJob {
             if ($enableDebug) { Enable-MotionAstraCEP }
             $state.Percent=100
             $state.Success=$true
-            $state.Message='MotionAstra is ready.'
+            $state.Message='ZxT-Motions is ready.'
         } catch {
             $state.Error=$_.Exception.Message
             if ($state.Installed) { $state.Error='Files installed, but CEP preference setup failed. Enable PlayerDebugMode manually using the guide. ' + $state.Error }
@@ -96,7 +96,7 @@ function Show-MotionAstraInstaller {
         $script:controls.Status.Text=$s.Message
         if ($null -ne $s.Pending) {
             $paths=$s.Pending; $s.Pending=$null
-            $answer=[Windows.MessageBox]::Show($script:window, "Replace these MotionAstra versions?`n`n"+($paths -join "`n")+"`n`nBackups will be kept in:`n"+$script:backupRoot, 'Update MotionAstra', 'YesNo', 'Question', 'No')
+            $answer=[Windows.MessageBox]::Show($script:window, "Replace these ZxT-Motions / MotionAstra versions?`n`n"+($paths -join "`n")+"`n`nBackups will be kept in:`n"+$script:backupRoot, 'Update ZxT-Motions', 'YesNo', 'Question', 'No')
             $s.Answer=$answer -eq [Windows.MessageBoxResult]::Yes
         }
         if ($s.Done -and $script:job.Handle.IsCompleted) {
@@ -117,7 +117,7 @@ function Show-MotionAstraInstaller {
                 $script:controls.Heading.Text='Ready. Set. Create.'
                 $script:controls.Install.Content='Done'
                 $script:controls.Cancel.Visibility='Collapsed'
-                $script:controls.Details.Text="Restart After Effects, then open:`nWindow > Extensions > MotionAstra FX.`n`nPrevious versions, if any, are saved in: $script:backupRoot"
+                $script:controls.Details.Text="Restart After Effects, then open:`nWindow > Extensions > ZxT-Motions.`n`nPrevious versions, if any, are saved in: $script:backupRoot"
                 if (-not $script:controls.DebugConsent.IsChecked) { $script:controls.Details.Text += "`nUnsigned panels were not enabled. See the installation guide if the panel is hidden." }
             } else {
                 $script:controls.Install.Content='Install / Update'
@@ -127,7 +127,7 @@ function Show-MotionAstraInstaller {
     })
     $script:controls.Install.Add_Click({
         if ($script:completed) { $script:window.Close(); return }
-        if ($script:onlineVersion -and -not $script:controls.DownloadConsent.IsChecked) { $script:controls.Details.Text='Please consent to downloading and installing MotionAstra before continuing.'; return }
+        if ($script:onlineVersion -and -not $script:controls.DownloadConsent.IsChecked) { $script:controls.Details.Text='Please consent to downloading and installing ZxT-Motions before continuing.'; return }
         $script:controls.Install.IsEnabled=$false; $script:controls.Cancel.IsEnabled=$false; $script:controls.DebugConsent.IsEnabled=$false
         $script:controls.Details.Text='Please keep this window open while setup finishes.'
         $state=[hashtable]::Synchronized(@{Percent=0;Message='Preparing setup...';Pending=$null;Answer=$null;Done=$false;Success=$false;Cancelled=$false;Installed=$false;Error=$null})
@@ -140,5 +140,5 @@ function Show-MotionAstraInstaller {
 }
 if ($MyInvocation.InvocationName -ne '.') {
     try { Show-MotionAstraInstaller; exit 0 }
-    catch { Add-Type -AssemblyName PresentationFramework; [void][Windows.MessageBox]::Show($_.Exception.Message,'MotionAstra Setup'); exit 1 }
+    catch { Add-Type -AssemblyName PresentationFramework; [void][Windows.MessageBox]::Show($_.Exception.Message,'ZxT-Motions Setup'); exit 1 }
 }

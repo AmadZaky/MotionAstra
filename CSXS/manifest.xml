@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ExtensionManifest Version="7.0" ExtensionBundleId="com.motionastra.fx" ExtensionBundleVersion="3.5.0" ExtensionBundleName="MotionAstra FX">
-  <ExtensionList><Extension Id="com.motionastra.fx.panel" Version="3.5.0"/></ExtensionList>
+<ExtensionManifest Version="7.0" ExtensionBundleId="com.motionastra.fx" ExtensionBundleVersion="3.5.1" ExtensionBundleName="ZxT-Motions">
+  <ExtensionList><Extension Id="com.motionastra.fx.panel" Version="3.5.1"/></ExtensionList>
   <ExecutionEnvironment>
     <HostList><Host Name="AEFT" Version="[18.0,25.9]"/></HostList>
     <LocaleList><Locale Code="All"/></LocaleList>
@@ -9,6 +9,6 @@
   <DispatchInfoList><Extension Id="com.motionastra.fx.panel"><DispatchInfo>
     <Resources><MainPath>./index.html</MainPath></Resources>
     <Lifecycle><AutoVisible>true</AutoVisible></Lifecycle>
-    <UI><Type>Panel</Type><Menu>MotionAstra FX</Menu><Geometry><Size><Height>760</Height><Width>380</Width></Size><MinSize><Height>280</Height><Width>300</Width></MinSize></Geometry></UI>
+    <UI><Type>Panel</Type><Menu>ZxT-Motions</Menu><Geometry><Size><Height>760</Height><Width>380</Width></Size><MinSize><Height>280</Height><Width>300</Width></MinSize></Geometry></UI>
   </DispatchInfo></Extension></DispatchInfoList>
 </ExtensionManifest>

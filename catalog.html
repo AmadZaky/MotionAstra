@@ -13,7 +13,7 @@ apply(theme);document.addEventListener('DOMContentLoaded',()=>{apply(theme);docu
 })();
 
 </script>
-    <title>MotionAstra · Preview catalog</title>
+    <title>ZxT-Motions · Preview catalog</title>
     <style>/* MotionAstra 2.5.2 — local system fonts, quiet glass surfaces, orange focus. */
 :root{color-scheme:dark;--bg:#080809;--surface:#161618;--text:#f4f4f5;--muted:#929296;--accent:#ff943f;--line:rgba(255,255,255,.085);--ease:cubic-bezier(.2,.8,.2,1)}
 *{box-sizing:border-box}[hidden]{display:none!important}html,body{height:100%;margin:0;overflow:hidden}body{min-width:300px;display:grid;grid-template-rows:auto auto auto minmax(0,1fr) 66px;background:var(--bg);color:var(--text);font:12px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
@@ -124,12 +124,12 @@ nav{padding-top:6px;padding-bottom:6px}
     <header>
       <a class="brand" href="index.html"
         ><span class="brand-icon"><i data-lucide="asterisk"></i></span
-        >MotionAstra <b>3.5.0</b></a
+        >ZxT-Motions <b>3.5.1</b></a
       >
       <div class="header-actions">
         <button
           id="toggle-search"
-          aria-label="Search MotionAstra"
+          aria-label="Search ZxT-Motions"
           aria-expanded="false"
           aria-controls="global-search"
         >
@@ -153,7 +153,7 @@ nav{padding-top:6px;padding-bottom:6px}
         <input
           id="search"
           type="search"
-          placeholder="Search MotionAstra…"
+          placeholder="Search ZxT-Motions…"
           aria-label="Search all presets and tools"
           autocomplete="off"
         />
@@ -195,7 +195,7 @@ nav{padding-top:6px;padding-bottom:6px}
                   maxlength="10000"
                   required
                 >
-MotionAstra</textarea
+ZxT-Motions</textarea
                 >
               </label>
               <label
@@ -207,7 +207,7 @@ MotionAstra</textarea
               /></label>
               <label>Font source<select id="font-source"><option value="all">All fonts</option><option value="user">User-installed</option><option value="windows">Windows fonts (common families)</option><option value="adobe">Adobe Fonts</option><option value="unknown">Other / unknown</option></select></label>
               <div class="font-preview-box" aria-label="Selected font preview">
-                <div id="font-preview-sample">M.astra</div>
+                <div id="font-preview-sample">ZxT</div>
                 <p id="font-preview-status" class="hint" role="status">Choose an AE font family and style.</p>
               </div>
               <label
@@ -571,7 +571,7 @@ MotionAstra</textarea
           <details id="tweaker" open>
             <summary>FX settings</summary>
             <p>
-              Select one MotionAstra layer in AE, then load its settings here.
+              Select one ZxT-Motions layer in AE, then load its settings here.
             </p>
             <button id="tweaker-load" class="primary" data-host>
               Load selected FX
@@ -765,13 +765,13 @@ MotionAstra</textarea
           <details open>
             <summary><i data-lucide="eraser"></i>Remove effects</summary>
             <p>Removes effects only from selected unlocked layers.</p>
-            <button id="remove-owned" data-host>Remove MotionAstra FX</button
+            <button id="remove-owned" data-host>Remove ZxT-Motions FX</button
             ><button id="erase-all" class="danger" data-host>
               Erase ALL effects on selected layers
             </button>
             <p class="hint">
               Erase ALL also removes third-party/native Effects stacks.
-              Unrelated expressions and non-MotionAstra text animators remain.
+              Unrelated expressions and non-ZxT-Motions text animators remain.
               Other layers are not deleted.
             </p>
             <div id="review" hidden>
@@ -786,7 +786,7 @@ MotionAstra</textarea
           </details>
         </section>
         <section id="settings" hidden>
-          <div class="eyebrow">MOTIONASTRA 3.5.0</div>
+          <div class="eyebrow">MOTIONASTRA 3.5.1</div>
           <h1>Your workspace.</h1>
           <details open>
             <summary>Preview & connection</summary>
@@ -819,7 +819,7 @@ MotionAstra</textarea
             </p>
             <p>
               Use Project Settings → Expressions → JavaScript. Includes 14
-              MotionAstra presets and 120 Text Animate presets by YUGraphic,
+              ZxT-Motions presets and 120 Text Animate presets by YUGraphic,
               Existing v2 effects remain loadable through Load selected FX.
               Existing projects are never migrated automatically.
             </p>
@@ -847,7 +847,7 @@ MotionAstra</textarea
             ><span id="loaded-layout" class="layout-badge"></span
             ><button id="compact-fx" data-host>Compact old controls</button>
             <p id="compact-help">
-              Compaction removes unanimated MotionAstra parameter controls.
+              Compaction removes unanimated ZxT-Motions parameter controls.
               Native effects remain. Animated controls and external expression
               dependencies block conversion.
             </p>
@@ -2206,7 +2206,7 @@ lucide.createIcons({icons});\``);if(typeof document>"u")throw new Error("`create
 </script>
     <script>
 window.MA_PRESETS = {
-  "version": "3.5.0",
+  "version": "3.5.1",
   "presets": [
     {
       "id": "counter",
@@ -6994,14 +6994,14 @@ document.addEventListener('visibilitychange',run);return {attach,play,clear,rend
 
 </script>
     <script>
-/* MotionAstra CEP transport v3.5.0.
+/* MotionAstra CEP transport v3.5.1.
  * Host files load by absolute path; all replies are tagged and request-correlated.
  * Empty callbacks recover the stored reply, NEVER replay the host mutation.
  */
 (function (root) {
   "use strict";
-  const VERSION = "3.5.0";
-  const BUILD = "3.5.0";
+  const VERSION = "3.5.1";
+  const BUILD = "3.5.1";
   const PREFIX = "MAFX1:";
   const ERROR_PREFIX = "MAFX1E:";
   const available = !!root.__adobe_cep__;
@@ -7610,12 +7610,12 @@ window.MotionAstraYUUI = (() => {
     ctx.fillRect(0, 0, w, h);
     const groups =
       o.group === "all"
-        ? ["MotionAstra"]
+        ? ["ZxT-Motions"]
         : o.group === "words"
-          ? ["MotionAstra"]
+          ? ["ZxT-Motions"]
           : o.group === "lines"
-            ? ["MotionAstra"]
-            : Array.from("MotionAstra");
+            ? ["ZxT-Motions"]
+            : Array.from("ZxT-Motions");
     const size = o.group === "all" ? 36 : 40;
     ctx.font = "600 " + size + "px Arial";
     const widths = groups.map((s) => ctx.measureText(s).width),
@@ -7925,7 +7925,7 @@ window.MotionAstraCreate = (() => {
   let previewFace = null, previewRequest = 0;
   function previewContent() {
     const sample = $("font-preview-sample"), color = $("new-text-color").value;
-    sample.textContent = "M.astra";
+    sample.textContent = "ZxT";
     sample.style.fontSize = "24px";
     sample.style.color = color;
     const rgb = color.match(/[a-f0-9]{2}/gi).map(v => parseInt(v,16));
@@ -8400,7 +8400,7 @@ window.MotionAstraSearch = (() => {
         ? `${r.composition} · ${r.selected} selected`
         : "AE connected · open a composition";
       $("connection").textContent =
-        `After Effects ${r.version} · MotionAstra ${r.hostVersion} · ${r.build || "older build"}`;
+        `After Effects ${r.version} · ZxT-Motions ${r.hostVersion} · ${r.build || "older build"}`;
     } catch (e) {
       $("status").textContent = e.message;
       $("connection").textContent = e.message;
@@ -8922,8 +8922,8 @@ window.MotionAstraSearch = (() => {
     $("review").hidden = false;
     $("review-text").textContent =
       name === "eraseAll"
-        ? "Remove ALL native/third-party Effects stacks and MotionAstra animation from the current selected layers? Other expressions may depend on removed effects. Generated artwork will be removed. Transition layers are disabled; project source comps remain."
-        : "Remove MotionAstra v1/v2 animation, controls and generated artwork from selected layers? Unrelated effects remain. Transition layers are disabled after removal. Other layers and project sources are not deleted.";
+        ? "Remove ALL native/third-party Effects stacks and ZxT-Motions animation from the current selected layers? Other expressions may depend on removed effects. Generated artwork will be removed. Transition layers are disabled; project source comps remain."
+        : "Remove ZxT-Motions / legacy MotionAstra animation, controls and generated artwork from selected layers? Unrelated effects remain. Transition layers are disabled after removal. Other layers and project sources are not deleted.";
     $("review").scrollIntoView({ block: "nearest" });
   }
   $("remove-owned").onclick = () => review("remove");

@@ -47,7 +47,7 @@ const assert=require('node:assert/strict'),path=require('node:path'),{create}=re
  await page.locator('#new-text-size').fill('96.5');
  await page.locator('#new-text-color').fill('#12abef');
  await page.locator('#new-text-content').fill('Native typography');
- assert.equal(await page.locator('#font-preview-sample').textContent(),'M.astra');
+ assert.equal(await page.locator('#font-preview-sample').textContent(),'ZxT');
  assert.equal(await page.locator('#font-preview-sample').evaluate(e=>e.style.fontSize),'24px');
  assert.equal(await page.locator('#font-preview-sample').evaluate(e=>e.style.color),'rgb(18, 171, 239)');
  await page.waitForFunction(()=>document.querySelector('#font-preview-status').textContent.includes('Fallback shown'));

@@ -1,4 +1,4 @@
-param([string]$Output = (Join-Path (Split-Path $PSScriptRoot) 'dist\Install MotionAstra.exe'))
+param([string]$Output = (Join-Path (Split-Path $PSScriptRoot) 'dist\Install ZxT-Motions.exe'))
 $ErrorActionPreference='Stop'
 $root=Split-Path $PSScriptRoot
 New-Item -ItemType Directory -Force -Path (Split-Path $Output) | Out-Null

@@ -96,7 +96,7 @@
         ? `${r.composition} · ${r.selected} selected`
         : "AE connected · open a composition";
       $("connection").textContent =
-        `After Effects ${r.version} · MotionAstra ${r.hostVersion} · ${r.build || "older build"}`;
+        `After Effects ${r.version} · ZxT-Motions ${r.hostVersion} · ${r.build || "older build"}`;
     } catch (e) {
       $("status").textContent = e.message;
       $("connection").textContent = e.message;
@@ -618,8 +618,8 @@
     $("review").hidden = false;
     $("review-text").textContent =
       name === "eraseAll"
-        ? "Remove ALL native/third-party Effects stacks and MotionAstra animation from the current selected layers? Other expressions may depend on removed effects. Generated artwork will be removed. Transition layers are disabled; project source comps remain."
-        : "Remove MotionAstra v1/v2 animation, controls and generated artwork from selected layers? Unrelated effects remain. Transition layers are disabled after removal. Other layers and project sources are not deleted.";
+        ? "Remove ALL native/third-party Effects stacks and ZxT-Motions animation from the current selected layers? Other expressions may depend on removed effects. Generated artwork will be removed. Transition layers are disabled; project source comps remain."
+        : "Remove ZxT-Motions / legacy MotionAstra animation, controls and generated artwork from selected layers? Unrelated effects remain. Transition layers are disabled after removal. Other layers and project sources are not deleted.";
     $("review").scrollIntoView({ block: "nearest" });
   }
   $("remove-owned").onclick = () => review("remove");

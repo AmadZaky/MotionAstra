@@ -1,4 +1,4 @@
-name: Publish MotionAstra alpha
+name: Publish ZxT-Motions prerelease
 on:
   push:
     branches: [main]
@@ -47,7 +47,7 @@ jobs:
         with:
           name: windows-installer
           path: |
-            dist/Install MotionAstra.exe
+            dist/Install ZxT-Motions.exe
             dist/installer-preview.png
           if-no-files-found: error
   release:
@@ -93,7 +93,7 @@ jobs:
           name: windows-installer
           path: dist
       - name: Package extension
-        run: python tools/package-release.py --windows-launcher "dist/Install MotionAstra.exe"
+        run: python tools/package-release.py --windows-launcher "dist/Install ZxT-Motions.exe"
       - name: Publish prerelease
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -102,12 +102,12 @@ jobs:
         run: |
           version="$(cat VERSION)"
           tag="v${version}-alpha"
-          asset="MotionAstra_FX_v${version}-alpha.zip"
+          asset="ZxT-Motions_v${version}-alpha.zip"
           if gh release view "$tag" >/dev/null 2>&1; then
             existing="$(gh api "repos/$GH_REPO/git/ref/tags/$tag" --jq '.object.sha')"
             test "$existing" = "$SOURCE_SHA"
-            gh release upload "$tag" "$asset" "dist/Install MotionAstra.exe" --clobber
+            gh release upload "$tag" "$asset" "dist/Install ZxT-Motions.exe" --clobber
           else
-            gh release create "$tag" "$asset" "dist/Install MotionAstra.exe" --target "$SOURCE_SHA" \
-              --title "MotionAstra v${version} — Pre-release" --prerelease --notes-file RELEASE_NOTES.md
+            gh release create "$tag" "$asset" "dist/Install ZxT-Motions.exe" --target "$SOURCE_SHA" \
+              --title "ZxT-Motions v${version} — Pre-release" --prerelease --notes-file RELEASE_NOTES.md
           fi
